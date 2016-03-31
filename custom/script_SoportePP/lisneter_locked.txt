@@ -1,0 +1,56 @@
+lsnrctl services
+
+LSNRCTL for Linux: Version 10.2.0.4.0 - Production on 23-NOV-2013 21:22:24
+
+Copyright (c) 1991, 2007, Oracle.  All rights reserved.
+
+Connecting to (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1521))
+Services Summary...
+Service "SDPCR01" has 1 instance(s).
+  Instance "SDPCR01_I1", status READY, has 3 handler(s) for this service...
+    Handler(s):
+      "D001" established:76690 refused:0 current:1022 max:1022 state:blocked
+         DISPATCHER <machine: pansl1dbebd27, pid: 3417>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=pansl1dbebd27)(PORT=57483))
+      "D000" established:65518 refused:0 current:1022 max:1022 state:blocked
+         DISPATCHER <machine: pansl1dbebd27, pid: 3413>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=pansl1dbebd27)(PORT=41693))
+      "DEDICATED" established:69326 refused:0 state:blocked
+         LOCAL SERVER
+Service "SDPCR01_XPT" has 1 instance(s).
+  Instance "SDPCR01_I1", status READY, has 3 handler(s) for this service...
+    Handler(s):
+      "D001" established:76690 refused:0 current:1022 max:1022 state:blocked
+         DISPATCHER <machine: pansl1dbebd27, pid: 3417>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=pansl1dbebd27)(PORT=57483))
+      "D000" established:65518 refused:0 current:1022 max:1022 state:blocked
+         DISPATCHER <machine: pansl1dbebd27, pid: 3413>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=pansl1dbebd27)(PORT=41693))
+      "DEDICATED" established:69326 refused:0 state:blocked
+         LOCAL SERVER
+Service "SDPPA01" has 1 instance(s).
+  Instance "SDPPA01_I3", status READY, has 3 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:78454 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:24881 refused:0 current:423 max:1022 state:ready
+         DISPATCHER <machine: pansl1dbebd27, pid: 3411>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=pansl1dbebd27)(PORT=43426))
+      "D000" established:18391 refused:0 current:424 max:1022 state:ready
+         DISPATCHER <machine: pansl1dbebd27, pid: 3407>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=pansl1dbebd27)(PORT=37051))
+Service "SDPPA01_XPT" has 1 instance(s).
+  Instance "SDPPA01_I3", status READY, has 3 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:78454 refused:0 state:ready
+         LOCAL SERVER
+      "D001" established:24881 refused:0 current:423 max:1022 state:ready
+         DISPATCHER <machine: pansl1dbebd27, pid: 3411>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=pansl1dbebd27)(PORT=43426))
+      "D000" established:18391 refused:0 current:424 max:1022 state:ready
+         DISPATCHER <machine: pansl1dbebd27, pid: 3407>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=pansl1dbebd27)(PORT=37051))
+The command completed successfully
+
+
+select * from gv$resource_limit

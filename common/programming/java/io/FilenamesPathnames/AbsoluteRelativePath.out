@@ -1,0 +1,26 @@
+--------------------------
+Compile Program
+--------------------------
+javac AbsoluteRelativePath.java
+
+
+--------------------------
+Run Program
+--------------------------
+java AbsoluteRelativePath
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+Original Filename              = README_InputFile.txt
+
+Absolute Filename              = c:\export\home\jeffreyh\JDeveloper\IsrvWorkspace\JavaProgramming\src\io\FilenamesPathnames\README_InputFile.txt
+
+Absolute Filename with "dir"   = c:\export\home\jeffreyh\JDeveloper\IsrvWorkspace\JavaProgramming\src\io\FilenamesPathnames\dir\README_InputFile.txt
+
+Absolute Filename with ".."    = c:\export\home\jeffreyh\JDeveloper\IsrvWorkspace\JavaProgramming\src\io\FilenamesPathnames\..\README_InputFile.txt
+

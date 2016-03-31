@@ -1,0 +1,66 @@
+select * from dba_objects where status <> 'VALID' and owner not in ('SYS', 'SYSTEM','WMSYS','OLAPSYS','DMSYS') order by owner, object_type ;
+
+SET SERVEROUTPUT ON SIZE 1000000
+BEGIN
+  FOR cur_rec IN (SELECT owner,
+                         object_name,
+                         object_type,
+                         DECODE(object_type, 'PACKAGE', 1,
+                                             'PACKAGE BODY', 2, 2) AS recompile_order
+                  FROM   dba_objects
+                  WHERE  --object_type IN ('PACKAGE', 'PACKAGE BODY') AND
+                      status != 'VALID' 
+		  --- and owner not in ('SYS', 'SYSTEM')
+                  ORDER BY 4)
+  LOOP
+    BEGIN
+      IF cur_rec.object_type = 'PACKAGE' THEN
+        EXECUTE IMMEDIATE 'ALTER ' || cur_rec.object_type || 
+            ' "' || cur_rec.owner || '"."' || cur_rec.object_name || '" COMPILE';
+      ElSIF cur_rec.object_type = 'PACKAGE BODY' THEN
+        EXECUTE IMMEDIATE 'ALTER PACKAGE "' || cur_rec.owner || 
+            '"."' || cur_rec.object_name || '" COMPILE BODY';
+      ELSE
+	EXECUTE IMMEDIATE 'ALTER '||CUR_REC.OBJECT_TYPE||
+	' "' || cur_rec.owner || '"."' || cur_rec.object_name || '" COMPILE';
+      END IF;
+    EXCEPTION
+      WHEN OTHERS THEN
+        DBMS_OUTPUT.put_line(cur_rec.object_type || ' : ' || cur_rec.owner || 
+                             ' : ' || cur_rec.object_name ||' still invalid.ERROR :'||SQLERRM);
+
+    END;
+  END LOOP;
+END;
+/
+
+
+
+
+begin
+for r in (select ao.object_name from all_objects ao where status ='INVALID' and object_type='SYNONYM' and owner = 'PUBLIC')loop
+Begin
+execute Immediate 'alter public synonym '|| r.object_name ||' compile';
+dbms_output.put_line('Alter public synonym '||r.object_name||' compile.');
+Exception
+When Others Then
+dbms_output.put_line('Public synonym '||r.object_name||' still invalid.ERROR :'||SQLERRM);
+End;
+end loop;
+end;
+/
+
+
+begin
+for r in (select ao.object_name, ao.owner from all_objects ao where status ='INVALID' and object_type='SYNONYM' and owner <> 'PUBLIC')loop
+Begin
+execute Immediate    'alter synonym '||r.owner||'.'||r.object_name||' compile';
+dbms_output.put_line('Alter synonym '||r.owner||'.'||r.object_name||' compile.');
+Exception
+When Others Then
+dbms_output.put_line('Synonym '||r.object_name||' still invalid.ERROR :'||SQLERRM);
+End;
+end loop;
+end;
+/
+

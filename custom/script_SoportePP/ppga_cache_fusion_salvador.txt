@@ -1,0 +1,43 @@
+select osuser,machine,program,username,count(1) from gv$session 
+where machine not in ('svfesg1cl.eri','asvcsga01','asvcsga02','camtgsg2')
+group by osuser,machine,program,username
+order by 2,1,3
+
+union all
+
+select osuser,machine,program,count(1) from gv$session 
+where machine = ('gufesg1cl.eri')
+group by osuser,machine,program
+
+
+select osuser,machine,program,module,username,count(1) from gv$session 
+where machine not in ('svfesg1cl.eri','asvcsga01','asvcsga02','camtgsg2')
+group by osuser,machine,program,module,username
+order by 2,1,3
+
+select username as userN,osuser,MACHINE,PROGRAM,SQL_ID,SQL_CHILD_NUMBER as sql_child,logon_time as logon from gv$session where machine not in ('svfesg1cl.eri','asvcsga01','asvcsga02','camtgsg2');
+
+
+
+# control de conexiones ppga validacion app externos
+0,10,20,30,40,50 * * * * /export/home/oracle/operadora/control_conexiones.sh
+
+
+
+/export/home/oracle/operadora/control_conexiones.sh
+
+#!/bin/ksh
+. /export/home/oracle/.profile
+export ORACLE_SID=PPGASLV2
+sqlplus -s /nolog <<EOF >> /export/home/oracle/operadora/monitor.txt
+conn / as sysdba
+set pagesize 600
+set linesize 132
+col userN format a5
+col machine format a23
+col program format a36
+col osuser format a15
+col username format a10
+select username as userN,osuser,MACHINE,PROGRAM,SQL_ID,SQL_CHILD_NUMBER as sql_child,logon_time as logon from gv\$session where machine not in ('svfesg1cl.eri','asvcsga01','asvcsga02','camtgsg2') ;
+exit
+EOF

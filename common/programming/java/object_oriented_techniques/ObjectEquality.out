@@ -1,0 +1,61 @@
+--------------------------
+Compile Program
+--------------------------
+javac ObjectEquality.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ObjectEquality
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+RELATIONAL OPERATORS
+====================
+
+  Compare two built-in types  :  m1 == m2  = true
+  Compare two built-in types  :  m1 != m2  = false
+
+  Compare two Integer objects :  n1 == n2  = false
+  Compare two Integer objects :  n1 != n2  = true
+
+
+JAVA CLASS LIBRARY OBJECTS
+==========================
+
+  Compare two Integer objects using equals() method : true
+
+
+DO NOT OVERRIDE THE EQUALS METHOD
+=================================
+
+  Compare two EmpValue objects using default equals() method : false
+
+
+OVERRIDE THE EQUALS METHOD
+=================================
+
+  Print out all objects
+  ---------------------
+    Employee      (emp1)   = Doe, John
+    Employee      (emp1c)  = Doe, John
+    Employee      (emp2)   = Doe, John
+    EmployeeFake  (emp2f)  = Doe, John
+    Employee      (emp3)   = Miller, Ron
+    Employee      (emp4)   = Miller, Ron
+    Employee      (emp5)   = Doe, Jane
+
+  Comparison results
+  ------------------
+    Compare (emp1) to (emp1c)  : true
+    Compare (emp1) to (emp2)   : true
+    Compare (emp2) to (emp1c)  : true
+    Compare (emp2) to (emp2f)  : false
+    Compare (emp3) to (emp4)   : true
+    Compare (emp4) to (emp5)   : false

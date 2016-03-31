@@ -1,0 +1,19 @@
+Q: When is a thread active?
+
+A: At first glance, this seems to be a simple question. Using the isAlive()
+   method, a thread is considered alive during the period between the call
+   to the start() method and a short time period after the stop() method is
+   called. We might consider a thread active if it is alive.
+
+   However, if the definition of an active thread is a thread whose thread
+   reference appears in the active count returned by the activeCount() method,
+   we would have a differenct definition of active. A thread reference first
+   appears in the thread array returned by the enumerate() method, and is 
+   counted by the activeCount() method, when the thread object is first
+   constructed and not when the thread is started. [using the start() method.]
+
+   The thread is removed from the thread array either when the thread is
+   stopped or when the run() method has completed. This means that if a thread
+   object is constructed but is not started, the thread object will not be
+   removed from the enumeration list, even if the original reference to the
+   object is lost.

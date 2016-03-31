@@ -1,0 +1,70 @@
+CREATE OR REPLACE TRIGGER SYS.LOGON_VALID_TRG
+AFTER LOGON
+ON DATABASE
+DECLARE
+   v_sid     number;
+   v_program varchar2(48) :=NULL;
+   v_logon_timestamp date:=NULL;
+   v_username varchar2(30):=NULL;
+   v_module varchar2(48) :=NULL;
+
+BEGIN
+   select sid,program, logon_time, username,module
+   into v_sid,  v_program , v_logon_timestamp,v_username, v_module
+   from v$session 
+   where sid=(select sid from v$mystat where rownum=1)  
+   and audsid = (select userenv ('sessionid') from dual);
+
+-- se remueven espacios
+IF trim(sys_context('USERENV','IP_ADDRESS')) NOT IN (
+'10.231.220.11',      --- bat2swdtadm1 #Red OM bat 2
+'10.231.220.12',      --- bat2swdtadm2
+'10.231.220.13',      --- bat2feadm1
+'10.231.220.14',      --- bat2feadm2
+'10.231.220.15',      --- bat2bebdadm1
+'10.231.220.16',      --- bat2baladm1
+'10.231.220.17',      --- bat2feadm1-rc
+'10.231.220.18',      --- bat2feadm2-rc
+'10.231.220.19',      --- bat2bebdadm1-rc
+'10.231.220.23',      --- bat2feadm3
+'10.231.220.22',      --- bat2feadm3-rc
+'10.231.220.2',       --- bat1swdtadm1  #Red OM bat 1
+'10.231.220.3',       --- bat1swdtadm2
+'10.231.220.4',       --- bat1feadm1
+'10.231.220.5',       --- bat1feadm2
+'10.231.220.6',       --- bat1bebdadm1
+'10.231.220.7',       --- bat1baladm1
+'10.231.220.8',       --- bat1feadm1-rc
+'10.231.220.9',       --- bat1feadm2-rc
+'10.231.220.10',      --- bat1bebdadm1-rc
+'10.231.220.21',      --- bat1feadm3
+'10.231.220.196',     --- bat1baladm1
+'10.10.101.2',        --- fe1 #Red privada
+'10.10.101.3',        --- fe2
+'10.10.101.4',        --- be1
+'10.10.101.5',         ---fe3
+'10.10.100.2',        --- fe1 #Red privada
+'10.10.100.3',        --- fe2
+'10.10.100.4',        --- be2
+'10.10.100.5'         ---fe3
+) THEN
+  RAISE_APPLICATION_ERROR (-20001,'El acceso no esta permitido desde esta direccion ' || sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username );
+END IF;
+
+-- se valida por program en la vista
+IF UPPER(v_program) LIKE '%TOAD%' OR UPPER(v_program) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_program) LIKE '%SQLNAV%' OR     -- SQL Navigator QUEST
+     UPPER(v_program) = 'SQL DEVELOPER'        -- SQL Developer ORACLE
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion'||' Direccion '|| sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username);
+END IF;
+
+-- se valida por module en la vista por si renombraron el ejecutable para pasar la anterior validacion
+IF UPPER(v_module) like '%TOAD%' OR UPPER(v_module) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_module) LIKE '%SQLNAV%' OR     -- SQL Navigator QUEST
+     UPPER(v_module) = 'SQL DEVELOPER'        -- SQL Developer ORACLE
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion'||' Direccion '|| sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username);
+END IF;
+END;
+/

@@ -1,0 +1,15 @@
+connect target
+
+run
+
+{ 
+
+allocate channel t1 type 'sbt_tape' parms
+
+'ENV=(TDPO_OPTFILE=/user/tivoli/tsm/client/oracle/bin64/tdpo.opt)';
+
+backup database current controlfile plus archivelog;
+
+release channel t1;
+
+}

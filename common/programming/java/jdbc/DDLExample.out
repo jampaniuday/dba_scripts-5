@@ -1,0 +1,70 @@
+--------------------------
+Compile Program
+--------------------------
+javac DDLExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java DDLExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@localhost:1521:CUSTDB
+  Connected as         -> system
+  Creating Statement...
+
++-------------------------------+
+| CREATE TABLE                  |
++-------------------------------+
+
+Creating Table [TEST_JDBC]
+Table Created...
+
++-------------------------------+
+| INSERT VALUES                 |
++-------------------------------+
+
+  RESULTS            -> 1 row created.
+  RESULTS            -> 1 row created.
+  RESULTS            -> 1 row created.
+  RESULTS            -> 1 row created.
+  RESULTS            -> 1 row created.
+Commiting Transaction...
+
++-------------------------------+
+| EXECUTE QUERY (Forward)       |
++-------------------------------+
+
+Opening ResultsSet...
+  RESULTS            -> [R1] 100 - James Smith - <null>
+  RESULTS            -> [R2] 200 - Amy Miller - <null>
+  RESULTS            -> [R3] 300 - Andy Phillips - <null>
+  RESULTS            -> [R4] 400 - Jimmy Black - <null>
+  RESULTS            -> [R5] 500 - Jane Dee - <null>
+
++-------------------------------+
+| DELETE ALL RECORDS FROM TABLE |
++-------------------------------+
+
+  RESULTS            -> 5 rows deleted.
+Commiting Transaction...
+
++-------------------------------+
+| DROP TABLE                    |
++-------------------------------+
+
+Dropping Table
+
+  Closing ResultSet...
+  Closing Statement...
+  Closing Connection...
+  

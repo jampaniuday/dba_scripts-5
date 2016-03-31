@@ -1,0 +1,13 @@
+BEGIN
+SYS.DBMS_JOB.SUBMIT
+( job => X
+,what => 'MYDB.GET_BALANCES;'
+,next_date => to_date('29/06/2011 14:19:08','dd/mm/yyyy hh24:mi:ss')
+,interval => 'sysdate+1/24 '
+,no_parse => FALSE
+);
+SYS.DBMS_OUTPUT.PUT_LINE('Job Number is: ' || to_char(x));
+COMMIT;
+END;
+/
+

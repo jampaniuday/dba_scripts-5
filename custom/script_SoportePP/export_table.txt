@@ -1,0 +1,105 @@
+--debe ser de otro usuario para renombrarla igual
+rename table PPCS_AUX_MULSALABO_PEN PPCS_MULSALBO_PENDIENTES
+
+exp ppcs/temporal@RLPPCSN FILE=/ora120/rascanic/exp.dmp LOG=/ora120/rascanic/exp.log TABLES=PPCS.PPCS_AUX_MULSALABO_PEN
+
+imp ppcs/temporal@RLPPCSN FILE=/ora120/rascanic/exp.dmp LOG=/ora120/rascanic/imp.log FROMUSER=PPCS TOUSER=PPCS IGNORE=Y TABLES=PPCS_AUX_MULSALABO_PEN
+
+
+$ exp ppcs/temporal@RLPPCSN FILE=/ora120/rascanic/exp.dmp LOG=/ora120/rascanic/exp.log TABLES=PPCS.PPCS_AUX_MULSALABO_PEN
+
+Export: Release 10.2.0.3.0 - Production on Mon Dec 3 17:40:38 2012
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - 64bit Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+Export done in US7ASCII character set and AL16UTF16 NCHAR character set
+server uses WE8ISO8859P1 character set (possible charset conversion)
+
+About to export specified tables via Conventional Path ...
+. . exporting table         PPCS_AUX_MULSALABO_PEN
+
+  186529722 rows exported
+Export terminated successfully without warnings.
+
+/dev/emcpowers1        34G  8,5G   26G  26% /ora120/rascanic
+
+
+----------------------------------
+----------------------------------
+
+export NLS_LANG=spanish_spain.WE8ISO8859P1;
+
+exp ppcs/temporal@RLPPCSN FILE=/ora120/rascanic/exp_abonado.dmp LOG=/ora120/rascanic/exp_abonado.log TABLES=PPCS.PPCS_ABONADOS_PENDIENTES QUERY=\"WHERE FEH_ULTLLA \> TO_DATE\(\'31102012,11\:59\:59\',\'DDMMYYYY,HH24\:MI\:SS\'\)\"
+
+imp ppcs/temporal@RLPPCSN FILE=/ora120/rascanic/exp_abonado.dmp LOG=/ora120/rascanic/imp_abonado.log FROMUSER=PPCS TOUSER=PPCS IGNORE=Y TABLES=PPCS_ABONADOS_PENDIENTES
+
+
+exp ppcs/temporal@RLPPCSN FILE=/ora120/rascanic/exp_abonado_sal.dmp LOG=/ora120/rascanic/exp_abonado_sal.log TABLES=PPCS.PPCS_MULSALABO_PENDIENTES QUERY=\"WHERE FEH_ULTLLA \> TO_DATE\(\'31102012,11\:59\:59\',\'DDMMYYYY,HH24\:MI\:SS\'\)\"
+
+imp ppcs/temporal@RLPPCSN FILE=/ora120/rascanic/exp_abonado_sal.dmp LOG=/ora120/rascanic/imp_abonado_sal.log FROMUSER=PPCS TOUSER=PPCS IGNORE=Y TABLES=PPCS_MULSALABO_PENDIENTES
+
+
+---------V2-----------------
+
+export NLS_LANG=spanish_spain.WE8ISO8859P1;
+
+exp ppcs/temporal@RLPPCSN FILE=/ora120/rascanic/exp_pendiente.dmp LOG=/ora120/rascanic/exp_pendiente.log TABLES=PPCS.PPCS_ABONADOS_PENDIENTES,PPCS.PPCS_MULSALABO_PENDIENTES QUERY=\"WHERE FEH_ULTLLA \> TO_DATE\(\'31102012,11\:59\:59\',\'DDMMYYYY,HH24\:MI\:SS\'\)\" STATISTICS=NONE INDEXES=N
+
+imp ppcs/temporal@RLPPCSN FILE=/ora120/rascanic/exp_pendiente.dmp LOG=/ora120/rascanic/imp_pendiente.log FROMUSER=PPCS TOUSER=PPCS IGNORE=Y TABLES=PPCS_ABONADOS_PENDIENTES,PPCS_MULSALABO_PENDIENTES  STATISTICS=NONE
+
+--------- V3 --------------------
+
+export NLS_LANG=spanish_spain.WE8ISO8859P1
+
+
+
+
+grant create any directory to ppcs; 
+
+create directory ppcs_data_pump as '/export/ppcspan';
+
+CREATE OR REPLACE DIRECTORY TEMP AS '/home/oracle/jjhs340';
+
+alter user PPCS account unlock;
+
+CREATE OR REPLACE DIRECTORY temp AS '/flash_recovery/ppcsgua';
+GRANT READ, WRITE ON DIRECTORY TEMP TO PPCS;
+
+
+expdp ppcs/temporal DIRECTORY=TEMP DUMPFILE=exp_abo.dmp LOGFILE=exp_abo.log TABLES=PPCS.PPCS_ABONADOS_PENDIENTES PARALLEL=4 QUERY=PPCS.PPCS_ABONADOS_PENDIENTES\:\"WHERE FEH_ULTLLA \> TO_DATE\(\'31102012,23\:59\:59\',\'DDMMYYYY,HH24\:MI\:SS\'\)\" CONTENT=DATA_ONLY
+expdp ppcs/temporal DIRECTORY=TEMP DUMPFILE=exp_sal.dmp LOGFILE=exp_sal.log TABLES=PPCS.PPCS_MULSALABO_PENDIENTES PARALLEL=4 QUERY=PPCS.PPCS_MULSALABO_PENDIENTES\:\"WHERE FEH_ULTLLA \> TO_DATE\(\'31102012,23\:59\:59\',\'DDMMYYYY,HH24\:MI\:SS\'\)\" CONTENT=DATA_ONLY
+
+truncate table PPCS.PPCS_ABONADOS_PENDIENTES;
+truncate table PPCS.PPCS_MULSALABO_PENDIENTES;
+
+
+impdp ppcs/temporal DIRECTORY=TEMP DUMPFILE=exp_abo.dmp LOGFILE=imp_abo.log TABLES=PPCS.PPCS_ABONADOS_PENDIENTES PARALLEL=4 CONTENT=DATA_ONLY 
+
+impdp ppcs/temporal DIRECTORY=TEMP DUMPFILE=exp_sal.dmp LOGFILE=imp_sal.log TABLES=PPCS.PPCS_MULSALABO_PENDIENTES PARALLEL=4 CONTENT=DATA_ONLY
+
+
+ALTER INDEX PPCS.PPCS_ABONADOS_PENDIENTES_I01 REBUILD;
+ALTER INDEX PPCS.PPCS_ABONADOS_PENDIENTES_I02 REBUILD;
+ALTER INDEX PPCS.PPCS_ABONADOS_PENDIENTES_I03 REBUILD;
+
+exec dbms_stats.gather_table_stats('PPCS', 'PPCS_ABONADOS_PENDIENTES', CASCADE => TRUE, ESTIMATE_PERCENT =>100,degree => 4);
+
+ALTER INDEX PPCS.PPCS_MULSALABO_PENDIENTES_I01 REBUILD;
+ALTER INDEX PPCS.PPCS_MULSALABO_PENDIENTES_I02 REBUILD;
+ALTER INDEX PPCS.PPCS_MULSALABO_PENDIENTES_I03 REBUILD;
+
+exec dbms_stats.gather_table_stats('PPCS', 'PPCS_MULSALABO_PENDIENTES', CASCADE => TRUE, ESTIMATE_PERCENT =>100,degree => 4);
+
+alter user PPCS account lock;
+
+
+SELECT c.constraint_name, c.constraint_type, c2.constraint_name, c2.constraint_type, c2.table_name   
+FROM dba_constraints c JOIN dba_constraints c2 ON (c.r_constraint_name = c2.constraint_name)  
+WHERE c.table_name = 'PPCS_ABONADOS_PENDIENTES'    AND c.constraint_TYPE = 'R';
+
+select * from dba_tables where table_name in ('PPCS_MULSALABO_PENDIENTES','PPCS_ABONADOS_PENDIENTES');
+
+select * from dba_indexes where owner='PPCS' and status <> 'VALID';

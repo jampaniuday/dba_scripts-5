@@ -1,0 +1,143 @@
+SELECT p.program,
+            p.spid,
+            pm.category,
+            pm.allocated,
+            pm.used,
+            pm.max_allocated,
+            p.addr
+       FROM V$PROCESS p, V$PROCESS_MEMORY pm
+      WHERE p.pid = pm.pid
+        AND p.spid in (20777,20752,18944,18946,20750) ;
+
+
+SELECT p.program,
+            p.spid,
+            pm.category,
+            pm.allocated,
+            pm.used,
+            pm.max_allocated,
+            p.addr
+       FROM V$PROCESS p, V$PROCESS_MEMORY pm
+      WHERE p.pid = pm.pid
+and PM.category ='OTHER' AND
+PM.MAX_ALLOCATED > 1140776
+
+
+SELECT spid, program,
+            pga_max_mem      max,
+            pga_alloc_mem    alloc,
+            pga_used_mem     used,
+            pga_freeable_mem free
+       FROM V$PROCESS
+      WHERE spid in (20777,20752,18944,18946,20750) ;
+
+
+select * from v$session where paddr = '00000002528C4C50';
+
+grep --color VmSwap /proc/20777/status
+
+ /proc/29762/smaps
+
+
+for file in /proc/*/status ; do awk '/VmSwap|Name/{printf $2 " " $3}END{ print ""}' $file; done
+
+./script.sh > script.log
+[02/05/2013 01:56:56 p.m.] Fredy Coronado (Soporte PP): o si queres que se ejecute en trasfondo   
+nohup ./script.sh &
+[02/05/2013 01:57:09 p.m. | Editado 01:57:07 p.m.] Fredy Coronado (Soporte PP): entonces toda la salida del for te la va a guardar en el nohup.out
+
+
+
+PROGRAM                                          SPID         CATEGORY         ALLOCATED       USED MAX_ALLOCATED ADDR
+------------------------------------------------ ------------ --------------- ---------- ---------- ------------- ----------------
+oracle@pansl1dbebd12                             8412         SQL                 861424     526624      10162984 00000002528B86A8
+oracle@pansl1dbebd12                             8412         PL/SQL               54712      34624         54712 00000002528B86A8
+oracle@pansl1dbebd12                             8412         Freeable            851968          0               00000002528B86A8
+oracle@pansl1dbebd12                             8412         Other              1983253                  1983253 00000002528B86A8
+
+
+SADDR                   SID    SERIAL#     AUDSID PADDR                 USER# USERNAME                          COMMAND    OWNERID
+---------------- ---------- ---------- ---------- ---------------- ---------- ------------------------------ ---------- ----------
+TADDR            LOCKWAIT         STATUS   SERVER       SCHEMA# SCHEMANAME                     OSUSER
+---------------- ---------------- -------- --------- ---------- ------------------------------ ------------------------------
+PROCESS      MACHINE                                                          TERMINAL
+------------ ---------------------------------------------------------------- ------------------------------
+PROGRAM                                          TYPE       SQL_ADDRESS      SQL_HASH_VALUE SQL_ID        SQL_CHILD_NUMBER
+------------------------------------------------ ---------- ---------------- -------------- ------------- ----------------
+PREV_SQL_ADDR    PREV_HASH_VALUE PREV_SQL_ID   PREV_CHILD_NUMBER PLSQL_ENTRY_OBJECT_ID PLSQL_ENTRY_SUBPROGRAM_ID PLSQL_OBJECT_ID
+---------------- --------------- ------------- ----------------- --------------------- ------------------------- ---------------
+PLSQL_SUBPROGRAM_ID MODULE                                           MODULE_HASH ACTION                           ACTION_HASH
+------------------- ------------------------------------------------ ----------- -------------------------------- -----------
+CLIENT_INFO                                                      FIXED_TABLE_SEQUENCE ROW_WAIT_OBJ# ROW_WAIT_FILE# ROW_WAIT_BLOCK#
+---------------------------------------------------------------- -------------------- ------------- -------------- ---------------
+ROW_WAIT_ROW# LOGON_TI LAST_CALL_ET PDM FAILOVER_TYPE FAILOVER_M FAI RESOURCE_CONSUMER_GROUP          PDML_STA PDDL_STA PQ_STATU
+------------- -------- ------------ --- ------------- ---------- --- -------------------------------- -------- -------- --------
+CURRENT_QUEUE_DURATION CLIENT_IDENTIFIER                                                BLOCKING_SE BLOCKING_INSTANCE
+---------------------- ---------------------------------------------------------------- ----------- -----------------
+BLOCKING_SESSION       SEQ#     EVENT# EVENT
+---------------- ---------- ---------- ----------------------------------------------------------------
+P1TEXT                                                                   P1 P1RAW
+---------------------------------------------------------------- ---------- ----------------
+P2TEXT                                                                   P2 P2RAW
+---------------------------------------------------------------- ---------- ----------------
+P3TEXT                                                                   P3 P3RAW            WAIT_CLASS_ID WAIT_CLASS#
+---------------------------------------------------------------- ---------- ---------------- ------------- -----------
+WAIT_CLASS                                                        WAIT_TIME SECONDS_IN_WAIT STATE
+---------------------------------------------------------------- ---------- --------------- -------------------
+SERVICE_NAME                                                     SQL_TRAC SQL_T SQL_T
+---------------------------------------------------------------- -------- ----- -----
+00000002517FA3C0       1930          7   34343195 00000002528B86A8         81 EPREPAGO                                0 2147483644
+                                  INACTIVE DEDICATED         81 EPREPAGO                       sdppa01
+18270        pansl1dbe5
+diametar@pansl1dbe5 (TNS V1-V3)                  USER       00                            0
+000000021FFD3F98      4018516090 d62rmgzrsbc3u                 0
+                    diametar@pansl1dbe5 (TNS V1-V3)                   4061015730                                            0
+                                                                           -1,550E+09            -1              0               0
+            0 11/03/13            0 NO  NONE          NONE       NO                                   DISABLED ENABLED  ENABLED
+                     0                                                                  NO HOLDER
+                      47794        259 SQL*Net message from client
+driver id                                                        1413697536 0000000054435000
+#bytes                                                                    1 0000000000000001
+                                                                          0 00                  2723168908           6
+Idle                                                                      0               0 WAITING
+SDPPA01                                                          DISABLED FALSE FALSE
+
+
+
+
+  PID USER      PR  NI %CPU    TIME+  %MEM  VIRT  RES  SHR S COMMAND                                                                                         
+ 8412 oracle    16   0    4   2166:27 21.5 8145m 6.8g 6.7g S oracle                                                                                          
+10480 oracle    15   0    4   2252:43 21.5 8145m 6.7g 6.7g R oracle                                                                                          
+14445 oracle    16   0    4   2249:12 21.4 8145m 6.7g 6.7g S oracle                                                                                          
+ 3277 oracle    16   0    3   2161:27 21.5 8145m 6.8g 6.7g S oracle                                                                                          
+  409 oracle    16   0    3   2168:07 21.5 8145m 6.7g 6.7g S oracle                                                                                          
+  449 oracle    16   0    3   2170:36 21.5 8145m 6.7g 6.7g S oracle                                                                                          
+ 2476 oracle    16   0    3   2254:39 21.5 8145m 6.7g 6.7g S oracle                                                                                          
+ 2948 oracle    15   0    3   2175:55 21.5 8145m 6.7g 6.7g S oracle                                                                                          
+ 7567 oracle    16   0    3   2174:07 21.5 8145m 6.7g 6.7g S oracle                                                                                          
+ 9711 oracle    16   0    3   2168:10 21.5 8145m 6.7g 6.7g S oracle                                                                                          
+14388 oracle    16   0    3   2169:56 21.5 8145m 6.7g 6.7g S oracle                                                                                          
+  423 oracle    16   0    3   2262:03 21.5 8143m 6.8g 6.7g S oracle                                                                                          
+ 7602 oracle    15   0    3   2254:13 21.4 8145m 6.7g 6.7g S oracle                                                                                          
+14395 oracle    16   0    3   2170:06 21.5 8145m 6.7g 6.7g R oracle                                                                                          
+14443 oracle    16   0    3   2246:03 21.5 8145m 6.8g 6.8g R oracle  
+
+  PID USER      PR  NI %CPU    TIME+  %MEM  VIRT SWAP  RES  SHR S COMMAND                                                           
+14727 oracle    15   0    0   0:11.95  0.1 8141m 7.9g  21m  16m S ora_diag_SDPPA01_I2                                               
+14729 oracle    16   0    0   0:05.21  0.1 8139m 7.9g  19m  16m S ora_psp0_SDPPA01_I2                                               
+24125 oracle    16   0    0   0:17.72  0.1 8139m 7.9g  19m  16m S ora_psp0_SDPNI01_I2                                               
+24123 oracle    15   0    0   0:37.94  0.1 8141m 7.9g  21m  17m S ora_diag_SDPNI01_I2                                               
+15760 oracle    16   0    0   0:08.64  0.1 8139m 7.9g  20m  16m S ora_q001_SDPPA01_I2                                               
+25314 oracle    16   0    0   0:30.30  0.1 8140m 7.9g  22m  18m S ora_qmnc_SDPNI01_I2                                               
+14927 oracle    16   0    0   0:08.55  0.1 8140m 7.9g  22m  18m S ora_qmnc_SDPPA01_I2                                               
+26156 oracle    16   0    0   0:29.28  0.1 8140m 7.9g  25m  22m S ora_q000_SDPNI01_I2                                               
+15758 oracle    16   0    0   0:00.05  0.1 8140m 7.9g  28m  24m S ora_q000_SDPPA01_I2                                               
+14753 oracle    16   0    3   2178:47  0.1 8154m 7.9g  43m  39m S ora_lgwr_SDPPA01_I2                                               
+14725 oracle    16   0    0   9:35.59  0.1 8140m 7.9g  30m  26m S ora_pmon_SDPPA01_I2                                               
+14901 oracle    15   0    0  89:47.91  0.2 8166m 7.9g  58m  32m S ora_arc3_SDPPA01_I2                                               
+26158 oracle    16   0    0   0:00.04  0.1 8139m 7.9g  31m  27m S ora_q001_SDPNI01_I2                                               
+14905 oracle    16   0    0  90:31.07  0.2 8166m 7.9g  58m  32m S ora_arc5_SDPPA01_I2                                               
+14909 oracle    15   0    0  88:21.72  0.2 8166m 7.9g  59m  32m S ora_arc7_SDPPA01_I2                                               
+14913 oracle    16   0    0  87:47.31  0.2 8166m 7.9g  59m  32m S ora_arc9_SDPPA01_I2                                               
+14897 oracle    16   0    0  84:44.93  0.2 8166m 7.9g  59m  32m S ora_arc1_SDPPA01_I2                                               
+24149 oracle    16   0    3   6523:35  0.2 8154m 7.9g  49m  46m S ora_lgwr_SDPNI01_I2             

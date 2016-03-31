@@ -1,0 +1,21 @@
+select * from v$log;
+
+    GROUP#    THREAD#  SEQUENCE#      BYTES    MEMBERS ARC STATUS           FIRST_CHANGE# FIRST_TI
+---------- ---------- ---------- ---------- ---------- --- ---------------- ------------- --------
+         1          1       7317  209715200          1 NO  INACTIVE            8,7869E+12 08/06/12
+         4          1       7316  209715200          1 NO  INACTIVE            8,7869E+12 08/06/12
+         3          1       7315  209715200          1 NO  INACTIVE            8,7869E+12 08/06/12
+         2          1       7318  209715200          1 NO  CURRENT             8,7869E+12 08/06/12
+
+
+select * from v$logfile
+
+
+ALTER DATABASE ADD LOGFILE MEMBER '/oradata_adm/oradata/ADM/redos_002/ADM_PF_RDO_T1G01M2.log' TO GROUP 1;
+ALTER DATABASE ADD LOGFILE MEMBER '/oradata_adm/oradata/ADM/redos_002/ADM_PF_RDO_T1G04M2.log' TO GROUP 4;
+ALTER DATABASE ADD LOGFILE MEMBER '/oradata_adm/oradata/ADM/redos_002/ADM_PF_RDO_T1G02M2.log' TO GROUP 2;
+ALTER DATABASE ADD LOGFILE MEMBER '/oradata_adm/oradata/ADM/redos_002/ADM_PF_RDO_T1G03M2.log' TO GROUP 3;
+
+ALTER SYSTEM SWITCH LOGFILE;
+
+

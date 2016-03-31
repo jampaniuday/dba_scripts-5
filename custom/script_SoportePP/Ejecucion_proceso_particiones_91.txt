@@ -1,0 +1,74 @@
+select num_meses_vigencia from ppcs.pp_cfgmantparts;
+
+update ppcs.pp_cfgmantparts set num_meses_vigencia = 3 where num_meses_vigencia=6;
+
+17 rows updated.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+
+GRANT ALTER ANY TABLE TO PPCS;
+GRANT ALTER ANY INDEX TO PPCS;
+
+
+DECLARE
+   IDE pls_integer;
+BEGIN
+  PPCS.PP_MANT_PARTS_PQ.MANT_PARTS(IDE);
+EXCEPTION
+ WHEN OTHERS THEN
+dbms_output.put_line('Valor resultante de operacion:' || IDE);   
+END;
+/
+
+REVOKE ALTER ANY TABLE from PPCS;
+
+
+
+
+set serverout on
+
+DECLARE
+   IDE pls_integer;
+BEGIN
+  PPCS.PP_MANT_PARTS_PQ.MANT_PARTS(IDE,1);
+EXCEPTION
+ WHEN OTHERS THEN
+dbms_output.put_line('Valor resultante de operacion:' || IDE);   
+END;
+/
+
+
+select partition_name from dba_segments where segment_name in ('PPCS_CONSALDO','PPCS_MECOORIG','PPCS_LLAMADAS','PPCS_MULSALDET','PPCS_EVENTPROM','PPCS_CONTENT','PPCS_MECOTERM','PPCS_DIAMETER','PPCS_DESVIOS','PPCS_ROAMT','PPCS_ROAMO','PPCS_ROAMD') order by 1;
+
+select table_name,partition_name,num_rows,last_analyzed from dba_tab_partitions where tablespace_name = 'SERVICIO_DET_256K_IND' order by 1,2
+
+select NOM_TABLA, COD_TIPO, num_meses_vigencia from PPCS.PP_CFGMANTPARTS where NOM_TABLA in ('PPCS_CONSALDO','PPCS_MECOORIG','PPCS_LLAMADAS','PPCS_MULSALDET','PPCS_EVENTPROM','PPCS_CONTENT','PPCS_MECOTERM','PPCS_DIAMETER');
+
+select nom_tabla,cod_tipo,num_meses_vigencia,ind_mant_activo from ppcs.pp_cfgmantparts;
+
+
+select * from 
+
+SELECT ide_ejecucion,nbr_proceso,des_proceso,fhr_inicio,fhr_fin
+FROM PPCS.PP_LOGSM
+WHERE FHR_inicio > SYSDATE -10
+ORDER BY IDE_EJECUCION;
+
+
+SET LINES 256 pages 1000 trimsp on echo off
+COL FHR_REGISTRO FORMAT A20
+COL IND_TIPO_MENSAJE FORMAT A1 HEADING ''
+COL TXT_MENSAJE FORMAT A100
+alter session set nls_date_format='dd-mm-yyyy hh24:mi:ss';
+
+
+SELECT FHR_REGISTRO, IND_TIPO_MENSAJE, TXT_MENSAJE
+FROM PPCS.PP_LOGSD
+WHERE FHR_REGISTRO > SYSDATE -60
+ORDER BY IDE_EJECUCION, NUM_LIN_TXT;
+
+

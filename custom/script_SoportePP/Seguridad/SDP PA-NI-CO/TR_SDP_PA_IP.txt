@@ -1,0 +1,385 @@
+CREATE OR REPLACE TRIGGER SYS.LOGON_VALID_TRG
+AFTER LOGON
+ON DATABASE
+DECLARE
+   v_sid     number;
+   v_program varchar2(48) :=NULL;
+   v_logon_timestamp date:=NULL;
+   v_username varchar2(30):=NULL;
+   v_module varchar2(48) :=NULL;
+
+BEGIN
+   select sid,program, logon_time, username,module
+   into v_sid,  v_program , v_logon_timestamp,v_username, v_module
+   from v$session 
+   where sid=(select sid from v$mystat where rownum=1)  
+   and audsid = (select userenv ('sessionid') from dual);
+
+-- se remueven espacios
+IF trim(sys_context('USERENV','IP_ADDRESS')) NOT IN (
+'192.168.12.27', --           pansl1deg1   ######  Red OM - 192.168.12.0/24  ######
+'192.168.12.1', --            pansl1dbebd11
+'192.168.12.2', --            pansl1dbebd12
+'192.168.12.3', --            pansl1dbebd13
+'192.168.12.4', --            pansl1dbebd14
+'192.168.12.5', --            pansl1dbebd15
+'192.168.12.6', --            pansl1dbebd16
+'192.168.12.7', --            pansl1dbebd21
+'192.168.12.8', --            pansl1dbebd22
+'192.168.12.9', --            pansl1dbebd23
+'192.168.12.10', --           pansl1dbebd24
+'192.168.12.11', --           pansl1dbebd25
+'192.168.12.12', --           pansl1dbebd26
+'192.168.12.13', --           pansl1dbe1
+'192.168.12.14', --           pansl1dbe2
+'192.168.12.15', --           pansl1dbe3
+'192.168.12.16', --           pansl1dbe4
+'192.168.12.17', --           pansl1dbe5
+'192.168.12.18', --           pansl1dbe6
+'192.168.12.19', --           pansl1dbe7
+'192.168.12.20', --           pansl1dbe8
+'192.168.12.21', --           pansl1dbe9
+'192.168.12.22', --           pansl1dbe10
+'192.168.12.23', --           pansl1dfed1
+'192.168.12.24', --           pansl1dfed2
+'192.168.12.25', --           pansl1dfed3
+'192.168.12.26', --           pansl1dfed4
+'192.168.12.97', --           pansl1dfed5
+'192.168.12.98', --           pansl1dfed6
+'192.168.12.34', --           pansl1dfes1
+'192.168.12.35', --           pansl1dfes2
+'192.168.12.36', --           pansl1dfes3
+'192.168.12.37', --           pansl1dfes4
+'192.168.12.28', --           pansl1dfcs1
+'192.168.12.29', --           pansl1dfcs2
+'192.168.12.30', --           pansl1dfcs3
+'192.168.12.31', --           pansl1dfcs4
+'192.168.12.32', --           pansl1dadmsan1
+'192.168.12.33', --           pansl1dadmsan2
+'192.168.12.42', --           pansl1dbebd11-rsc
+'192.168.12.43', --           pansl1dbebd12-rsc
+'192.168.12.44', --           pansl1dbebd13-rsc
+'192.168.12.45', --           pansl1dbebd14-rsc
+'192.168.12.46', --           pansl1dbebd15-rsc
+'192.168.12.47', --           pansl1dbebd16-rsc
+'192.168.12.48', --           pansl1dbebd21-rsc
+'192.168.12.49', --           pansl1dbebd22-rsc
+'192.168.12.50', --           pansl1dbebd23-rsc
+'192.168.12.51', --           pansl1dbebd24-rsc
+'192.168.12.52', --           pansl1dbebd25-rsc
+'192.168.12.53', --           pansl1dbebd26-rsc
+'192.168.12.54', --           pansl1dbe1-rsc
+'192.168.12.55', --           pansl1dbe2-rsc
+'192.168.12.56', --           pansl1dbe3-rsc
+'192.168.12.57', --           pansl1dbe4-rsc
+'192.168.12.58', --           pansl1dbe5-rsc
+'192.168.12.59', --           pansl1dbe6-rsc
+'192.168.12.60', --           pansl1dbe7-rsc
+'192.168.12.61', --           pansl1dbe8-rsc
+'192.168.12.62', --           pansl1dbe9-rsc
+'192.168.12.63', --           pansl1dbe10-rsc
+'192.168.12.64', --           pansl1dfed1-rsc
+'192.168.12.65', --           pansl1dfed2-rsc
+'192.168.12.66', --           pansl1dfed3-rsc
+'192.168.12.67', --           pansl1dfed4-rsc
+'192.168.12.99', --           pansl1dch1oa1
+'192.168.12.100', --          pansl1dch1oa2
+'192.168.12.101', --          pansl1dsw3sup2-mgmt
+'192.168.12.102', --          pansl1dsw4sup2-mgmt
+'192.168.12.103', --          pansl1dbebd27
+'192.168.12.104', --          pansl1dbebd28
+'192.168.12.105', --          pansl1dbebd27-rsc
+'192.168.12.106', --          pansl1dbebd28-rsc
+'192.168.12.107', --          pansl1dbebd27-vip
+'192.168.12.108', --          pansl1dbebd28-vip
+'192.168.12.109', --          pansl1dch1blfb1
+'192.168.12.110', --          pansl1dch1blfb2
+'192.168.12.68', --           pansl1deg1-rsc
+'192.168.12.69', --           pansl1dfes1-rsc
+'192.168.12.70', --           pansl1dfes2-rsc
+'192.168.12.71', --           pansl1dfes3-rsc
+'192.168.12.72', --           pansl1dfes4-rsc
+'192.168.12.73', --           pansl1dfes5
+'192.168.12.74', --           pansl1dfes6
+'192.168.12.75', --           pansl1dfes7
+'192.168.12.76', --           pansl1dfes8
+'192.168.12.77', --           pansl1dbe11
+'192.168.12.78', --           pansl1dbe12
+'192.168.12.79', --           pansl1dfes5-rsc
+'192.168.12.80', --           pansl1dfes6-rsc
+'192.168.12.81', --           pansl1dfes7-rsc
+'192.168.12.82', --           pansl1dfes8-rsc
+'192.168.12.83', --           pansl1dbe11-rsc
+'192.168.12.84', --           pansl1dbe12-rsc
+'192.168.12.87', --           pansl1dch11-rsc
+'192.168.12.88', --           pansl1dch12-rsc
+'10.222.165.132', --          pansl1dbe1c  ######  Red Corporativa / Servicio - 10.222.165.128/26  ######
+'10.222.165.133', --          pansl1dbe2c
+'10.222.165.134', --          pansl1dbe3c
+'10.222.165.135', --          pansl1dbe4c
+'10.222.165.136', --          pansl1dbe5c
+'10.222.165.137', --          pansl1dbe6c
+'10.222.165.138', --          pansl1dbe7c
+'10.222.165.139', --          pansl1dbe8c
+'10.222.165.140', --          pansl1dbe9c
+'10.222.165.141', --          pansl1dbe10c
+'10.222.165.142', --          pansl1dfedc1    pansl1dfed1c
+'10.222.165.143', --          pansl1dfedc2    pansl1dfed2c
+'10.222.165.144', --          pansl1dfedc3    pansl1dfed3c
+'10.222.165.145', --          pansl1dfedc4    pansl1dfed4c
+'10.222.165.181', --          pansl1dfedc5    pansl1dfed5c
+'10.222.165.182', --          pansl1dfedc6    pansl1dfed6c
+'10.222.165.146', --          pansl1degc1     pansl1deg1c
+'10.222.165.147', --          pansl1dtc1c
+'10.222.165.148', --          pansl1dtc2c
+'10.222.165.149', --          pansl1dfes1c
+'10.222.165.150', --          pansl1dfes2c
+'10.222.165.151', --          pansl1dfes3c
+'10.222.165.152', --          pansl1dfes4c
+'10.222.165.153', --          pansl1dadmsan1
+'10.222.165.154', --          pansl1dadmsan1
+'10.222.165.155', --          pansl1dsw1sup1
+'10.222.165.156', --          pansl1dsw2sup1
+'10.222.165.157', --    pansl1dsw3
+'10.222.165.158', --    pansl1dsw4
+'10.222.165.167', --          pansl1dfes5c
+'10.222.165.168', --          pansl1dfes6c
+'10.222.165.169', --          pansl1dfes7c
+'10.222.165.170', --          pansl1dfes8c
+'10.222.165.171', --          pansl1dbe11c
+'10.222.165.172', --          pansl1dbe12c
+'10.15.10.156', --            mepre1degc1
+'10.15.151.134', --           ppol1degc1
+'10.15.20.148', --            mocor1degc1
+'10.15.125.146', --           mocor2degc1
+'192.168.10.1', --            bebd11 ######  Red Privada 1 - 192.168.10.0/24  ######
+'192.168.10.2', --            bebd12
+'192.168.10.3', --            bebd13
+'192.168.10.4', --            bebd14
+'192.168.10.5', --            bebd15
+'192.168.10.6', --            bebd16
+'192.168.10.7', --            bebd21
+'192.168.10.8', --            bebd22
+'192.168.10.9', --            bebd23
+'192.168.10.10', --           bebd24
+'192.168.10.11', --           bebd25
+'192.168.10.12', --           bebd26
+'192.168.10.51', --           bebd27
+'192.168.10.52', --           bebd28
+'192.168.10.37', --           bebd11-vip
+'192.168.10.38', --           bebd12-vip
+'192.168.10.39', --           bebd13-vip
+'192.168.10.40', --           bebd14-vip
+'192.168.10.41', --           bebd15-vip
+'192.168.10.42', --           bebd16-vip
+'192.168.10.43', --           bebd21-vip
+'192.168.10.44', --           bebd22-vip
+'192.168.10.45', --           bebd23-vip
+'192.168.10.46', --           bebd24-vip
+'192.168.10.47', --           bebd25-vip
+'192.168.10.48', --           bebd26-vip
+'192.168.10.53', --           bebd27-vip
+'192.168.10.54', --           bebd28-vip
+'192.168.10.13', --           be1
+'192.168.10.14', --           be2
+'192.168.10.15', --           be3
+'192.168.10.16', --           be4
+'192.168.10.17', --           be5
+'192.168.10.18', --           be6
+'192.168.10.19', --           be7
+'192.168.10.20', --           be8
+'192.168.10.21', --           be9
+'192.168.10.22', --           be10
+'192.168.10.23', --           fed1
+'192.168.10.24', --           fed2
+'192.168.10.25', --           fed3
+'192.168.10.26', --           fed4
+'192.168.10.49', --           fed5
+'192.168.10.50', --           fed6
+'192.168.10.27', --           fes1
+'192.168.10.28', --           fes2
+'192.168.10.29', --           fes3
+'192.168.10.30', --           fes4
+'192.168.10.31', --           fes5
+'192.168.10.32', --           fes6
+'192.168.10.33', --           fes7
+'192.168.10.34', --           fes8
+'192.168.10.35', --           be11
+'192.168.10.36', --           be12
+'192.168.11.1', --            bebd11_2 ######  Red Privada 2 - 192.168.11.0/24 ######
+'192.168.11.2', --            bebd12_2
+'192.168.11.3', --            bebd13_2
+'192.168.11.4', --            bebd14_2
+'192.168.11.5', --            bebd15_2
+'192.168.11.6', --            bebd16_2
+'192.168.11.7', --            bebd21_2
+'192.168.11.8', --            bebd22_2
+'192.168.11.9', --            bebd23_2
+'192.168.11.10', --           bebd24_2
+'192.168.11.11', --           bebd25_2
+'192.168.11.12', --           bebd26_2
+'192.168.11.39', --           bebd27_2
+'192.168.11.40', --           bebd28_2
+'192.168.11.13', --           be1_2
+'192.168.11.14', --           be2_2
+'192.168.11.15', --           be3_2
+'192.168.11.16', --           be4_2
+'192.168.11.17', --           be5_2
+'192.168.11.18', --           be6_2
+'192.168.11.19', --           be7_2
+'192.168.11.20', --           be8_2
+'192.168.11.21', --           be9_2
+'192.168.11.22', --           be10_2
+'192.168.11.23', --           fed1_2
+'192.168.11.24', --           fed2_2
+'192.168.11.25', --           fed3_2
+'192.168.11.26', --           fed4_2
+'192.168.11.37', --           fed5_2
+'192.168.11.38', --           fed6_2
+'192.168.11.27', --           fes1_2
+'192.168.11.28', --           fes2_2
+'192.168.11.29', --           fes3_2
+'192.168.11.30', --           fes4_2
+'192.168.11.31', --           fes5_2
+'192.168.11.32', --           fes6_2
+'192.168.11.33', --           fes7_2
+'192.168.11.34', --           fes8_2
+'192.168.11.35', --           be11_2
+'192.168.11.36', --           be12_2
+'172.16.0.129', --            pansl1dbebd11cl  ######  Red Cluster SAN 1 - 172.16.0.128/25  ######
+'172.16.0.130', --            pansl1dbebd12cl
+'172.16.0.131', --            pansl1dbebd13cl
+'172.16.0.132', --            pansl1dbebd14cl
+'172.16.0.133', --            pansl1dbebd15cl
+'172.16.0.134', --            pansl1dbebd16cl
+'172.16.1.1', --              pansl1dbebd21cl  ######  Red Cluster SAN 2 - 172.16.1.0/25  ######
+'172.16.1.2', --              pansl1dbebd22cl
+'172.16.1.3', --              pansl1dbebd23cl
+'172.16.1.4', --              pansl1dbebd24cl
+'172.16.1.5', --              pansl1dbebd25cl
+'172.16.1.6', --              pansl1dbebd26cl
+'172.16.1.7', --              pansl1dbebd27cl
+'172.16.1.8', --              pansl1dbebd28cl
+'10.222.161.182', --          pansl1deg1n3  ######  Red Nivel 2 - 192.168.13.0/24  ######
+'192.168.13.1', --            pansl1dbebd11n2         cluster1n2
+'192.168.13.2', --            pansl1dbebd12n2
+'192.168.13.3', --            pansl1dbebd13n2
+'192.168.13.4', --            pansl1dbebd14n2
+'192.168.13.5', --            pansl1dbebd15n2
+'192.168.13.6', --            pansl1dbebd16n2
+'192.168.13.7', --            pansl1dbebd21n2         cluster2n2
+'192.168.13.8', --            pansl1dbebd22n2
+'192.168.13.9', --            pansl1dbebd23n2
+'192.168.13.10', --           pansl1dbebd24n2
+'192.168.13.11', --           pansl1dbebd25n2
+'192.168.13.12', --           pansl1dbebd26n2
+'192.168.13.13', --           pansl1dbebd27n2
+'192.168.13.14', --           pansl1dbebd28n2
+'10.222.161.170', --          pansl1dbebd11n3 ######  Red Nivel 3 Panama - 10.15.18.208/28  ######
+'10.222.161.171', --          pansl1dbebd12n3
+'10.222.161.172', --          pansl1dbebd13n3
+'10.222.161.173', --          pansl1dbebd14n3
+'10.222.161.174', --          pansl1dbebd15n3
+'10.222.161.175', --          pansl1dbebd16n3
+'10.222.161.176', --          pansl1dbebd21n3
+'10.222.161.177', --          pansl1dbebd22n3
+'10.222.161.178', --          pansl1dbebd23n3
+'10.222.161.179', --          pansl1dbebd24n3
+'10.222.161.180', --          pansl1dbebd25n3
+'10.222.161.181', --          pansl1dbebd26n3
+'10.222.161.183', --          pansl1dbebd27n3
+'10.222.161.184', --          pansl1dbebd28n3
+'10.15.18.209', --            mepre1dbebd11n3 ######  Red Nivel 3 Presa - 10.15.18.208/28  ######
+'10.15.18.210', --            mepre1dbebd12n3
+'10.15.18.211', --            mepre1dbebd13n3
+'10.15.18.212', --            mepre1dbebd14n3
+'10.15.18.213', --            mepre1dbebd15n3
+'10.15.18.214', --            mepre1dbebd16n3
+'10.15.18.215', --            mepre1dbebd21n3
+'10.15.18.216', --            mepre1dbebd22n3
+'10.15.18.217', --            mepre1dbebd23n3
+'10.15.18.218', --            mepre1dbebd24n3
+'10.15.18.219', --            mepre1dbebd25n3
+'10.15.18.220', --            mepre1dbebd26n3
+'10.15.18.222', --            mepre1deg1n3
+'10.15.151.176', --           ppol1deg1n3 ######  Red Nivel 3 Puebla - 10.15.154.160/26  ######
+'10.15.154.164', --           ppol1dbebd11n3
+'10.15.154.165', --           ppol1dbebd12n3
+'10.15.154.166', --           ppol1dbebd13n3
+'10.15.154.167', --           ppol1dbebd14n3
+'10.15.154.168', --           ppol1dbebd15n3
+'10.15.154.169', --           ppol1dbebd16n3
+'10.15.154.170', --          ppol1dbebd21n3
+'10.15.154.171', --           ppol1dbebd22n3
+'10.15.154.172', --           ppol1dbebd23n3
+'10.15.154.173', --           ppol1dbebd24n3
+'10.15.154.174', --           ppol1dbebd25n3
+'10.15.154.175', --           ppol1dbebd26n3
+'10.15.21.241', --            mocor1dbebd11n3 ######  Red Nivel 3 Monterrey - 10.15.21.192/26  ######
+'10.15.21.242', --            mocor1dbebd12n3
+'10.15.21.243', --            mocor1dbebd13n3
+'10.15.21.244', --            mocor1dbebd14n3
+'10.15.21.245', --            mocor1dbebd21n3
+'10.15.21.246', --            mocor1dbebd22n3
+'10.15.21.247', --            mocor1dbebd23n3
+'10.15.21.248', --            mocor1dbebd24n3
+'10.15.21.254', --            mocor1deg1n3
+'10.15.20.181', --            mocor2deg1n3 ######  Red Nivel 3 Monterrey 2 - 10.15.20.128/26  ######
+'10.15.20.169', --            mocor2dbebd11n3
+'10.15.20.170', --            mocor2dbebd12n3
+'10.15.20.171', --            mocor2dbebd13n3
+'10.15.20.172', --            mocor2dbebd14n3
+'10.15.20.173', --            mocor2dbebd15n3
+'10.15.20.174', --            mocor2dbebd16n3
+'10.15.20.175', --            mocor2dbebd21n3
+'10.15.20.176', --            mocor2dbebd22n3
+'10.15.20.177', --            mocor2dbebd23n3
+'10.15.20.178', --            mocor2dbebd24n3
+'10.15.20.179', --            mocor2dbebd25n3
+'10.15.20.180', --            mocor2dbebd26n3
+'192.168.14.1', --            fes1hb1 ######  Red Heartbeat 1 - 192.168.14.0/25  ######
+'192.168.14.2', --            fes2hb1
+'192.168.14.3', --            fes3hb1
+'192.168.14.4', --            fes4hb1
+'192.168.14.5', --            fes5hb1
+'192.168.14.6', --            fes6hb1
+'192.168.14.7', --            fes7hb1
+'192.168.14.8', --            fes8hb1
+'192.168.14.129', --          fes1hb2 ######  Red Heartbeat 2 - 192.168.14.128/25  ######
+'192.168.14.130', --          fes2hb2
+'192.168.14.131', --          fes3hb2
+'192.168.14.132', --          fes4hb2
+'192.168.14.133', --          fes5hb2
+'192.168.14.134', --          fes6hb2
+'192.168.14.135', --          fes7hb2
+'192.168.14.136', --          fes8hb2
+'10.221.79.20', --            pansl1dfes5sgt1 ######  Red Sigtran 1 - 10.221.79.16/28  ######
+'10.221.79.21', --            pansl1dfes6sgt1
+'10.221.79.22', --            pansl1dfes7sgt1
+'10.221.79.23', --            pansl1dfes8sgt1
+'10.221.79.36', --            pansl1dfes5sgt2 ######  Red Sigtran 2 - 10.221.79.32/28  ######
+'10.221.79.37', --            pansl1dfes6sgt2
+'10.221.79.38', --            pansl1dfes7sgt2
+'10.221.79.39',  --            pansl1dfes8sgt2
+'10.222.168.94', -- 	      IVR
+'90.104.70.50',  --	      APPDPP01
+'10.220.31.100'  --           APPDPP_REAL
+) THEN
+  RAISE_APPLICATION_ERROR (-20001,'El acceso no esta permitido desde esta direccion ' || sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username );
+END IF;
+
+-- se valida por program en la vista
+IF UPPER(v_program) LIKE '%TOAD%' OR UPPER(v_program) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_program) LIKE '%SQLNAV%'      -- SQL Navigator QUEST
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion'||' Direccion '|| sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username);
+END IF;
+
+-- se valida por module en la vista por si renombraron el ejecutable para pasar la anterior validacion
+IF UPPER(v_module) like '%TOAD%' OR UPPER(v_module) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_module) LIKE '%SQLNAV%'      -- SQL Navigator QUEST
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion'||' Direccion '|| sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username);
+END IF;
+END;
+/

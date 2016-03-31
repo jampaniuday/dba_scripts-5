@@ -1,0 +1,49 @@
+%  ./testDBDOracle.pl
+
+Running testDBDOracle.pl...
+
+  (*) Attempting Oracle Login ...
+      OK
+
+  (*) Creating table TEST_DBI ...
+      OK
+
+  (*) Insert into TEST_DBI ...
+      1 rows inserted.
+      1 rows inserted.
+      1 rows inserted.
+      OK
+
+  (*) Select from TEST_DBI ...
+
+        --> TEST_DBI_INTR_NO :  1000
+        --> TEST_DBI_NAME    :  Jeff Hunter
+
+
+        --> TEST_DBI_INTR_NO :  1001
+        --> TEST_DBI_NAME    :  Melody Hunter
+
+
+        --> TEST_DBI_INTR_NO :  1002
+        --> TEST_DBI_NAME    :  Alex Hunter
+
+      OK
+
+  (*) Delete from TEST_DBI ...
+      3 rows deleted.
+      OK
+
+  (*) Drop table TEST_DBI ...
+      OK
+
+  (*) Select USER and SYSTEM ...
+
+        --> USER             :  SYSTEM
+        --> SYSDATE          :  01-JUL-2003 14:00:00
+
+      OK
+
+  (*) Attempting Oracle Logoff ...
+      OK
+
+Ending testDBDOracle.pl...

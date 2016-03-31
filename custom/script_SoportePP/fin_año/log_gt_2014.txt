@@ -1,0 +1,46 @@
+SQL> select * from ppcs.ppcs_detalle_mov;
+
+no rows selected
+
+SQL> execute PPCS.SP_DETALLE_MOV;    
+    
+
+  
+  
+
+
+
+  
+  
+  
+
+  
+
+
+PL/SQL procedure successfully completed.
+
+SQL>   execute PPCS.SP_DETALLE_MOV;    
+BEGIN PPCS.SP_DETALLE_MOV; END;
+
+*
+ERROR at line 1:
+ORA-00054: resource busy and acquire with NOWAIT specified
+ORA-06512: at "PPCS.SP_DETALLE_MOV", line 385
+ORA-06512: at line 1
+
+
+SQL> execute PPCS.SP_DETALLE_MOV;
+BEGIN PPCS.SP_DETALLE_MOV; END;
+
+*
+ERROR at line 1:
+ORA-00054: resource busy and acquire with NOWAIT specified
+ORA-06512: at "PPCS.SP_DETALLE_MOV", line 59
+ORA-06512: at line 1
+
+
+SQL> execute PPCS.SP_DETALLE_MOV;
+
+PL/SQL procedure successfully completed.
+
+SQL>

@@ -1,0 +1,27 @@
+CREATE OR REPLACE DIRECTORY dir_prestaciones AS '/home/oracle/jjhs340';
+
+ GRANT READ, WRITE ON DIRECTORY dir_prestaciones TO OPGE;
+cat expdp_parfile.txt
+userid=ppga/temporal
+directory=dp_dir_PPGA_ACTABOPRE
+parallel=4
+filesize=2G
+dumpfile=PPGA_ACTABOPRE_purgada_con_tabla_%U.dmp
+logfile=export_PPGA_ACTABOPRE.log
+tables=PPGA_ACTABOPRE
+exclude=index,constraint
+query=PPGA_ACTABOPRE:" where ( ( SEC_ACTUACION between  4178880824 and 4179725332 ) or
+ ( SEC_ACTUACION <      4178880824 and COD_ACTUACIO not in
+ ('AB','AJ','CB','BB','CA','CS','CX','S0','SR','SC','RC' ) ) ) "
+ 
+
+
+
+
+
+
+
+nohup expdp parfile=expdp_parfile.txt &
+nohup impdp parfile=impdp_parfile.txt &
+
+nohup impdp ppga/temporal DIRECTORY=dpump_directory DUMPFILE=actabopre_full.dmp TABLES=PPGA_ACTABOPRE REMAP_SCHEMA=PPGA:PROMO CONTENT=DATA_ONLY EXCLUDE=INDEX  TABLES=PPGA_ACTABOPRE QUERY=ppga_actabopre:\"WHERE \(\(SEC_ACTUACION between 1414234943 and 1864140320 \) OR \(SEC_ACTUACION\<1414234943 AND cod_actuacio not in \(\'RC\',\'AB\',\'CB\',\'AJ\',\'SR\',\'SC\',\'EU\',\'MU\',\'CA\',\'CX\',\'CS\'\)\)\)\" &

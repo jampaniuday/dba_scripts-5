@@ -1,0 +1,237 @@
+CREATE OR REPLACE TRIGGER SYS.LOGON_VALID_TRG
+AFTER LOGON
+ON DATABASE
+DECLARE
+   v_sid     number;
+   v_program varchar2(48) :=NULL;
+   v_logon_timestamp date:=NULL;
+   v_username varchar2(30):=NULL;
+   v_module varchar2(48) :=NULL;
+
+BEGIN
+   select sid,program, logon_time, username,module
+   into v_sid,  v_program , v_logon_timestamp,v_username, v_module
+   from v$session 
+   where sid=(select sid from v$mystat where rownum=1)  
+   and audsid = (select userenv ('sessionid') from dual);
+
+-- se remueven espacios
+IF trim(sys_context('USERENV','IP_ADDRESS')) NOT IN (
+'10.12.36.10',      -- zapbebdsdp1 RED OYM
+'10.12.36.11',      -- zapbebdsdp2
+'10.12.36.12',      -- zapbebdsdp3
+'10.12.36.13',      -- zapbebdsdp4
+'10.12.36.14',      -- zapbebdsdp5
+'10.12.36.15',      -- zapbebdsdp6
+'10.12.36.16',      -- zapbebdsdp7
+'10.12.36.17',      -- zapbebdsdp8
+'10.12.36.18',      -- zapbebdsdp9
+'10.12.36.19',      -- zapbebdsdp10
+'10.12.36.20',      -- zapbesdp1
+'10.12.36.21',      -- zapbesdp2
+'10.12.36.22',      -- zapbesdp3
+'10.12.36.23',      -- zapbesdp4
+'10.12.36.24',      -- zapbesdp5
+'10.12.36.25',      -- zapbesdp6
+'10.12.36.26',      -- zapfedsdp1
+'10.12.36.27',      -- zapfedsdp2
+'10.12.36.28',      -- zapfedsdp3
+'10.12.36.29',      -- zapfedsdp4
+'10.12.36.30',      -- zapegsdp1
+'10.12.36.31',      -- zapfessdp1
+'10.12.36.32',      -- zapfessdp2
+'10.12.36.33',      -- zapfessdp3
+'10.12.36.34',      -- zapfessdp4
+'10.12.36.35',      -- zapswfbsdp1
+'10.12.36.36',      -- zapswfbsdp2
+'10.12.36.37',      -- zapadmarrsdp1
+'10.12.36.38',      -- zapadmarrsdp2
+'10.12.36.39',      -- zapswdtsdp1
+'10.12.36.40',      -- zapswdtsdp2
+'10.12.36.41',      -- zapbladesdp1-a
+'10.12.36.42',      -- zapbladesdp1-b
+'10.12.36.43',      -- zapbladesdp2-a
+'10.12.36.44',      -- zapbladesdp2-b
+'10.12.36.45',      -- zapfessdp1-rc
+'10.12.36.46',      -- zapfessdp2-rc
+'10.12.36.47',      -- zapfessdp3-rc
+'10.12.36.48',      -- zapfessdp4-rc
+'10.12.36.200',     -- zapblfbsdp1
+'10.12.36.201',     -- zapblfbsdp2
+'10.12.36.202',     -- zapblfbsdp3
+'10.12.36.203',     -- zapblfbsdp4
+'10.12.36.204',     -- zapbldtsdp1
+'10.12.36.205',     -- zapbldtsdp2
+'10.12.36.206',     -- zapbldtsdp3
+'10.12.36.207',     -- zapbldtsdp4
+'10.12.36.208',     -- zapvcdomsdp1
+'10.12.36.209',     -- zapvcdomsdp2
+'10.12.36.210',     -- zapbebdsdp1-rc
+'10.12.36.211',     -- zapbebdsdp2-rc
+'10.12.36.212',     -- zapbebdsdp3-rc
+'10.12.36.213',     -- zapbebdsdp4-rc
+'10.12.36.214',     -- zapbebdsdp5-rc
+'10.12.36.215',     -- zapbebdsdp6-rc
+'10.12.36.216',     -- zapbebdsdp7-rc
+'10.12.36.217',     -- zapbebdsdp8-rc
+'10.12.36.218',     -- zapbebdsdp9-rc
+'10.12.36.219',     -- zapbebdsdp10-rc
+'10.12.36.220',     -- zapbesdp1-rc
+'10.12.36.221',     -- zapbesdp2-rc
+'10.12.36.222',     -- zapbesdp3-rc
+'10.12.36.223',     -- zapbesdp4-rc
+'10.12.36.224',     -- zapbesdp5-rc
+'10.12.36.225',     -- zapbesdp6-rc
+'10.12.36.226',     -- zapfedsdp1-rc
+'10.12.36.227',     -- zapfedsdp2-rc
+'10.12.36.228',     -- zapfedsdp3-rc
+'10.12.36.229',     -- zapfedsdp4-rc
+'10.12.36.230',     -- zapegsdp1-rc
+'10.12.36.231',     -- zapadmarrsdp1-rc
+'10.12.36.232',     -- zapadmarrsdp2-rc
+'10.12.37.140',     -- zapbesdp1c RED DE SERVICIO
+'10.12.37.141',     -- zapbesdp2c
+'10.12.37.142',     -- zapbesdp3c
+'10.12.37.143',     -- zapbesdp4c
+'10.12.37.144',     -- zapbesdp5c
+'10.12.37.145',     -- zapbesdp6c
+'10.12.37.146',     -- zapfedsdp1c
+'10.12.37.147',     -- zapfedsdp2c
+'10.12.37.148',     -- zapfedsdp3c
+'10.12.37.149',     -- zapfedsdp4c
+'10.12.37.150',     -- zapegsdp1c
+'10.12.37.151',     -- zapfessdp1c
+'10.12.37.152',     -- zapfessdp2c
+'10.12.37.153',     -- zapfessdp3c
+'10.12.37.154',     -- zapfessdp4c
+'10.12.37.155',     -- zapfessdp1c-b1
+'10.12.37.156',     -- zapfessdp1c-b2
+'10.12.37.157',     -- zapfessdp2c-b1
+'10.12.37.158',     -- zapfessdp2c-b2
+'10.12.37.159',     -- zapfessdp3c-b1
+'10.12.37.160',     -- zapfessdp3c-b2
+'10.12.37.161',     -- zapfessdp4c-b1
+'10.12.37.162',     -- zapfessdp4c-b2
+'192.168.1.2',      -- bebd1 RED PRIVADA
+'192.168.1.3',      -- bebd2
+'192.168.1.4',      -- bebd3
+'192.168.1.5',      -- bebd4
+'192.168.1.6',      -- bebd5
+'192.168.1.7',      -- bebd6
+'192.168.1.8',      -- bebd7
+'192.168.1.9',      -- bebd8
+'192.168.1.10',     -- bebd9
+'192.168.1.11',     -- bebd10
+'192.168.1.12',     -- be1
+'192.168.1.13',     -- be2
+'192.168.1.14',     -- be3
+'192.168.1.15',     -- be4
+'192.168.1.16',     -- be5
+'192.168.1.17',     -- be6
+'192.168.1.18',     -- fed1
+'192.168.1.19',     -- fed2
+'192.168.1.20',     -- fed3
+'192.168.1.21',     -- fed4
+'192.168.1.22',     -- fes1
+'192.168.1.23',     -- fes2
+'192.168.1.24',     -- fes3
+'192.168.1.25',     -- fes4
+'192.168.1.26',     -- fes1-b1
+'192.168.1.27',     -- fes1-b2
+'192.168.1.28',     -- fes2-b1
+'192.168.1.29',     -- fes2-b2
+'192.168.1.30',     -- fes3-b1
+'192.168.1.31',     -- fes3-b2
+'192.168.1.32',     -- fes4-b1
+'192.168.1.33',     -- fes4-b2
+'192.168.3.2',      -- clbebd1 RED CLUSTER
+'192.168.3.3',      -- clbebd2
+'192.168.3.4',      -- clbebd3
+'192.168.3.5',      -- clbebd4
+'192.168.3.6',      -- clbebd5
+'192.168.3.7',      -- clbebd6
+'192.168.3.8',      -- clbebd7
+'192.168.3.9',      -- clbebd8
+'192.168.3.10',     -- clbebd9
+'192.168.3.11',     -- clbebd10
+'192.168.1.40',     -- bebd1-v VIPS ORACLE
+'192.168.1.41',     -- bebd2-v
+'192.168.1.42',     -- bebd3-v
+'192.168.1.43',     -- bebd4-v
+'192.168.1.44',     -- bebd5-v
+'192.168.1.45',     -- bebd6-v
+'192.168.1.46',     -- bebd7-v
+'192.168.1.47',     -- bebd8-v
+'192.168.1.48',     -- bebd9-v
+'192.168.1.49',     -- bebd10-v
+'192.168.2.2',      -- zapbebdsdp1rp   RED NIVEL2
+'192.168.2.3',      -- zapbebdsdp2rp
+'192.168.2.4',      -- zapbebdsdp3rp
+'192.168.2.5',      -- zapbebdsdp4rp
+'192.168.2.6',      -- zapbebdsdp5rp
+'192.168.2.7',      -- zapbebdsdp6rp
+'192.168.2.8',      -- zapbebdsdp7rp
+'192.168.2.9',      -- zapbebdsdp8rp
+'192.168.2.10',     -- zapbebdsdp9rp
+'192.168.2.11',     -- zapbebdsdp10rp
+'192.168.2.12',     -- zapegsdp1rp
+'192.168.2.40',     -- zapsansdp1rp
+'192.168.2.41',     -- zapsansdp2rp
+'10.0.0.1',         -- hb1fes1 RED HEARTBEAT1
+'10.0.0.2',         -- hb1fes2
+'10.0.0.3',         -- hb1fes3
+'10.0.0.4',         -- hb1fes4
+'192.168.4.2',      -- hb2fes1 RED HEARTBEAT2
+'192.168.4.3',      -- hb2fes2
+'192.168.4.4',      -- hb2fes3
+'192.168.4.5',      -- hb2fes4
+'10.12.37.10',      -- zapbebdsdp1bk RED BACKUP
+'10.12.37.11',      -- zapbebdsdp2bk
+'10.12.37.12',      -- zapbebdsdp3bk
+'10.12.37.13',      -- zapbebdsdp4bk
+'10.12.37.14',      -- zapbebdsdp5bk
+'10.12.37.15',      -- zapbebdsdp6bk
+'10.12.37.16',      -- zapbebdsdp7bk
+'10.12.37.17',      -- zapbebdsdp8bk
+'10.12.37.18',      -- zapbebdsdp9bk
+'10.12.37.19',      -- zapbebdsdp10bk
+'10.12.37.20',      -- zapbesdp1bk
+'10.12.37.21',      -- zapbesdp2bk
+'10.12.37.22',      -- zapbesdp3bk
+'10.12.37.23',      -- zapbesdp4bk
+'10.12.37.24',      -- zapbesdp5bk
+'10.12.37.25',      -- zapbesdp6bk
+'10.12.37.26',      -- zapfedsdp1bk
+'10.12.37.27',      -- zapfedsdp2bk
+'10.12.37.28',      -- zapfedsdp3bk
+'10.12.37.29',      -- zapfedsdp4bk
+'10.12.37.30',      -- zapegsdp1bk
+'10.12.37.31',      -- zapfessdp1bk
+'10.12.37.32',      -- zapfessdp2bk
+'10.12.37.33',      -- zapfessdp3bk
+'10.12.37.34',      -- zapfessdp4bk
+'10.50.15.7',	    -- telcas
+'10.50.15.12'	    -- telcas
+) THEN
+  RAISE_APPLICATION_ERROR (-20001,'El acceso no esta permitido desde esta direccion' || sys_context('USERENV','IP_ADDRESS') );
+END IF;
+
+-- se valida por program en la vista
+IF UPPER(v_program) LIKE '%TOAD%' OR UPPER(v_program) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_program) LIKE '%SQLNAV%'      -- SQL Navigator QUEST
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion');
+END IF;
+
+-- se valida por module en la vista por si renombraron el ejecutable para pasar la anterior validacion
+IF UPPER(v_module) like '%TOAD%' OR UPPER(v_module) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_module) LIKE '%SQLNAV%'      -- SQL Navigator QUEST
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion');
+END IF;
+
+
+END;
+/
+
+

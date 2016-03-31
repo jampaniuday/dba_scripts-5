@@ -1,0 +1,65 @@
+--------------------------
+Compile Program
+--------------------------
+javac WriteFileToTable.java
+
+
+--------------------------
+Run Program
+--------------------------
+java WriteFileToTable
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@localhost:1521:CUSTDB
+  Connected as         -> scott
+  Dropping Table: EMP
+    - Dropped Table...
+  Closing Statement...
+  Creating Table: EMP
+    - Created Table...
+  Closing Statement...
+  Creating Statement...
+  Create FileReader Object for file: Employee.txt...
+  Create BufferedReader Object for FileReader Object...
+  Inserting value for [Jeff Hunter]
+    1 row created.
+  Inserting value for [Alex Hunter]
+    1 row created.
+  Commiting Transaction...
+  Closing inputString...
+  Closing Statement...
+  Creating Statement...
+  Opening query for table: EMP...
+
+  RESULTS -> [R1]
+      Employee ID     : 1001
+      Department ID   : 100
+      Employee Name   : Jeff Hunter
+      D.O.B.          : Sun Aug 20 00:00:00 EDT 1967
+      Date of Hire    : Tue Jun 17 00:00:00 EDT 1997
+      Monthly Salary  : $127,000.00
+      Position        : Sr. Software Engineer
+      Extension       : x6007
+      Office Location : Pittsburgh
+
+  RESULTS -> [R2]
+      Employee ID     : 1002
+      Department ID   : 101
+      Employee Name   : Alex Hunter
+      D.O.B.          : Wed Jul 19 00:00:00 EDT 2000
+      Date of Hire    : Wed Dec 19 00:00:00 EST 2001
+      Monthly Salary  : $68,000.00
+      Position        : Help Desk
+      Extension       : x6008
+      Office Location : Pittsburgh
+  Closing ResultSet...
+  Closing Statement...
+  Closing Connection...
+  
+  

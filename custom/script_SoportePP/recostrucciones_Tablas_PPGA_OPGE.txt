@@ -1,0 +1,191 @@
+Jesus, revisando los indices son 34 los indicados por pais de los cuales 9 no son particionados y 25 si (25 *20 particiones =500 indices).
+
+
+('PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS')
+
+('PPGA_RECARGAS')
+
+('PPGA_ACTABOPRE')
+
+
+
+
+
+
+
+-- valida tamaño tablas
+select owner,table_name,status,last_analyzed,num_rows from dba_tables where owner ='PPGA' and table_name in ('PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS','PPGA_RECARGAS') ;
+
+select owner,table_name,status,last_analyzed,num_rows from dba_tables where owner ='OPGE' and table_name in ('POGE_ANULACIONES','POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST','POGE_CAMBESTBOLSAS') ;
+
+PPGA
+
+-- normales
+select 'ALTER INDEX '||owner||'.'||index_name||' REBUILD;' FROM  DBA_INDEXES where 
+table_name in ('PPGA_ACTABOPRE')
+AND INDEX_TYPE <> 'LOB' and tablespace_name is not null and owner ='PPGA';
+
+-- particionados
+SELECT 'ALTER INDEX '||B.owner||'.'||A.INDEX_NAME||' REBUILD PARTITION '||A.PARTITION_NAME ||';'
+FROM DBA_IND_PARTITIONS A , DBA_INDEXES B
+WHERE A.INDEX_NAME= B.INDEX_NAME  AND
+A.INDEX_OWNER = B.OWNER AND
+B.TABLE_NAME in ('PPGA_ACTABOPRE') 
+AND B.INDEX_TYPE <> 'LOB' order by b.table_name,a.index_name,a.partition_name;
+
+-- estadisticas
+select
+'exec dbms_stats.gather_table_stats('''||owner||''', '''||table_name||''', CASCADE => TRUE, ESTIMATE_PERCENT => 10,degree => 4);' estadistica
+from dba_tables where 
+table_name in ('PPGA_ACTABOPRE') 
+and owner ='PPGA' order by table_name;
+
+
+-- division dias
+
+-- normales
+select table_name,sum(num_rows),count(1) FROM  DBA_INDEXES where 
+table_name in ('PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS','PPGA_RECARGAS') 
+AND INDEX_TYPE <> 'LOB' and tablespace_name is not null and owner ='PPGA'
+group by table_name;
+
+-- particionados
+SELECT b.table_name,sum(a.num_rows), count(1)
+FROM DBA_IND_PARTITIONS A , DBA_INDEXES B
+WHERE A.INDEX_NAME= B.INDEX_NAME  AND
+A.INDEX_OWNER = B.OWNER AND
+B.TABLE_NAME in ('PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS','PPGA_RECARGAS') 
+AND B.INDEX_TYPE <> 'LOB' 
+group by b.table_name;
+
+
+OPGE
+
+-- normales
+select 'ALTER INDEX '||owner||'.'||index_name||' REBUILD;' FROM  DBA_INDEXES where 
+table_name in ('POGE_CAMBESTBOLSAS')
+AND INDEX_TYPE <> 'LOB' and tablespace_name is not null and owner ='OPGE';
+
+-- particionados
+SELECT 'ALTER INDEX '||B.owner||'.'||A.INDEX_NAME||' REBUILD PARTITION '||A.PARTITION_NAME ||';'
+FROM DBA_IND_PARTITIONS A , DBA_INDEXES B
+WHERE A.INDEX_NAME= B.INDEX_NAME  AND
+A.INDEX_OWNER = B.OWNER AND
+B.TABLE_NAME in ('POGE_CAMBESTBOLSAS')
+AND B.INDEX_TYPE <> 'LOB' order by b.table_name,a.index_name,a.partition_name;
+
+-- estadisticas
+select
+'exec dbms_stats.gather_table_stats('''||owner||''', '''||table_name||''', CASCADE => TRUE, ESTIMATE_PERCENT => 10,degree => 4);' estadistica
+from dba_tables where 
+table_name in ('POGE_CAMBESTBOLSAS')
+and owner ='OPGE' order by table_name;
+
+
+-- division dias
+
+-- normales
+select table_name,sum(num_rows),count(1) FROM  DBA_INDEXES where 
+table_name in ('POGE_ANULACIONES','POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST','POGE_CAMBESTBOLSAS')
+AND INDEX_TYPE <> 'LOB' and tablespace_name is not null and owner ='OPGE'
+group by table_name;
+
+-- particionados
+SELECT b.table_name,sum(a.num_rows), count(1)
+FROM DBA_IND_PARTITIONS A , DBA_INDEXES B
+WHERE A.INDEX_NAME= B.INDEX_NAME  AND
+A.INDEX_OWNER = B.OWNER AND
+B.TABLE_NAME in ('POGE_ANULACIONES','POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST','POGE_CAMBESTBOLSAS')
+AND B.INDEX_TYPE <> 'LOB' 
+group by b.table_name;
+
+
+----------------------------------------------------------------
+
+
+select nbr_indice from PPGA.PP_CTLRECIND order by nbr_indice;
+
+select * from PPGA.PP_CTLRECIND
+where nbr_indice in
+(
+select index_name FROM  DBA_INDEXES where 
+table_name in ('PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS','PPGA_RECARGAS') 
+AND INDEX_TYPE <> 'LOB'
+)
+
+
+select owner, table_name, num_rows, last_analyzed from dba_tables where
+table_name in ('PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS','PPGA_RECARGAS') 
+order by table_name
+
+
+
+
+
+NICARAGUA
+
+PPGA
+
+('PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS','PPGA_RECARGAS')
+
+
+
+
+
+OPGE
+
+('POGE_ANULACIONES','POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST','POGE_CABESTBOLSAS')
+
+
+GUATEMALA
+
+
+PPGA
+
+PPGA_ACTABOPRE
+PPGA_ACTRELAC
+PPGA_ADQUISICIONES
+PPGA_AJUSTES
+PPGA_AJUSTESSOS
+PPGA_BONOSAGOTADOS
+PPGA_CAMBEST
+PPGA_CAMBSALDOS
+PPGA_RECARGAS
+
+
+OPGE
+
+POGE_ANULACIONES
+POGE_ABOPROMOCIONES
+POGE_RECARGAS
+POGE_RECARGASSOS
+POGE_RECARGASRASC
+POGE_CAMBEST
+POGE_CABESTBOLSAS
+
+
+SALVADOR
+
+PPGA
+
+('PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS')
+
+
+
+OPGE
+
+('POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST')
+
+
+
+PANAMA
+
+PPGA
+
+('PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_AJUSTES','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS','PPGA_RECARGAS')
+
+OPGE
+
+('POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST')
+
+

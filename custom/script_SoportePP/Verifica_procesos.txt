@@ -1,0 +1,74 @@
+select * from all_indexes where owner = 'ADM_CR' and status <> 'VALID';
+
+select spid, sid, s.serial#, p.program from v$session s, v$process p where paddr=addr
+
+select * from v$session where status='ACTIVE';
+
+select * from v$session_wait;
+
+
+
+25680              2178          4 oracle@anicsga01 (TNS V1-V3)
+6217               2154          8 oracle@anicsga01 (TNS V1-V3)
+28206              1230      49188 oracle@anicsga01 (TNS V1-V3)
+32030              2155      42830 oracle@anicsga01 (TNS V1-V3)
+
+select * from v$session where  SID IN (2178,2154,1230,2155)
+
+
+select p.spid,s.sid,s.serial#,s.username,s.status,s.last_call_et,p.program,p.terminal,logon_time,module,s.osuser
+from V$process p,V$session s
+where s.paddr = p.addr and s.status = 'ACTIVE' and s.username not like '%SYS%';
+
+
+select  a.sid ,a.serial#, b.spid , a.LOGON_TIME,a.USERNAME,A.MACHINE,A.OSUSER,A.TERMINAL,
+TO_CHAR(TO_DATE(last_call_et, 'SSSSSSS'), 'HH24:MI:SS') minutos, sq.sql_text
+from v$session a, v$process  b ,V$SQL SQ
+where a.PADDR= b.ADDR
+and a.SQL_ADDRESS=sq.ADDRESS
+and a.status ='INACTIVE'
+and  a.username in ('ADMPMA')
+order by 9,5,6
+
+
+sELECT ADDRESS, SQL_TEXT FROM V$SQL WHERE SQL_ID= '3v9q5u9qymm1d';
+
+SELECT * FROM V$SESSION WHERE SQL_ADDRESS = '00000002B4DB26C8'
+
+
+select p.spid,s.sid,s.serial#,s.username,s.status,s.last_call_et,p.program,p.terminal,logon_time,module,s.osuser
+from V$process p,V$session s
+where s.paddr = p.addr 
+and pid in (1756)
+
+(
+18653,
+18661,
+18725,
+18754,
+18762,
+18768,
+18814,
+19854,
+20301,
+20315,
+20318,
+20330,
+20346,
+20348,
+20358,
+20427,
+20430,
+20449,
+20463,
+20465,
+20477,
+20491,
+20494,
+20504,
+20540,
+20542,
+21074,
+21645,
+21651,
+21657)

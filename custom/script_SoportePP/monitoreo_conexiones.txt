@@ -1,0 +1,52 @@
+# Proceso para monitoreo de Conexiones a archivo plano
+# 11/05/2012 Primera version MGT03326
+5,15,25,35,45,55 * * * * ksh /export/home/oracle/procesos/mon_ppcs.sh
+
+SET head OFF;
+SET feed OFF;
+SET trimspool ON;
+SET linesize 32767;
+SET pagesize 0;
+SET echo OFF;
+SET termout OFF;
+SET verify OFF;
+set sqlprompt "";
+spool /export/home/oracle/awr_4182_4183 append
+select to_char(SYSDATE,'YYYYMMDDHHMI')||','||username||','||machine||','||status||','||count(1)
+from gv$session where type != 'BACKGROUND' and username is not null
+group by to_char(SYSDATE,'YYYYMMDDHHMI')||','||username||','||machine||','||status||',' order by 1;
+spool off
+exit
+
+2381165591
+
+
+Select *
+from table(dbms_workload_repository.awr_report_html(
+         2381165591,
+         2,
+         41285,
+         41286,
+         0))
+
+
+alter system set db_file_multiblock_read_count=32 scope=both sid='*' 
+
+
+SQL> show parameter db_file_multiblock_read_count
+
+NAME                                 TYPE                             VALUE
+------------------------------------ -------------------------------- ------------------------------
+db_file_multiblock_read_count        integer                          128
+
+
+SQL> alter system set db_file_multiblock_read_count=32 scope=both sid='*';
+
+System altered.
+
+SQL> show parameter db_file_multiblock_read_count;
+
+NAME                                 TYPE                             VALUE
+------------------------------------ -------------------------------- ------------------------------
+db_file_multiblock_read_count        integer                          32
+SQL> 

@@ -1,0 +1,71 @@
+# Inicio script Status sync BD
+#!/bin/bash
+# F_miers.
+# Script encargado de cerrar las BD de nivel 2 del SG.
+# este script toma el nombre de las bases como los nodos activos del archivo nodosbd.txt
+
+# export LD_ASSUME_KERNEL=2.4.1
+export ORACLE_BASE=/softw/app/oracle
+export CRS_HOME=${ORACLE_BASE}/product/10.2.0/crs
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db;
+export ORACLE_DATA=${ORACLE_BASE}/oradata;
+export NLS_LANG=spanish_spain.WE8ISO8859P9;
+export NLS_SORT=BINARY;
+export ORACLE_OWNER=oracle;
+export ORACLE_TERM=xterm
+export PATH=${PATH}:${CRS_HOME}/bin:${ORACLE_HOME}/bin:${ORACLE_HOME}/OPatch:/usr/local/sbin:/usr/local/bin:.
+#export NLS_LANG=SPANISH;
+export ORA_NLS10=${ORACLE_HOME}/nls/data
+export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data;
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CRS_HOME}/lib:${ORACLE_HOME}/lib:/usr/local/lib:/lib:/usr/lib;
+
+conexion_sg_n2 ()
+{
+#USERBD=usuario
+#PASSBD=clave
+sqlplus -s / as sysdba
+}
+
+# Variables
+RUTA=/home/oracle/n2
+APLI=$1
+# Cargo variables encontradas en nodosbd.txt
+if [ `cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | wc -l` = 1 ]
+then
+    # Aplicacion
+    AP1=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[1]}'`
+    # Nodo activo
+    NODO=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[3]}'`
+    # ORACLE_SID
+    ORSI=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[2]}'`
+
+        echo " dir "${AP1}
+        echo "nodo "$NODO
+        echo " Sid "$ORSI
+
+	export ORACLE_SID=${ORSI}
+
+
+    else
+        # Salgo si se ingresa nodo incorrecto
+        echo " Variable incorrecta"
+        exit
+fi
+
+# Ruta Alert
+#RUAL=/altamira_bd/${AP1}/admin/bdump/alert_${ORSI}.log
+# Salida LOG
+#RLOG=${RUTA}/Textos${AP1}.txt
+
+# Consulto estado BD
+echo "set time off;
+        set timing off;
+        set feedback off;
+        set heading on;
+        set pagesize 10000;
+select DATABASE_ROLE from v\$database;
+alter session set nls_date_format='mm/dd/yyyy hh24:mi:ss';
+select HOST_NAME,STATUS from v\$instance;
+select max(first_time) as COMPLETADO
+from V\$ARCHIVED_LOG
+where applied='YES' ;"| conexion_sg_n2

@@ -1,0 +1,34 @@
+--------------------------
+Compile Program
+--------------------------
+javac GeneratePublicPrivateKeys.java
+
+
+--------------------------
+Run Program
+--------------------------
+java GeneratePublicPrivateKeys
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Generating key/value pair using DSA algorithm
+  Private Key Format : PKCS#8
+  Public Key Format  : X.509
+  Are both private keys equal? true
+  Are both public keys equal? true
+
+Generating key/value pair using DH algorithm
+  Private Key Format : PKCS#8
+  Public Key Format  : X.509
+  Are both private keys equal? true
+  Are both public keys equal? true
+
+Generating key/value pair using RSA algorithm
+  Private Key Format : PKCS8
+  Public Key Format  : X509
+  Are both private keys equal? true
+  Are both public keys equal? true

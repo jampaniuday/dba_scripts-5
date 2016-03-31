@@ -1,0 +1,18 @@
+# +--------------------------------------------------------------------+
+# | FILE            : ldap.ora                                         |
+# | ORGANIZATION    : iDevelopment.info                                |
+# | MACHINE TYPE    : UNIX                                             |
+# | DATE            : 15-AUG-2004                                      |
+# | HISTORY         :                                                  |
+# | ------------------------------------------------------------------ |
+# | DATE      NAME     CHANGE DESCRIPTION                              |
+# | --------- -------- ----------------------------------------------- |
+# | 15-AUG-04 JEFFREYH Initial file creation.                          |
+# +--------------------------------------------------------------------+
+
+DEFAULT_ADMIN_CONTEXT = "dc=idevelopment,dc=info"
+
+DIRECTORY_SERVERS= (dbautil.idevelopment.info:389:636)
+
+DIRECTORY_SERVER_TYPE = OID
+

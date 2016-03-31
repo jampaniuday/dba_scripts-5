@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac SizeOfFile.java
+
+
+--------------------------
+Run Program
+--------------------------
+java SizeOfFile
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+The length (in bytes) of file README_InputFile.txt is 682.

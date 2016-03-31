@@ -1,0 +1,324 @@
+buen dia
+[10:43:02 a.m.] Carlos Corbacho: hola Luis
+[10:44:10 a.m.] Carlos Corbacho: te iba a preguntar si quieres que revisemos la BD del OCS de El Salvador
+[10:44:15 a.m.] Carlos Corbacho: despues de la migracion
+[10:44:18 a.m.] Luis Garcia: hola, me comenta Fran que comunique con su persona para ver temas de la BD.
+[10:45:41 a.m.] Carlos Corbacho: si, le conté a Fran que seria buena idea revisar con algun DBA suyo, la forma en que se debe analizar los AWR del OCS
+[10:45:56 a.m.] Carlos Corbacho: tienes experiencia en mirar el AWR ?
+[10:48:01 a.m.] Luis Garcia: si, pero agradeceria una mejor explicacion que la de oracle
+[10:49:44 a.m.] Carlos Corbacho: vale, pues dame 5 minutos, porque tengo que pedir por aqui que me habiliten el acceso a las maquinas de planta
+[10:50:06 a.m.] Luis Garcia: me indica el usuario y se lo solicito.
+[10:50:56 a.m.] Carlos Corbacho: MXT02939
+[10:51:56 a.m.] Carlos Corbacho: es un usuario temporal que me crearon para entrar a planta, aunque solo estaba pudiendo entrar en Panama, no en GT (que comparten maquinas con SV)
+[10:52:23 a.m.] Luis Garcia: ok, ahora se lo habilito
+[10:55:18 a.m.] Luis Garcia: ya se encuentra habilitado el usuario para el sdp de gt/sv
+[10:55:23 a.m.] Luis Garcia: podria verificarlo
+[10:55:56 a.m.] Carlos Corbacho: si, voy
+[10:58:12 a.m.] Carlos Corbacho: vale, ya estoy
+[10:58:34 a.m.] Carlos Corbacho: puedes tu tambien entrar en zapbebdsdp7, con el entorno de SV ?
+[10:58:51 a.m.] Carlos Corbacho: te pones como "oracle" y entras a este directorio
+[10:59:20 a.m.] Carlos Corbacho: /export/oracle/carlos/util/awr
+[10:59:41 a.m.] Luis Garcia: ya estoy adentro
+[11:01:18 a.m.] Carlos Corbacho: vale, pues ahi he dejado varios scripts
+[11:02:04 a.m.] Luis Garcia: ya los estaba revisando, son de set de lineas, crear snapshot y ejecutar el awr
+[11:03:53 a.m.] Carlos Corbacho: bueno, para sacar los AWR, tendrias la posibilidad de usar los snapshots automaticos (cada hora entera) o poner uno a voluntad (con el pon_awr.sql)
+[11:04:24 a.m.] Carlos Corbacho: ademas, si te has fijado, solemos tener un alias para ponernos como sysdba
+[11:04:34 a.m.] Carlos Corbacho: svrmgrl=' sqlplus " / as sysdba " '
+[11:05:24 a.m.] Luis Garcia: ok, ya la vi
+[11:05:25 a.m.] Carlos Corbacho: bueno, pues para sacar el AWR ya solo te quedaria invocar el "dame_awr.sql" indicarle si text o html y el intervalo
+[11:05:37 a.m.] Carlos Corbacho: bueno, pues he sacado antes dos informes
+[11:06:07 a.m.] Carlos Corbacho: lanza:
+head awrrpt_2_9698_9699.txt awrrpt_2_9824_9825.txt
+[11:06:34 a.m.] Carlos Corbacho: el primero es del 24/oct en el intervalo de 08-09 am
+[11:06:51 a.m.] Carlos Corbacho: y el otro es el mirmo intervalo, pero hoy
+[11:07:16 a.m.] Luis Garcia: ok
+[11:08:02 a.m.] Carlos Corbacho: vete mirandolos, y te cuento en 10 min
+[11:08:23 a.m.] Carlos Corbacho: que tengo a Fran
+[11:08:27 a.m.] Luis Garcia: ok
+[11:36:57 a.m.] Carlos Corbacho: hola Luis
+[11:37:01 a.m.] Carlos Corbacho: estas ?
+[11:37:36 a.m.] Luis Garcia: si, estoy terminando de revisar el segundo awr
+[11:38:53 a.m.] Carlos Corbacho: bueno, pues te cuento brevemente lo que se supone que tenemos que mejorar con el OCI
+[11:39:02 a.m.] Carlos Corbacho: y lo que no deberiamos estropear con la nueva version
+[11:39:09 a.m.] Luis Garcia: ok
+[11:39:23 a.m.] Carlos Corbacho: al principio del todo, en "Load Profile"
+[11:40:03 a.m.] Carlos Corbacho: El Redo size es alto (>8Kb por trans)
+[11:40:37 a.m.] Carlos Corbacho: eso con la v11 iría aun peor (porque las tablas con datos de abonados, las particionadas) tienen muchos mas campos
+[11:40:55 a.m.] Carlos Corbacho: y por ello los update's son aun mas pesados (mueven mas informacion)
+[11:41:35 a.m.] Carlos Corbacho: es casi mejor que nos fijemos en la columa de "per second"
+[11:42:04 a.m.] Carlos Corbacho: las execuciones y las transacciones
+[11:42:17 a.m.] Carlos Corbacho: si lo comparamos con el dia de hoy
+[11:44:05 a.m.] Carlos Corbacho: veremos como para mas ejecuciones tenemos menos tamaño de redo
+[11:44:16 a.m.] Carlos Corbacho: casi la mitad
+[11:45:26 a.m.] Carlos Corbacho: las transacciones parecen el doble, pero eso no es real, porque la nueva conexion de OCI en los procesos del SDP en realidad es una segunda conexion (se mantiene la primera para muchas tablas)
+[11:46:02 a.m.] Carlos Corbacho: asi que ahora cuando abrimos una transaccion y se cambian datos del abonado (para una peticion de tarificacion) en realidad estamos en dos transacciones en paralelo
+[11:46:21 a.m.] Carlos Corbacho: asi que al hacer commit, o rollback, lo hacemos en las dos en paralelo
+[11:46:27 a.m.] Carlos Corbacho: entendido ?
+[11:48:05 a.m.] Luis Garcia: y es posible llegar a tener mayor contencion al tener dos conexiones
+[11:48:27 a.m.] Carlos Corbacho: es que las dos conexiones no compiten por las mismas tablas
+[11:49:07 a.m.] Carlos Corbacho: si conoces las tablas del Prepago, sabras que las mas grandes son la M0_MSISDN y la M1_MSISDNAUX (que extiende a la anterior)
+[11:49:43 a.m.] Carlos Corbacho: pues esas dos tablas ahora se acceden (para leer y escribir) por OCI en los tarificadores que así lo tengan habilitados
+[11:50:50 a.m.] Carlos Corbacho: el uso del OCI es porque nos permite generar sentencias UPDATE dinámicas (solo con las columnas realmente modificadas) sin abrasar al servidor con parseos (compilaciones)
+[11:51:23 a.m.] Carlos Corbacho: gracias a una nueva funcionalidad que se incluyo en la v10 de Oracle, y que se llama "cache de sentencias en la libreria cliente"
+[11:52:15 a.m.] Carlos Corbacho: si observas en el "load profile" no ha subido el numero de parseos, y sin embargo si que estamos viendo la mejora en el tamaño del redolog generado
+[11:54:01 a.m.] Luis Garcia: ok, ya entendi.
+[11:54:30 a.m.] Carlos Corbacho: ahora vamos a lo siguiente importante, los eventos de espera
+[11:54:35 a.m.] Carlos Corbacho: en la parte de hace una semana
+[11:56:44 a.m.] Carlos Corbacho: estaba todo fenomenal
+[11:56:51 a.m.] Carlos Corbacho: Event                                 Waits    Time (s)   (ms)   Time Wait Class
+------------------------------ ------------ ----------- ------ ------ ----------
+CPU time                                          2,727          97.3
+log file sync                       771,385         380      0   13.6     Commit
+[11:57:07 a.m.] Carlos Corbacho: tienes que fijarte en los segundos acumulados
+[11:57:52 a.m.] Carlos Corbacho: en una hora (de 3600 seg) el maximo de tiempo que se puede acumular depende del numero de cores (aqui por lo menos tendrias x8 ese tiempo)
+[11:58:34 a.m.] Carlos Corbacho: asi que el CPU time, de 2700 seg está muy bien
+[12:00:23 p.m.] Carlos Corbacho: ademas, que el evento de CPU esté el primero es lo correcto (las sentencias se esperan por conseguir el slot de CPU)
+[12:02:33 p.m. | Editado 12:03:16 p.m.] Carlos Corbacho: por lo demas, el siguiente evento de espera, el de "log file sync" esta bastante limitado (un 13% del total) y está directamente relacionado con las esperas por completar el commit.
+[12:03:32 p.m.] Carlos Corbacho: en el AWR de hoy, el top 5 de eventos de espera está hecho una pena
+[12:04:47 p.m.] Carlos Corbacho: nos está fastidiando el que las conexiones de OCI se estaban cruzando de instancia (no iban a la misma instancia que va la antigua conexion de Pro*C) y encima lo hacian de manera aleatoria
+[12:04:58 p.m.] Carlos Corbacho: asi que el rendimiento no es exactamente el que se debe
+[12:05:53 p.m.] Carlos Corbacho: ahora mismo estan aplicando un MOP en produccion para hacer que se corriga este comportamiento
+[12:11:45 p.m.] Luis Garcia: en este caso se corrige el Aplication y commit de lo eventos en espera
+[12:14:37 p.m.] Carlos Corbacho: el commit se mejoraria porque el disco iria mas aliviado
+[12:15:26 p.m.] Carlos Corbacho: pero al final commit tienen que salir, porque manejamos transacciones que se deben confirmar
+[12:16:17 p.m.] Carlos Corbacho: me voy a comer
+[02:23:33 p.m.] Luis Garcia: buenas, me confirma cuando podramos continuar
+[02:30:03 p.m.] Carlos Corbacho: hola Luis
+[02:31:15 p.m.] Luis Garcia: hola
+[02:31:30 p.m.] Carlos Corbacho: que tal andas,
+[02:31:58 p.m.] Carlos Corbacho: tienes tiempo para que te cuente como tenemos ahora el SV, despues de arreglar lo del OCI
+[02:32:01 p.m.] Carlos Corbacho: ?
+[02:32:17 p.m.] Luis Garcia: si, no hay problema.
+[02:33:14 p.m.] Carlos Corbacho: pues acabo de sacar otro AWR, para ver como iba la mejora despues
+[02:34:19 p.m.] Luis Garcia: este archivo? awrrpt_2_9829_9830.txt
+[02:34:58 p.m.] Carlos Corbacho: si
+[02:35:50 p.m. | Editado 02:35:56 p.m.] Carlos Corbacho: pues si te fijas en ese, ya no hay esperas por el evento de "row contention"
+[02:36:22 p.m.] Luis Garcia: y mejoro comparado con el otro que se reviso.
+[02:37:14 p.m.] Carlos Corbacho: si, sin embargo esta alto "log file sync"
+[02:37:39 p.m.] Carlos Corbacho: y la culpa está en que no esta llendo fina la cabina de discos
+[02:37:59 p.m.] Carlos Corbacho: vamos a ver primero las sentencias SQL, que no tengamos elapsed time
+[02:38:12 p.m.] Carlos Corbacho: busca M0_NURIN
+[02:38:32 p.m.] Carlos Corbacho: que se repite siempre donde aparecen las sentencias
+[02:38:53 p.m.] Carlos Corbacho: asi llegamos a la parte de: SQL ordered by Elapsed Time
+[02:39:39 p.m.] Carlos Corbacho: el tiempo de elapsed se está llendo, aunque no es exagerado
+[02:40:26 p.m.] Carlos Corbacho: en lo que habia hace una semana no se iba casi nada
+[02:41:16 p.m.] Carlos Corbacho: conclusion, si no tenemos mas eventos de espera que el "log file sync" tenemos que sospechar del almacenamiento
+[02:44:29 p.m.] Carlos Corbacho: vamos a ver las operaciones de I/O para acceder a los tablespaces
+[02:44:38 p.m.] Luis Garcia: ok
+[02:45:22 p.m.] Luis Garcia: DATOS sobresale
+[02:49:34 p.m.] Carlos Corbacho: DATOS_MSISDN_I2
+[02:50:27 p.m.] Carlos Corbacho: para analizar los tiempos de acceso a los tablespaces, tienes que fijarte en los que de verdad tengan lecturas
+[02:51:19 p.m.] Carlos Corbacho: fijate como ahora, con lo de las conexiones corregido, a los tablespaces que se accede mas es al  de datos e indices de la _I2 (que es el SID que se levanta en esta maquina bebd7)
+[02:51:37 p.m.] Carlos Corbacho: si no fuera asi, es que tenemos un problema
+[02:52:11 p.m.] Carlos Corbacho: por lo demas, tenemos que mirar los mili-segundos de las lecturas (en los tablespaces que mas lecturas tengan)
+[02:52:45 p.m.] Carlos Corbacho: si tienen pocas lecturas, el Avg Reads/s no es significativo
+[02:52:57 p.m.] Carlos Corbacho: pues bien, tiene tiempos que no son buenos
+[02:53:15 p.m.] Carlos Corbacho: lo normal es que tengan menos de 10 ms, incluso 6 ms
+[02:53:47 p.m.] Carlos Corbacho: en el AWR de hace una semana tenia 4.8 ms
+[02:54:50 p.m.] Carlos Corbacho: los tiempo de escritura no son significativos, siempre suelen ser casi cero (cuando tenemos de verdad muchas escrituras)
+[02:58:00 p.m.] Carlos Corbacho: Despues, para terminar este analisis, una cosa interesante es mirar las "physical reads"
+[02:59:27 p.m.] Luis Garcia: en este caso es DATOS_MSIS.
+[02:59:38 p.m.] Carlos Corbacho: si te fijas, en los listados que salen en esa parte, hace referencia a particiones en el rango P25-P49
+[02:59:59 p.m.] Carlos Corbacho: que son el rango de particiones que estan alojadas en los tablespaces de la _I2
+[03:03:14 p.m.] Luis Garcia: tambien aparecen en las Row Lock Waits
+[03:07:21 p.m. | Editado 03:07:35 p.m.] Carlos Corbacho: si, eso son esperas por tomar el bloqueo del abonado (select .. for update)
+[03:11:05 p.m.] Carlos Corbacho: y esa es la causa del Elapsed time en la sentencia bsf82hn9yg512
+[03:12:43 p.m.] Luis Garcia: SELECT ROWID,TO_CHAR(M0_NURIN),M0_CDMSISDN,TO_CHAR(M0_MC_NUCUENTA),M0_ME_NUIDIOM
+A,M0_M9_CDTIPOTARJETA,TO_CHAR(M0_FHCADUCIDAD,'YYYYMMDD'),RawToHex(M0_MALISTAS),M
+0_NUALGORITMOLBN,M0_MD_NUTIPOINFO,M0_NUUMBRALSALDO ,M0_NUUMBRALCADUCIDAD,M0_NUUM
+BRALRECARGA,RawToHex(M0_MAFLAGS),M0_NUVALORACUM,M0_NUGASTOACUM,M0_NUCREDITOAIRE,
+
+module diametar
+[03:16:56 p.m.] Carlos Corbacho: para ver la sentencia entera tendriamos que verlo,
+[03:17:29 p.m.] Carlos Corbacho: en el AWR en formato html
+[03:17:36 p.m.] Carlos Corbacho: o en la v$sql_area
+[03:18:09 p.m.] Carlos Corbacho: y verias que al final tiene lo del " for update nowait"
+[03:18:23 p.m.] Luis Garcia: ya lo vi
+[03:18:24 p.m.] Luis Garcia: SELECT ROWID, TO_CHAR(M0_NURIN), M0_CDMSISDN, TO_CHAR(M0_MC_NUCUENTA), M0_ME_NUIDIOMA, M0_M9_CDTIPOTARJETA, TO_CHAR(M0_FHCADUCIDAD, 'YYYYMMDD'), RawToHex(M0_MALISTAS), M0_NUALGORITMOLBN, M0_MD_NUTIPOINFO, M0_NUUMBRALSALDO , M0_NUUMBRALCADUCIDAD, M0_NUUMBRALRECARGA, RawToHex(M0_MAFLAGS), M0_NUVALORACUM, M0_NUGASTOACUM, M0_NUCREDITOAIRE, M0_NUREFERENCIA, M0_CDULTNUMB, M0_NUULTLLAMADA, M0_NUCONTADOR, M0_MA_NULOCUCION , M0_MA_NULOCUCION2, M0_MA_NULOCUCION3, M0_NUINDLOCUCION, M0_NUINDLOCUCION2, M0_NUINDLOCUCION3, M0_NUINDAVISOSALDO, M0_NUINDAVISOCADUCIDAD, M0_NUINDAVISOBIENVENIDA, M0_NUPERIODOAVISOSALDO, M0_NUPERIODOAVISOCADUCIDAD, M0_NUPERIODOAVISOBIENVENIDA , M0_NUCALLREFERENCE, M0_NUINICIOLLAMADA, M0_NUULTRESERVA, M0_NUCOSTELLAMADA, M0_NUMINGRATISACUMLLAMADA, M0_NUCREDITOLLAMADA, M0_NUMINGRATISLLAMADA, M0_NUTARIFAAPLICADA, M0_T2_NUTIPODESTINO, M0_NUSEGUNDOSLLAMADA, M0_NUMISCELANEO , M0_NUTIPOTRAFICO, M0_NUCODIGOTELESERVICIO, RawToHex(M0_MAFLAGSLLAMADA), M0_NUNPICALLING, M0_NUTONCALLING, M0_CDCALLING, M0_NUNPICALLED, M0_NUTONCALLED, M0_CDCALLED, M0_NUNPIREDIRECTING, M0_NUTONREDIRECTING , M0_CDREDIRECTING, M0_NUNPILN, M0_NUTONLN, M0_CDLN, M0_NUNPIVLR, M0_NUTONVLR, M0_CDVLR, M0_NUCREDITONOCARGADO, M0_NUMINGRATIS, TO_CHAR(M0_FHCADUCIDADMINGRATIS, 'YYYYMMDD'), M0_NUMINGRATISAIRE , M0_NUCOEFCOMPRESION, TO_CHAR(M0_FHCADUCIDADCOEFCOMPRESION, 'YYYYMMDD'), RawToHex(M0_MAFLAGSLISTASUSUARIOS), M0_NUMCGRATIS, TO_CHAR(M0_FHCADUCIDADMCGRATIS, 'YYYYMMDD'), M0_NUCREDITODEVNOENTREGADO, M0_NUMCGR ATISDEVNOENTREGADO, M0_NUMCNOENTREGADO, RawToHex(M0_MAFLAGSLISTASUSUARIOSMC), M0_NUPLEC, M0_NUPLECANTERIOR , RawToHex(M0_MAFLAGSLLAMADA2), M0_NUSEGPROR, M0_NULLAMADASENCURSO, M0_NUCONTADORSISTEMA1, M0_NUIDENTCONTADORSISTEMA1, M0_NUCONTADORPERIODICO1, M0_NULIMITEPERIODICO1, M0_NUPERIODICIDADCONTADOR1, M0_NUULTFECHAPERIODICO1, M0_NUTIPOCONDICIONPERIODICO1, M0_NUVALORCONDICIONPERIODICO1 , M0_NUUMBRAL1, RawToHex(M0_MAFLAGSCONTADORES), M0_NUCONTADORSISTEMA2, M0_NUIDENTCONTADORSISTEMA2, RawToHex(M0_MAFLAGSLLAMADASCONTADORES), M0_NUIDPROMOCIONPERIODICO1, M0_TPB_NUPROMOCIONMG, M0_TPB_NUPROMOCIONCOEF, RawToHex(M0_MAFLAGSPROMOCIONES), M0_NUCONTEXTOSGPRS, M0_NUSESCONTENIDOSENCURSO , M0_SNCONTPROMOAIRE, RawToHex(M0_MAFLAGSLISTASCONTENIDOS), RawToHex(M0_MAFLAGSABONADOSGPRS), M0_NUSUSCRIPCION, M0_NUACUMSEGCOMPTARIF, M0_NUSUSCRIPCIONLLAM, M0_NULOCALIZACION, M0_NUSUBTIPODESTINO, M0_NUCPDESTINO, RawToHex(M0_MAFLAGSSALDOS), RawToHex(M0_MAFLAGSINFOSALDOS) , RawToHex(M0_MAFLAGSHABEVENTOSALDO), RawToHex(M0_MAFLAGSGESTIONFECHASALDOS), M0_NUUMBRALESVALORSALDO1, M0_NUUMBRALESCADUCIDADSALDO1, RawToHex(M0_MAFLAGSEVENTOSSALDO1), M0_NUGASTOACUM2, M0_NUVALORACUM2, TO_CHAR(M0_FHINICIOSALDO2, 'YYYYMMDD'), TO_CHAR(M0_FHFINSALDO2, 'YYYYMMDD'), M0_NUPERIODOSALDO2, TO_CHAR(M0_FHSIGUIENTERECARGASALDO2, 'YYYYMMDD') , M0_NUUMBRALESVALORSALDO2, M0_NUUMBRALESCADUCIDADSALDO2, RawToHex(M0_MAFLAGSEVENTOSSALDO2), M0_NUDEBITREFERENCE, M0_NUNPICALLEDTRANSF, M0_NUTONCALLEDTRANSF, M0_CDCALLEDTRANSF, M0_NUSEGCOMPTARIFRESERV A, RawToHex(M0_MAFLAGS2), M0_NUCOSTEACUMLLAMADASALDO1, M0_NUCOSTEACUMLLAMADASALDO2 , M0_NUCOSTEACUMLLAMADASALDO3, M0_NUCOSTEACUMLLAMADASALDO4, M0_NUCOSTEACUMLLAMADASALDO5, M0_NUCOSTEACUMLLAMADASALDO6, M0_MS_NURESTRICCION, M0_MT_CDTIPOTECNOLOGIA, M0_NUESN, M0_CDMIN, M0_TTA_NUTRIBU1, M0_TTA_NUTRIBU, M0_NUCREDITOSALDO2 , M0_NUCREDITOLLAMADASALDO2, M0_NUCREDITOSALDO3, M0_NUCREDITOLLAMADASALDO3, M0_NUCREDITOSALDO4, M0_NUCREDITOLLAMADASALDO4, M0_NUCREDITOSALDO5, M0_NUCREDITOLLAMADASALDO5, M0_NUCREDITOSALDO6, M0_NUCREDITOLLAMADASALDO6, M0_CDPIN, M0_CDCODIGOADMTARJETA , M0_CDCLAVE, M0_NUCONTEXTOSDIAM, RawToHex(M0_MAFLAGSEVENTOSCONTADOR1), M0_NUPERIODICIDADDIACONTADOR1, M0_NUGASTOMINCONTADOR1, M0_NUUMBRALESLIMITECONTADOR1, RawToHex(M0_MAFLAGSSERVICIOSECONOMICOS), RawToHex(M0_MAMISCELANEOCORP), RawToHex(M0_MAFLAGSLIMITEPERIODICO1), M0_MS_NUSERVICESUBSCRIBERID, M0_CDCIF , M0_NUAGRUPACION, M0_NUSESSERTACONENCURSO, M0_NUSALDOSOLICITADO, M0_NUTIEMPOCONCEDIDO, M0_NUSERVICIOACCEDIDO, M0_CDSISTEMACOMERCIAL, M0_F4_CDCATEGORIA, M0_NUINICIOPERIODOBONIFICACION, M0_NUBONOSCONSUMIDOSENPERIODO, M0_NUOPERADORAROAMING, RawToHex(M0_MAFLAGSHABSERVICIOSSIPS) , M0_NUPERFILCC, M0_NUCTARBOL, M0_T2_NUTIPODESTINOA, M0_T2_NUTIPODESTINOB, M0_B14_CDOPERADORALD, M0_CDLINEAASOCIADA, M0_B14_CDOPERADORALDLLAMADA, RawToHex(M0_MAFLAGS3), RawToHex(M0_MAFLAGSCGPERIODEXT), M0_TV_NUOPERADORAPORTADO, TO_CHAR(M0_CT0_NUAUTORIZADO_LLAMADA) , TO_CHAR(M0_FHFINCICLO, 'YYYYMMDD'), M0_NUGASTOCICLO, M0_NUGASTOSIGUIENTECICLO, M0_NUA CUMCICLO, M0_NUACUMSIGUIENTECICLO, M0_NULIMITECREDITO, M0_NUCODIGOPOSTAL, RawToHex(M0_MAEXTINT14), RawToHex(M0_MAFLAGSESTADOLOGICOCGP), TO_CHAR(M0_FHFINCONTAPERIODICO1, 'YYYYMMDD'), M0_NUFECHAPROVISIONHZ , M0_NULLAMADASPROVISIONHZ, TO_CHAR(M0_NUIMSI), M0_CDCUITEMPRESA, M0_CDCODIGOCLIENTE, M0_NURESERVASMSJTENCURSO, M0_CDEXTRARATING, M0_F11_CDOPERADORVIRTUAL, M0_CDSESSIONID, RawToHex(M0_MACALLREFERENCE), M0_NUULTRESERVAOCS, M0_NUCIUDADLOCALIZACION , M0_NUCIUDADNUMEROB, RawToHex(M0_MALOCGEOGRAFICA), RawToHex(M0_MAFLAGSLLAMADA3), M0_NUCONTEXTOSINICIALES, M0_NUCALLREFERESESIONPARALELO, M0_NUDESCUENTOPROMO, M0_P4_NUPERFILBARRING, M0_CDSUBTRIBU1, M0_NUUMBRAL3, M0_T16_CDDIVISA, M0_NUVALORCONVERSIONDIVISA , M0_CDTIPOTARJETAAPLICADA, M0_NUGASTOCA, M0_NUGASTOCA2, M0_NUGASTOCA_ANT, M0_NUGASTOCA2_ANT, M0_NULIMITEGASTOCA, M0_NULIMITEGASTOCA2, M0_NULIMITEGASTOGLOBALCA, M0_NULIMITEGASTOMAXIMOCA, M0_NUUMBRALLIMITEGLOBALCA, M0_NUUMBRALLIMITEVOZCA , M0_NUUMBRALLIMITESMSCA, M0_NUUMBRALLIMITESESIONCA, M0_NUUMBRALLIMITEEVENTOCA, RawToHex(M0_MAFLAGSEVENTOLIMITECA), M0_NUCICLODEABONADO, TO_CHAR(M0_FHULTIMOCORTECA, 'YYYYMMDD'), TO_CHAR(M0_NUGRUPO_INV), M0_NUNPICALLINGTRANSF, M0_NUTONCALLINGTRANSF, M0_CDCALLINGTRANSF, M0_NUPOSICIONTARIFACOBRADA , M0_NURSNPARTIALID, M0_NUSECUENCIASUBINDICE, M0_CDCODIGOJERARQUIA, TO_CHAR(M0_FHINICIOCICLO, 'YYYYMMDD'), M0_NUULTPETICIONCAMBIODIACICLO, RawToHex(M0_MAFLAGSSALDOSPRIMERUSO), RawToHex(M0_MAFLAGSLISTASUNIFICADAS), M0_M3_NUCLASELISTA, RawToHex(M0_MAFLAGSLISTASFI LTRADO), M0_NUGASTOACUMLLAMADALIMS_A, TO_CHAR(M0_FHVALIDEZGASTOLIMS, 'YYYYMMDD') , M0_NUGASTOGLOBALCA, M0_NUGASTOGLOBALCA_ANT, M0_NULIMITEGASTOCA2_ANT, M0_NULIMITEGASTOGLOBALCA_ANT, M0_NULIMITEGASTOMAXIMOCA_ANT, M0_NUACUMSEGCOMPTARIFP, M0_NUCOSTEACUMLLAMADASALDO1P, M0_NUCOSTEACUMLLAMADASALDO2P, M0_NUCOSTEACUMLLAMADASALDO3P, M0_NUCOSTEACUMLLAMADASALDO4P, M0_NUCOSTEACUMLLAMADASALDO5P , M0_NUCOSTEACUMLLAMADASALDO6P, M0_NUCOSTELLAMADAP, M0_NUSEGUNDOSLLAMADAP, M0_NUGASTOACUMLLAMADALIMS_B, M0_NULIMITEGASTOCA_ANT, M0_NUINICIOLLAMADAP FROM M0_MSISDN WHERE (M0_NURIN_INV = TO_NUMBER(:b1)) FOR UPDATE NOWAIT
+[03:19:04 p.m.] Carlos Corbacho: y lo del nombre del modulo no te fijes, porque eso es informativo (del primer proceso que hizo el parseo)
+[03:19:40 p.m.] Carlos Corbacho: pero al final todos los procesos tarificadores usan la misma libreria, asi que las sentencias son las mismas
+[03:21:00 p.m.] Carlos Corbacho: en fin, que si el logwriter tarda en hacer su trabajo (como se ve en el top5 de los eventos de espera), puedes tener mas esperas por "row lock" y eso es lo que hace que crezca el "elapsed time"
+[03:21:09 p.m.] Carlos Corbacho: entendido ?
+[03:21:47 p.m.] Luis Garcia: si
+[03:23:20 p.m.] Carlos Corbacho: bueno, pues ahora vamos a ver si aligeramos el disco
+[03:24:15 p.m.] Carlos Corbacho: la problematica que tenemos, y que hemos estado hablando antes con Hijon, es que ahora confluyen en esta cabia del CLUSTER2 la parte activa de SV y el Nivel 2 de GT
+[03:25:02 p.m.] Carlos Corbacho: Segun la gente de Ingenieria de Ericsson (Oscar), que ha estado mirando las IOPS que soporta la cabina
+[03:25:33 p.m.] Carlos Corbacho: cuando el Nivel 2 se pone a recuperar un archiver recien generado, se nota un importante aumento de las IOPS
+[03:26:00 p.m.] Carlos Corbacho: y eso debe afectar al "log file sync" de SV
+[03:27:03 p.m.] Carlos Corbacho: si te parece, vamos a ver como está la maq. bebd6 (donde se recibe el Nivel 2 de GT)
+[03:27:22 p.m.] Luis Garcia: ok
+[03:28:14 p.m.] Carlos Corbacho: ahora mismo, el envio de los cambios al Nivel 2 se hace con esta configuracion:
+
+log_archive_dest_2="service=CLUSTER2 OPTIONAL REOPEN=30 LGWR ASYNC NOAFFIRM valid_for=(online_logfiles,primary_role)";
+[03:28:32 p.m. | Editado 03:29:22 p.m.] Carlos Corbacho: sabes lo que significan los parametros de configuracion del Nivel 2?
+[03:32:03 p.m.] Carlos Corbacho: bueno, lo que necesitas saber ahora es que el envio al servicio CLUSTER2 (donde ahora esta la maq. que recupera el Data Guard) se hace mediante LGWR. Es decir, las escrituras (tras cada commit/rollback) que el LogWriter hace en local se envian hacia el standby (de forma asincrona) y se reciben en unos ficheros especiales que se llaman "standby redo log"
+[03:34:43 p.m.] Luis Garcia: en este caso cuando presento problemas el equipo de N2 se cambio a ARCH. que por lo que entiendo no utiliza el mismo ancho de banda que por LGWR
+[03:35:07 p.m.] Carlos Corbacho: claro, eso es lo que deberiamos proponer aqui tambien
+[03:35:33 p.m.] Carlos Corbacho: dado que se vé que no solo es a la hora de enviar el GAP tras una recreacion del Nivel 2
+[03:36:03 p.m.] Carlos Corbacho: es que tambien vemos que despues se acusa, en lo activo de SV, el hecho de tener el Nivel 2 de GT en modo LGWR
+[03:36:19 p.m.] Carlos Corbacho: estas en la maq. bebd6 ?
+[03:36:24 p.m.] Luis Garcia: si
+[03:36:36 p.m.] Carlos Corbacho: pues definete este alias:
+
+alias mira_discos='iostat -x 5 | egrep -v "sd[a-z]* | 0.00$|^dm-|^cciss"'
+[03:36:44 p.m.] Carlos Corbacho: y lo ejecutas
+[03:36:48 p.m.] Carlos Corbacho: mira_discos
+[03:37:15 p.m.] Carlos Corbacho: lo que hace es invocar al iostat y filtrar para solo quedarse con los discos que tengan actividad en la ultima columna
+[03:37:54 p.m.] Carlos Corbacho: veras como siempre salen dos discos que tienen una pasada de ocupacion (sdw1,sdw2)
+[03:38:06 p.m.] Luis Garcia: si
+[03:38:22 p.m.] Carlos Corbacho: para mi que esos son los discos del redo standby, que no dan abasto
+[03:38:57 p.m.] Carlos Corbacho: tener ahi un 100% de ocupacion significa que el disco no respira, siempre está con alguna peticion pendiente
+[03:40:54 p.m.] Carlos Corbacho: lo raro, y lo feo, en este caso, es que esa linea del iostat esta como corrupta
+[03:41:10 p.m.] Carlos Corbacho: no se ve que las peticiones sean de lectura o de escritura
+[03:41:36 p.m.] Carlos Corbacho: vamos a ver si confirmamos que informacion contienen esos discos
+[03:41:58 p.m.] Carlos Corbacho: vuelvo en 10 min,
+[03:42:05 p.m.] Luis Garcia: ok
+[03:56:04 p.m.] Carlos Corbacho: ya estoy por aqui
+[03:56:12 p.m.] Luis Garcia: ok
+[03:57:34 p.m.] Carlos Corbacho: vamos a intentar ver esos discos lo que son
+[03:57:46 p.m.] Carlos Corbacho: cd /export/oracle/app/oracle/oradata/SDPGT01
+[03:58:28 p.m.] Carlos Corbacho: los ficheros *.log que tenemos aqui apuntan a particiones (raw) de discos
+[03:58:45 p.m.] Carlos Corbacho: pero son nombres del /dev/mapper/
+[03:59:17 p.m.] Carlos Corbacho: es decir, son nombres simbolicos que representan agrupaciones de ver el mismo disco por varios caminos
+[03:59:43 p.m.] Carlos Corbacho: tendriamos que ver la configuracion del "udev" para ver a que corresponden
+[04:00:08 p.m.] Carlos Corbacho: sabes tu como va esto de los dispositivos relacionados con los discos ?
+[04:00:49 p.m.] Luis Garcia: esta parte no
+[04:01:38 p.m.] Carlos Corbacho: pues yo mas o menos si, aunque igual me lio
+[04:01:49 p.m.] Carlos Corbacho: a ver si lo averiguamos
+[04:02:38 p.m.] Carlos Corbacho: ls -lrt /etc/udev/rules.d/
+[04:03:09 p.m.] Carlos Corbacho: vamonos a ese directorio, que es donde estan las reglas de nombrado
+[04:04:17 p.m.] Luis Garcia: ya estoy en el directorio
+[04:08:07 p.m.] Carlos Corbacho: pues no he conseguido ver que se haga ahi
+[04:10:12 p.m.] Carlos Corbacho: creo que la clave va a estar en /etc/multipath.conf
+[04:10:31 p.m.] Carlos Corbacho: ahi dentro hay cosas como:
+         multipath {
+                wwid "36001438005df11620000500001a70000"
+                alias  mp_PLATAFORMA_STDBY_RDO_GT_T1_I
+                path_grouping_policy    group_by_prio
+                uid                     202
+                gid                     201
+                mode                    760
+        }
+[04:10:52 p.m.] Carlos Corbacho: ahora tenemos que ver el disco que tiene ese wwid
+[04:19:52 p.m.] Carlos Corbacho: en esa parte creo que vamos a tirar de la gente de Ingenieria
+[04:20:18 p.m.] Carlos Corbacho: porque yo estoy acostumbrado a ver estos temas en las maquinas del OCS que tenemos en España,
+[04:20:57 p.m.] Carlos Corbacho: y es diferente la version del RHat y la forma en que los ingenieros de HP instalan las maquinas
+[04:21:54 p.m.] Carlos Corbacho: pero bueno, al menos hemos identificado que hay un disco con problemas, y yo creo que si pusieramos el N2 de GT en modo ARCH seguro que bajaba
+[04:23:02 p.m.] Carlos Corbacho: comentale a Jesus Hijon, si lo tienes por ahi cerca, que deberiamos hacer ese cambio en el Nivel 2 de Guatemala, para reducir la caña que le metemos al disco
+[04:23:49 p.m.] Luis Garcia: ok, lo voy a localizar y le indico.
+[04:29:26 p.m.] Luis Garcia: ya lo localice, pero me atiende en un rato.
+[04:31:49 p.m.] Carlos Corbacho: vale
+[04:32:16 p.m.] Carlos Corbacho: pues he estado mirando, con el "top" los procesos de Oracle, como consumen
+[04:32:50 p.m.] Carlos Corbacho: prueba tu a entrar en el top
+[04:33:17 p.m.] Luis Garcia: ya
+[04:33:22 p.m.] Carlos Corbacho: y mete el comando "c"
+[04:33:32 p.m.] Carlos Corbacho: para que te pinte los argumentos de los procesos
+[04:33:45 p.m.] Carlos Corbacho: asi podras distinguir los procesos que consumen
+[04:33:51 p.m.] Carlos Corbacho: estas ya ?
+[04:34:08 p.m.] Luis Garcia: si
+[04:34:31 p.m.] Carlos Corbacho: las conexiones LOCAL=NO son los RFS que reciben los envios constantes del LGWR
+[04:35:06 p.m.] Carlos Corbacho: pero no hay demasiada IOWait
+[04:35:17 p.m.] Carlos Corbacho: tambien porque es solo escritura
+[04:35:38 p.m.] Carlos Corbacho: a ver si pillamos el momento de generar el ARC y que entren los dbwriters
+[04:36:00 p.m.] Carlos Corbacho: es cada cinco minutos (como mucho)
+[04:38:01 p.m.] Luis Garcia: ahora
+[04:38:06 p.m.] Carlos Corbacho: si
+[04:38:24 p.m.] Carlos Corbacho: ora_mrp0_SDPGT01_I1 este es el que hace la recuperacion
+[04:38:48 p.m.] Carlos Corbacho: y ahora ya estan los dbwriter trabajando para bajar los bloques a disco
+[04:38:57 p.m.] Carlos Corbacho: has visto que ha sido bastante rapido
+[04:39:10 p.m.] Luis Garcia: si
+[04:39:21 p.m.] Carlos Corbacho: y durante ese tiempo se ha puesto la IOWait al 14 %
+[04:40:34 p.m.] Carlos Corbacho: bueno, pues lo que tenemos que conseguir es quitar la carga que ahora tenemos en los tiempos muertos
+[04:44:24 p.m.] Carlos Corbacho: aunque parezca que no tenemos IOWait, la escritura constante penaliza
+[04:45:19 p.m.] Luis Garcia: que es lo que se vio con el IOSTAT con los dos discos
+[04:47:00 p.m.] Carlos Corbacho: lo que se vió es que la ultima columna, que marca el % de ocupacion del disco durante el tiempo de la muestra
+[04:47:34 p.m.] Carlos Corbacho: estaba cercano a 100%, es decir, que el disco estaba ocupado (con peticiones pendientes) siempre
+[04:48:34 p.m.] Carlos Corbacho: lo normal es que el disco se ponga con una ocupacion alta, cuando el iowait esta alto (como cuando estan los dbwriter trabajando)
+[04:49:35 p.m.] Luis Garcia: pero como indica en los tiempos muertos aun hay carga.
+[04:52:34 p.m. | Editado 04:52:51 p.m.] Carlos Corbacho: porque tenemos trabajando los procesos RFS ( LOCAL=NO) que estan recibiendo escrituras del LGWR activo en el otro cluster
+[04:57:39 p.m.] Luis Garcia: y esto la bajamos con el cambio a ARCH.
+[04:59:09 p.m.] Carlos Corbacho: eso es
+[05:00:43 p.m.] Luis Garcia: la unica duda que me surge es con respecto a que esto seria como un walkaround. Existira alguna forma de corregir la carga en los tiempos muertos de raiz, o es resultado de la version/cabina
+[05:01:21 p.m.] Carlos Corbacho: cuando tengamos todo en OCI, deberia haber menos carga
+[05:01:55 p.m.] Carlos Corbacho: pero a parte, si tenemos los dos Niveles 2 en la misma cabina, no tienes afectacion en el Nivel1
+[05:02:31 p.m.] Carlos Corbacho: porque igual entre ellos se pegan los dos Niveles 2, pero te da un poco igual que se retrasen un poco por ello
+[05:02:58 p.m.] Carlos Corbacho: sin embargo, en la parte activa si que vas a notar el "elapsed time" en las sentencias
+[05:04:21 p.m.] Carlos Corbacho: mira, te voy a pegar aqui el comportamiento de los discos (visto con el mira_discos) cuando está la cabina sin recuperar N2 y cuando se pone a recuperar el arch
+[05:04:30 p.m.] Carlos Corbacho: avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.36    0.00    1.29    0.03    0.00   98.32
+
+Device:         rrqm/s   wrqm/s   r/s   w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+               0.00    20.80  0.00 33.80     0.00     0.00     0.00     0.00    0.03   0.03   0.10
+sda3              0.00     0.00  1.60  1.60     4.00     1.60     1.75     0.00    0.06   0.06   0.02
+sda5              0.00     0.00  1.60  1.60     4.00     1.60     1.75     0.00    0.25   0.25   0.08
+sdw1              0.00     0.00  0.00  0.00     0.00     0.00     0.00 3689348814741909.50    0.00   0.00 100.02
+sdw2              0.00     0.00  0.00  0.00     0.00     0.00     0.00     1.00    0.00   0.00 100.02
+sdbs1             0.00     0.00  0.60  0.60     3.00     0.60     3.00     0.00    0.17   0.17   0.02
+sdev1             0.00     0.00  2.00  0.40    64.00    12.80    32.00     0.00    0.42   0.42   0.10
+sdfz1             0.00     0.00  0.00  2.40     0.00  2457.60  1024.00     0.05   19.33   2.08   0.50
+sdia1             0.00     0.00  1.00  0.60     6.20     0.60     4.25     0.00    1.00   1.00   0.16
+sdil1             0.00     0.00  0.00  1.60     0.00  1637.00  1023.12     0.03   19.88   2.75   0.44
+[05:05:02 p.m.] Carlos Corbacho: el disco sdfz1 presenta escritura (nada de lectura) y apenas si se carga
+[05:05:26 p.m.] Carlos Corbacho: eso seguro que es el tema del redolog standby
+[05:06:34 p.m.] Carlos Corbacho: esta es otra foto de lo mismo:
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.18    0.00    0.40    0.01    0.00   99.41
+
+Device:         rrqm/s   wrqm/s   r/s   w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+               0.00     5.20  0.20  2.40     0.00     0.00     0.00     0.00    1.31   0.85   0.22
+sdw1              0.00     0.00  0.00  0.00     0.00     0.00     0.00 3689348814741909.50    0.00   0.00 100.02
+sdw2              0.00     0.00  0.00  0.00     0.00     0.00     0.00     1.00    0.00   0.00 100.02
+sdbs2             0.00     0.00  0.40  0.40     2.00     0.40     3.00     0.00    1.50   1.50   0.12
+sddh1             0.00     0.00  0.00  4.00     0.00  4094.80  1023.70     0.09   22.15   1.50   0.60
+sdeb2             0.00     0.00  0.40  0.40     2.00     0.40     3.00     0.00    0.25   0.25   0.02
+sdeb3             0.00     0.00  0.80  0.60     1.60     0.60     1.57     0.00    0.29   0.29   0.04
+sdev1             0.00     0.00  2.60  0.20    83.20     6.40    32.00     0.00    0.21   0.21   0.06
+sdev3             0.00     0.00  0.20  0.20     6.40     6.40    32.00     0.00    0.50   0.50   0.02
+sdfy1             0.00     0.00  0.00  4.00     0.00  4083.40  1020.85     0.09   21.30   1.40   0.56
+sdmu1             0.00     0.00  0.00  4.00     0.00  4091.00  1022.75     0.09   21.60   1.40   0.56
+[05:06:58 p.m.] Carlos Corbacho: pues bien, al poco llega el momento de volcar archiver y ponerse a recuperar
+[05:07:10 p.m.] Carlos Corbacho: entonces es cuando se observa, lecturas y escrituras
+[05:07:26 p.m.] Carlos Corbacho: sdfx1             0.00     0.00 40.00  0.00 27239.80     0.00   681.00     0.36    9.05   1.30   5.18
+sdfy1             0.00     0.00 40.40  0.00 27238.80     0.00   674.23     0.38    9.29   1.33   5.36
+sdfz1             0.00     0.00 20.00  0.00 13720.20     0.00   686.01     0.19    9.51   1.46   2.92
+sdga1             0.00     0.00 24.20  0.00 16384.20     0.00   677.03     0.18    7.64   1.11   2.68
+sdhw1             0.00     0.00 40.00  0.00 27238.40     0.00   680.96     0.41   10.12   1.31   5.24
+sdib1             0.00     0.00 13.80  0.80  4000.00    25.60   275.73     0.02    1.27   0.68   1.00
+sdib2             0.00     0.00  1.20  0.60    38.40    19.20    32.00     0.00    0.11   0.11   0.02
+sdib3             0.00     0.00  1.20  0.60    38.40    19.20    32.00     0.00    0.22   0.22   0.04
+sdib4             0.00     0.00  1.20  0.60    38.40    19.20    32.00     0.00    0.22   0.22   0.04
+sdik1             0.00     0.00 48.40  0.00 32768.40     0.00   677.03     0.40    8.36   1.36   6.58
+sdil1             0.00     0.00 34.40  4.00 22938.40  4089.20   703.84     0.42   10.99   1.40   5.38
+sdim1             0.00     0.00 20.00  0.00 13720.20     0.00   686.01     0.24   12.22   1.98   3.96
+sdmu1             0.00     0.00 48.80  0.00 32768.80     0.00   671.49     0.55   11.26   1.66   8.08
+sdnp1             0.00     0.00 40.00  0.00 27441.80     0.00   686.04     0.39    9.73   1.44   5.78
+sdnv1             0.00     0.00 33.60  0.00 22735.60     0.00   676.65     0.41   11.89   1.62   5.44
+sdnw1             0.00     0.00 20.00  0.00 13721.60     0.00   686.08     0.31   15.40   2.25   4.50
+[05:07:55 p.m.] Carlos Corbacho: fijate como el sdmu1 de antes, que era un stby_log, ahora es leido masivamente
+[05:08:59 p.m.] Carlos Corbacho: el %ocup no llega al 10%
+[05:09:12 p.m.] Carlos Corbacho: pero se ve como el tiempo medio de lectura es altito
+[05:09:47 p.m.] Carlos Corbacho: await entre 9 y 15 ms
+[05:10:44 p.m.] Carlos Corbacho: cuando ya se pone otra vez a solo escribir en los stby_rdo, los tiempos medios son aun mas altos:
+
+Device:         rrqm/s   wrqm/s   r/s   w/s   rsec/s   wsec/s avgrq-sz avgqu-sz   await  svctm  %util
+               0.00     2.00  0.00  5.40     0.00     0.00     0.00     0.00    0.07   0.07   0.04
+sdw1              0.00     0.00  0.00  0.00     0.00     0.00     0.00 3689348814741909.50    0.00   0.00 100.02
+sdw2              0.00     0.00  0.00  0.00     0.00     0.00     0.00     1.00    0.00   0.00 100.02
+sdap1             0.00     0.00  5.40  0.40   172.80    12.80    32.00     0.00    0.03   0.03   0.02
+sdap3             0.00     0.00  0.80  0.40    25.60    12.80    32.00     0.00    0.17   0.17   0.02
+sdap4             0.00     0.00  0.80  0.40    25.60    12.80    32.00     0.00    0.33   0.33   0.04
+sddh1             0.00     0.00  0.00  4.00     0.00  4093.00  1023.25     0.14   34.25   2.15   0.86
+sdfy1             0.00     0.00  0.00  4.00     0.00  4094.60  1023.65     0.09   22.60   1.50   0.60
+sdhw1             0.00     0.00  0.00  4.00     0.00  4090.60  1022.65     0.09   22.70   1.55   0.62
+[05:10:51 p.m.] Carlos Corbacho: entre 22 y 34 ms
+[05:10:55 p.m.] Carlos Corbacho: eso es muchisimo
+[05:11:19 p.m.] Luis Garcia: si es fuerte el cambio
+[05:11:32 p.m.] Carlos Corbacho: aparentemente no tenemos IOWait, pero esos discos estan con tiempos lentos
+[05:11:33 p.m.] Carlos Corbacho: avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.37    0.00    0.46    0.04    0.00   99.13
+[05:12:22 p.m.] Carlos Corbacho: y son limitantes, sobre todo si nos fijamos en la parte activa, donde un LGWR que tarda en escribir supone la contencion en el "select .. for update"
+[05:13:28 p.m.] Carlos Corbacho: bueno, te voy a dejar, que me pongo con otra cosa
+[05:14:01 p.m.] Carlos Corbacho: ya me avisas si hablando con Hijon ve factible el que cambiemos el modo de envio del N2
+[05:16:03 p.m.] Luis Garcia: ok, le comento. Gracias por la explicacion voy a poner en practica sus consejos.
+[05:17:02 p.m.] Carlos Corbacho: si, te va a venir bien

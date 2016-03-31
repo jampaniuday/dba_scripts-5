@@ -1,0 +1,158 @@
+<html>
+<head>
+
+    <style type="text/css">
+        A.noLink        { text-decoration: none; }
+        A.noLinkYellow  { color:yellow;  text-decoration: none; }
+        A.noLinkBlue    { color:blue;  text-decoration: none; }
+        A.noLinkOrange  { color:orange;  text-decoration: none; }
+        A.noLinkCyan    { color:cyan;  text-decoration: none; }
+        A.noLinkGreen   { color:cream;  text-decoration: none; }
+        A.noLinkRed     { color:red;  text-decoration: none; }
+    </style>
+
+    <title>Introduction To JNDI</title>
+
+    <script language="JavaScript" type="text/javascript">
+
+        function cancelForm() {
+            location = "./MAIN_home.shtml";
+        }
+
+    </script>
+
+</head>
+
+<body bgcolor = "#FFFFFF" 
+      link    = "0000ff" 
+      vlink   = "0000ff" 
+      alink   = "0000ff">
+
+    <img src="../../../../gifs/header_programming.gif" alt="">
+    <p>
+
+    <i><b><font color="#ff0000"><u>Introduction To JNDI</u></font></b></i>
+    <br>
+
+    <p>
+    <a  class="noLinkBlue"
+        onMouseOver="window.parent.status='Return to Programming Corner'; return true;"
+        href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no" alt=""></A> &nbsp;&nbsp;Return to the Java Programming Corner.
+    <hr noshade>
+    <p>
+
+    <!--
+     | *****************************************
+     | ****  Naming and Directory Concepts  ****
+     | *****************************************
+     +-->
+
+    <p>
+    <font color="#990000"><b>Naming and Directory Concepts</b></font>
+    <p>
+
+    <blockquote>
+    This brief introduction to JNDI will explore naming and directory concepts 
+    in detail and discusses how Java programs can use name and directory 
+    services.
+    <p>
+    The concept of a <i>naming service</i> is the means by which names are 
+    associated with objects and objects are found based on their names. The 
+    chief function of a naming service is to map people-friendly names to 
+    objects, such as addresses, identifiers, or objects typically required and 
+    used by computer programs. For example:
+    <p>
+    <ul>
+        <li> Domain Name Systems (DNS) maps machine names (such as
+             java.sun.com) to IP addresses (such as 192.18.97.71)
+        <li> File systems map a filename (for example
+             /u10/app/oracle/9.2.0/dbs/initCUSTDB.ora) to a file handle that a 
+             program can use to access the contents of the file.
+    </ul>
+    <p>
+    A variety of naming are extended with a <i>directory services</i>. A 
+    directory service associates names with objects and also allows such
+    objects to have attributes. It is possible to not only look up an object by 
+    its name but also get the object's attributes or even search for the object 
+    based on its attributes. Take for example a telephone company's directory 
+    service. It is used to map a subscriber's name to his address and telephone 
+    number. A computer's directory service is very much like a telephone 
+    company's directory service in that both can be used to store information 
+    such as a telephone number or address. The computer's directory service is 
+    much more powerful because it is available online and can be used to store 
+    a variety of information that can be utilized by users, programs, and even 
+    the computer itself and other computers. 
+    </blockquote>
+
+
+    <!--
+     | *****************************************
+     | ****            Packaging            ****
+     | *****************************************
+     +-->
+
+    <p>
+    <font color="#990000"><b>Packaging</b></font>
+    <p>
+
+    <blockquote>
+    The JNDI architecture consists of an API and a service provider interface 
+    (SPI). All Java applications that utilize naming and directory services use 
+    the JNDI API to access a variety of naming and directory services. The SPI 
+    on the other hand enables a variety of naming and directory services to be 
+    plugged in transparently, thereby allowing the Java application using the 
+    JNDI API to access their services.
+    <p>
+    The JNDI API is included in the Java 2 SDK, v1.3 and higher. For those using
+    JDK v1.1 and Java 2 SDK, v1.2, the JNDI API is available as a Java
+    Standard Extension.
+    <p>
+    In order to take advantage of the JNDI, you not only need the JNDI classes
+    but also one or more service providers. The Java 2 SDK, v1.3 includes
+    three service providers for the following naming/directory services:
+    <p>
+    <ul>
+        <li> Lightweight Directory Access Protocol (LDAP)
+        <li> Common Object Request Broker Architecture (CORBA) Common
+             Object Services (COS)
+        <li> Java Remote Method Invocation (RMI) Registry
+    </ul>
+    <p>
+    Many other service providers are available for download from the
+    JNDI web site
+    (<a class="noLinkRed"
+        target="_blank"
+        href="http://java.sun.com/products/jndi">http://java.sun.com/products/jndi</a>)
+    or obtained from other vendors. Remember that if you are using the
+    Java Standard Extensions with JDK v1.1 and Java 2 SDK, v1.2, you must first
+    download the JNDI classes and one or more service providers.
+    <p>
+    The one service provider I like to use for testing and will never figure
+    out why Sun does not yet include it in the standard SDK is
+    <i>file system</i> service provider (<b><code>fscontext.jar</code></b>).
+    It can be downloaded from: 
+    </blockquote>
+
+
+    <!--
+     | *****************************************
+     | ****      The Initial Context        ****
+     | *****************************************
+     +-->
+
+    <p>
+    <font color="#990000"><b>The Initial Context</b></font>
+    <p>
+
+    <blockquote>
+    In the JNDI, all naming and directory operations are performed relative to
+    a context. There are no absolute roots and this is where why the JNDI
+    defines an <i>initial context</i>, <code>InitialContext</code>, which 
+    provides a starting point for naming and directory operations. Once you
+    have an initial context, you can use it to look up other contexts and
+    objects.
+    </blockquote>
+
+        
+</body>
+</html>

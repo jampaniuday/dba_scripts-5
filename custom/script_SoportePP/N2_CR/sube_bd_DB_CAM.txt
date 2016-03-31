@@ -1,0 +1,39 @@
+reportcr(oracle) -unknown- CRPPGA > cat levanta_CRPPGA.sh
+HOME=/home/oracle; export HOME
+. $HOME/.env_CRPPGA
+
+rman target / << FIN
+startup mount;
+recover database;
+sql "alter database noarchivelog";
+sql "ALTER DATABASE SET STANDBY DATABASE TO MAXIMIZE PERFORMANCE";
+alter database open;
+exit;
+FIN
+sqlplus '/ as sysdba' << FIN
+spool $LOG/levanta_CRPPGA.log
+@$SQL/cr_oper.sql
+spool off
+exit
+FIN
+
+###VALIDACION DE CONEXION########
+conexion=`sqlplus -s ' / as sysdba ' <<!
+set feed off;
+set head off;
+set newp none
+set echo off newpage 0 space 0 pagesize 0 feed off head off trimspool on recsep off linesize 200;
+@/home/oracle/scripts/sql/validaconexion.sql
+#/home/oracle/scripts/util/AA_habilitacuentas.sh
+exit
+!
+`
+if [ "$conexion" != "CRPPGA" ]; then
+      echo "`date`: No hay conexion a la BBDD: ${ORACLE_SID} ." 
+      return 1
+      exit 1
+   else
+      cd $LOG
+      echo "Si conecto a ${ORACLE_SID}" 
+      exit 0
+   fi

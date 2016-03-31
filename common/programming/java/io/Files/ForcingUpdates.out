@@ -1,0 +1,22 @@
+--------------------------
+Compile Program
+--------------------------
+javac ForcingUpdates.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ForcingUpdates
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Opened file: outfile.txt
+Wrote the following data to stream: [B@1ea2dfe
+Flushing from streams to system buffers.
+Blocking until system buffers have been written.
+Closed file: outfile.txt

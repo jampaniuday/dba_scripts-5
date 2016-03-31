@@ -1,0 +1,40 @@
+# Calculo de estadisticas
+0 1 * * 1,2,4,6  ksh /export/home/oracle/procesos/analyzePPCS.sh > /export/home/oracle/procesos/analyze.log
+
+
+
+cd /export/home/oracle/procesos/
+export ORACLE_SID=PPCSNIC1
+export ORACLE_BASE=/softw/app/oracle/product
+export ORACLE_HOME=/softw/app/oracle/product/10.2.0/db
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:$LD_LIBRARY_PATH
+export PATH=$ORACLE_HOME/bin:$CRS_HOME/bin:$PATH
+
+sqlplus  -s '/as sysdba'   << !
+set serveroutput on size 1000000
+set lines 230 
+set echo off
+set verify off
+set term off
+set feedback off
+set trimspool off
+SET heading OFF;
+set pagesize 1000
+spool analyzeppcs.sql
+
+select 'exec dbms_stats.gather_table_stats('||''''||t.owner||''','''||t.table_name||''',CASCADE => TRUE,degree =>4,estimate_percent=>'||
+decode(trunc(bytes/1024/1024/1024),0,'2);',1,'2);',2,'2);',3,'2);',4,'2);','2);')
+from dba_tables t,
+(select sum(bytes) bytes,segment_name from dba_segments
+where owner='PPCS'
+group by segment_name
+order by 1 desc) s
+where t.owner='PPCS'
+and t.table_name=s.SEGMENT_NAME
+order by bytes desc;
+
+spool off;
+exit;
+!
+
+sqlplus -s '/ as sysdba' @analyzeppcs.sql

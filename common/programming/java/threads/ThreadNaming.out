@@ -1,0 +1,60 @@
+--------------------------
+Compile Program
+--------------------------
+javac ThreadNaming.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ThreadNaming
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+<< MAIN METHOD (Begin) >>
+
+Constructing thread  (1)...
+
+
+Constructing thread  (2)...
+
+
+Both threads have been started....
+
+Now lets get their names using the getNames() method...
+
+    - First Thread Name  : Thread 1
+    - Second Thread Name : Thread 2
+
+Now lets get their names using the default toString() method...
+
+    - First Thread Name  : Thread[Thread 1,5,main]
+    - Second Thread Name : Thread[Thread 2,5,main]
+
+Will now wait until both threads are completed...
+
+  - Thread 1  ( Current Countdown = 5 )
+  - Thread 2  ( Current Countdown = 5 )
+  - Thread 2  ( Current Countdown = 4 )
+  - Thread 2  ( Current Countdown = 3 )
+  - Thread 2  ( Current Countdown = 2 )
+  - Thread 1  ( Current Countdown = 4 )
+  - Thread 2  ( Current Countdown = 1 )
+
+Ending thread 2...
+
+  - Thread 1  ( Current Countdown = 3 )
+  - Thread 1  ( Current Countdown = 2 )
+  - Thread 1  ( Current Countdown = 1 )
+
+Ending thread 1...
+
+All working threads are complete...
+
+<< MAIN METHOD (End) >>
+

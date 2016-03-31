@@ -1,0 +1,74 @@
+<html>
+<head>
+
+  <style>
+    A.noLink        { text-decoration: none; }
+    A.noLinkYellow  { color:yellow;  text-decoration: none; }
+    A.noLinkBlue    { color:blue;  text-decoration: none; }
+    A.noLinkOrange  { color:orange;  text-decoration: none; }
+    A.noLinkCyan    { color:cyan;  text-decoration: none; }
+    A.noLinkGreen   { color:cream;  text-decoration: none; }
+    A.noLinkRed     { color:red;  text-decoration: none; }
+  </style>
+
+  <title>Java Options For Garbage Collection</title>
+
+  <script language="JavaScript">
+
+    function cancelForm() {
+      location = "./MAIN_home.shtml";
+    }
+
+  </script>
+
+</head>
+<body bgcolor="#ffffff" 
+      link="0000ff" 
+      vlink="0000ff" 
+      alink="0000ff">
+
+  <img src="../../../../gifs/header_programming.gif">
+  <p>
+
+  <i><b><font color="#ff0000"><u>Java Options For Garbage Collection</u></font></b></i>
+  <br>
+
+  <p>
+  <a class="noLinkBlue"
+     onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+     href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no"></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+  <hr noshade>
+
+  <p>
+
+  JDK 1.4.1 adds some new options to control garbage collection.
+  <p>
+  The options for server applications should be:
+  <p>
+  <pre>-server -Xms<b><font color="#0000ff">&lt;size&gt;</font></b> -Xmx<b><font color="#0000ff">&lt;size&gt;</font></b> -XX:+UseParallelGC -XX:UseAdaptiveSizePolicy</pre>
+
+  where <b><font color="#0000ff">&lt;size&gt;</font></b> is the amount of memory your application will use 
+  (128m is 128 megabytes, 128 is 128 bytes).
+  These options select the parallel scavenge collector for young generation 
+  garbage, and the mark-sweep-compact collector for old generation garbage. 
+  Old generation collection is still single threaded but the mark-sweep-compact 
+  collector is very efficient.
+  <p>
+  The options for applications where pauses are undesirable should be:
+  <p>
+  <pre>-server -Xms<b><font color="#0000ff">&lt;size&gt;</font></b> -Xmx<b><font color="#0000ff">&lt;size&gt;</font></b> -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:SurvivorRatio=2 -XX:NewRatio=8</pre>
+
+  where <b><font color="#0000ff">&lt;size&gt;</font></b> is the amount of memory your application will use 
+  (128m is 128 megabytes, 128 is 128 bytes). These options select the parallel 
+  copying collector for the new generation, and the concurrent mark-sweep 
+  collector for the old generation. The new generation collection uses one 
+  thread for each processor on the machine. 1/8 of the memory is used for 
+  the new generation, and 7/8 for the old generation. The new generation 
+  memory is broken into three pieces, 1/16 of the memory is the eden where 
+  new objects are created, and the rest of the new generation is stored in 
+  two semi spaces.
+
+
+
+</body>
+</html>

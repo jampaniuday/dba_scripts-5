@@ -1,0 +1,20 @@
+--------------------------
+Compile Program
+--------------------------
+javac -classpath $JAVALIB/jakarta-regexp-1.2.jar RegDemoApache.java 
+
+
+--------------------------
+Run Program
+--------------------------
+java -classpath $JAVALIB/jakarta-regexp-1.2.jar:. RegDemoApache
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+^A[^b]-\d+ -   [ MATCHES ]  AU-120 - Network Cable.
+
+^A[^U]\d+ -   [ DOES NOT MATCH ]  AU-130 - Network Cable.

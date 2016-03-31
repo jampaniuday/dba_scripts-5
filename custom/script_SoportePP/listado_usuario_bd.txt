@@ -1,0 +1,3 @@
+COL FECHA_BLOQUEO FORMAT A20
+COL FECHA_EXP_PASS FORMAT A20
+select username, account_status, to_char(lock_date,'DD/MM/YYYY') fecha_bloqueo, TO_CHAR(expiry_date,'DD/MM/YYYY') fecha_exp_pass from dba_users order by username;

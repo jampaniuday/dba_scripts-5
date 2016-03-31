@@ -1,0 +1,137 @@
+select * from ppga.pp_procparams where VAL_PARAM like '%uppga%';
+
+COD_
+----
+FLG_PARAM
+------------------------------------------------------------------------------------------------------------------------------------
+VAL_PARAM
+------------------------------------------------------------------------------------------------------------------------------------
+ NUM_ORDEN FEC_MODIFICA        COD_USUARIO
+---------- ------------------- ------------
+LBIP
+-r
+/export/app/SV/ppga/bin/pp_if_respip -pRBIP -uppga/temporal
+         3 28/04/2006 00:00:00 PPGA
+
+LCTP
+-r
+/export/app/SV/ppga/bin/pp_if_respondedor -pRCTP -uppga/temporal
+         3 01/10/2004 00:00:00 PPGA
+
+LEST
+-r
+/export/app/SV/ppga/bin/pp_if_respondedor -pREST -uppga/temporal
+         3 01/10/2004 00:00:00 PPGA
+
+LLIS
+-r
+/export/app/SV/ppga/bin/pp_if_respondedor -pRLIS -uppga/temporal
+         3 01/10/2004 00:00:00 PPGA
+
+LPNT
+-r
+/export/app/SV/ppga/bin/pp_if_respondedor -pRPNT -uppga/temporal
+         3 01/10/2004 00:00:00 PPGA
+
+LREC
+-r
+/export/app/SV/ppga/bin/pp_if_respondedor -pRREC -uppga/temporal
+         3 01/10/2004 00:00:00 PPGA
+
+LSAL
+-r
+/export/app/SV/ppga/bin/pp_if_respondedor -pRSAR -uppga/temporal
+         3 01/10/2004 00:00:00 PPGA
+
+LSUS
+-r
+/export/app/SV/ppga/bin/pp_if_respondedor -pRSUS -uppga/temporal
+         3 01/10/2004 00:00:00 PPGA
+
+LTRM
+-r
+/export/app/SV/ppga/bin/pp_if_respondedor -pRTRM -uppga/temporal
+         3 01/10/2004 00:00:00 PPGA
+
+IEGA
+-r
+/export/app/SV/ppga/bin/pp_if_respondedor -pLOCA -uppga/temporal
+         3 01/10/2004 00:00:00 PPGA
+
+
+10 rows selected.
+
+
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respip -pRBIP -ueppga/temporal'
+where
+cod_proceso = 'LBIP' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respip -pRBIP -uppga/temporal';
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRCTP -ueppga/temporal'
+where
+cod_proceso = 'LCTP' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRCTP -uppga/temporal';
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pREST -ueppga/temporal'
+where
+cod_proceso = 'LEST' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pREST -uppga/temporal';
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRLIS -ueppga/temporal'
+where
+cod_proceso = 'LLIS' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRLIS -uppga/temporal';
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRPNT -ueppga/temporal'
+where
+cod_proceso = 'LPNT' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRPNT -uppga/temporal';
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRREC -ueppga/temporal'
+where
+cod_proceso = 'LREC' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRREC -uppga/temporal';
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRSAR -ueppga/temporal'
+where
+cod_proceso = 'LSAL' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRSAR -uppga/temporal';
+
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRSUS -ueppga/temporal'
+where
+cod_proceso = 'LSUS' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRSUS -uppga/temporal';
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRTRM -ueppga/temporal'
+where
+cod_proceso = 'LTRM' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pRTRM -uppga/temporal';
+
+
+update ppga.pp_procparams
+set
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pLOCA -ueppga/temporal'
+where
+cod_proceso = 'IEGA' and
+val_param = '/export/app/SV/ppga/bin/pp_if_respondedor -pLOCA -uppga/temporal';
+

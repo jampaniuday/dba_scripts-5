@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac StringReverseChar.java
+
+
+--------------------------
+Run Program
+--------------------------
+java StringReverseChar
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Original string: Alex Michael Hunter
+Reverse character string: retnuH leahciM xelA

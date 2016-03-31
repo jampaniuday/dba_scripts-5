@@ -1,0 +1,177 @@
+select 
+   segment_name           table_name,    
+   ceil(sum(bytes)/(1024*1024)) table_size_meg 
+from   
+   dba_segments
+where  
+   owner='PPCS' 
+and    
+   segment_name in ( 
+ 'PPCS_TERMINADAS',                
+ 'PPCS_SMS',                       
+ 'PPCS_MULSALDET',                 
+ 'PPCS_MECOTERM',                  
+ 'PPCS_MECOORIG',                  
+ 'PPCS_MECO',                      
+ 'PPCS_LLAMADAS',                  
+ 'PPCS_EVENTPROM',                 
+ 'PPCS_EVENTOS',                   
+ 'PPCS_DIAMETER',                  
+ 'PPCS_DESVIOS',                   
+ 'PPCS_CONTENT',                   
+ 'PPCS_CONSALDO',                  
+ 'PPCS_CCARD',                     
+ 'PPCS_CALLME',                    
+ 'PPCS_AGREGADOS_MENSAJES',        
+ 'PPCS_AGREGADOS_LLAMADAS',        
+ 'PPCS_AGREGADOS_CONTENIDOS',      
+ 'PPCS_FINCICLOFACTURACION',       
+ 'PPCS_CONTROLGASTO'
+)
+group by segment_name 
+
+select 
+   segment_name           table_name,    
+   sum(bytes)/(1024*1024) table_size_meg 
+from   
+   user_extents 
+where  
+   segment_type='TABLE' 
+and    
+   segment_name = 'PPCS_TERMINADAS' 
+group by segment_name 
+
+------ funciona
+select owner                         
+     , segment_name
+     , sum(bytes)/1024/1024 as "MBytes" 
+from dba_segments
+where owner='SCOTT'
+  and segment_name='EMP'
+group by owner
+       , segment_name;
+
+-- con particiones
+select 
+   segment_name           table_name, 
+   partition_name	  particion,   
+   ceil(sum(bytes)/(1024*1024)) table_size_meg 
+from   
+   dba_segments
+where  
+   owner='PPCS' 
+and    
+   segment_name in ( 
+ 'PPCS_TERMINADAS',                
+ 'PPCS_SMS',                       
+ 'PPCS_MULSALDET',                 
+ 'PPCS_MECOTERM',                  
+ 'PPCS_MECOORIG',                  
+ 'PPCS_MECO',                      
+ 'PPCS_LLAMADAS',                  
+ 'PPCS_EVENTPROM',                 
+ 'PPCS_EVENTOS',                   
+ 'PPCS_DIAMETER',                  
+ 'PPCS_DESVIOS',                   
+ 'PPCS_CONTENT',                   
+ 'PPCS_CONSALDO',                  
+ 'PPCS_CCARD',                     
+ 'PPCS_CALLME',                    
+ 'PPCS_AGREGADOS_MENSAJES',        
+ 'PPCS_AGREGADOS_LLAMADAS',        
+ 'PPCS_AGREGADOS_CONTENIDOS',      
+ 'PPCS_FINCICLOFACTURACION',       
+ 'PPCS_CONTROLGASTO'
+)
+group by segment_name, partition_name 
+order by 1,2
+
+
+--- indices de particiones
+select 
+   b.table_name,
+   a.segment_name           indice, 
+   a.partition_name	  particion,   
+   ceil(sum(a.bytes)/(1024*1024)) table_size_meg 
+from   
+   dba_segments a, dba_indexes b
+where  
+   a.owner='PPCS' 
+and    
+   a.segment_name = b.index_name and
+   b.table_owner ='PPCS' AND
+   B.table_name in
+ ( 
+ 'PPCS_TERMINADAS',                
+ 'PPCS_SMS',                       
+ 'PPCS_MULSALDET',                 
+ 'PPCS_MECOTERM',                  
+ 'PPCS_MECOORIG',                  
+ 'PPCS_MECO',                      
+ 'PPCS_LLAMADAS',                  
+ 'PPCS_EVENTPROM',                 
+ 'PPCS_EVENTOS',                   
+ 'PPCS_DIAMETER',                  
+ 'PPCS_DESVIOS',                   
+ 'PPCS_CONTENT',                   
+ 'PPCS_CONSALDO',                  
+ 'PPCS_CCARD',                     
+ 'PPCS_CALLME',                    
+ 'PPCS_AGREGADOS_MENSAJES',        
+ 'PPCS_AGREGADOS_LLAMADAS',        
+ 'PPCS_AGREGADOS_CONTENIDOS',      
+ 'PPCS_FINCICLOFACTURACION',       
+ 'PPCS_CONTROLGASTO'
+)
+group by b.table_name,a.segment_name, a.partition_name 
+order by 1,2,3
+
+
+
+-- con particiones de un mes
+select 
+   a.segment_name           table_name, 
+   a.partition_name	  particion,   
+   ceil(sum(bytes)/(1024*1024)) table_size_meg 
+from   
+   dba_segments a, dba_tables b
+where  
+   a.owner='PPCS' 
+and a.partition_name like '%1301%'
+and a.segment_name = b.table_name
+group by a.segment_name, a.partition_name 
+order by 1,2
+
+
+
+--- indices de particiones por mes
+select 
+   b.table_name,
+   a.segment_name           indice, 
+   a.partition_name	  particion,   
+   ceil(sum(a.bytes)/(1024*1024)) table_size_meg 
+from   
+   dba_segments a, dba_indexes b
+where  
+   a.owner='PPCS' 
+and    
+   a.segment_name = b.index_name and
+   b.table_owner ='PPCS' AND
+   a.partition_name like '%1301%'
+group by b.table_name,a.segment_name, a.partition_name 
+order by 1,2,3
+
+
+
+SELECT a.table_name,a.tablespace_name,ROUND(SUM (b.bytes) / 1024 / 1024 / 1024, 3) gigabytes
+FROM dba_tables a,dba_extents b
+WHERE a.table_name = b.segment_name
+AND a.tablespace_name = b.tablespace_name
+AND a.table_name like 'PPCS%PENDIENTES'
+GROUP BY a.tablespace_name, a.table_name
+ORDER BY gigabytes DESC, table_name ASC;
+
+
+----------------------
+
+SELECT SEGMENT_NAME, SUM(BYTES/:"SYS_B_0"/:"SYS_B_1") MEG FROM USER_SEGMENTS WHERE SEGMENT_NAME IN (select index_name from user_indexes where table_name IN(:"SYS_B_2", :"SYS_B_3", :"SYS_B_4", :"SYS_B_5") union select table_name from user_tables where table_name IN(:"SYS_B_6", :"SYS_B_7", :"SYS_B_8", :"SYS_B_9")) group by SEGMENT_NAME

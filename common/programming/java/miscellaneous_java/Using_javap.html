@@ -1,0 +1,128 @@
+<html>
+<head>
+
+  <style type="text/css">
+    A.noLink        { text-decoration: none; }
+    A.noLinkYellow  { color:yellow;  text-decoration: none; }
+    A.noLinkBlue    { color:blue;  text-decoration: none; }
+    A.noLinkOrange  { color:orange;  text-decoration: none; }
+    A.noLinkCyan    { color:cyan;  text-decoration: none; }
+    A.noLinkGreen   { color:cream;  text-decoration: none; }
+    A.noLinkRed     { color:red;  text-decoration: none; }
+  </style>
+
+  <title>Using javap</title>
+
+  <script language="JavaScript" type="text/javascript">
+
+    function cancelForm() {
+      location = "./MAIN_home.shtml";
+    }
+
+  </script>
+
+</head>
+<body bgcolor="#ffffff" 
+      link="0000ff" 
+      vlink="0000ff" 
+      alink="0000ff">
+
+  <img src="../../../../gifs/header_programming.gif" alt="Programming Header">
+  <p>
+
+  <i><b><font color="#ff0000"><u>Using javap</u></font></b></i>
+  <br>
+
+  <p>
+  <a class="noLinkBlue"
+     onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+     href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no" alt="Back Button"></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+  <hr noshade>
+  <p>
+
+  When compiling programs in Java, it is well known that the code is not
+  compiled to machine code. Programs in Java are compiled to into an
+  intermediate bytecode format that is executed by a Java Virtual Machine.
+  Most developers although have never seen byte code. (nor have many ever wanted
+  to see it!) One way to view the byte code is to compile your class and then 
+  open the .class file in a hex editor and translate the bytecodes by referring
+  to the virtual machine specification. A much easier way is to utilize the 
+  command-line utility <code><b>javap</b></code>. The Java SDK from Sun 
+  includes the <code>javap</code> disassembler, that will convert the byte codes
+  into human-readable mnemonics.
+
+  <blockquote>
+  <pre><font color="blue">public class JavapDemoApplication {
+    public static void main(String[] args) {
+        System.out.println("javap Demo Application");
+    }
+}</font></pre>
+  </blockquote>
+
+  
+  Using the '-c' option, you can get a bytecode listing from <code>javap</code>
+  as follows: 
+
+  <p>
+  <hr align=center width=250>
+  <p>
+  
+  <blockquote>
+  <pre>% <b>javac JavapDemoApplication.java</b>
+% <b>javap -c JavapDemoApplication</b>
+
+Compiled from JavapDemoApplication.java
+public class JavapDemoApplication extends java.lang.Object {
+    public JavapDemoApplication();
+    public static void main(java.lang.String[]);
+}
+
+Method JavapDemoApplication()
+   0 aload_0
+   1 invokespecial #1 &lt;Method java.lang.Object()&gt;
+   4 return
+
+Method void main(java.lang.String[])
+   0 getstatic #2 &lt;Field java.io.PrintStream out&gt;
+   3 ldc #3 &lt;String "javap Demo Application"&gt;
+   5 invokevirtual #4 &lt;Method void println(java.lang.String)&gt;
+   8 return</pre>
+  </blockquote>
+
+  <p>
+  <hr align=center width=250>
+  <p>
+  
+  To gain a better understanding of byte code, lets start with the first
+  instruction in the main method:
+
+  <pre>  0 getstatic #2 &lt;Field java.io.PrintStream out&gt;</pre>
+
+
+  The initial integer is the offset of the instruction in the method.
+  So the first instruction begins with a '0'. The mnemonic for the instruction 
+  follows the offset. In this example, the '<code>getstatic</code>' instruction
+  pushes a static field onto a data structure called the <i>operand stack</i>.
+  Later instructions can reference the field in this data structure.
+  Following the <code>getstatic</code> instruction is the field to be pushed. 
+  In this case the field to be pushed is
+  "#2 &lt;Field java.io.PrintStream out&gt;." If you examined the bytecode 
+  directly, you would see that the field information is not embedded directly 
+  in the instruction. Instead, like all constants used by a Java class, the 
+  field information is stored in a shared pool. Storing field information in a 
+  constant pool reduces the size of the bytecode instructions. This is because
+  the instructions only have to store the integer index into the constant pool 
+  instead of the entire constant. In this example, the field information is at 
+  location #2 in the constant pool. The order of items in the constant pool is 
+  compiler dependent, so you might see a number other than '#2.' 
+  <p>
+  After analyzing the first instruction, it's easy to guess the meaning of the
+  other instructions. The '<code>ldc</code>' <i>(load constant)</i> instruction 
+  pushes the constant "javap Demo Application" onto the operand stack. The 
+  '<code>invokevirtual</code>' invokes the println method, which pops its two 
+  arguments from the operand stack. Don't forget that an instance method such as
+  println has two arguments: the obvious string argument, plus the implicit 
+  'this' reference.
+
+</body>
+</html>

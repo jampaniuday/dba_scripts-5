@@ -1,0 +1,29 @@
+--------------------------
+Compile Program
+--------------------------
+javac ReadFromStdin.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ReadFromStdin < readme.txt
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+-----------------------------------------------------------
+                     README.txt
+-----------------------------------------------------------
+
+I. Introduction
+
+   The following file can be used to as input to the Java
+   program ReadFromStdin.java.
+
+II. Usage
+
+  % java ReadFromStdin < readme.txt

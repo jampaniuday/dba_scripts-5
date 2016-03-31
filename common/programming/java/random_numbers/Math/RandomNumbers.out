@@ -1,0 +1,42 @@
+--------------------------
+Compile Program
+--------------------------
+javac RandomNumbers.java
+
+
+--------------------------
+Run Program
+--------------------------
+java RandomNumbers
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+----------------------------------------------------------------------
+GENERATING RAW RANDOM NUMBERS
+----------------------------------------------------------------------
+Math.random() will produce a random number between [0,1).
+The square braket means "includes" whereas the parenthesis means "doesn't include".
+This means values between 0.0 and 1.0, including 0.0 and not including 1.0.
+There are about 2^62 different double fractions between 0 and 1.
+  - Total number of numbers in a floating-point number system is:
+    2(M-m+1)b^(p-1) + 1
+    where "b" is the base (usually 2).
+    "p" is the precision (digits in the mantissa)
+    "M" is the largest exponent, and "m" is the smallest exponent.
+    IEEE 754 uses:
+    M=1023, m=-1022, p=53, and b=2
+    so the total number of numbers is:
+    2(1023+1022-1)2^52
+    = 2((2^10-1)+(2^10-1))2^52
+    = (2^10-1)2^54
+    = 2^64 - 2^54
+Half of these numbers (corresponding to exponents in the range [-1022,0]) are less than 1
+in magnitude (both positive and negative), so 1/4 of that expression, of 2^62 - 2^52 + 1
+(approximately 2^62) is in the range [0,1).
+----------------------------------------------------------------------
+Raw random number : 0.7642023295804943
+----------------------------------------------------------------------

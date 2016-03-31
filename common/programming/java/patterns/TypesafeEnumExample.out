@@ -1,0 +1,17 @@
+--------------------------
+Compile Program
+--------------------------
+javac TypesafeEnumExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java TypesafeEnumExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+

@@ -1,0 +1,556 @@
+<HTML>
+<HEAD>
+
+  <Style>
+    A.noLink        { text-decoration: none; }
+    A.noLinkYellow  { color:yellow;  text-decoration: none; }
+    A.noLinkBlue    { color:blue;  text-decoration: none; }
+    A.noLinkOrange  { color:orange;  text-decoration: none; }
+    A.noLinkCyan    { color:cyan;  text-decoration: none; }
+    A.../../../gifs   { color:cream;  text-decoration: none; }
+    A.noLinkRed     { color:red;  text-decoration: none; }
+  </Style>
+
+  <TITLE>Java Collections Framework Overview</TITLE>
+
+  <SCRIPT LANGUAGE="JavaScript">
+
+    function cancelForm() {
+      location = "./MAIN_home.shtml";
+    }
+
+  </SCRIPT>
+
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" 
+      LINK="0000ff" 
+      VLINK="0000ff" 
+      ALINK="0000ff">
+
+  <IMG SRC="../../../../gifs/header_programming.gif">
+  <P>
+
+  <I><B><FONT COLOR="#ff0000"><U>Java Collections Framework Overview</U></FONT></B></I>
+  <BR>
+
+  <P>
+  <A CLASS="noLinkBlue"
+     onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+     HREF="../PROGRAMMING_Java_Programming.shtml"><IMG SRC="../../../../gifs/back_button.gif" BORDER="no"></A> &nbsp;&nbsp;Return to the Java Programming Corner.
+  <HR NOSHADE>
+
+
+  <!--
+    -- --------------------------------------------
+    -- Contents
+    -- --------------------------------------------
+    -->
+  <P>
+  <FONT COLOR="#990000"><B><U>Contents</U></B></FONT>
+  <P>
+
+  <UL>
+    <LI> <A CLASS="noLinkBlue" HREF="#Introduction">Introduction</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#Java2CollectionsFrameworkOverview">Java 2 Collections Framework Overview</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#TheCollectionInterfaces">The Collection Interfaces</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#Java2CollectionsLibraries">Java 2 Collections Libraries</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#Arrays">Arrays</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#Iterator">Iterator</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#TheCollectionInterface">The Collection Interface</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#TheSetInterface">The Set Interface</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#TheListInterface">The List Interface</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#TheMapInterface">The Map Interface</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#LegacyCollections">Legacy Java 1.0/1.1 Collections</A>
+  </UL>
+
+
+
+  
+  <!--
+    -- --------------------------------------------
+    -- Introduction
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="Introduction"></A>
+  <FONT COLOR="#990000"><B><U>Introduction</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  
+    In general, most Java programs that need to store and manipulate a group
+    of objects will only know the number and type of new elements based on some 
+    criteria that will only be known at runtime. In short,
+    as a programmer, you will need to store many objects in a common
+    structure that needs to be manipulated as a group.
+    <P>
+    To get around this issue, Java provides the ability to hold objects (or in 
+    this case, the references to the objects). Indeed, Java provides a built-in 
+    Array, but this may not work in all situations. (See the Array Example in
+    this section for a detailed look at Java arrays).
+    <P>
+    The Java 2 utilities library (<code>java.util</code>)
+    includes a complete set of container 
+    classes (also known as collection classes). The Java 2 libraries, although,
+    use the name Collection to refer to a particular <i>subset</i> of the 
+    library. It really makes this issue confusing as you will see authors 
+    using both terms: 
+    "Collections" and "Container". To confuse the issue even further, Java uses 
+    the term "Containers" within the context of the AWT and Swing libraries.
+    <P>
+    I tend to use the more popular reference in calling them 
+    "Collection" classes or like in much of the documentation and books on
+    the subject, the "Java Collections Framework".
+
+  </BLOCKQUOTE>
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- Java 2 Collections Framework Overview
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="Java2CollectionsFrameworkOverview"></A>
+  <FONT COLOR="#990000"><B><U>Java 2 Collections Framework Overview</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  A <I>Collection</I> (sometimes called a Container) is a group of data
+  that is manipulated as a single object. This corresponds to a <I>bag</I>.
+  <P>
+
+  The idea behind Java's Collection Framework 
+  (<i>also called the Container Class Library</i>) is to inslulate client 
+  programs from common implementations like an array, linked list, hash table, 
+  balanced binary tree, etc.
+  <P>
+  The Collection Framework is very similar to the Standard Template
+  Library (STL) found in C++. Collections can contain only Object reference 
+  types (no primitives). The programmer can make a container class thread safe
+  (concurrent access) as well as making it not-modifiable.
+  <P>
+
+  </BLOCKQUOTE>
+  
+  <UL>
+
+    <LI> <B><FONT COLOR="#000099">Arrays</FONT></B>
+        <P>
+        <UL>
+            <LI> Has special language support
+        </UL>
+        <P>
+        
+    <LI> <B><FONT COLOR="#000099">Iterators</FONT></B>
+        <P>
+        <UL>
+            <LI> <B><U>Iterator</U></B> <I>(i)</I>
+        </UL>
+        <P>
+        
+    <LI> <B><FONT COLOR="#000099">Collections</FONT></B> <I>(also called Containers)</I>
+        <P>
+        <UL>
+            <LI> <B><U>Collection</U></B> <I>(i)</I>
+            
+            <UL>
+                <LI> <B>Set</B> <I>(i)</I>
+                    <UL>
+                        <LI> <B>HashSet</B> <I>(c)</I>
+                        <LI> <B>TreeSet</B> <I>(c)</I>
+                    </UL>
+                <LI> <B>List</B> <I>(i)</I>
+                    <UL>
+                        <LI> <B>ArrayList</B> <I>(c)</I>
+                        <LI> <B>LinkedList</B> <I>(c)</I>
+                    </UL>
+            </UL>
+            
+            <LI> <B><U>Map</U></B> <I>(i)</I>
+            <UL>
+                <LI> <B>HashMap</B> <I>(c)</I>
+                <LI> <B>TreeMap</B> <I>(c)</I>
+            </UL>
+        </UL>
+
+  </UL>
+
+
+    <BLOCKQUOTE>
+    (i) = Interface <BR>
+    (c) = Class
+    </BLOCKQUOTE>
+
+    <P>
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- The Collection Interfaces
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="TheCollectionInterfaces"></A>
+  <FONT COLOR="#990000"><B><U>The Collection Interfaces</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  
+    The Java 2 Collections are primarily defained through 4 core interfaces
+    and 2 special (sorted) interfaces. The following diagram shows all 6
+    interfaces.
+
+    <P>
+    <IMG SRC="./CollectionInterfaces.gif">
+    <P>
+
+    Interfaces are used for the following reasons:
+    <P>
+    <UL>
+        <LI> Programs that use an interface are not tightened to a specific
+             implementation of a collection.
+        <LI> It is easy to change or replace the underlying collection class
+             with another (more efficient) class that implements the same
+             interface.
+    </UL>
+
+  </BLOCKQUOTE>
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- Java 2 Collections Libraries
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="Java2CollectionsLibraries"></A>
+  <FONT COLOR="#990000"><B><U>Java 2 Collections Libraries</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  
+    The Java 2 Collections Framework takes the issue of 
+    "holding your objects" and divides it into two distinct concepts: 
+    <b>Collections</b> and <b>Maps</b>. The key 
+    distinction between the two types of containers is the number of items
+    that each holds in an individual location. A Collection holds one element 
+    while a Map holds two.
+    
+    <P>
+
+    <B>Collection</B>
+    <P>
+
+    <blockquote>
+      A group of individual elements, often with some rule applied to them. A
+      <u>List</u> must hold the elements in a particular order (or sequence), while a
+      <u>Set</u> cannot have any duplicate elements.
+      <P>
+    
+      <UL>
+        <LI> List   - (ArrayList, LinkedList)
+        <LI> Set    - (HashSet, TreeSet)
+      </UL>
+    
+    </blockquote>
+
+    <P>
+
+    
+    <B>MAP</B>
+    <P>
+
+    <blockquote>
+      A group of "key=value" object pairs. Although this looks like a "Collection
+      of pairs", trying to implement it in this way would prove very difficult. 
+      A Map can be thought of as a mini database. A flavor of a Map is a HashMap.
+      <P>
+      As a Perl programmer, the idea of a Map may look familar. It is basically an 
+      "Associative Array". (In short, your keys are not integers like that of an 
+      array, they are Strings). Use the put() method [passing the key and value]
+      to add an element to a Map.
+      <P>
+
+      <UL>
+        <LI> Map    - (HashMap, TreeMap)
+      </UL>
+    
+    </blockquote>
+    
+  </BLOCKQUOTE>
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- Arrays
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="Arrays"></A>
+  <FONT COLOR="#990000"><B><U>Arrays</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+
+    <U>Arrays are very simple to implement in Java but has several drawbacks</U>:
+    <P>
+    <UL>
+        <LI>All items in the array have to be of the same type.
+        <LI>Must know in advance how many items will need to be stored since
+            Arrays are fixed in size. <I>(Keep in mind though that Arrays can be 
+            resized)</I>
+    </UL>
+    <P>
+    
+    <U>Here are a few notes about implementing an Array</U>:
+    <P>
+    <UL>
+        <LI> Most efficient way to hold references to objects.
+        <LI> Arrays can be of any built-in type (primitive) or any object type.
+        <LI> For Arrays that store built-in types, the data is store directly in
+             the Array.
+        <LI> For Arrays that store objects, only the object "reference" is
+             actually stored in the Array. Keep in mind that all normal rules of
+             reference variables and casting apply.
+        <LI> An array knows the type it holds, i.e., compile-time type checking.
+        <LI> An array knows its size, i.e., ask for the length.
+        <LI> An array can only hold one type of object (including primitives).
+        <LI> Arrays are fixed in size.
+        <LI> For all Arrays declared as Object[], then object references of ANY 
+             type can be stored in it without casting, though a valid cast is 
+             required to take an Object reference out and use it as its original 
+             type.
+        <LI> Define an array using either of the following:
+            <TT>int[] a1;</TT>
+            = OR =
+            <TT>int a1[];</TT>
+            <P>
+            Both declarations produce the same result. The later actually
+            conforms to expectations from C and C++ programmers. The former, 
+            however, is probably a more sensible syntax, since it seems to 
+            directly say: "an int array". This is the style used by most Java 
+            Programmers.
+        <LI> Reasonable integrity if provided by type checking.
+        <LI> The runtime system always checks array bounds.
+        <LI> Easy to return an array (the method simply returns a reference to
+             the Array), but with Java you don't have to worry about memory 
+             leaks <I>(since the garbage collector takes on this 
+             responsibility)</I> like with C and C++.
+    </UL>
+    <P>
+
+    <U>Java provides a helper class called <code>java.util.Arrays</code></U>:
+    <P>
+    <UL>
+        <LI> Search and Sort: <B>binarySearch(), sort()</B>
+        <LI> Comparison: <B>equals()</B>    <I>(many overloaded)</I>
+        <LI> Instantiation: <B>fill()</B>
+        <LI> Conversion: <B>asList()</B>
+    </UL>
+
+  </BLOCKQUOTE>
+
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- Iterator
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="Iterator"></A>
+  <FONT COLOR="#990000"><B><U>Iterator</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  The idea behind the <I>Iterator</I> interface is to provide a way to select
+  each element in a collection.
+  </BLOCKQUOTE>
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- The Collection Interface
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="TheCollectionInterface"></A>
+  <FONT COLOR="#990000"><B><U>The Collection Interface</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  </BLOCKQUOTE>
+
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- The Set Interface
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="TheSetInterface"></A>
+  <FONT COLOR="#990000"><B><U>The Set Interface</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  </BLOCKQUOTE>
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- The List Interface
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="TheListInterface"></A>
+  <FONT COLOR="#990000"><B><U>The List Interface</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  </BLOCKQUOTE>
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- The Map Interface
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="TheMapInterface"></A>
+  <FONT COLOR="#990000"><B><U>The Map Interface</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  </BLOCKQUOTE>
+
+
+
+
+    
+
+
+  <!--
+    -- --------------------------------------------
+    -- Legacy Java 1.0/1.1 Collections
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="LegacyCollections"></A>
+  <FONT COLOR="#990000"><B><U>Legacy Java 1.0/1.1 Collections</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+
+    So why talk about old Java containers? A termendous amount of code has
+    already been writting in Java 1.0 and 1.1 using these old and unsupported 
+    containers. Although you will not be writing new code using old containers,
+    you should at the very least be aware of them and their use.
+    <P>
+    The primary classes included as "legacy classes" are:
+
+    <UL>
+      <LI> Vector
+      <LI> Hashtable
+      <LI> Stack
+    </UL>
+
+    <B>Vector</B>
+    <P>
+    The Vector container, was the only self-expanding sequence (Array) in Java 
+    1.0/1.1. It was this reason why some much code in the past included it. 
+    Programmers should instead use the "ArrayList" container as a replacement for
+    the Vector.
+    <P>
+    If you work with Vectors, you should notice a brief extra pause once in a 
+    while when adding objects. The Vector call simply reallocates and copies to 
+    implement it expanding. I provide an example of this in the simple "Array 
+    Example".
+    <P>
+    Keep in mind that Vector is simply a class and not part of the Java syntax.
+    It defines its own methods for adding and retrieving objects from the 
+    container. An important distinction is that Vector is contained in the
+    <TT>java.lang.Object</TT> package while Java 2 container classes are 
+    provided in <TT>java.util</TT>.
+    <P>
+    One big difference between a Vector and an ArrayList is that the methods of 
+    the Vector class are synchronized, meaning that they can be accessed from 
+    multiple threads. This does mean that there will be more overhead with the 
+    Vector making the ArrayList a bit faster.
+    <P>
+    The Vector container was adapted so that it could fit as a Collection and a 
+    List. Keep in mind though, that the Vector container "WAS NOT" improved in 
+    the new Java 2 container libraries, but rather included only to support 
+    pre-Java 2 code.
+    <P>
+    
+
+    <B>Enumeration</B>
+    <P>
+    To perform iteration in Java 1.0/1.1, programmers would use an "Enumeration".
+    The Enumeration interface is much smaller than its successor "Iterator", with 
+    only two longer method names:
+    <P>
+    <UL>
+      <LI> <TT>boolean hasMoreElements()</TT>
+           <I>Produces "true" if this enumeration contains more elements.</I>
+
+      <LI> <TT>Object nextElement()</TT>
+            <I>Returns the next element of this enumeration if there are any 
+            more elements. (Else is throwsan exception)</I>
+    </UL>
+    <P>
+    Like mentioned already, use Iteration in place of Enumeration.
+    <P>
+
+    <B>Hashtable</B>
+    <P>
+    In short, use HashMap as opposed to Hashtable. In performance studies, it can
+    be shown that HashMap and Hashtable are very similar (even down to its method
+    names). There is no reason to use Hashtable instead of HashMap in all new 
+    code.
+    <P>
+    
+    <B>Stack</B>
+    <P>
+    In Java 1.0/1.1, the Stack container is inherited from Vector. (Basically, a 
+    Stack has all of the characteristics and behaviors of a Vector with several 
+    extra Stack behaviors).
+    <P>
+    In short, use a LinkedList when you want to implement Stack behavior.
+    <P>
+
+    <B>BitSet</B>
+    <P>
+    This was used to efficiently store many "on/off" information. It's efficiency
+    was only seen in size; not for speed. The BitSet container has been seen to be
+    slightly slower than using an array of some native type.
+    <P>
+    The minimum size of the BitSet is that of a long: 64 bits. If you want to 
+    store anything smaller, say 8 bits, a BitSet would be wasteful.
+    
+  </BLOCKQUOTE>
+
+
+
+</BODY>
+</HTML>

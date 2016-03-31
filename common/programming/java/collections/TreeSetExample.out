@@ -1,0 +1,46 @@
+--------------------------
+Compile Program
+--------------------------
+javac TreeSetExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java TreeSetExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
++--------------------------------------------------+
+| Create/Store objects in a TreeSet container.     |
++--------------------------------------------------+
+
+  - Storing Integer(0)
+  - Storing Integer(1)
+  - Storing Integer(2)
+  - Storing Integer(3)
+  - Storing Integer(4)
+  - Storing Integer(5)
+  - Storing Integer(6)
+  - Storing Integer(7)
+  - Storing Integer(8)
+  - Storing Integer(9)
+
++----------------------------------------------------------------+
+| Retrieve objects in a TreeSet container using an Iterator.     |
++----------------------------------------------------------------+
+
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9

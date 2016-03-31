@@ -1,0 +1,198 @@
+  CREATE OR REPLACE TRIGGER "SYS"."LOGON_VALID_TRG"
+AFTER LOGON
+ON DATABASE
+DECLARE
+   v_sid     number;
+   v_program varchar2(48) :=NULL;
+   v_logon_timestamp date:=NULL;
+   v_username varchar2(30):=NULL;
+   v_module varchar2(48) :=NULL;
+
+BEGIN
+   select sid,program, logon_time, username,module
+   into v_sid,  v_program , v_logon_timestamp,v_username, v_module
+   from v$session
+   where sid=(select sid from v$mystat where rownum=1)
+   and audsid = (select userenv ('sessionid') from dual);
+
+-- se remueven espacios
+IF trim(sys_context('USERENV','IP_ADDRESS')) NOT IN (
+'10.225.162.29',   --- crppga crppga_2 #### Virtual Service Network Application ####
+'10.225.162.30',   --- crppcs
+'10.225.162.31',   --- cropge
+'10.225.162.32',   --- crrasc
+'10.225.162.33',   --- crgeac
+'10.225.217.93',   --- coriswdtsg1 #### Data Switches Network ####
+'10.225.217.94',   --- coriswdtsg2
+'192.168.28.191',  --- coribesg1  #### Operation  Management Network ######
+'192.168.28.192',  --- coribesg2
+'192.168.28.193',  --- corifesg1
+'192.168.28.194',  --- corifesg2
+'192.168.28.195',  --- corifewsg1
+'192.168.28.196',  --- coritgsg1
+'192.168.28.185',  --- coribesg1-rc
+'192.168.28.186',  --- coribesg2-rc
+'192.168.28.187',  --- corifesg1-rc
+'192.168.28.188',  --- corifesg2-rc
+'192.168.28.189',  --- corifewsg1-rc
+'192.168.28.190',  --- coritgsg1-rc
+'192.168.28.183',  --- coribesg1-v   #### Provisional Virtual OM Network Database #####
+'192.168.28.184',  --- coribesg2-v
+'10.225.162.25',   --- corifesg1c  ##### Service Network #####
+'10.225.162.26',   --- corifesg2c
+'10.225.162.27',   --- corifewsg1c
+'10.225.162.28',   --- coritgsg1c
+'10.225.162.29',   --- corifeppga   #### Virtual Service Network Application ####
+'10.225.162.30',   --- corifeppcs
+'10.225.162.31',   --- corifeopge
+'10.225.162.32',   --- coriferasc
+'10.225.162.33',   --- corifegeac
+'10.225.192.65',   --- besg1  ##### Private Network #####
+'10.225.192.66',   --- besg2
+'10.225.192.67',   --- fesg1
+'10.225.192.68',   --- fesg2
+'10.225.192.69',   --- fewsg1
+'10.225.192.70',   --- tgsg1
+'10.225.192.71',   --- besg1-v  #### Virtual Private Network Database ####
+'10.225.192.72',   --- besg2-v
+'10.225.192.97',   --- clbesg1   ##### Cluster Network Database #####
+'10.225.192.98',   --- clbesg2
+'10.225.142.193', ---          mtc_swa_2910_01_rsg # Virtual Admin IP's Data switches
+'10.225.142.196', ---          mtc_swa_2910_02_rsg
+'10.225.129.45', ---   controlm ### controlm  ###
+'192.168.28.212', ---          corimtybesg3 # OM IP's Blade servers
+'192.168.28.213', ---          corimtybesg4
+'192.168.28.214', ---          corimtybesg5
+'192.168.28.215', ---          corimtybesg6
+'192.168.28.216', ---          corimtyfesg3
+'192.168.28.217', ---          corimtyfesg4
+'192.168.28.218', ---          corimtyfewsg2
+'192.168.28.219', ---          corimtyfewsg3
+'192.168.28.220', ---          corimtytgsg2
+'192.168.28.221', ---          corimtybladesg1-a # OnBoard Administrators (OBA's) OM IP's Enclosure ILO3's
+'192.168.28.222', ---          corimtybladesg1-b
+'192.168.28.223', ---          corimtyblfbsg1 # Virtual Connect FC (Fibra)
+'192.168.28.224', ---          corimtyblfbsg2
+'192.168.28.225', ---          corimtybldtsg1 # Virtual Connect Flex10 (Datos)
+'192.168.28.226', ---          corimtybldtsg2
+'192.168.28.227', ---          corimtyvcdomsg1 # Virtual Connect Administration Domain
+'192.168.28.228', ---          corimtybesg3-rc # ILO3 IP's Blade servers
+'192.168.28.229', ---          corimtybesg4-rc
+'192.168.28.230', ---          corimtybesg5-rc
+'192.168.28.231', ---          corimtybesg6-rc
+'192.168.28.232', ---          corimtyfesg3-rc
+'192.168.28.233', ---          corimtyfesg4-rc
+'192.168.28.234', ---          corimtyfewsg2-rc
+'192.168.28.235', ---          corimtyfewsg3-rc
+'192.168.28.236', ---          corimtytgsg2-rc
+'192.168.28.237', ---          corimtybesg3-v # Install Oracle RAC IP's servers
+'192.168.28.238', ---          corimtybesg4-v
+'192.168.28.239', ---          corimtybesg5-v
+'192.168.28.240', ---          corimtybesg6-v
+'10.225.162.145', ---          corimtyfesg3c # Corporative IP's servers # Install Oracle RAC IP's servers
+'10.225.162.146', ---          corimtyfesg4c
+'10.225.162.147', ---          corimtyfewsg2c
+'10.225.162.148', ---          corimtyfewsg3c
+'10.225.162.149', ---          corimtytgsg2c
+'10.225.162.150', ---          corimtyfeppcssg2c # Service SG IP's APP nodes
+'10.225.162.151', ---          corimtyfeopgesg2c
+'10.225.162.152', ---          corimtyferascasg2c
+'10.225.162.153', ---          corimtyfeppgasg2c
+'10.225.162.154', ---          corimtyfegeacsg2c
+'10.225.162.29', ---           crppga # APP nodes # Fase I Service IP's nodes
+'10.225.162.29', ---           crppga_2
+'10.225.162.29', ---           crroaming
+'10.225.162.29', ---           crroaming_2
+'10.225.162.30', ---           crppcs
+'10.225.162.31', ---           cropge
+'10.225.162.32', ---           crrasc
+'10.225.162.31', ---           crgeac
+'10.225.162.29', ---           corifeppga # Corporative nodes
+'10.225.162.30', ---           corifeppcs
+'10.225.162.31', ---           corifeopge
+'10.225.162.32', ---           coriferasc
+'10.225.162.31', ---           corifegeac
+'10.222.165.142', ---          crsdp001 # Corporative SDP IP's nodes
+'10.222.165.143', ---          crsdp001_2
+'10.222.165.144', ---          crsdp001_3
+'10.222.165.145', ---          crsdp001_4
+'10.192.11.4', ---             crip001 # Corporative SIPS IP's nodes
+'10.192.11.5', ---             crip002
+'10.222.165.142', ---          crip003
+'10.222.165.143', ---          crip004
+'10.222.165.144', ---          crip005
+'10.222.165.145', ---          crip006
+'10.192.4.70', ---             crhlr1001 # Corporative HLR IP node
+'10.231.194.151', ---          crcmc001 # Corporative CMC IP node
+'10.225.140.86', ---           corintpd # Corporative IP NTP server
+'192.168.24.17', ---           be3 # Private IP's servers #  Private Network
+'192.168.24.18', ---           be4
+'192.168.24.19', ---           be5
+'192.168.24.20', ---           be6
+'192.168.24.21', ---           fe3
+'192.168.24.22', ---           fe4
+'192.168.24.23', ---           few2
+'192.168.24.24', ---           few3
+'192.168.24.25', ---           tg2
+'192.168.24.26', ---           be3-v # Oracle VIP
+'192.168.24.27', ---           be4-v
+'192.168.24.28', ---           be5-v
+'192.168.24.29', ---           be6-v
+'192.168.24.233', ---          clbe3 #  Oracle Cluster Network (RAC heartbeat)
+'192.168.24.234', ---          clbe4
+'192.168.24.235', ---          clbe5
+'192.168.24.236', ---          clbe6
+'192.168.24.241', ---          corimtybesg3rp #  Replication Network (N1 to N2 SAN)
+'192.168.24.242', ---          corimtybesg4rp
+'192.168.24.243', ---          corimtybesg5rp
+'192.168.24.244', ---          corimtybesg6rp
+'192.168.24.245', ---          corimtytgsg2rp
+'192.168.24.249', ---          corimtyfewsg2sgt1 # Weblogic Cluster Network (BOweb)
+'192.168.24.250', ---          corimtyfewsg3sgt1
+'0.0.0.0', ---  corimtybesg3bk # Backup Network (N3 DR Miami) 
+'0.0.0.0', ---         corimtybesg4bk
+'0.0.0.0', ---         corimtybesg5bk
+'0.0.0.0', ---         corimtybesg6bk
+'0.0.0.0', ---         corimtyfesg3bk
+'0.0.0.0', ---         corimtyfesg4bk
+'0.0.0.0', ---         corimtyfewsg2bk
+'0.0.0.0', ---         corimtyfewsg3bk
+'0.0.0.0', ---         corimtytgsg2bk
+'192.168.28.191', ---  coribesg1 #### FASE 1 Operation  Management Network ######
+'192.168.28.192', ---  coribesg2
+'10.231.220.4',    --- bat1feadm1
+'10.231.220.5',    --- bat1feadm2
+'10.231.220.8',    --- bat1feadm1-rc
+'10.231.220.9',    --- bat1feadm2-rc
+'10.231.220.20',   --- bat1feadm3-rc
+'10.231.220.21',   --- bat1feadm3
+'10.231.220.194',  --- bat1feadm1CRc
+'10.231.220.195',  --- bat1feadm2CRc
+'10.231.220.199',  --- bat1feadm3CRc
+'10.231.220.162',  --- bat1feadm1NIc
+'10.231.220.163',  --- bat1feadm2NIc
+'10.231.220.169',  --- bat1feadm3NIc
+'10.231.220.226',  --- bat1feadm1PAc
+'10.231.220.227',  --- bat1feadm2PAc
+'10.231.220.231',   --- bat1feadm3Pac
+'10.231.194.198',    --- hobbit
+'10.231.194.199'     --- hobbit
+) THEN
+  RAISE_APPLICATION_ERROR (-20001,'El acceso no esta permitido desde esta direccion ' || sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username );
+END IF;
+
+-- se valida por program en la vista
+IF UPPER(v_program) LIKE '%TOAD%' OR UPPER(v_program) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_program) LIKE '%SQLNAV%'      -- SQL Navigator QUEST
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion'||' Direccion '|| sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username);
+END IF;
+
+-- se valida por module en la vista por si renombraron el ejecutable para pasar la anterior validacion
+IF UPPER(v_module) like '%TOAD%' OR UPPER(v_module) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_module) LIKE '%SQLNAV%'      -- SQL Navigator QUEST
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion'||' Direccion '|| sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username);
+END IF;
+END;
+/

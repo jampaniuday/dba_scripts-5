@@ -1,0 +1,151 @@
+# +-------------------------------------------------------------------+
+# | FILE          : .profile                                          |
+# | CREATION DATE : 21-JUL-1998                                       |
+# |                                                                   |
+# |  --------                                                         |
+# | |HISTORY |                                                        |
+# |  ---------------------------------------------------------------- |
+# | NAME DATE      DESCRIPTION                                        |
+# | ---- --------- -------------------------------------------------- |
+# | JMH  21-JUL-98 Created original file.                             |
+# +-------------------------------------------------------------------+
+
+umask 022
+EPC_DISABLED=TRUE;           export EPC_DISABLED
+EDITOR=vi;                   export EDITOR
+TERM=vt100;                  export TERM
+PRINTER=misfit-lp;           export PRINTER
+TMP=/tmp;                    export TMP
+TMPDIR=/tmp;                 export TMPDIR
+# DISPLAY=dbaprod:0.0;        export DISPLAY
+
+# +-------------------+
+# | SETUP ALL ALIASES |
+# +-------------------+
+alias ls='ls -FA'
+alias h=history
+
+# +------------------------------------------------------------+
+# | JAVA / ANT / SERVLET SETTINGS                              |
+# +------------------------------------------------------------+
+
+APACHE_HOME=/u02/app/apache
+export APACHE_HOME
+
+CATALINA_HOME=/u02/app/tomcat
+export CATALINA_HOME
+
+ANT_HOME=/usr/ant
+export ANT_HOME
+
+JAVA_HOME=/usr/java
+export JAVA_HOME
+
+J2EE_HOME=/usr/j2ee
+export J2EE_HOME
+
+JAVACC_HOME=/usr/javacc
+export JAVACC_HOME
+
+ORA_JAVA_PATH=/u01/app/oracle/product/8.1.5
+export ORA_JAVA_PATH
+
+# +------------------------------------------------------------+
+# | CLASSPATH                                                  |
+# +------------------------------------------------------------+
+
+# ------------  [   Include Current Directory  ]   -------------
+CLASSPATH=.
+
+# ------------   [     Oracle JDBC Driver      ]   -------------
+CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/jdbc/lib/classes12.zip
+
+# ------------   [     Oracle EJB Server       ]   -------------
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/lib/aurora_client.jar
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/lib/translator.zip
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/lib/vbjorb.jar
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/lib/vbjapp.jar
+
+# ------------  [    Oracle Servlet Engine     ]   -------------
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/jis/lib/servlet.jar
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/sqlj/lib/translator.zip
+
+# ------------  [        Tomcat Servlet        ]   -------------
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/common/lib/servlet.jar
+
+# ------------  [     TrueSource Servlets      ]   -------------
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/ldapfilt.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/ldapjdk.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/xmlparserv2.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/fscontext.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/jndi.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/providerutil.jar
+
+# ------------  [   Export CLASSPATH variable  ]   -------------
+export CLASSPATH
+
+
+# +------------------------------------------------------------+
+# | SETUP PATH                                                 |
+# |                                                            |
+# | NOTE: The PATH SETUP needs to come before the call to      |
+# |       oraenv. If not, the call to dbhome will fail.        |
+# | NOTE: Keep in mind that $ORACLE_HOME/bin will get appended |
+# |       to the end of $PATH after the call to oraenv.        |
+# +------------------------------------------------------------+
+PATH=/usr/local/bin:$JAVA_HOME/bin:$J2EE_HOME/bin:$JAVACC_HOME/bin:$ANT_HOME/bin:$CATALINA_HOME/bin:$HOME/common/bin:/opt/bin:/bin:/usr/bin:/usr/ccs/bin:/var/opt/bin:/usr/openwin/bin:/usr/sbin:/usr/ucb:/usr/dt/bin:.
+export PATH
+
+
+# +--------------------------+
+# | SETUP ORACLE ENVIRONMENT |
+# +--------------------------+
+
+ORACLE_BASE=/u01/app/oracle
+export ORACLE_BASE
+
+ORACLE_SID=ORA815
+export ORACLE_SID
+
+ORAENV_ASK=NO
+export ORAENV_ASK
+
+. /opt/bin/oraenv
+
+ORAENV_ASK=YES
+export ORAENV_ASK
+
+# ORACLE_TERM=sun
+ORACLE_TERM=vt100
+export ORACLE_TERM
+
+ORA_CSM_MODE=line
+export ORA_CSM_MODE
+
+NLS_LANG=AMERICAN_AMERICA.UTF8
+# NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1
+# NLS_LANG=AMERICAN_AMERICA.US7ASCII
+export NLS_LANG
+
+ORACLE_OWNER=oracle
+export ORACLE_OWNER
+
+# +------------------------------------------------------------+
+# | SETUP LIBRARY                                              |
+# |                                                            |
+# | NOTE: Keep in mind that $ORACLE_HOME/lib will be inserted  |
+# |       to the begining of LD_LIBRYARY_PATH by ORAENV at the |
+# |       top of this script.                                  |
+# +------------------------------------------------------------+
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/openwin/lib:/usr/dt/lib
+export LD_LIBRARY_PATH
+
+# +---------------------------+
+# | SETUP A FANCY UNIX PROMPT |
+# +---------------------------+
+PS1="\$ORACLE_SID on `hostname`: "
+
+# +-----------------------+
+# | FINISH OFF THE SCRIPT |
+# +-----------------------+
+echo ".profile executed"

@@ -1,0 +1,92 @@
+--------------------------
+Compile Program
+--------------------------
+javac TraverseDirectory.java
+
+
+--------------------------
+Run Program
+--------------------------
+java TraverseDirectory
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+[D] : new_dir
+[D] : new_dir\CustomLogger
+[F] : new_dir\CustomLogger\Logger.java
+[F] : new_dir\CustomLogger\Logger2.java
+[F] : new_dir\CustomLogger\TestLogger.java
+[F] : new_dir\CustomLogger\TestLogger.log
+[D] : new_dir\Directories
+[F] : new_dir\Directories\CreateDirectory.java
+[F] : new_dir\Directories\CreateDirectory.out
+[F] : new_dir\Directories\DeleteDirectory.java
+[F] : new_dir\Directories\DeleteDirectory.out
+[F] : new_dir\Directories\GetWorkingDir.java
+[F] : new_dir\Directories\GetWorkingDir.out
+[F] : new_dir\Directories\ListFilesSubs.java
+[F] : new_dir\Directories\ListFilesSubs.out
+[F] : new_dir\Directories\ListFileSystemRoots.java
+[F] : new_dir\Directories\ListFileSystemRoots.out
+[D] : new_dir\Directories\new_dir
+[D] : new_dir\Directories\new_dir\CustomLogger
+[F] : new_dir\Directories\new_dir\CustomLogger\Logger.java
+[F] : new_dir\Directories\new_dir\CustomLogger\Logger2.java
+[F] : new_dir\Directories\new_dir\CustomLogger\TestLogger.java
+[F] : new_dir\Directories\new_dir\CustomLogger\TestLogger.log
+[F] : new_dir\Directories\README_InputFile.txt
+[F] : new_dir\Directories\README_ReadFromStdin.txt
+[F] : new_dir\Directories\TraverseDirectory.java
+[D] : new_dir\Encodings
+[D] : new_dir\FilenamesPathnames
+[F] : new_dir\FilenamesPathnames\AbsoluteRelativePath.java
+[F] : new_dir\FilenamesPathnames\AbsoluteRelativePath.out
+[F] : new_dir\FilenamesPathnames\ConvertBetweenFilenamePathAndURL.java
+[F] : new_dir\FilenamesPathnames\ConvertBetweenFilenamePathAndURL.out
+[F] : new_dir\FilenamesPathnames\DetermineFileOrDir.java
+[F] : new_dir\FilenamesPathnames\DetermineFileOrDir.out
+[F] : new_dir\FilenamesPathnames\DetermineTwoFilenamePathsSameFile.java
+[F] : new_dir\FilenamesPathnames\DetermineTwoFilenamePathsSameFile.out
+[F] : new_dir\FilenamesPathnames\ParentsOfFilenamePath.java
+[F] : new_dir\FilenamesPathnames\ParentsOfFilenamePath.out
+[F] : new_dir\FilenamesPathnames\README_InputFile.txt
+[D] : new_dir\Files
+[F] : new_dir\Files\CreateFile.java
+[F] : new_dir\Files\CreateFile.out
+[F] : new_dir\Files\CreateTemporaryFile.java
+[F] : new_dir\Files\CreateTemporaryFile.out
+[F] : new_dir\Files\DeletingFile.java
+[F] : new_dir\Files\DeletingFile.out
+[F] : new_dir\Files\DetermineFileDirExists.java
+[F] : new_dir\Files\DetermineFileDirExists.out
+[F] : new_dir\Files\ForcingUpdates.java
+[F] : new_dir\Files\ForcingUpdates.out
+[F] : new_dir\Files\GetSetModificationTime.java
+[F] : new_dir\Files\GetSetModificationTime.out
+[F] : new_dir\Files\MoveFileOrDir.java
+[F] : new_dir\Files\MoveFileOrDir.out
+[F] : new_dir\Files\NewFile.txt
+[D] : new_dir\Files\new_dir
+[F] : new_dir\Files\outfile.txt
+[F] : new_dir\Files\README_InputFile.txt
+[F] : new_dir\Files\RenamingFileOrDir.java
+[F] : new_dir\Files\RenamingFileOrDir.out
+[F] : new_dir\Files\SizeOfFile.java
+[F] : new_dir\Files\SizeOfFile.out
+[D] : new_dir\Parsing
+[D] : new_dir\ReadingWriting
+[F] : new_dir\ReadingWriting\ReadFromStdin.java
+[F] : new_dir\ReadingWriting\ReadFromStdin.out
+[F] : new_dir\ReadingWriting\ReadIntFromConsole.java
+[F] : new_dir\ReadingWriting\ReadIntFromConsole.out
+[F] : new_dir\ReadingWriting\README_InputFile.txt
+[F] : new_dir\ReadingWriting\README_ReadFromStdin.txt
+[F] : new_dir\ReadingWriting\ReadWriteTextFile.java
+[F] : new_dir\ReadingWriting\ReadWriteTextFile.out
+[F] : new_dir\README_InputFile.txt
+[F] : new_dir\README_ReadFromStdin.txt
+[D] : new_dir\Serialization

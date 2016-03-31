@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac GetWorkingDir.java
+
+
+--------------------------
+Run Program
+--------------------------
+java GetWorkingDir
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+The current working directory is:
+  - c:\export\home\jeffreyh\JDeveloper\IsrvWorkspace\JavaProgramming\src\io\Directories

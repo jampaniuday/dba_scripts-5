@@ -1,0 +1,198 @@
+select 
+   blocking_session, 
+   sid, 
+   serial#, 
+   wait_class,
+   seconds_in_wait
+from 
+   v$session
+where 
+   blocking_session is not NULL
+order by 
+   blocking_session;
+
+
+SELECT vh.sid locking_sid,  
+vs.status status,  
+vs.program program_holding,  
+vw.sid waiter_sid,  
+vsw.program program_waiting  
+FROM v$lock vh,  
+v$lock vw,  
+v$session vs,  
+v$session vsw  
+WHERE     (vh.id1, vh.id2) IN (SELECT id1, id2  
+FROM v$lock  
+WHERE request = 0  
+INTERSECT 
+SELECT id1, id2  
+FROM v$lock  
+WHERE lmode = 0)  
+AND vh.id1 = vw.id1  
+AND vh.id2 = vw.id2  
+AND vh.request = 0  
+AND vw.lmode = 0  
+AND vh.sid = vs.sid  
+AND vw.sid = vsw.sid; 
+
+
+##### original hobbit
+        select  s1.sid, s1.osuser, s1.machine,s1.program,s1.status, s1.wait_class,s2.sid sid2,s2.program programa2,s2.status, s2.wait_class
+            from v$lock l1, v$lock l2, v$session s1, v$session s2
+            where s1.sid=l1.sid
+                and s2.sid=l2.sid
+                and l1.block=1
+                and l2.request>0
+                and l1.id1=l2.id1
+                and l1.id2= l2.id2;
+
+### propuesta.
+
+select s1.inst_id,s1.sid,s1.username, s1.osuser, s1.machine,s1.program,s1.status, s1.wait_class,s2.sid sid2,s2.username,s2.osuser,s2.program programa2, s2.wait_class
+from gv$lock l1, gv$lock l2, gv$session s1, gv$session s2
+where 
+s1.sid=l1.sid and
+s1.inst_id = l1.inst_id and
+s2.sid=l2.sid and
+s2.inst_id = l2.inst_id and
+l1.block=1 and
+l2.request>0 and
+l1.id1=l2.id1 and
+l1.id2= l2.id2 and
+l1.inst_id = l2.inst_id;
+
+select inst_id,username,osuser,machine, program, sid, lockwait,blocking_session
+from gv$session where machine like 'telcasv%'
+
+select s.inst_id,sw.sid, sw.EVENT,s.program, sw.SECONDS_IN_WAIT from gv$session_wait sw, gv$session s where sw.sid=s.sid and s.program like '%diametar%' and s.inst_id= sw.inst_id  order by sw.SECONDS_IN_WAIT desc;
+
+select s.inst_id,sw.sid, sw.EVENT,s.program, sw.SECONDS_IN_WAIT from gv$session_wait sw, gv$session s where sw.sid=s.sid and s.program like '%servo%' and s.inst_id= sw.inst_id  order by sw.SECONDS_IN_WAIT desc;
+
+select s.inst_id,sw.sid, sw.EVENT,s.program, sw.SECONDS_IN_WAIT from gv$session_wait sw, gv$session s where sw.sid=s.sid and s.inst_id= sw.inst_id  order by sw.SECONDS_IN_WAIT desc;
+
+
+
+SELECT vs.username,  
+vs.osuser,  
+vh.sid locking_sid,  
+vs.status status,  
+vs.module module,  
+vs.program program_holding,  
+jrh.job_name,  
+vsw.username,  
+vsw.osuser,  
+vw.sid waiter_sid,  
+vsw.program program_waiting,  
+jrw.job_name,  
+'alter system kill session ' || ''''|| vh.sid || ',' || vs.serial# || ''';'  "Kill_Command" 
+FROM v$lock vh,  
+v$lock vw,  
+v$session vs,  
+v$session vsw,  
+dba_scheduler_running_jobs jrh,  
+dba_scheduler_running_jobs jrw  
+WHERE     (vh.id1, vh.id2) IN (SELECT id1, id2  
+FROM v$lock  
+WHERE request = 0  
+INTERSECT 
+SELECT id1, id2  
+FROM v$lock  
+WHERE lmode = 0)  
+AND vh.id1 = vw.id1  
+AND vh.id2 = vw.id2  
+AND vh.request = 0  
+AND vw.lmode = 0  
+AND vh.sid = vs.sid  
+AND vw.sid = vsw.sid  
+AND vh.sid = jrh.session_id(+)  
+AND vw.sid = jrw.session_id(+); 
+
+
+
+--- bloqueos sobre tablas.
+SELECT SUBSTR(a.object,1,25) TABLENAME,
+SUBSTR(s.username,1,15) USERNAME,
+SUBSTR(p.pid,1,5) PID,
+SUBSTR(p.spid,1,10) SYSTEM_ID,
+DECODE(l.type,
+  'RT','Redo Log Buffer',
+  'TD','Dictionary',
+  'TM','DML',
+  'TS','Temp Segments',
+  'TX','Transaction',
+  'UL','User',
+  'RW','Row Wait',
+  l.type) LOCK_TYPE
+FROM gv$access a, gv$process p, gv$session s, gv$lock l
+WHERE s.sid = a.sid
+AND s.paddr = p.addr
+AND l.sid = p.pid
+GROUP BY a.object, s.username, p.pid, l.type, p.spid
+ORDER BY a.object, s.username;
+
+
+-- objetos bloqueados
+SELECT oracle_username USERNAME, owner OBJECT_OWNER,
+object_name, object_type, s.osuser,s.machine,
+DECODE(l.block,
+  0, 'Not Blocking',
+  1, 'Blocking',
+  2, 'Global') STATUS,
+  DECODE(v.locked_mode,
+    0, 'None',
+    1, 'Null',
+    2, 'Row-S (SS)',
+    3, 'Row-X (SX)',
+    4, 'Share',
+    5, 'S/Row-X (SSX)',
+    6, 'Exclusive', TO_CHAR(lmode)
+  ) MODE_HELD, s.sid,s.serial#,S.LAST_CALL_ET,S.INST_ID
+FROM gv$locked_object v, dba_objects d,
+gv$lock l, gv$session s
+WHERE v.object_id = d.object_id
+AND (v.object_id = l.id1)
+and v.session_id = s.sid
+and object_name='POGE_TARJETAS'
+ORDER BY oracle_username, session_id;
+
+
+objetos bloqueados mucho tiempo. 120 segundos
+
+SELECT SUBSTR(TO_CHAR(w.session_id),1,5) WSID, p1.spid WPID,
+SUBSTR(s1.username,1,12) "WAITING User",
+SUBSTR(s1.osuser,1,8) "OS User",
+SUBSTR(s1.program,1,20) "WAITING Program",
+s1.client_info "WAITING Client",
+SUBSTR(TO_CHAR(h.session_id),1,5) HSID, p2.spid HPID,
+SUBSTR(s2.username,1,12) "HOLDING User",
+SUBSTR(s2.osuser,1,8) "OS User",
+SUBSTR(s2.program,1,20) "HOLDING Program",
+s2.client_info "HOLDING Client",
+o.object_name "HOLDING Object"
+FROM gv$process p1, gv$process p2, gv$session s1,
+gv$session s2, dba_locks w, dba_locks h, dba_objects o
+WHERE w.last_convert > 30
+AND h.mode_held != 'None'
+AND h.mode_held != 'Null'
+AND w.mode_requested != 'None'
+AND s1.row_wait_obj# = o.object_id
+AND w.lock_type(+) = h.lock_type
+AND w.lock_id1(+) = h.lock_id1
+AND w.lock_id2 (+) = h.lock_id2
+AND w.session_id = s1.sid (+)
+AND h.session_id = s2.sid (+)
+AND s1.paddr = p1.addr (+)
+AND s2.paddr = p2.addr (+)
+ORDER BY w.last_convert desc;
+
+
+SELECT count(1),
+      S.PROCESS PROCESS_LOCKER,
+       O.OBJECT_NAME OBJETO_BLOQUEADO
+  FROM v$lock L,
+       dba_objects O,
+       v$session S
+ WHERE L.ID1 = O.OBJECT_ID
+   AND S.SID = L.SID
+   AND L.TYPE in ('TM','TX')
+   group by S.PROCESS,O.OBJECT_NAME;

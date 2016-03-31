@@ -1,0 +1,208 @@
+---------------- PPGA --------------------
+
+
+
+# configuracion del proceso de purgado
+
+select * from PPGA.PP_CONFPURG
+
+# orden el el que se ejecutar la purga de tablas
+
+select * from PPGA.PP_CONFPURGORD
+
+
+select DISTINCT NBR_TABLA from PPGA.PP_CONFPURGORD ORDER BY 1;
+
+SELECT OWNER, TABLE_NAME,TABLESPACE_NAME,NUM_ROWS,LAST_ANALYZED FROM DBA_TABLES WHERE TABLE_NAME IN ('PPGA_BONOS','PPGA_BONOPRE','PPGA_ADQUISICIONES','PPGA_ACTABOPRE');
+ select table_name,partition_name,num_rows,last_analyzed from dba_tab_partitions WHERE TABLE_NAME IN ('PPGA_BONOS','PPGA_BONOPRE','PPGA_ADQUISICIONES','PPGA_ACTABOPRE') order by 1,2;
+
+
+# tabla para el control de indices a recontruir
+
+select * from PPGA.PP_CTLRECIND
+
+
+# tabla para el control de indices a reconstruir
+
+select *
+ from opge.PP_CONFRECONSTRINDICES
+ where NOM_INDICE in (select index_name from dba_indexes where table_name='POGE_TARJETAS')
+
+update opge.PP_CONFRECONSTRINDICES set NOM_INDICE='POGE_TARJETAS_I02' where nom_indice ='POGE_TARJETAS_I01' and dia_referencia = 13;
+
+insert into opge.PP_CONFRECONSTRINDICES
+select nom_particion,'POGE_TARJETAS_UK',cod_temporizacion,int_temporizacion,14,flg_activo,last_rebuild from opge.PP_CONFRECONSTRINDICES where NOM_INDICE='POGE_TARJETAS_I02';
+
+
+
+# tabla con los mensajes de ejecucion de proceso
+
+alter session set nls_date_format='dd-mm-yyyy hh24:mi:ss';
+col txt_mensaje format a40
+
+select * from PPGA.PP_LOGSM where fhr_inicio > sysdate -2 order by fhr_inicio,IDE_EJECUCION,NUM_LIN_TXT
+
+
+
+# tabla con los detalles de la ejecucion
+
+select * from PPGA.PP_LOGSD where fhr_registro > sysdate - 2 order by fhr_registro,IDE_EJECUCION,NUM_LIN_TXT
+
+
+
+# tabla con los detalles de la ejecucion de errores 
+
+select * from PPGA.PP_LOGSD where IND_TIPO_MENSAJE ='E' and fhr_registro > sysdate - 60 order by fhr_registro
+
+
+select * from PPGA.PP_LOGSM where nbr_proceso='PP_PURGA_PPGACAMBEST_PA'
+
+
+select * from PPGA.PP_LOGSD where 
+ide_ejecucion in (
+select ide_ejecucion from PPGA.PP_LOGSM where nbr_proceso='PP_PURGA_PPGACAMBEST_PA'
+)
+order by IDE_EJECUCION,NUM_LIN_TXT
+
+
+
+# PAQUETE CON LOS PROCESOS
+
+PP_UTILES_PPGA_PQ
+
+
+SELECT MAX(FHR_INICIO) FROM PPGA.PP_LOGSM
+
+
+col TXT_MENSAJE format a60
+
+-------------RASC -------------------------
+
+execute DBMS_SCHEDULER.STOP_JOB('PPGA.PURGA_PPGACAMBEST_JOB',FALSE);
+execute DBMS_SCHEDULER.STOP_JOB('PPGA.PURGADO_TABLAS_JOB',FALSE);
+execute DBMS_SCHEDULER.STOP_JOB('PPGA.REBUILD_INDEX_PROGRAMADOS_JOB',FALSE);
+
+execute DBMS_SCHEDULER.STOP_JOB('OPGE.REBUILD_INDEX_PROGRAMADOS_JOB',FALSE);
+execute DBMS_SCHEDULER.STOP_JOB('OPGE.PURGADO_TABLAS_JOB',FALSE);
+execute DBMS_SCHEDULER.STOP_JOB('OPGE.PURGA_CAMBESTBOLSAS_JOB',FALSE);
+
+
+select * from dba_jobs_running;
+
+
+
+OPGE.PP_CONFRECONSTRINDICES
+
+# configuracion del proceso de purgado
+
+select * from OPGE.PP_CFGPURG_OPGE
+
+# orden el el que se ejecutar la purga de tablas
+
+select * from OPGE.PP_CFGPURGORD_OPGE
+
+
+SELECT OWNER, TABLE_NAME,TABLESPACE_NAME,NUM_ROWS,LAST_ANALYZED FROM DBA_TABLES WHERE TABLE_NAME like '%POCO%' order by 1,2;
+ select table_name,partition_name,num_rows,last_analyzed from dba_tab_partitions WHERE TABLE_NAME like '%POCO%' order by 1,2;
+
+# tabla para el control de indices a recontruir
+
+select * from OPGE.PP_CTLRECIND_OPGE
+
+select *
+ from opge.PP_CONFRECONSTRINDICES
+ where NOM_INDICE in (select index_name from dba_indexes where table_name='POGE_CAMBESTBOLSAS')
+
+
+# tabla con los mensajes de ejecucion de proceso
+
+alter session set nls_date_format='dd-mm-yyyy hh24:mi:ss';
+col txt_mensaje format a40
+
+col NBR_PROCESO format a30
+col des_proceso format a30
+select * from OPGE.PP_LOGSM where fhr_inicio > sysdate -3 order by ide_ejecucion
+
+# tabla con los detalles de la ejecucion
+
+select * from OPGE.PP_LOGSD  where fhr_registro > sysdate - 2 order by IDE_EJECUCION,NUM_LIN_TXT
+
+# tabla con los detalles de la ejecucion con error
+
+select * from OPGE.PP_LOGSD  where IND_TIPO_MENSAJE ='E' and fhr_registro > sysdate - 20 order by fhr_registro,IDE_EJECUCION,NUM_LIN_TXT
+
+
+
+
+ select log_date
+ ,      job_name
+ ,      status
+ from dba_scheduler_job_log
+order by log_date;
+
+
+ select job_name,run_count,failure_count,last_start_date from dba_scheduler_jobs ;
+
+select a.owner,
+  a.job_name,
+  a.enabled,
+  a.STATE
+  from DBA_SCHEDULER_JOBS a
+  order by 1,3,2;
+
+
+
+# paquete con los procesos 
+
+PP_UTILES_OPGE_PQ
+
+SELECT MAX(FHR_INICIO) FROM OPGE.PP_LOGSM
+
+
+---------------------------------------------
+
+
+select * from PPGA.PP_LOGSM where fhr_inicio > sysdate -4  and nbr_proceso ='PP_PURGA_MVTOSPCLI_PA' order by IDE_EJECUCION
+
+
+select * from PPGA.PP_LOGSD where IDE_EJECUCION in 
+(select IDE_EJECUCION from PPGA.PP_LOGSM where fhr_inicio > sysdate -4  and nbr_proceso ='PP_PURGA_MVTOSPCLI_PA')
+
+
+
+MODULE
+------------------------------------------------
+SQL_TEXT
+------------------------------------------------------------------------------------------------------------------------------------
+2 Days + 08:29:33                                            203374       1827      50088 12497
+PPGA                           ACTIVE   oracle
+asvcsga01                                                        oracle@asvcsga01 (J006)
+DBMS_SCHEDULER
+ALTER INDEX PPGA.PPGA_ACTABOPRE_I04 REBUILD PARTITION ACTABOPRE_P00 ONLINE
+
+
+2 Days + 16:40:47                                            232848        506      42741 32295
+PPGA                           ACTIVE   oracle
+asvcsga01                                                        oracle@asvcsga01 (J005)
+DBMS_SCHEDULER
+DELETE PPGA_ACTABOPRE WHERE ROWID = :B1
+
+order by IDE_EJECUCION,NUM_LIN_TXT
+
+
+--------------------------------------------
+Validaciones reconstruccion purgado SV ppga actabopre
+--------------------------------------------
+
+
+select nBR_PROCESO,NUM_ORDEN_EJECUCION,CTD_REGSPURGADO, DES_PROCESO FROM PPGA.PP_CONFPURG ORDER BY 2,3,1;
+
+
+select a.nbr_proceso,a.nbr_tabla,a.TXT_COND_PRINC from PPGA.PP_CONFPURGORD a, PPGA.PP_CONFPURG b 
+where a.nbr_proceso = b.nbr_proceso
+order by b.num_orden_ejecucion,a.num_orden;
+
+
+select *
+ from ppga.PP_CONFRECONSTRINDICES
+ where NOM_INDICE in (select index_name from dba_indexes where table_name='PPGA_ACTABOPRE')

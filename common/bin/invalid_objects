@@ -1,0 +1,339 @@
+#!/bin/ksh
+
+# +----------------------------------------------------------------------------+
+# |                          Jeffrey M. Hunter                                 |
+# |                      jhunter@idevelopment.info                             |
+# |                         www.idevelopment.info                              |
+# |----------------------------------------------------------------------------|
+# |      Copyright (c) 1998-2011 Jeffrey M. Hunter. All rights reserved.       |
+# |----------------------------------------------------------------------------|
+# | DATABASE : Oracle                                                          |
+# | FILE     : invalid_objects                                                 |
+# | CLASS    : UNIX Shell Scripts                                              |
+# | NOTE     : As with any code, ensure to test this script in a development   |
+# |            environment before attempting to run it in production.          |
+# +----------------------------------------------------------------------------+
+
+SHORT_NAME="invalid_objects"
+
+function usage {
+
+  echo " "
+  echo "Usage: "
+  echo "$SHORT_NAME {-r || -c -u USER_ID} [-s ORACLE_SID] [-l LOGIN_NAME]"
+  echo " "
+
+}
+
+function write_compile_sql {
+
+  VALUE=`sqlplus -silent $LOGIN_NAME <<END
+  set pagesize 0 feedback off verify off heading off echo off
+  select 'exists' from dba_objects where object_name = 'DBMS_JAVA'
+  and object_type = 'PACKAGE BODY';
+  exit;
+END`
+
+  echo "REM
+REM Create script which can be used to compile all of the invalid objects
+REM
+TTITLE off
+SET concat +
+spool $RECOMPILE_SCRIPT
+SET CONCAT .
+SET HEAD      off
+SET FEEDBACK  off
+SET PAGESIZE  9999
+SET VERIFY    off
+SET TERMOUT   off
+
+SELECT 'connect $USER_ID' || chr(10)
+FROM   dual;
+
+SELECT 'spool $RECOMPILE_LISTING' || chr(10)
+FROM   dual;
+
+SELECT 
+  'prompt Compiling '||owner||'.'||object_name||' ...'||chr(10)||
+  'ALTER '||
+  DECODE(object_type,'PACKAGE BODY','PACKAGE',object_type)||
+  ' '||" > $RECOMPILE_SCRIPT_SQL
+
+  if [[ $VALUE = "exists" ]]; then
+
+  echo "DECODE(object_type, 'JAVA CLASS', '' , owner || '.') ||
+  DECODE(object_type , 'JAVA CLASS', '\"' || dbms_java.longname(object_name) || '\"', object_name) ||" >> $RECOMPILE_SCRIPT_SQL
+
+  else
+
+  echo "owner || '.' || object_name ||" >> $RECOMPILE_SCRIPT_SQL
+
+  fi
+
+echo "' COMPILE'||
+  DECODE(object_type,'PACKAGE BODY',' body')||';' Object
+FROM
+  dba_objects
+WHERE 
+      status='INVALID'
+  AND owner = '$USER_ID'
+ORDER BY Object;
+
+SELECT 'spool off'
+FROM   dual;
+
+spool off
+SET TERMOUT on
+EXIT
+" >> $RECOMPILE_SCRIPT_SQL
+
+}
+
+function write_listing_sql {
+
+
+  echo "REM
+REM Create script which can be used to report all of the invalid objects
+REM
+TTITLE off
+SET concat +
+spool $LISTING_SCRIPT
+SET CONCAT .
+SET FEEDBACK  off
+SET PAGESIZE  9999
+SET VERIFY    off
+SET TERMOUT   off
+
+COLUMN owner       FORMAT a30 HEADING 'Owner'
+COLUMN object_type FORMAT a13 HEADING 'Object Type'
+COLUMN object_name FORMAT a30 HEADING 'Object Name'
+COLUMN COUNT       FORMAT 999,999,999 HEADING 'Count'
+
+SET HEADING   off
+
+BREAK ON Report ON owner skip 1
+
+SELECT    'FILE: $LISTING_SCRIPT' || chr(10) ||
+          'DATE: $BEGIN_DATE' || chr(10) ||
+          'LOGIN: $LOGIN_NAME_PRINT' || chr(10)
+FROM      dual;
+
+SELECT    '+-------------------+' || chr(10) ||
+          '| OVERVIEW          |' || chr(10) ||
+          '+-------------------+' || chr(10)
+FROM      dual;
+
+SET HEAD on
+COMPUTE sum OF COUNT on owner
+COMPUTE sum OF COUNT on report
+
+SELECT    owner, object_type, count(*) as COUNT
+FROM      dba_objects
+WHERE     status = 'INVALID'
+GROUP BY  owner, object_type;
+
+SET HEADING   off
+
+SELECT    chr(10) ||
+          '+-------------------+' || chr(10) ||
+          '| DETAIL            |' || chr(10) ||
+          '+-------------------+' || chr(10)
+FROM      dual;
+
+SET HEADING   on
+BREAK ON      owner
+
+SELECT    owner, object_name, object_type
+FROM      dba_objects
+WHERE     status = 'INVALID'
+ORDER BY  owner, object_name;
+
+spool off
+SET TERMOUT on
+EXIT
+" > $LISTING_SCRIPT_SQL
+
+
+}
+
+function run_listing {
+
+  LISTING_SCRIPT=${SHORT_NAME}_${ORACLE_SID}.lst
+  LISTING_SCRIPT_SQL=listing_script_${ORACLE_SID}.sql
+
+  if [[ -r $LISTING_SCRIPT ]]; then
+    rm $LISTING_SCRIPT
+  fi
+
+  touch $LISTING_SCRIPT
+
+  write_listing_sql
+
+  echo " " 
+  echo "Writing report: $LISTING_SCRIPT"
+
+  sqlplus -s $LOGIN_NAME @$LISTING_SCRIPT_SQL
+
+  echo "Done."
+  echo " "
+
+  rm $LISTING_SCRIPT_SQL
+
+}
+
+function run_compile {
+
+  RECOMPILE_SCRIPT=recompile_${ORACLE_SID}_${USER_ID}.sql
+  RECOMPILE_SCRIPT_SQL=recompile_${ORACLE_SID}_${USER_ID}_SQL.sql
+  RECOMPILE_LISTING=recompile_${ORACLE_SID}_${USER_ID}.lst
+
+  if [[ -r $RECOMPILE_SCRIPT ]]; then
+    rm $RECOMPILE_SCRIPT
+  fi
+
+  touch $RECOMPILE_SCRIPT
+
+  write_compile_sql
+
+  echo " "
+  echo "Writing recompile script: $RECOMPILE_SCRIPT"
+
+  sqlplus -s $LOGIN_NAME @$RECOMPILE_SCRIPT_SQL
+
+  echo "Done."
+  echo " "
+
+  rm $RECOMPILE_SCRIPT_SQL
+
+}
+
+# +-------------------------+
+# | SCRIPT STARTS HERE !!!! |
+# +-------------------------+
+
+TTY=$(tty)
+LISTING=false
+COMPILE=false
+USER_ID=""
+LOGIN_NAME="/"
+BEGIN_DATE=`date`
+SID_COMMAND_LINE=false
+ENTER_LOGIN_NAME=false
+
+# +---------------------------------------+
+# | CAUSE ALL SUBSEQUENT OUTPUT TO stderr |
+# | TO BE REDIRECTED TO /dev/null         |
+# | MOSTLY USED IN CASE AN INVALID OPTION |
+# | IS PASSED TO getopts.                 |
+# +---------------------------------------+
+#exec 2> /dev/null
+
+if (($# != 0)); then
+
+  while getopts rcs:u:l: option
+  do
+    case $option in
+      r)  LISTING=true
+          ;;
+      s)  ORACLE_SID=${OPTARG}
+          SID_COMMAND_LINE=true
+          ;;
+      u)  USER_ID=${OPTARG}
+          ;;
+      c)  COMPILE=true
+          ;;
+      l)  LOGIN_NAME=$(print ${OPTARG%%/*})
+          ENTER_LOGIN_NAME=true
+          ;;
+      ?)  usage
+          exit
+          ;;
+      *)  usage
+          exit
+    esac
+  done
+
+  # +------------------------------+
+  # | CONVERT user_id TO UPPERCASE |
+  # +------------------------------+
+
+  # USER_ID=$(echo $USER_ID | tr 'a-z' 'A-Z')
+
+  typeset -u USER_ID
+  # USER_ID_FILE=`echo $USER_ID | sed 's/\$/_/g'`
+
+
+  # +--------------------------------------+
+  # | IF USER PASSED THE -s OPTION, SWITCH |
+  # | ORACLE ENVIRONMENT.                  |
+  # +--------------------------------------+
+  if $SID_COMMAND_LINE; then
+
+    ORAENV_ASK=NO
+    . /opt/bin/oraenv <<EOF
+    $ORACLE_SID
+EOF
+    ORAENV_ASK=
+
+  fi
+
+  # +--------------------------------------------------+
+  # | DO WE HAVE THE $ORACLE_SID ENVIRONMENT VARIABLE? |
+  # +--------------------------------------------------+
+  if [[ -z $ORACLE_SID ]]; then
+    echo " "
+    echo "ORACLE_SID was not set. Use the -s option to $SHORT_NAME"
+    usage
+    exit
+  fi
+
+  # +----------------------------------+
+  # | FIND OUT HOW TO HANDLE THE LOGIN |
+  # +----------------------------------+
+  LOGIN_NAME_PRINT=$LOGIN_NAME
+
+  if $ENTER_LOGIN_NAME; then
+    print -n "Enter password for $LOGIN_NAME: "
+    stty -echo
+    read PASSWORD junk
+    stty echo
+    echo "\n"
+    LOGIN_NAME=$LOGIN_NAME/$PASSWORD
+  fi
+
+  # +----------------------------------------------------+
+  # | DIRECT THE OUTPUT (for stderr) BACK TO THE SCREEN. |
+  # +----------------------------------------------------+
+  #exec 2> $TTY
+
+else
+
+  usage
+  exit
+
+fi
+
+# +-----------------------------------------------+
+# | CHECK PARAMETERS AND CALL APPROPIATE FUNCTION |
+# +-----------------------------------------------+
+
+if $LISTING; then
+
+  run_listing
+
+elif $COMPILE; then
+
+  if [[ -z $USER_ID ]]; then
+    usage
+    exit
+  fi
+
+  run_compile
+
+else
+  usage
+  exit
+fi
+
+exit
+

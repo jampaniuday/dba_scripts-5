@@ -1,0 +1,6 @@
+exec dbms_stats.gather_table_stats('PPCS','PPCS_CONTENT',CASCADE => TRUE,granularity => 'ALL',degree =>4,estimate_percent=>5);
+                                                                                                                          
+exec dbms_stats.gather_table_stats('PPCS','PPCS_DIAMETER',CASCADE => TRUE,granularity => 'ALL',degree =>4,estimate_percent=>5);
+
+
+exec dbms_stats.gather_table_stats('PPCS','PPCS_EVENTPROM',CASCADE => TRUE,degree =>4,estimate_percent=>2);

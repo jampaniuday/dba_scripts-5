@@ -1,0 +1,321 @@
+# +------------------------------------------------------------------------+
+# | FILE         : dbora                                                   |
+# | AUTHOR       : Jeff Hunter                                             |
+# | DATE         : 30-MAY-2002                                             |
+# | HOSTNAME     : dbaprod                                                 |
+# | DESCRIPTION  : Set ORACLE_HOME to be the highest product set installed |
+# |                from which you wish to execute dbstart and dbshut.      |
+# |                Set ORACLE_OWNER to the user id of the owner of the     |
+# |                Oracle database in ORACLE_HOME.                         |
+# +------------------------------------------------------------------------+
+
+# +---------------------------------+
+# | FORCE THIS SCRIPT TO BE IGNORED |
+# +---------------------------------+
+# exit
+
+# +---------------------------------+
+# | PRINT HEADER INFORMATION        |
+# +---------------------------------+
+echo " "
+echo "+----------------------------------+"
+echo "| Starting Oracle Database Script. |"
+echo "| 0 : $0          |"
+echo "| 1 : $1                        |"
+echo "+----------------------------------+"
+echo " "
+
+# +-----------------------------------------------------+
+# | ALTER THE FOLLOWING TO REFLECT THIS SERVER SETUP    |
+# | --------------------------------------------------- |
+# |  -- Verify that the ORACLE_HOME you select is       |
+# |     the HIGHEST database version installed on       |
+# |     this server. This will control which "dbstart"  |
+# |     and which "dbshut" script gets run for each     |
+# |     database. The database listener will be         |
+# |     controlled by which ORACLE_SID you have in your |
+# |     .profile login script for the "oracle" userid.  |
+# +-----------------------------------------------------+
+
+HOSTNAME=dbaprod.comanage.net
+ORACLE_BASE=/u01/app/oracle
+ORACLE_HOME=$ORACLE_BASE/product/8.1.7
+
+export HOSTNAME ORACLE_BASE ORACLE_HOME
+
+
+# +-----------------------------------------------------+
+# | MISC PARAMETERS / ENVIRONMENT VARIABLES             |
+# +-----------------------------------------------------+
+
+START_TOUCH_FILE=$ORACLE_BASE/START.txt
+STOP_TOUCH_FILE=$ORACLE_BASE/STOP.txt
+APACHE_HOME=/u02/app/apache
+CATALINA_HOME=/u02/app/tomcat
+JAVA_HOME=/usr/local/java
+ORACLE_OWNER=oracle
+PRECISE_OWNER=precise
+DATE=`date "+%m/%d/%Y %H:%M"`
+
+export START_TOUCH_FILE STOP_TOUCH_FILE APACHE_HOME CATALINA_HOME JAVA_HOME ORACLE_OWNER PRECISE_OWNER DATE
+
+# +----------------------------------------------+
+# | VERIFY THAT ALL NEEDED SCRIPTS ARE AVAILABLE |
+# | BEFORE CONTINUING.                           |
+# +----------------------------------------------+
+if [ ! -f $ORACLE_HOME/bin/dbstart -o ! -d $ORACLE_HOME ]; then
+  echo " "
+  echo "+-------------------------------------+"
+  echo "| ERROR:                              |"
+  echo "| Oracle startup: cannot start        |"
+  echo "|                 cannot find dbstart |"
+  echo "+-------------------------------------+"
+  echo " "
+  # su - $ORACLE_OWNER -c "pagerctl \"DBA_MAIL DBA_PAGER\" \"DB-INIT Process\" \"ERROR: Could not file dbstart on:\\nHOST:$HOSTNAME DATE:$DATE\""
+  exit
+fi
+
+
+
+# +---------------------------+
+# | START/STOP CASE STATEMENT |
+# +---------------------------+
+case "$1" in
+
+start)
+
+	echo " "
+	echo "+----------------------------------------+"
+	echo "| ************************************** |"
+	echo "| >>>>>>>>>   START PROCESS   <<<<<<<<<< |"
+	echo "| ************************************** |"
+	echo "+----------------------------------------+"
+	echo " "
+
+	# su - $ORACLE_OWNER -c "pagerctl \"DBA_MAIL DBA_PAGER\" \"DB-INIT Startup Process\" \"HOST:$HOSTNAME\\nDATE:$DATE\""
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Starting (start) process at : $TOUCH_DATE" >  $START_TOUCH_FILE
+
+        chown oracle:dba $START_TOUCH_FILE
+
+	echo " "
+	echo "+---------------------------------------------------+"
+	echo "| About to start all Oracle databases               |"
+	echo "| as indicated in /var/opt/oracle/oratab            |"
+	echo "+---------------------------------------------------+"
+
+	echo " "
+
+	su - $ORACLE_OWNER -c "$ORACLE_HOME/bin/dbstart"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Started Oracle Database on: $TOUCH_DATE" >>  $START_TOUCH_FILE
+
+	echo " "
+	echo "+---------------------------------------------------+"
+	echo "| About to start the listener process in            |"
+	echo "| $ORACLE_HOME                                      |"
+	echo "+---------------------------------------------------+"
+	echo " "
+
+	su - $ORACLE_OWNER -c "lsnrctl start listener"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Started Oracle Listener on: $TOUCH_DATE" >>  $START_TOUCH_FILE
+
+	echo " "
+	echo "+-------------------------------------------------------+"
+	echo "| About to start any Web Application processes          |"
+	echo "+-------------------------------------------------------+"
+	echo " "
+
+	# /usr/X11R6/bin/Xvfb :1 -screen 0 1152x900x8 &
+
+	# $CATALINA_HOME/bin/startup.sh
+        # sleep 30
+
+	# $APACHE_HOME/bin/apachectl start
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Started any web applications on: $TOUCH_DATE" >>  $START_TOUCH_FILE
+
+	echo " "
+	echo "+--------------------------------------------------------+"
+	echo "| About to start Oracle Management Server (OMS)          |"
+        echo "|  - Will always use ORACLE_SID = OEMMGR                 |"
+	echo "+--------------------------------------------------------+"
+	echo " "
+
+	# su - $ORACLE_OWNER -c "start_OEM"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Started Oracle Management Server on: $TOUCH_DATE" >>  $START_TOUCH_FILE
+
+	echo " "
+	echo "+---------------------------------------------------+"
+	echo "| About to start Oracle Internet Directory          |"
+        echo "|  - Will always use ORACLE_SID = OIDMGR            |"
+        echo "|  - Will always use DB_NAME    = OIDDB             |"
+	echo "+---------------------------------------------------+"
+	echo " "
+
+	# su - $ORACLE_OWNER -c "start_OID"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Started Oracle Internet Directory on: $TOUCH_DATE" >>  $START_TOUCH_FILE
+
+	echo " "
+	echo "+---------------------------------------------------+"
+	echo "| About to start any Precise agents                 |"
+	echo "+---------------------------------------------------+"
+	echo " "
+
+	# su - $PRECISE_OWNER -c "pss_start.sh -r"
+	# su - $PRECISE_OWNER -c "pss_start.sh -ck DBADB"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Started Precise Agents on: $TOUCH_DATE" >>  $START_TOUCH_FILE
+
+	echo " "
+	echo "+---------------------------------------------------+"
+	echo "| About to start the dbsnmp agent                   |"
+        echo "|  - Will always use ORACLE_SID = OEM               |"
+        echo "|  - parameter (dbsnmp) for agents Oracle 7-8i      |"
+        echo "|  - parameter (agentctl) for agents Oracle9i+      |"
+	echo "+---------------------------------------------------+"
+	echo " "
+
+	su - $ORACLE_OWNER -c "dbsnmpctrl dbsnmp start"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Started Oracle Intelligent Agent on: $TOUCH_DATE" >>  $START_TOUCH_FILE
+
+        touch /var/lock/subsys/dbora
+
+	;;
+
+stop)
+
+	echo " "
+	echo "+----------------------------------------+"
+	echo "| ************************************** |"
+	echo "| >>>>>>>>>>   STOP PROCESS   <<<<<<<<<< |"
+	echo "| ************************************** |"
+	echo "+----------------------------------------+"
+	echo " "
+
+	# su - $ORACLE_OWNER -c "pagerctl \"DBA_MAIL DBA_PAGER\" \"DB-INIT Shutdown Process\" \"HOST:$HOSTNAME DATE:$DATE\""
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Starting (stop) process at : $TOUCH_DATE" >  $STOP_TOUCH_FILE
+
+        chown oracle:dba $STOP_TOUCH_FILE
+
+	echo " "
+	echo "+--------------------------------------------------+"
+	echo "| About to stop the dbsnmp agent                   |"
+        echo "|  - Will always use ORACLE_SID=OEM                |"
+        echo "|  - parameter (dbsnmp) for agents Oracle 7-8i     |"
+        echo "|  - parameter (agentctl) for agents Oracle9i+     |"
+	echo "+--------------------------------------------------+"
+	echo " "
+
+	su - $ORACLE_OWNER -c "dbsnmpctrl dbsnmp stop"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Stopping Oracle Intelligent Agent on: $TOUCH_DATE" >>  $STOP_TOUCH_FILE
+
+	echo " "
+	echo "+---------------------------------------------------+"
+	echo "| About to stop any Precise agents                  |"
+	echo "+---------------------------------------------------+"
+	echo " "
+
+	# su - $PRECISE_OWNER -c "pss_stop.sh -ck DBADB"
+	# su - $PRECISE_OWNER -c "pss_stop.sh -r"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Stopping Precise Agent on: $TOUCH_DATE" >>  $STOP_TOUCH_FILE
+
+	echo " "
+	echo "+---------------------------------------------------+"
+	echo "| About to stop Oracle Internet Directory           |"
+        echo "|  - Will always use ORACLE_SID = OIDMGR            |"
+        echo "|  - Will always use DB_NAME    = OIDDB             |"
+	echo "+---------------------------------------------------+"
+	echo " "
+
+	# su - $ORACLE_OWNER -c "stop_OID"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Stopping Oracle Internet Directory on: $TOUCH_DATE" >>  $STOP_TOUCH_FILE
+
+	echo " "
+	echo "+-------------------------------------------------------+"
+	echo "| About to stop any Web Application processes           |"
+	echo "+-------------------------------------------------------+"
+	echo " "
+
+	# $APACHE_HOME/bin/apachectl stop
+
+	# $CATALINA_HOME/bin/shutdown.sh
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Stopping any web services on: $TOUCH_DATE" >>  $STOP_TOUCH_FILE
+
+	echo " "
+	echo "+--------------------------------------------------------+"
+	echo "| About to stop Oracle Management Server (OMS)           |"
+        echo "|  - Will always use ORACLE_SID = OEMMGR                 |"
+	echo "+--------------------------------------------------------+"
+	echo " "
+
+	# su - $ORACLE_OWNER -c "stop_OEM"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Stopping Oracle Management Server on: $TOUCH_DATE" >>  $STOP_TOUCH_FILE
+
+	echo " "
+	echo "+-------------------------------------------------------+"
+	echo "| About to stop the listener process in                 |"
+	echo "| $ORACLE_HOME                                          |"
+	echo "+-------------------------------------------------------+"
+	echo " "
+
+	su - $ORACLE_OWNER -c "lsnrctl stop listener"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Stopping Oracle Listener on: $TOUCH_DATE" >>  $STOP_TOUCH_FILE
+
+	echo " "
+	echo "+-------------------------------------------------------+"
+	echo "| About to stop all Oracle databases                    |"
+	echo "| running.                                              |"
+	echo "+-------------------------------------------------------+"
+	echo " "
+
+	su - $ORACLE_OWNER -c "$ORACLE_HOME/bin/dbshut"
+
+        TOUCH_DATE=`date "+%m/%d/%Y %H:%M"`
+        echo "Stopping all Oracle Databases on: $TOUCH_DATE" >>  $STOP_TOUCH_FILE
+
+        rm -f /var/lock/subsys/dbora
+
+	;;
+
+*)
+
+	echo $"Usage: $prog {start|stop}"
+	exit 1
+
+esac
+
+
+echo " "
+echo "+----------------------+"
+echo "| ENDING ORACLE SCRIPT |"
+echo "+----------------------+"
+echo " "
+
+exit

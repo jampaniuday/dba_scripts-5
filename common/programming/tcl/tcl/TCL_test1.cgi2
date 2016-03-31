@@ -1,0 +1,57 @@
+#!/usr/local/bin/tclsh
+
+source ../lib/cgi-lib.tcl
+source ../lib/fore-lib.tcl
+package require Oratcl
+set env(ORACLE_HOME) /u01/app/oracle/product/8.1.7
+
+printHeader
+startHTML "TCL / Oracle Test"
+
+if {[info exist cgi(submitA)]} {
+  set submitA [lindex $cgi(submitA) 0]
+  set userid   [lindex $cgi(userid) 0]
+  set password [lindex $cgi(password) 0]
+  set dbname [lindex $cgi(dbname) 0]
+} else {
+  set submitA ""
+}
+
+if {$submitA == "Submit"} {
+
+  set ora_constr $userid/$password@$dbname
+
+  set logon [oralogon $ora_constr]
+  set cursor [oraopen $logon]
+  orasql $cursor "select instance, user, TO_CHAR(sysdate, 'DD-MON-YYYY HH24:MI:SS') from v\$thread"
+
+  set results [orafetch $cursor]
+
+  set p_instance [lindex $results 0]
+  set p_user [lindex $results 1]
+  set p_sysdate [lindex $results 2]
+
+  oraclose $cursor
+  oralogoff $logon
+
+  puts "<CENTER><TABLE BGCOLOR=\"#C0C0C0\" BORDER=\"0\" CELLPADDING=\"3\" CELLSPACING=\"1\">"
+  puts "<TR><TD COLSPAN=\"2\" BGCOLOR=\"#1d5387\" ALIGN=\"center\" WIDTH=\"500\"><FONT SIZE=+1 FACE=\"ARIAL\" COLOR=#FFFFFF>Tcl / Oracle Database Logon Results</FONT></TD></TR>"
+  puts "<TR><TD><B>Instance</B></TD><TD>$p_instance</TD></TR>"
+  puts "<TR><TD><B>User</B></TD><TD>$p_user</TD></TR>"
+  puts "<TR><TD><B>Sysdate</B></TD><TD>$p_sysdate</TD></TR>"
+  puts "</TABLE></CENTER>"
+
+} else {
+
+  puts "<FORM method=\"POST\">"
+  puts "<CENTER><TABLE BGCOLOR=\"#C0C0C0\" BORDER=\"0\" CELLPADDING=\"3\" CELLSPACING=\"1\">"
+  puts "<TR><TD COLSPAN=\"2\" BGCOLOR=\"#1d5387\" ALIGN=\"center\" WIDTH=\"500\"><FONT SIZE=+1 FACE=\"ARIAL\" COLOR=#FFFFFF>Tcl / Oracle Database Logon Test</FONT></TD></TR>"
+  puts "<TR><TD><B>User ID</B></TD><TD><INPUT TYPE=\"text\" NAME=\"userid\" SIZE=\"30\" VALUE=\"SYSTEM\"></TD></TR>"
+  puts "<TR><TD><B>Password</B></TD><TD><INPUT TYPE=\"password\" NAME=\"password\" SIZE=\"30\"></TD></TR>"
+  puts "<TR><TD><B>Database</B></TD><TD><INPUT TYPE=\"text\" NAME=\"dbname\" SIZE=\"30\" VALUE=\"DBADB\"></TD></TR>"
+  puts "<TR><TD COLSPAN=2 ALIGN=center><INPUT TYPE=\"submit\" NAME=\"submitA\" VALUE=\"Submit\"> &nbsp;&nbsp; <INPUT TYPE=\"reset\" VALUE=\"Reset Values\"></TD></TR>"
+  puts "</TABLE></CENTER></FORM>"
+}
+
+
+endHTML

@@ -1,0 +1,71 @@
+Monitoreo de srvctl service
+===========================
+
+Service CRPPCS_PRIMARIO is running on instance(s) CRPPCS1
+Service CRPPCS_TUX is running on instance(s) CRPPCS1
+
+ Deben de estar todas en 2 
+Service CROPGE_PRIMARIO is running on instance(s) CROPGE1
+Service CROPGE_TUX is running on instance(s) CROPGE1
+Service CRPPGATUX_UP00 is running on instance(s) CRPPGA1
+Service CRPPGATUX_UP01 is running on instance(s) CRPPGA1
+Service CRPPGATUX_UP02 is running on instance(s) CRPPGA1
+Service CRPPGATUX_UP03 is running on instance(s) CRPPGA1
+Service CRPPGA_UP00 is running on instance(s) CRPPGA1
+Service CRPPGA_UP01 is running on instance(s) CRPPGA1
+Service CRPPGA_UP02 is running on instance(s) CRPPGA1
+Service CRPPGA_UP03 is running on instance(s) CRPPGA1
+
+ Deben de estar todas en 1 
+
+ Deben de estar todas en 2 
+Service CRRASC_PRIMARIO is running on instance(s) CRRASC1
+Service CRRASC_TUX is running on instance(s) CRRASC1
+ 
+
+
+Monitoreo de srvctl service
+===========================
+
+Service CRPPCS_PRIMARIO is running on instance(s) CRPPCS2
+Service CRPPCS_TUX is running on instance(s) CRPPCS2
+Service CROPGE_PRIMARIO is running on instance(s) CROPGE1
+Service CROPGE_TUX is running on instance(s) CROPGE1
+Service CRPPGATUX_UP00 is running on instance(s) CRPPGA1
+Service CRPPGATUX_UP01 is running on instance(s) CRPPGA2
+Service CRPPGATUX_UP02 is running on instance(s) CRPPGA1
+Service CRPPGATUX_UP03 is running on instance(s) CRPPGA2
+Service CRPPGA_UP00 is running on instance(s) CRPPGA1
+Service CRPPGA_UP01 is running on instance(s) CRPPGA2
+Service CRPPGA_UP02 is running on instance(s) CRPPGA1
+Service CRPPGA_UP03 is running on instance(s) CRPPGA2
+Service CRRASC_PRIMARIO is running on instance(s) CRRASC1
+Service CRRASC_TUX is running on instance(s) CRRASC1
+ 
+
+Mover de 1 a 2
+
+Service CRPPCS_PRIMARIO is running on instance(s) CRPPCS1
+Service CRPPCS_TUX is running on instance(s) CRPPCS1
+Service CRPPGATUX_UP01 is running on instance(s) CRPPGA1
+Service CRPPGATUX_UP03 is running on instance(s) CRPPGA1
+Service CRPPGA_UP01 is running on instance(s) CRPPGA1
+Service CRPPGA_UP03 is running on instance(s) CRPPGA1
+
+
+
+srvctl relocate service -d CRPPCS -s CRPPCS_PRIMARIO -i CRPPCS1 -t CRPPCS2
+srvctl relocate service -d CRPPCS -s CRPPCS_TUX -i CRPPCS1 -t CRPPCS2
+srvctl relocate service -d CRPPGA -s CRPPGATUX_UP01 -i CRPPGA1 -t CRPPGA2
+srvctl relocate service -d CRPPGA -s CRPPGATUX_UP03 -i CRPPGA1 -t CRPPGA2
+srvctl relocate service -d CRPPGA -s CRPPGA_UP01 -i CRPPGA1 -t CRPPGA2
+srvctl relocate service -d CRPPGA -s CRPPGA_UP03 -i CRPPGA1 -t CRPPGA2
+
+srvctl stop listener -n corimtybesg4
+srvctl start listener -n corimtybesg4
+
+
+
+
+
+

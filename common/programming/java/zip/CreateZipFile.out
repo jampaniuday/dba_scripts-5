@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac CreateZipFile.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CreateZipFile example.zip example1.txt example2.txt example3.txt
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Archive:  example.zip
+  adding: example1.txt
+  adding: example2.txt
+  adding: example3.txt

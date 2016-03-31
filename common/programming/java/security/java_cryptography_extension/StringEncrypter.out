@@ -1,0 +1,46 @@
+--------------------------
+Compile Program
+--------------------------
+javac StringEncrypter.java
+
+
+--------------------------
+Run Program
+--------------------------
+java StringEncrypter
+
+
+--------------------------
+Program Output
+--------------------------
+
+
++----------------------------------------+
+|  -- Test Using Secret Key Method --    |
++----------------------------------------+
+
+DES Encryption algorithm
+    Original String  : Attack at dawn!
+    Encrypted String : g51W9xCFpkwrvFiaVGUAJw==
+    Decrypted String : Attack at dawn!
+
+Blowfish Encryption algorithm
+    Original String  : Attack at dawn!
+    Encrypted String : oV0PonC3vlNXFnam/mt46w==
+    Decrypted String : Attack at dawn!
+
+DESede Encryption algorithm
+    Original String  : Attack at dawn!
+    Encrypted String : DqmM/XWtpeK8OUm6SP1wFw==
+    Decrypted String : Attack at dawn!
+
+
++----------------------------------------+
+|  -- Test Using Pass Phrase Method --   |
++----------------------------------------+
+
+PBEWithMD5AndDES Encryption algorithm
+    Original String  : Attack at dawn!
+    Encrypted String : oadHJjYQGEX/AOHytu2QqA==
+    Decrypted String : Attack at dawn!
+

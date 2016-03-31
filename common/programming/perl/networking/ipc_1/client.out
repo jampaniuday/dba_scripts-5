@@ -1,0 +1,18 @@
+$ client angel.isrv.com 2345
+socket  ok
+bind    ok
+connect ok
+
+Welcome to the IPC Server Demonstration
+---------------------------------------
+  - You are Client ID# [2]
+  - Type "quit" to exit this client.
+
+This is a test
+  FROM SERVER [2] --> This is a test
+
+This is another test
+  FROM SERVER [2] --> This is another test
+
+quit
+Closing client connection

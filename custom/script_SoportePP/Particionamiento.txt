@@ -1,0 +1,59 @@
+--- se revisan subparticiones
+SELECT TABLESPACE_NAME, PARTITION_NAME, SUBPARTITION_NAME FROM DBA_TAB_SUBPARTITIONS ORDER BY TABLESPACE_NAME;
+
+--- se revisan particiones
+
+SELECT TABLESPACE_NAME, table_owner, table_name,PARTITION_NAME, subpartition_count FROM DBA_TAB_PARTITIONS ORDER BY TABLESPACE_NAME;
+
+-- se contravalida que no existan subparticiones
+
+SELECT TABLESPACE_NAME, table_owner, table_name,PARTITION_NAME, subpartition_count FROM DBA_TAB_PARTITIONS where nvl(subpartition_count,0) > 0 ORDER BY TABLESPACE_NAME ;
+
+
+SELECT TABLESPACE_NAME, table_owner, table_name,PARTITION_NAME FROM DBA_TAB_PARTITIONS where table_owner not IN ('SYS', 'SYSTEM') ORDER BY TABLESPACE_NAME;
+
+
+--- se revisa todas las columnas de las particiones
+SELECT  table_owner, table_name, partition_name, tablespace_name FROM DBA_TAB_PARTITIONS where table_owner not IN ('SYS', 'SYSTEM') ORDER BY  1,2,3;
+
+
+col table_owner format a10
+col orden format a30
+--- este funciona
+SELECT  table_owner, table_name, partition_name, tablespace_name,
+decode( nvl(instr(partition_name,'_'),0),0 ,2000,(substr(partition_name,instr(partition_name,'_',-1)+1,4))) orden
+FROM DBA_TAB_PARTITIONS 
+where table_owner not IN ('SYS', 'SYSTEM','ACUMULADOS') and 
+table_name <> 'PPCS_CONTROLGASTO'
+ORDER BY  5,1,2,3;
+
+-- lista las particiones a borrar
+SELECT  table_owner, table_name, partition_name, tablespace_name  
+FROM DBA_TAB_PARTITIONS 
+where table_owner not IN ('SYS', 'SYSTEM','ACUMULADOS')  ORDER BY to_number(substr(partition_name,instr(partition_name,'_',-1)+1,4)), 1,2,3;
+
+--- amarre para obtener el numero de particion
+
+col table_owner format a10
+
+SELECT  a.table_owner, a.table_name, a.partition_name, a.tablespace_name , b.cod_particion
+FROM DBA_TAB_PARTITIONS a, PPCS_PARTICIONES b
+where table_owner not IN ('SYS', 'SYSTEM','ACUMULADOS')  
+and a.partition_name = b.nom_particion
+ORDER BY to_number(substr(partition_name,instr(partition_name,'_',-1)+1,4)), 1,2,3;
+
+408
+
+357
+
+
+select * from ppcs_particiones 
+where cod_particion =  23912
+
+
+select table_owner,table_name,partition_name, tablespace_name from ( SELECT  table_owner, table_name, partition_name, tablespace_name, ltrim(rtrim(substr(partition_name,instr(partition_name,'_',-1)+1,4))) parti FROM DBA_TAB_PARTITIONS  where table_owner not IN ('SYS', 'SYSTEM','ACUMULADOS') ) where to_number(parti) < 1201  ORDER BY  1,2,3;
+
+
+
+select * from PPCS_PARTICIONES
+order by cod_particion

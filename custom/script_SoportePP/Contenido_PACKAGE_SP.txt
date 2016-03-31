@@ -1,0 +1,47 @@
+select text from all_source where owner= 'PPCS' AND TYPE = 'PACKAGE' ORDER BY OWNER,NAME,TYPE,LINE;
+
+
+select text from all_source where owner= 'PPCS' AND TYPE = 'PACKAGE BODY' ORDER BY OWNER,NAME,TYPE,LINE;
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+07:25:09
+06:55:33                                                                          2070       8473 16600
+PPCS                           ACTIVE   tid
+anippcs02                                                        sqlplus@anippcs02 (TNS V1-V3)
+SQL*Plus
+BEGIN Monitorizacion_PPCS.Obten_Datos_Ayer('Trafico_Mensajes_Originados'); END;
+
+--------------------------------------------------------------------------------------------------------
+
+ elsif dato='Trafico_Mensajes_Terminados' then
+    v_query:= ' select to_char(c.feh_llamada,'''||'hh24:mi'||''''||') hora  ,sum(c.coste)/1000  importe_cobrado , count(*) procesada
+s
+
+                from ppcs_mecoterm c
+                where c.feh_llamada between  to_date(to_char(trunc(sysdate)-1,'''||'dd/mm/yyyy'||''''||')'||'||'||''''||' 000000'||''''||','''||'d
+d/mm/yyyy hh24miss'||''''||') and
+
+                                             to_date(to_char(trunc(sysdate)-1,'''||'dd/mm/yyyy'||''''||')'||'||'||''''||' 235959'||''''||',''
+'||'dd/mm/yyyy hh24miss'||''''||')
+
+              group by to_char(c.feh_llamada,'''||'hh24:mi'||''''||')'||'
+              order by to_char(c.feh_llamada,'''||'hh24:mi'||''''||')';
+
+ elsif dato='Trafico_Contenidos' then
+    v_query:= 'select to_char(c.feh_llamada,'''||'hh24:mi'||''''||') hora  ,sum(c.coste)/1000  importe_cobrado , count(*) procesadas
+
+
+                from ppcs_content c
+                where c.feh_llamada between  to_date(to_char(trunc(sysdate)-1,'''||'dd/mm/yyyy'||''''||')'||'||'||''''||' 000000'||''''||','''||'d
+d/mm/yyyy hh24miss'||''''||') and
+
+                                             to_date(to_char(trunc(sysdate)-1,'''||'dd/mm/yyyy'||''''||')'||'||'||''''||' 235959'||''''||',''
+'||'dd/mm/yyyy hh24miss'||''''||')
+
+              group by to_char(c.feh_llamada,'''||'hh24:mi'||''''||')'||'
+              order by to_char(c.feh_llamada,'''||'hh24:mi'||''''||')';
+
+ end if;

@@ -1,0 +1,5 @@
+ALTER INDEX PPCS.PK_ABONADOS REBUILD;
+ALTER INDEX PPCS.PK_MULSALABO REBUILD;
+exec dbms_stats.gather_table_stats('PPCS', 'PPCS_ABONADOS', CASCADE => TRUE, ESTIMATE_PERCENT => 10,degree => 4);
+exec dbms_stats.gather_table_stats('PPCS', 'PPCS_MULSALABO', CASCADE => TRUE, ESTIMATE_PERCENT => 10,degree => 4);
+

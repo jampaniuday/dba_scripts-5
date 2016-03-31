@@ -1,0 +1,3 @@
+select nom_indice from PPGA.PP_CONFRECONSTRINDICES where nom_indice not in (select index_name from dba_indexes); 
+
+delete from PPGA.PP_CONFRECONSTRINDICES where nom_indice not in (select index_name from dba_indexes);

@@ -1,0 +1,24 @@
+--------------------------
+Compile Program
+--------------------------
+javac -classpath "$JAVALIB/ldapjdk.jar:." ReadEntryFromDN.java
+
+
+--------------------------
+Run Program
+--------------------------
+java -classpath "$JAVALIB/ldapjdk.jar:." ReadEntryFromDN ldap.idevelopment.info 389 "" "" "uid=dsmith, ou=People, o=airius.com"
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Search DN = [uid=dsmith, ou=People, o=airius.com]
+---------------------------------------------------
+DN: uid=dsmith, ou=People, o=airius.com
+  [cn: Daniel Smith]
+  [mail: dsmith@airius.com]
+  [telephonenumber: +1 408 555 9519]
+---------------------------------------------------

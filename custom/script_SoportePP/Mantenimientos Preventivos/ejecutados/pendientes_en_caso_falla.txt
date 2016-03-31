@@ -1,0 +1,71 @@
+--- indices particionados estadisticas
+select index_name,partition_name, last_analyzed from dba_ind_partitions where index_name in 
+(select index_name from dba_indexes where table_name in ('POGE_ANULACIONES','POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST','POGE_CAMBESTBOLSAS')) 
+ORDER BY 3;
+
+
+select index_name,partition_name, last_analyzed from dba_ind_partitions where index_name in 
+(select index_name from dba_indexes where table_name in ('PPGA_BONOPRE','PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS','PPGA_RECARGAS')) 
+ORDER BY 3;
+
+
+
+--- indices particionados reconstruidos
+ select a.index_name,b.PARTITION_NAME,b.status,
+  (select LAST_DDL_TIME from dba_objects c 
+   where c.object_name = b.INDEX_NAME and c.SUBOBJECT_NAME=b.PARTITION_NAME) as LAST_DDL_TIME
+  from dba_indexes a,
+   dba_ind_partitions b
+  where a.table_name in ('PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS','PPGA_RECARGAS')
+   and a.INDEX_NAME = b.INDEX_NAME
+   and a.owner ='PPGA'
+order by 1,2,4;
+
+
+ select a.index_name,b.PARTITION_NAME,b.status,
+  (select LAST_DDL_TIME from dba_objects c 
+   where c.object_name = b.INDEX_NAME and c.SUBOBJECT_NAME=b.PARTITION_NAME) as LAST_DDL_TIME
+  from dba_indexes a,
+   dba_ind_partitions b
+  where a.table_name in ('POGE_ANULACIONES','POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST','POGE_CAMBESTBOLSAS')
+   and a.INDEX_NAME = b.INDEX_NAME
+   and a.owner ='OPGE'
+order by 1,2,4;
+
+--- tablas analizadas
+Select table_name,last_analyzed from dba_tables where table_name in
+('PPGA_RECARGAS','PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS')
+order by 2;
+
+Select table_name,last_analyzed from dba_tables where table_name in
+('POGE_ANULACIONES','POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST','POGE_CAMBESTBOLSAS')
+order by 2;
+
+
+--- indices normales reconstruidos
+ select a.owner,a.index_name,a.status,
+  (select LAST_DDL_TIME from dba_objects c 
+   where c.object_name = a.INDEX_NAME and c.owner= a.owner) as LAST_DDL_TIME
+  from dba_indexes a
+  where a.table_name in ('POGE_ANULACIONES','POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST','POGE_CAMBESTBOLSAS')
+  and a.owner ='OPGE' and a.status <> 'N/A'
+order by 4;
+
+
+ select a.owner,a.index_name,a.status,
+  (select LAST_DDL_TIME from dba_objects c 
+   where c.object_name = a.INDEX_NAME and c.owner= a.owner) as LAST_DDL_TIME
+  from dba_indexes a
+  where a.table_name in ('PPGA_RECARGAS','PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS')
+  and a.owner ='PPGA' and a.status <> 'N/A'
+order by 4;
+
+--- indices normales estadisticas
+select table_name,index_name,last_analyzed,status from dba_indexes where table_name in ('POGE_ANULACIONES','POGE_ABOPROMOCIONES','POGE_RECARGAS','POGE_RECARGASSOS','POGE_RECARGASRASC','POGE_CAMBEST','POGE_CAMBESTBOLSAS')
+and status <> 'N/A'
+ORDER BY 1,2,3;
+
+
+select table_name,index_name,last_analyzed,status from dba_indexes where table_name in ('PPGA_RECARGAS','PPGA_ACTABOPRE','PPGA_ACTRELAC','PPGA_ADQUISICIONES','PPGA_AJUSTES','PPGA_AJUSTESSOS','PPGA_BONOSAGOTADOS','PPGA_CAMBEST','PPGA_CAMBSALDOS')
+and status <> 'N/A'
+ORDER BY 1,2,3;

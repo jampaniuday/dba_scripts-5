@@ -1,0 +1,26 @@
+SELECT
+opname,
+target,
+ROUND((sofar/totalwork),4)*100 Percentage_Complete,
+start_time,
+CEIL(time_remaining/60) Max_Time_Remaining_In_Min,
+FLOOR(elapsed_seconds/60) Time_Spent_In_Min
+FROM v$session_longops
+WHERE sofar != totalwork;
+
+
+SELECT 
+opname
+target,
+ROUND((sofar/totalwork),4)*100 Percentage_Complete,
+start_time,
+CEIL(TIME_REMAINING  /60) MAX_TIME_REMAINING_IN_MIN,
+FLOOR(ELAPSED_SECONDS/60) TIME_SPENT_IN_MIN,
+AR.SQL_FULLTEXT,
+AR.PARSING_SCHEMA_NAME,
+AR.MODULE client_tool
+FROM V$SESSION_LONGOPS L, V$SQLAREA AR
+WHERE L.SQL_ID = AR.SQL_ID 
+AND TOTALWORK > 0
+AND ar.users_executing > 0
+AND sofar != totalwork;

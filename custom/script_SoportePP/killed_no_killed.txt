@@ -1,0 +1,50 @@
+SELECT p1 "file#", p2 "block#", p3 "class#" 
+ FROM v$session_wait
+ WHERE event = 'read by other session';
+
+
+SELECT relative_fno, owner, segment_name, segment_type 
+ FROM dba_extents 
+ WHERE file_id = &file 
+ AND &block BETWEEN block_id AND block_id + blocks - 1;
+
+
+
+                                                           
+   90 root      15   0     0    0    0 S  0.0  0.0   0:00.05 [khubd]    
+
+
+select vt.used_ublk from v$transaction vt, v$session vs where vs.taddr=vt.addr and vs.sid=&&sid;
+
+
+select s.sid,
+s.program,
+t.status as transaction_status,
+s.status as session_status,
+s.lockwait,
+s.pq_status,
+t.used_ublk as undo_blocks_used,
+decode(bitand(t.flag, 128), 0, 'NO', 'YES') rolling_back
+from v$session s, v$transaction t
+where s.taddr = t.addr;
+
+
+
+select *
+from v$session_wait
+where sid in (select sid
+from v$session
+where username = 'EPPGA'
+and status = 'KILLED');
+
+
+SELECT spid
+FROM v$process a
+WHERE NOT EXISTS (SELECT 1 FROM v$session b WHERE b.paddr = a.addr);
+
+
+select * from v$process where spid in
+(6917,12000,17913,4178,29708,29714,29706,12007,12009,12011,12013);
+
+
+ps -ef | egrep '6917|12000|17913|4178|29708|29714|29706|12007|12009|12011|12013'

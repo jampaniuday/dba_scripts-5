@@ -1,0 +1,269 @@
+--------------------------
+Compile Program
+--------------------------
+javac LinkedListExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java LinkedListExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
++---------------------------------------------------------------------+
+| Create/Store objects in an LinkedList container.                    |
++---------------------------------------------------------------------+
+
+  - Storing Integer(0)
+  - Storing Integer(1)
+  - Storing Integer(2)
+  - Storing Integer(3)
+  - Storing Integer(4)
+  - Storing Integer(5)
+  - Storing Integer(6)
+  - Storing Integer(7)
+  - Storing Integer(8)
+  - Storing Integer(9)
+  - Storing String(Alex)
+  - Storing String(Melody)
+  - Storing String(Jeff)
+  - Storing String(Alex)
+
++---------------------------------------------------------------------+
+| Retrieve objects in an LinkedList container using an Iterator.      |
++---------------------------------------------------------------------+
+
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Alex
+Melody
+Jeff
+Alex
+
++---------------------------------------------------------------------+
+| Retrieve objects in an LinkedList container using a ListIterator.   |
++---------------------------------------------------------------------+
+
+Element [0] = 0
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 0
+  - nextIndex      = 1
+
+Element [1] = 1
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 1
+  - nextIndex      = 2
+
+Element [2] = 2
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 2
+  - nextIndex      = 3
+
+Element [3] = 3
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 3
+  - nextIndex      = 4
+
+Element [4] = 4
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 4
+  - nextIndex      = 5
+
+Element [5] = 5
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 5
+  - nextIndex      = 6
+
+Element [6] = 6
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 6
+  - nextIndex      = 7
+
+Element [7] = 7
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 7
+  - nextIndex      = 8
+
+Element [8] = 8
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 8
+  - nextIndex      = 9
+
+Element [9] = 9
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 9
+  - nextIndex      = 10
+
+Element [10] = Alex
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 10
+  - nextIndex      = 11
+
+Element [11] = Melody
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 11
+  - nextIndex      = 12
+
+Element [12] = Jeff
+  - hasPrevious    = true
+  - hasNext        = true
+  - previousIndex  = 12
+  - nextIndex      = 13
+
+Element [13] = Alex
+  - hasPrevious    = true
+  - hasNext        = false
+  - previousIndex  = 13
+  - nextIndex      = 14
+
+
++---------------------------------------------------------------------+
+| Retrieve objects in an LinkedList container using index.            |
++---------------------------------------------------------------------+
+
+[0] - 0
+[1] - 1
+[2] - 2
+[3] - 3
+[4] - 4
+[5] - 5
+[6] - 6
+[7] - 7
+[8] - 8
+[9] - 9
+[10] - Alex
+[11] - Melody
+[12] - Jeff
+[13] - Alex
+
++---------------------------------------------------------------------+
+| Search for a particular Object and return its index location.       |
++---------------------------------------------------------------------+
+
+Index location of the String "Jeff" is: 12
+
++---------------------------------------------------------------------+
+| Search for an object and return the first and last (highest) index. |
++---------------------------------------------------------------------+
+
+First occurance search for String "Alex".  Index =  10
+Last Index search for String "Alex".       Index =  13
+
++---------------------------------------------------------------------+
+| Extract a sublist from the main list, then print the new List.      |
++---------------------------------------------------------------------+
+
+New Sub-List from index 10 to 14: [Alex, Melody, Jeff, Alex]
+
++---------------------------------------------------------------------+
+| Sort the Sub-List created above.                                    |
++---------------------------------------------------------------------+
+
+Original List   : [Alex, Melody, Jeff, Alex]
+New Sorted List : [Alex, Alex, Jeff, Melody]
+
+
++---------------------------------------------------------------------+
+| Reverse the Sub-List created above.                                 |
++---------------------------------------------------------------------+
+
+Original List     : [Alex, Alex, Jeff, Melody]
+New Reversed List : [Melody, Jeff, Alex, Alex]
+
+
++---------------------------------------------------------------------+
+| Check to see if the Lists are empty.                                |
++---------------------------------------------------------------------+
+
+Is List A empty?   false
+Is List B empty?   true
+Is Sub-List empty? false
+
++---------------------------------------------------------------------+
+| Clone the initial List.                                             |
+| NOTE: The contents of the List are object references, so both       |
+|       of the List's contain the same exact object reference's.      |
++---------------------------------------------------------------------+
+
+List A   (before) : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Melody, Jeff, Alex, Alex]
+List B   (before) : []
+Sub-List (before) : [Melody, Jeff, Alex, Alex]
+
+Are List's A and B equal? false
+
+List A   (after)  : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Melody, Jeff, Alex, Alex]
+List B   (after)  : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Melody, Jeff, Alex, Alex]
+Sub-List (after)  : [Melody, Jeff, Alex, Alex]
+
+Are List's A and B equal? true
+
++---------------------------------------------------------------------+
+| Shuffle the elements around in some Random order for List A.        |
++---------------------------------------------------------------------+
+
+List A   (before) : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Melody, Jeff, Alex, Alex]
+List B   (before) : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Melody, Jeff, Alex, Alex]
+Sub-List (before) : [Melody, Jeff, Alex, Alex]
+
+Are List's A and B equal? true
+
+List A   (after)  : [5, 7, 6, 0, Alex, 2, 9, Melody, 4, 1, Jeff, 3, Alex, 8]
+List B   (after)  : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Melody, Jeff, Alex, Alex]
+Sub-List (after)  : [Jeff, 3, Alex, 8]
+
+Are List's A and B equal? false
+
++---------------------------------------------------------------------+
+| Convert a List to an Array.                                         |
++---------------------------------------------------------------------+
+
+Array Element [0] = 5
+Array Element [1] = 7
+Array Element [2] = 6
+Array Element [3] = 0
+Array Element [4] = Alex
+Array Element [5] = 2
+Array Element [6] = 9
+Array Element [7] = Melody
+Array Element [8] = 4
+Array Element [9] = 1
+Array Element [10] = Jeff
+Array Element [11] = 3
+Array Element [12] = Alex
+Array Element [13] = 8
+
++---------------------------------------------------------------------+
+| Remove (clear) Elements from List A.                                |
++---------------------------------------------------------------------+
+
+List A   (before) : [5, 7, 6, 0, Alex, 2, 9, Melody, 4, 1, Jeff, 3, Alex, 8]
+List B   (before) : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Melody, Jeff, Alex, Alex]
+
+List A   (after)  : []
+List B   (after)  : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, Melody, Jeff, Alex, Alex]
+

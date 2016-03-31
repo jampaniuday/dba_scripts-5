@@ -1,0 +1,27 @@
+--------------------------
+Compile Program
+--------------------------
+javac GarbageCollection.java
+
+
+--------------------------
+Run Program
+--------------------------
+java -verbosegc GarbageCollection
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+[GC 511K->139K(1984K), 0.0103063 secs]
+[GC 651K->139K(1984K), 0.0022707 secs]
+[GC 651K->139K(1984K), 0.0014496 secs]
+[GC 651K->139K(1984K), 0.0005543 secs]
+Staring explicit Garbage Collection.
+[Full GC 506K->139K(1984K), 0.0270808 secs]
+Garbage Collection took 30 ms
+Staring explicit Garbage Collection.
+[Full GC 296K->139K(1984K), 0.0231295 secs]
+Garbage Collection took 30 ms

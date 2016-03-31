@@ -1,0 +1,79 @@
+--- tablespaces y sus files
+
+SELECT t.tablespace_name, 'Datafile' file_type,
+       t.status tablespace_status, d.status file_status,
+       ROUND((d.bytes - NVL(f.sum_bytes, 0))/1048576) used_mb,
+       ROUND(NVL(f.sum_bytes, 0)/1048576) free_mb, t.initial_extent,
+       t.next_extent, t.min_extents, t.max_extents, t.pct_increase,
+       d.file_name, d.file_id, d.autoextensible, d.maxblocks,
+       d.maxbytes, nvl(d.increment_by,0) increment_by, t.block_size
+ FROM (SELECT tablespace_name, file_id, SUM(bytes) sum_bytes
+       FROM   DBA_FREE_SPACE
+       GROUP BY tablespace_name, file_id) f,
+      DBA_DATA_FILES d,
+      DBA_TABLESPACES t
+WHERE t.tablespace_name = d.tablespace_name
+AND   f.tablespace_name(+) = d.tablespace_name
+AND   f.file_id(+) = d.file_id
+GROUP BY t.tablespace_name, d.file_name, d.file_id, t.initial_extent,
+         t.next_extent, t.min_extents, t.max_extents,
+         t.pct_increase, t.status, d.bytes, f.sum_bytes, d.status,
+         d.AutoExtensible, d.maxblocks, d.maxbytes, d.increment_by, t.block_size
+UNION ALL
+SELECT h.tablespace_name,
+       'Tempfile',
+       ts.status,
+       t.status,
+       ROUND(SUM(NVL(p.bytes_used, 0))/ 1048576),
+       ROUND(SUM((h.bytes_free + h.bytes_used) - NVL(p.bytes_used, 0)) / 1048576),
+       -1, -- initial extent
+       -1, -- initial extent
+       -1, -- min extents
+       -1, -- max extents
+       -1, -- pct increase
+       t.file_name,
+       t.file_id,
+       t.autoextensible, t.maxblocks, t.maxbytes, nvl(t.increment_by, 0) increment_by, ts.block_size
+FROM   sys.V_$TEMP_SPACE_HEADER h, sys.V_$TEMP_EXTENT_POOL p, sys.DBA_TEMP_FILES t, sys.dba_tablespaces ts
+WHERE  p.file_id(+) = h.file_id
+AND    p.tablespace_name(+) = h.tablespace_name
+AND    h.file_id = t.file_id
+AND    h.tablespace_name = t.tablespace_name
+and    ts.tablespace_name = h.tablespace_name
+GROUP BY h.tablespace_name, t.status, t.file_name, t.file_id, ts.status,
+       t.autoextensible, t.maxblocks, t.maxbytes, t.increment_by, ts.block_size
+ORDER BY 1, 12 DESC
+
+--- objetos de un tablespace.
+
+select 
+      decode(partition_name, null, segment_name, segment_name || ':' || partition_name) objectname,
+       segment_type object_type,
+       round(bytes/1024/1024,2) Mb ,
+       initial_extent initial_ex,
+       next_extent next_ex ,
+       extents ,
+       bytes ttlsize, Owner, max_extents 
+from   dba_segments
+Where  tablespace_name=:tname
+:tname(VARCHAR[7],IN/OUT)='EXAMPLE'
+
+select 
+      decode(partition_name, null, segment_name, segment_name || ':' || partition_name) objectname,
+       segment_type object_type,
+       round(bytes/1024/1024,2) Mb ,
+       initial_extent initial_ex,
+       next_extent next_ex ,
+       extents ,
+       bytes ttlsize, Owner, max_extents 
+from   dba_segments
+Where  tablespace_name in
+(
+select tablespace_name
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b
+where a.file_id = b.file_id(+) 
+and a.file_name like '/ora116/%'
+)

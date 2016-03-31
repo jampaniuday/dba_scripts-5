@@ -1,0 +1,154 @@
+exec adm_ni.adm_external_param_purge;
+exec adm_ni.adm_log_purge;
+
+exec adm_ni.adm_requests_purge;  
+ERROR at line 1:
+ORA-02292: integrity constraint (ADM_NI.ADM_APPLIED_CHARGES_REQUEST_ID) violated - child record found
+ORA-06512: at "ADM_NI.ADM_REQUESTS_PURGE", line 7
+ORA-06512: at line 1
+
+ALTER INDEX ADM_NI.ADM_REQUESTS_CONVERSATION_ID REBUILD;
+ALTER INDEX ADM_NI.ADM_REQUESTS_IX00 REBUILD;
+ALTER INDEX ADM_NI.ADM_REQUESTS_IX02 REBUILD;
+ALTER INDEX ADM_NI.SYS_C004435 REBUILD;
+exec dbms_stats.gather_table_stats('ADM_NI', 'ADM_REQUESTS', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+
+----------------------------------
+
+
+
+ALTER INDEX ADM_CR.ADM_REQUESTS_CONVERSATION_ID REBUILD ONLINE;
+ALTER INDEX ADM_CR.ADM_REQUESTS_IX00 REBUILD ONLINE;
+ALTER INDEX ADM_CR.ADM_REQUEST_IX02 REBUILD ONLINE;
+ALTER INDEX ADM_CR.SYS_C002909 REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_CR', 'ADM_REQUESTS', CASCADE => TRUE, ESTIMATE_PERCENT =>100,degree => 4);
+ALTER INDEX ADM_CR.SYS_C0012333 REBUILD ONLINE;
+ALTER INDEX ADM_CR.ADM_LOG_1_IX00 REBUILD ONLINE;
+ALTER INDEX ADM_CR.ADM_LOG_1_IX02 REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_CR', 'ADM_LOG', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+ALTER INDEX ADM_CR.ADM_EXTERNAL_PARAM_IX_CHARGE REBUILD ONLINE;
+ALTER INDEX ADM_CR.SYS_C006054 REBUILD ONLINE;
+ALTER INDEX ADM_CR.ADM_EXTERNAL_PARAM_IX_SCRBNFT REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_CR', 'ADM_EXTERNAL_PARAM', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+
+-----------------------------------------
+
+
+ALTER INDEX ADM_PA.ADM_REQUESTS_CONVERSATION_ID REBUILD ONLINE;
+ALTER INDEX ADM_PA.ADM_REQUESTS_IX00 REBUILD ONLINE;
+ALTER INDEX ADM_PA.SYS_C003443 REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_PA', 'ADM_REQUESTS', CASCADE => TRUE, ESTIMATE_PERCENT =>25,degree => 4);
+ALTER INDEX ADM_PA.SYS_C003394 REBUILD ONLINE;
+ALTER INDEX ADM_PA.ADM_LOG_IX00 REBUILD ONLINE;
+ALTER INDEX ADM_PA.ADM_LOG_1_IX02 REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_PA', 'ADM_LOG', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+ALTER INDEX ADM_PA.SYS_C006113 REBUILD ONLINE;
+ALTER INDEX ADM_PA.ADM_EXTERNAL_PARAM_IX_SCRBNFT REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_PA', 'ADM_EXTERNAL_PARAM', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+
+----------------------------------------------------------
+
+
+ALTER INDEX ADM_NI.MTH_AA_NOTIF_PK REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_NI', 'MTH_AA_NOTIF', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+
+--------------------------------------------------------
+
+
+ALTER INDEX ADM_CR.SYS_C002825 REBUILD ONLINE;
+ALTER INDEX ADM_CR.ADM_APPLIED_CHARGES_REQUEST_ID REBUILD ONLINE;
+ALTER INDEX ADM_CR.ADM_APPLIED_CHARGES_IX00 REBUILD ONLINE;
+ALTER INDEX ADM_PA.SYS_C003359 REBUILD ONLINE;
+ALTER INDEX ADM_PA.ADM_APPLIED_CHARGES_REQUEST_ID REBUILD ONLINE;
+ALTER INDEX ADM_PA.ADM_APPLIED_CHARGES_IX00 REBUILD ONLINE;
+ALTER INDEX ADM_NI.SYS_C004351 REBUILD ONLINE;
+ALTER INDEX ADM_NI.ADM_APPLIED_CHARGES_REQUEST_ID REBUILD ONLINE;
+ALTER INDEX ADM_NI.ADM_APPLIED_CHARGES_IX00 REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_NI', 'ADM_APPLIED_CHARGES', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+exec dbms_stats.gather_table_stats('ADM_PA', 'ADM_APPLIED_CHARGES', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+exec dbms_stats.gather_table_stats('ADM_CR', 'ADM_APPLIED_CHARGES', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+
+
+---------------------------------------------------------------------------------
+
+ALTER INDEX ADM_CR.SYS_C002821 REBUILD ONLINE;
+ALTER INDEX ADM_PA.SYS_C003355 REBUILD ONLINE;
+ALTER INDEX ADM_NI.SYS_C004347 REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_NI', 'ADM_SB_CHECK_RECHARGE_CTRL', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+exec dbms_stats.gather_table_stats('ADM_PA', 'ADM_SB_CHECK_RECHARGE_CTRL', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+exec dbms_stats.gather_table_stats('ADM_CR', 'ADM_SB_CHECK_RECHARGE_CTRL', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+
+
+---------------------------------
+
+ALTER INDEX ADM_NI.SYS_C004528 REBUILD ONLINE;
+ALTER INDEX ADM_NI.DMSUBSCRBENEFITSSUBSCRIPTIONID REBUILD ONLINE;
+ALTER INDEX ADM_CR.SYS_C003002 REBUILD ONLINE;
+ALTER INDEX ADM_CR.DMSUBSCRBENEFITSSUBSCRIPTIONID REBUILD ONLINE;
+ALTER INDEX ADM_PA.SYS_C003536 REBUILD ONLINE;
+ALTER INDEX ADM_PA.DMSUBSCRBENEFITSSUBSCRIPTIONID REBUILD ONLINE;
+exec dbms_stats.gather_table_stats('ADM_NI', 'ADM_SUBSCR_BENEFITS', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+exec dbms_stats.gather_table_stats('ADM_CR', 'ADM_SUBSCR_BENEFITS', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+exec dbms_stats.gather_table_stats('ADM_PA', 'ADM_SUBSCR_BENEFITS', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+
+
+
+---------------------------
+
+
+exec dbms_stats.gather_table_stats('ADM_NI', 'ADM_SUBSCRIPTIONS', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+exec dbms_stats.gather_table_stats('ADM_CR', 'ADM_SUBSCRIPTIONS', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+exec dbms_stats.gather_table_stats('ADM_PA', 'ADM_SUBSCRIPTIONS', CASCADE => TRUE, ESTIMATE_PERCENT => 25,degree => 4);
+
+
+
+
+OWNER                          TABLE_NAME                     TABLESPACE_NAME                  NUM_ROWS LAST_ANA
+------------------------------ ------------------------------ ------------------------------ ---------- --------
+ADM_CR                         INT_INTERV_NUMERACION          SYSTEM                                  4 30/01/12
+ADM_CR                         ADM_REQUEST_20120216           SYSTEM                                  8 16/02/12
+ADM_CR                         ADM_REQUEST_20120215           SYSTEM                                179 15/02/12
+ADM_CR                         ADM_MESSAGE_FOR_SEND           SYSTEM                                  0 13/03/12
+ADM_CR                         ADM_RECHARGE_PROMO_LIST        SYSTEM                                  2 08/11/12
+ADM_CR                         WL_LLR_CRFEAPP3                SYSTEM                                 25 06/12/12
+ADM_CR                         WL_LLR_CRFEAPP2                SYSTEM                                 41 06/12/12
+ADM_CR                         WL_LLR_CRFEAPP1                SYSTEM                                 28 06/12/12
+ADM_PA                         ADM_ERROR_INFO                 SYSTEM                                  0 10/02/12
+ADM_PA                         ADM_MESSAGE_FOR_SEND           SYSTEM                                  0 10/02/12
+ADM_PA                         ADM_SUBSCR_TWO_INFO            SYSTEM                                  0 16/10/12
+ADM_PA                         ADM_ACTION_MESSAGES            SYSTEM                                  4 03/12/12
+ADM_PA                         ADM_GIVEME_LIST                SYSTEM                                  2 16/10/12
+ADM_PA                         WL_LLR_PAFEAPP1                SYSTEM                                 11 06/12/12
+ADM_PA                         WL_LLR_PAFEAPP3                SYSTEM                                 10 06/12/12
+ADM_PA                         WL_LLR_PAFEAPP2                SYSTEM                                 21 06/12/12
+ADM_PA                         ADM_RECHARGE_PROMO_LIST        SYSTEM                                  0 16/10/12
+ADM_PA                         ADM_GIVEME_LIST_MEMBER         SYSTEM                                  0 16/10/12
+ADM_NI                         INT_INTERV_NUMERACION          SYSTEM                                  0 02/09/11
+ADM_NI                         ADM_ERROR_INFO                 SYSTEM                                  1 14/05/12
+ADM_NI                         ADM_MESSAGE_FOR_SEND           SYSTEM                                  0 10/02/12
+ADM_NI                         WL_LLR_NIFEAPP2                SYSTEM                                113 06/12/12
+ADM_NI                         WL_LLR_NIFEAPP3                SYSTEM                                 68 06/12/12
+ADM_NI                         WL_LLR_NIFEAPP1                SYSTEM                                241 06/12/12
+ADM_NI                         ADM_RECHARGE_PROMO_LIST        SYSTEM                                  0 01/10/12
+ADM_NI                         ADM_GIFT_PLAN_LIST             SYSTEM                               2243 03/12/12
+ADM_NI                         ADM_GIFT_LIST_HIST             SYSTEM                                  0 14/11/12
+ADM_NI                         ADM_GIFT_RANGES_HIST           SYSTEM                              19010 05/12/12
+ADM_NI                         ADM_GIFT_PLAN_LIST_HIST        SYSTEM                                  0 14/11/12
+ADM_NI                         ADM_ROLLBACK_TARGETS           SYSTEM                                  0 14/11/12
+ADM_NI                         ADM_ROLLBACK_CONFIG            SYSTEM                                  0 14/11/12
+ADM_NI                         ADM_PENDING_ROLLBACK_REQUEST   SYSTEM                                  0 14/11/12
+ADM_NI                         ADM_ACTION_MESSAGES            SYSTEM                                  0 14/11/12
+ADM_NI                         ADM_GIVEME_LIST                SYSTEM                                  2 14/11/12
+ADM_NI                         ADM_GIVEME_LIST_MEMBER         SYSTEM                                  0 14/11/12
+ADM_NI                         ADM_SUBSCR_TWO_INFO            SYSTEM                                  0 14/11/12
+ADM_NI                         ADM_FREE_REQUESTS              SYSTEM                                  0 14/11/12
+ADM_NI                         MTH_AA_NOTIF                   SYSTEM                              79001 07/12/12
+ADM_NI                         ADM_FREE_PROMO_LIST            SYSTEM                                  0 14/11/12
+ADM_NI                         ADM_GIFT_LIST                  SYSTEM                                 19 03/12/12
+ADM_NI                         ADM_GIFT_RANGES                SYSTEM                                152 06/12/12
+
+41 rows selected.
+
+ SELECT OWNER,TABLE_NAME, TABLESPACE_NAME, NUM_ROWS,LAST_ANALYZED FROM dba_tables where tablespace_name = 'SYSTEM' AND OWNER LIKE 'ADM%';
+
+SELECT OWNER,TABLE_NAME, TABLESPACE_NAME, NUM_ROWS,LAST_ANALYZED FROM dba_tables where TABLE_NAME='ADM_SUBSCRIPTIONS'

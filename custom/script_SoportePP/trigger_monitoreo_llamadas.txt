@@ -1,0 +1,16 @@
+TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS')
+
+
+select mod(sysdate-trunc(sysdate),1) from dual
+
+select mod(sysdate-trunc(sysdate),1)*86400 from dual
+
+select trunc(mod(sysdate-trunc(sysdate),1)*86400) from dual
+
+
+select to_date(trunc(mod(sysdate-trunc(sysdate),1)*86400),'SSSSS') from dual
+
+select to_char(to_date(trunc(mod(sysdate-trunc(sysdate),1)*86400),'SSSSS'),'HH24:MI:SS') from dual
+
+
+select trunc(mod(sysdate-trunc(sysdate),1)*288) from dual

@@ -1,0 +1,23 @@
+--------------------------
+Compile Program
+--------------------------
+javac EchoClientOneLine.java
+
+
+--------------------------
+Run Program
+--------------------------
+java EchoClientOneLine <host name> <"message string">
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+% java EchoClientOneLine angel.isrv.com "This is a test message"
+
+Send "This is a test message"
+Got  "This is a test message"
+

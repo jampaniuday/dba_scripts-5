@@ -1,0 +1,25 @@
+--------------------------
+Compile Program
+--------------------------
+javacc SimpleCalc1.jj
+javac  SimpleCalc1.java
+
+
+--------------------------
+Run Program
+--------------------------
+java SimpleCalc1
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+% java SimpleCalc1
+(7*7)+45
+94.0
+16*(1-9)+90
+-38.0
+1+1
+2.0

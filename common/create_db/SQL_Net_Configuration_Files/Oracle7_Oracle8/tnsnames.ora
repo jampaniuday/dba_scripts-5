@@ -1,0 +1,1456 @@
+# +-------------------------------------------------------------+
+# | FILE         : tnsnames.ora                                 |
+# | LAST UPDATED : 13-NOV-2001                                  |
+# | CONVENTIONS  : The DBA Group (dba@fore.com) will maintain   |
+# |                the tnsnames.ora file for all                |
+# |                Production/Testing/Development Oracle        |
+# |                databases running at Marconi Communications. |
+# |                                                             |
+# | VERSION      : tnsv_81                                      |
+# +-------------------------------------------------------------+
+#
+# +-------------------------------------------------------------+
+# | EXTPROC - External Procedures                               |
+# +-------------------------------------------------------------+
+#
+EXTPROC_CONNECTION_DATA.world =
+  (DESCRIPTION =
+    (ADDRESS =
+      (PROTOCOL = IPC)
+      (KEY = EXTPROC)
+    )
+    (CONNECT_DATA =
+      (SID = PLSExtProc)
+      (PRESENTATION = RO)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | ERP - (Databases)                                           |
+# +-------------------------------------------------------------+
+#
+ERPDB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = erpprod.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = ERPDB)
+         (GLOBAL_NAME = ERPDB.world) 
+     )
+  )
+TEST.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = erpdev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = TEST)
+	 (GLOBAL_NAME = TEST.world)
+     )
+  )
+DEV.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = erpdev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = DEV)
+	 (GLOBAL_NAME = DEV.world)
+     )
+  )
+VISDB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = erpdemo.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = VISDB)
+	 (GLOBAL_NAME = VISDB.world)
+     )
+  )
+SOPDB.world =
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+         (ADDRESS =
+            (COMMUNITY = TCP.world)
+            (PROTOCOL = TCP)
+            (Host = erpdemo.pit.comms.marconi.com)
+            (Port = 1521)
+         )
+     )
+     (CONNECT_DATA =
+         (SID = SOPDB)
+         (GLOBAL_NAME = SOPDB.world)
+     )
+  )
+SOPDEV.world =
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+         (ADDRESS =
+            (COMMUNITY = TCP.world)
+            (PROTOCOL = TCP)
+            (Host = erpdemo.pit.comms.marconi.com)
+            (Port = 1521)
+         )
+     )
+     (CONNECT_DATA =
+         (SID = SOPDEV)
+         (GLOBAL_NAME = SOPDEV.world)
+     )
+  )
+SOPBAK.world =
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+         (ADDRESS =
+            (COMMUNITY = TCP.world)
+            (PROTOCOL = TCP)
+            (Host = erpdemo.pit.comms.marconi.com)
+            (Port = 1521)
+         )
+     )
+     (CONNECT_DATA =
+         (SID = SOPBAK)
+         (GLOBAL_NAME = SOPBAK.world)
+     )
+  )
+DEMO80.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = 208.43.60.25)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = DEMO80)
+	 (GLOBAL_NAME = DEMO80.world)
+     )
+  )
+#
+# +-------------------------------------------------------------+
+# | ERP - (Report Review Agent)                                 |
+# +-------------------------------------------------------------+
+#
+FNDFS_erpprod.world = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = erpprod.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = FNDFS)
+       (GLOBAL_NAME = FNDFS_erpprod.world)
+    )
+  )
+FNDFS_erpdev.world = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = erpdev.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = FNDFS)
+       (GLOBAL_NAME = FNDFS_erpdev.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | ERP - (Order Entry Agent)                                   |
+# +-------------------------------------------------------------+
+#
+# -----
+# ERPDB
+# -----
+OEORPC_erpprod.world = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = erpprod.pit.comms.marconi.com)
+          (Port = 1522)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = OEORPC_erpprod)
+       (GLOBAL_NAME = OEORPC_erpprod.world)
+    )
+  )
+#
+# ----
+# TEST
+# ----
+OEORPC_erpdevp.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = erpdev.pit.comms.marconi.com)
+          (Port = 1523)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = OEORPC_erpdevp)
+       (GLOBAL_NAME = OEORPC_erpdevp.world)
+    )
+  )
+#
+# ---
+# DEV
+# ---
+OEORPC_erpdev.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = erpdev.pit.comms.marconi.com)
+          (Port = 1522)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = OEORPC_erpdev)
+       (GLOBAL_NAME = OEORPC_erpdev.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | SIEBEL                                                      |
+# +-------------------------------------------------------------+
+#
+SEBLDAL.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = sbldev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = SEBLDAL)
+	 (GLOBAL_NAME = SEBLDAL.world)
+     )
+  )
+SEBLPROD.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = sblprod.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = SEBLPROD)
+	 (GLOBAL_NAME = SEBLPROD.world)
+     )
+  )
+SEBLCC.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = sbldev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = SEBLCC)
+	 (GLOBAL_NAME = SEBLCC.world)
+     )
+  )
+SEBLDEV.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = sbldev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = SEBLDEV)
+	 (GLOBAL_NAME = SEBLDEV.world)
+     )
+  )
+SEBLUAT.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = sbldev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = SEBLUAT)
+	 (GLOBAL_NAME = SEBLUAT.world)
+     )
+  )
+SEBLMKT.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = sbldev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = SEBLMKT)
+	 (GLOBAL_NAME = SEBLMKT.world)
+     )
+  )
+SEBLTST.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = sbldev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = SEBLTST)
+	 (GLOBAL_NAME = SEBLTST.world)
+     )
+  )
+# 
+# +-------------------------------------------------------------+
+# | ARS                                                         |
+# +-------------------------------------------------------------+
+#
+ARSDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = arsprod.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ARSDB)
+       (GLOBAL_NAME = ARSDB.world)
+    )
+  )
+CRMDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = arsnew.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = CRMDB)
+       (GLOBAL_NAME = CRMDB.world)
+    )
+  )
+ARSDEV.world =
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+         (ADDRESS =
+            (COMMUNITY = TCP.world)
+            (PROTOCOL = TCP)
+            (Host = appdev.pit.comms.marconi.com)
+            (Port = 1521)
+         )
+     )
+     (CONNECT_DATA =
+         (SID = ARSDEV)
+         (GLOBAL_NAME = ARSDEV.world)
+     )
+  )
+CRMTEST2.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = crmdev.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = CRMTEST2)
+       (GLOBAL_NAME = CRMTEST2.world)
+    )
+  )
+# 
+# +-------------------------------------------------------------+
+# | QMS                                                         |
+# +-------------------------------------------------------------+
+#
+db2.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = oracle2.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = db2)
+       (GLOBAL_NAME = db2.world)
+    )
+  )
+QMSIDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 169.144.161.206)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = QMSIDB)
+       (GLOBAL_NAME = QMSIDB.world)
+    )
+  )
+QMSDEV.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = appdev.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = QMSDEV)
+       (GLOBAL_NAME = QMSDEV.world)
+    )
+  )
+# 
+# +-------------------------------------------------------------+
+# | KPA                                                         |
+# +-------------------------------------------------------------+
+#
+KPDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = kpaprod.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = KPDB)
+       (GLOBAL_NAME = KPDB.world)
+    )
+  )
+# 
+# +-------------------------------------------------------------+
+# | ELECTRONIC COMMERCE                                         |
+# +-------------------------------------------------------------+
+#
+ECOMDEV.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = webdbdev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = ECOMDEV)
+	 (GLOBAL_NAME = ECOMDEV.world)
+     )
+  )
+ECOMDB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = webdbdev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = ECOMDB)
+	 (GLOBAL_NAME = ECOMDB.world)
+     )
+  )
+# 
+# +-------------------------------------------------------------+
+# | TACTICS DATABASES                                           |
+# +-------------------------------------------------------------+
+#
+dbw.world = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 169.144.2.179)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = dbw)
+       (GLOBAL_NAME = dbw.world)
+    )
+  )
+TACDEV.world = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = webdbdev.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = TACDEV)
+       (GLOBAL_NAME = TACDEV.world)
+    )
+  )
+TECHDEV.world = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = tecpubsrv2.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = TECHDEV)
+       (GLOBAL_NAME = TECHDEV.world)
+    )
+  )
+PAYGDEV.world = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = webdbdev.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = PAYGDEV)
+       (GLOBAL_NAME = PAYGDEV.world)
+    )
+  )
+# 
+# +-------------------------------------------------------------+
+# | DBA DATABASES                                               |
+# +-------------------------------------------------------------+
+#
+DBADB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = dbaprod.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = DBADB)
+       (GLOBAL_NAME = DBADB.world)
+    )
+  )
+OEM1DB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = decisionsdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = OEM1DB)
+       (GLOBAL_NAME = OEM1DB.world)
+    )
+  )
+OEM2DB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = decisionsdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = OEM2DB)
+       (GLOBAL_NAME = OEM2DB.world)
+    )
+  )
+ORA734.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = testdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORA734)
+       (GLOBAL_NAME = ORA734.world)
+    )
+  )
+ORA806.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = testdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORA806)
+       (GLOBAL_NAME = ORA806.world)
+    )
+  )
+ORA816.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = testdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORA816)
+       (GLOBAL_NAME = ORA816.world)
+    )
+  )
+ORA816_STBY.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = backupmgr.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORA816)
+       (GLOBAL_NAME = ORA816.world)
+    )
+  )
+ORA817.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = testdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORA817)
+       (GLOBAL_NAME = ORA817.world)
+    )
+  )
+ORA817_STBY.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = backupmgr.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORA817)
+       (GLOBAL_NAME = ORA817.world)
+    )
+  )
+ORANT817.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = jhunter-pc.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORANT817)
+       (GLOBAL_NAME = ORANT817.world)
+    )
+  )
+ORA901.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = testdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORA901)
+       (GLOBAL_NAME = ORA901.world)
+    )
+  )
+ORA901_STBY.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = testdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORA901)
+       (GLOBAL_NAME = ORA901.world)
+    )
+  )
+ORANT901.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = jhunter-pc.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ORANT901)
+       (GLOBAL_NAME = ORANT901.world)
+    )
+  )
+RCVCATDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = backupmgr.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = RCVCATDB)
+       (GLOBAL_NAME = RCVCATDB.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | LINUX - XP Project                                          |
+# +-------------------------------------------------------------+
+#
+O817DB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = cartman)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = O817DB)
+	 (GLOBAL_NAME = O817DB.world)
+     )
+  )
+O901DB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = cartman)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = O901DB)
+	 (GLOBAL_NAME = O901DB.world)
+     )
+  )
+OEMDB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = cartman)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = OEMDB)
+	 (GLOBAL_NAME = OEMDB.world)
+     )
+  )
+O901NT.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = bartman)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = O901NT)
+	 (GLOBAL_NAME = O901NT.world)
+     )
+  )
+LINUXDB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = dbalinux.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = LINUXDB)
+	 (GLOBAL_NAME = LINUXDB.world)
+     )
+  )
+#
+# +-------------------------------------------------------------+
+# | MARKETING                                                   |
+# +-------------------------------------------------------------+
+#
+MKTDB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = 169.144.2.179)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = MKTDB)
+	 (GLOBAL_NAME = MKTDB.world)
+     )
+  )
+#
+# +-------------------------------------------------------------+
+# | DATA WAREHOUSE                                              |
+# +-------------------------------------------------------------+
+#
+DWDB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = dwprod.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = DWDB)
+	 (GLOBAL_NAME = DWDB.world)
+     )
+  )
+DWDEV.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = dwprod.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = DWDEV)
+	 (GLOBAL_NAME = DWDEV.world)
+     )
+  )
+DWGDEV.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = appdev.pit.comms.marconi.com)
+	    (Port = 1521)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = DWGDEV)
+	 (GLOBAL_NAME = DWGDEV.world)
+     )
+  )
+CEISDB.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = ceisprod.pit.comms.marconi.com)
+	    (Port = 1526)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = CEISDB)
+	 (GLOBAL_NAME = CEISDB.world)
+     )
+  )
+CEISOID.world = 
+  (DESCRIPTION =
+     (ADDRESS_LIST =
+	 (ADDRESS =
+	    (COMMUNITY = TCP.world)
+	    (PROTOCOL = TCP)
+	    (Host = ceisprod.pit.comms.marconi.com)
+	    (Port = 1526)
+	 )
+     )
+     (CONNECT_DATA =
+	 (SID = CEISOID)
+	 (GLOBAL_NAME = CEISOID.world)
+     )
+  )
+#
+# +-------------------------------------------------------------+
+# | ENGINEERING                                                 |
+# +-------------------------------------------------------------+
+#
+TAGDEV.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 172.29.128.56)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = TAGDEV)
+       (GLOBAL_NAME = TAGDEV.world)
+    )
+  )
+DATA.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = data.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = DATA)
+       (GLOBAL_NAME = DATA.world)
+    )
+  )
+LOR8.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = lore.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = LOR8)
+       (GLOBAL_NAME = LOR8.world)
+    )
+  )
+LORE.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = lore.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = LORE)
+       (GLOBAL_NAME = LORE.world)
+    )
+  )
+VIADB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = engdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = VIADB)
+       (GLOBAL_NAME = VIADB.world)
+    )
+  )
+WCPEFIDV.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = wc-pefi-dev.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = WCPEFIDV)
+       (GLOBAL_NAME = WCPEFIDV.world)
+    )
+  )
+WCPEFIDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = wc-pefi-prod.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = WCPEFIDB)
+       (GLOBAL_NAME = WCPEFIDB.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | MARCONI.COM DATABASE                                        |
+# +-------------------------------------------------------------+
+#
+MRCDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = webdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = MRCDB)
+       (GLOBAL_NAME = MRCDB.world)
+    )
+  )
+PORTDEV.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = webdbdev.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = PORTDEV)
+       (GLOBAL_NAME = PORTDEV.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | CLEVELAND DATABASE(S)                                       |
+# +-------------------------------------------------------------+
+#
+ORCL.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 208.43.60.70)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = orcl)
+       (GLOBAL_NAME = orcl.world)
+    )
+  )
+PROD800.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 208.43.60.25)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = PROD800)
+       (GLOBAL_NAME = PROD800.world)
+    )
+  )
+PROD9.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 208.43.60.49)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = PROD9)
+       (GLOBAL_NAME = PROD9.world)
+    )
+  )
+DEVL9.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 208.43.60.49)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = DEVL9)
+       (GLOBAL_NAME = DEVL9.world)
+    )
+  )
+DEMO9.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 208.43.60.49)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = DEMO9)
+       (GLOBAL_NAME = DEMO9.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | Dublin Environments                                         |
+# +-------------------------------------------------------------+
+#
+DUBDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = dubdbprod.eu.fore.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = DUBDB)
+       (GLOBAL_NAME = DUBDB.world)
+    )
+  )
+DUBDEV.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = dubdbdev.eu.fore.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = DUBDEV)
+       (GLOBAL_NAME = DUBDEV.world)
+    )
+  )
+DUBTEST.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = dubdbdev.eu.fore.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = DUBTEST)
+       (GLOBAL_NAME = DUBTEST.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | MFG                                                         |
+# +-------------------------------------------------------------+
+#
+MFGDEV.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = mfgprod.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = MFGDEV)
+       (GLOBAL_NAME = MFGDEV.world)
+    )
+  )
+AGLDEV.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = mfgprod.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = AGLDEV)
+       (GLOBAL_NAME = AGLDEV.world)
+    )
+  )
+AGLDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = agilprod.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = AGLDB)
+       (GLOBAL_NAME = AGLDB.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | NOC                                                         |
+# +-------------------------------------------------------------+
+#
+NOC2DB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 169.144.215.1)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = NOC2DB)
+       (GLOBAL_NAME = NOC2DB.world)
+    )
+  )
+NOC2DB_STBY.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 169.144.215.2)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = NOC2DB)
+       (GLOBAL_NAME = NOC2DB.world)
+    )
+  )
+NOC2DEV.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 169.144.215.3)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = NOC2DEV)
+       (GLOBAL_NAME = NOC2DEV.world)
+    )
+  )
+NOC2DEV_STBY.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = 169.144.215.4)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = NOC2DEV)
+       (GLOBAL_NAME = NOC2DEV.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | SECURITY                                                    |
+# +-------------------------------------------------------------+
+#
+ISSED.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = decisionsdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ISSED)
+       (GLOBAL_NAME = ISSED.world)
+    )
+  )
+# +-------------------------------------------------------------+
+# | TEST - MD                                                   |
+# +-------------------------------------------------------------+
+#
+TREMOR.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = jishin.ucsur.pitt.edu)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = TREMOR)
+       (GLOBAL_NAME = TREMOR.world)
+    )
+  )
+# 
+# +-------------------------------------------------------------+
+# | TEST DATABASE                                               |
+# +-------------------------------------------------------------+
+#
+TEMPDB.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = testdb.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = TEMPDB)
+       (GLOBAL_NAME = TEMPDB.world)
+    )
+  )
+ARSMIG.world =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = arsdev.pit.comms.marconi.com)
+          (Port = 1521)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = ARSMIG)
+       (GLOBAL_NAME = ARSMIG.world)
+    )
+  )
+#
+# +-------------------------------------------------------------+
+# | ------------------  ** END OF FILE ** ----------------------|
+# +-------------------------------------------------------------+
+#

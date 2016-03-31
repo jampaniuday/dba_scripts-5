@@ -1,0 +1,23 @@
+set heading off;
+set echo off;
+Set pages 999;
+set long 90000;
+ 
+spool ddl_list.sql
+ 
+select dbms_metadata.get_ddl('TABLE','SUD_USUARIO','APPSUD_GUA') from dual;
+ 
+select dbms_metadata.get_ddl('INDEX','DEPT_IDX','SCOTT') from dual;
+
+select dbms_metadata.get_ddl('PACKAGE','PP_UTILES_PPGA_PQ','PPGA') from dual;
+
+select dbms_metadata.get_ddl('TABLESPACE','MECOORIG_256K_DAT') from dual;
+
+
+
+
+
+spool off;
+
+
+select text from dba_source where name='LOGON_VALID_TRG' order by line;

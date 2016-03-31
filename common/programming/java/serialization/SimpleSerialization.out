@@ -1,0 +1,40 @@
+--------------------------
+Compile Program
+--------------------------
+javac SimpleSerialization.java
+
+
+--------------------------
+Run Program
+--------------------------
+java SimpleSerialization
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
++------------------------------+
+| doSave Method                |
++------------------------------+
+
+Creating File/Object output stream...
+Writing Hashtable Object...
+Closing all output streams...
+
+
++------------------------------+
+| doLoad Method                |
++------------------------------+
+
+Creating File/Object input stream...
+Loading Hashtable Object...
+Closing all input streams...
+
+Printing out loaded elements...
+  - Element(double) = 3.141592653589793
+  - Element(int) = 36
+  - Element(string) = Oracle / Java Programming
+

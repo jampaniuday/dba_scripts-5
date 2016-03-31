@@ -1,0 +1,143 @@
+<html>
+<head>
+
+    <style type="text/css">
+        A.noLink        { text-decoration: none; }
+        A.noLinkYellow  { color:yellow;  text-decoration: none; }
+        A.noLinkBlue    { color:blue;  text-decoration: none; }
+        A.noLinkOrange  { color:orange;  text-decoration: none; }
+        A.noLinkCyan    { color:cyan;  text-decoration: none; }
+        A.noLinkGreen   { color:cream;  text-decoration: none; }
+        A.noLinkRed     { color:red;  text-decoration: none; }
+    </style>
+
+    <title>Java SDK 1.4 Logging API - Logging Priorities</title>
+
+    <script language="JavaScript" type="text/javascript">
+
+        function cancelForm() {
+            location = "./MAIN_home.shtml";
+        }
+
+    </script>
+
+</head>
+
+<body bgcolor="#FFFFFF" 
+      link="0000ff" 
+      vlink="0000ff" 
+      alink="0000ff">
+
+    <img src="../../../../gifs/header_programming.gif" alt="">
+    <p>
+
+    <i><b><font color="#ff0000"><u>Java SDK 1.4 Logging API - Logging Priorities</u></font></b></i>
+    <br>
+
+    <p>
+    <a  class="noLinkBlue"
+        onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+        href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no" alt=""></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+    <hr noshade>
+
+    <p>
+    The architecture of the Java 1.4 Logging API defines several levels of
+    logging information. These levels describe the priority of a log request,
+    and the logging framework can be tuned to display logging information
+    related to a certain level(s). The levels defined can be categorized in the
+    descending order or priority as follows:
+
+    <!--
+     | ********************************************
+     |   SEVERE (highest)
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>SEVERE <i>(highest)</i></u></b></font>
+    <p>
+
+    <blockquote>
+    This level should be used to log messages about problems that are
+    <b>very</b> critical to the application and will need immediate attention.
+    </blockquote>
+
+
+    <!--
+     | ********************************************
+     |   WARNING
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>WARNING</u></b></font>
+    <p>
+
+    <blockquote>
+    This level should be used to log messages that indicate a potention
+    problem with an application.
+    </blockquote>
+
+    
+    <!--
+     | ********************************************
+     |   INFO (default)
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>INFO <i>(default)</i></u></b></font>
+    <p>
+
+    <blockquote>
+    This level is the default level used by the logging API. Log messages
+    published with this level are generally normal debugging statements that
+    are typically used during the development phase and day-to-day maintenance
+    of the application.
+    </blockquote>
+
+
+    <!--
+     | ********************************************
+     |   CONFIG
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>CONFIG</u></b></font>
+    <p>
+
+    <blockquote>
+    This level should be used to specify log messages related to the
+    configuration stage of the application. For example, at startup of an 
+    application, you could use this level to print configuration-related
+    information like database or JNDI connection information.
+    </blockquote>
+
+    <!--
+     | ********************************************
+     |   FINE/FINER/FINEST (lowest)
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>FINE/FINER/FINEST <i>(lowest)</i></u></b></font>
+    <p>
+
+    <blockquote>
+    These three levels denote the detail of the log messages from less detailed
+    to highly detailed. Use of these logging levels will result in a vast 
+    amount of logging information being published to the logging destination.
+    </blockquote>
+
+    <!--
+     | ********************************************
+     |   ALL
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>ALL</u></b></font>
+    <p>
+
+    <blockquote>
+    This level can be used to indicate that all messages (defined above) 
+    should be logged.
+    </blockquote>
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+****************++
+* APERTURA
+****************
+# Inicio script Abre BD
+#!/bin/bash
+# 2010/10/12
+# Script para abrir y cerrar bases n2, el script se alimenta del archivo nodosbs.txt
+# de alli tomara
+# AP1= utilizado para el path en los nodos remotos.
+# NODO= equipo al que se conectara
+# ORSI= Oracle_SID
+
+export LD_ASSUME_KERNEL=2.4.1
+export ORACLE_BASE=/softw/app/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db;
+export ORACLE_DATA=${ORACLE_BASE}/oradata;
+export NLS_LANG=spanish_spain.WE8ISO8859P1;
+export NLS_SORT=BINARY;
+export ORACLE_OWNER=oracle;
+export ORACLE_TERM=xterm
+export PATH=$ORACLE_HOME/bin:$PATH
+export NLS_LANG=SPANISH;
+export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data;
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib;
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:$LD_LIBRARY_PATH
+RUTA=/home/dwh/EXTRACTORES/script
+APLI=$1
+
+# Conexion como SYS a las bases de N2
+conexion_sg_n2 ()
+{
+USERBD=usuario
+PASSBD=clave
+sqlplus -s $USERBD/$PASSBD/oracle@${AP1}DWH as sysdba
+}
+
+if [ `cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | wc -l` = 1 ]
+then
+        AP1=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[1]}'`
+        NODO=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[3]}'`
+        ORSI=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[2]}'`
+        echo " dir "${AP1}
+        echo "nodo "$NODO
+        echo " Sid "$ORSI
+        else
+                echo " Variable incorrecta"
+                exit
+fi
+
+# Verifico si la BD esta abierta o cerrada
+STATUS="select STATUS from v\$instance;"
+db_status=`conexion_sg_n2 <<EOF
+           set linesize 200
+           set newp none
+           set serveroutput on size 1000000
+           set feedback off
+           set heading off
+           $STATUS
+           exit
+
+EOF
+           ` > /dev/null
+if [[ "${db_status}" = "OPEN" ]]
+        then
+                echo " la base se encontraba abierta "
+                exit
+fi
+
+# Controlo que la base consultada sea primaria
+QUERY_ROLE="select DATABASE_ROLE from v\$database;"
+db_status_role=`conexion_sg_n2 <<EOF
+           set linesize 200
+           set newp none
+           set serveroutput on size 1000000
+           set feedback off
+           set heading off
+           $QUERY_ROLE
+           exit
+
+EOF
+           ` > /dev/null
+
+if [[ "${db_status_role}" = "PHYSICAL STANDBY" ]]
+        then
+                # Se inicia apertura
+                echo " Se inicia proceso de Apertura de BD"
+                echo `date`
+                echo " Abriendo BD "${ORSI}", en nodo "${NODO}
+                ssh oracle@${NODO} "/home/oracle/scripts/./BajaFisica.ksh ${AP1} ${ORSI}"
+                echo " BD Abierta"
+                echo `date `
+        else
+                echo " BD consultada de N1, status "${db_status_role}
+fi
+
+
+
+
+
+
+# FIN script Abre BD
+
+
+
+
+
+****************
+* CIERRRA
+****************
+
+# Inicio script Cierra BD
+#!/bin/bash
+# F_miers.
+# Script encargado de cerrar las BD de nivel 2 del SG.
+# este script toma el nombre de las bases como los nodos activos del archivo nodosbd.txt
+
+export LD_ASSUME_KERNEL=2.4.1
+export ORACLE_BASE=/softw/app/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db;
+export ORACLE_DATA=${ORACLE_BASE}/oradata;
+export NLS_LANG=spanish_spain.WE8ISO8859P1;
+export NLS_SORT=BINARY;
+export ORACLE_OWNER=oracle;
+export ORACLE_TERM=xterm
+export PATH=$ORACLE_HOME/bin:$PATH
+export NLS_LANG=SPANISH;
+export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data;
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib;
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:$LD_LIBRARY_PATH
+
+# Conexion como SYS a las bases de N2
+{
+USERBD=usuario
+PASSBD=clave
+sqlplus -s $USERBD/$PASSBD/oracle@${AP1}DWH as sysdba
+}
+
+# Variables
+RUTA=/home/dwh/EXTRACTORES/script
+APLI=$1
+# Cargo variables encontradas en nodosbd.txt
+if [ `cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | wc -l` = 1 ]
+then
+    # Aplicacion
+    AP1=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[1]}'`
+    # Nodo activo
+    NODO=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[3]}'`
+    # ORACLE_SID
+    ORSI=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[2]}'`
+
+    else
+        # Salgo si se ingresa nodo incorrecto
+        echo " Variable incorrecta"
+        exit
+fi
+
+# Controlo que la base consultada sea primaria
+QUERY_ROLE="select DATABASE_ROLE from v\$database;"
+db_status_role=`conexion_sg_n2 <<EOF
+           set linesize 200
+           set newp none
+           set serveroutput on size 1000000
+           set feedback off
+           set heading off
+           $QUERY_ROLE
+           exit
+
+EOF
+           ` > /dev/null
+
+# Verifico si la BD esta abierta o cerrada
+STATUS="select STATUS from v\$instance;"
+db_status=`conexion_sg_n2 <<EOF
+           set linesize 200
+           set newp none
+           set serveroutput on size 1000000
+           set feedback off
+           set heading off
+           $STATUS
+           exit
+
+EOF
+           ` > /dev/null
+if [[ "${db_status}" = "MOUNTED" ]]
+        then
+                echo " la base se encontraba cerrada "
+                exit
+fi
+
+
+if [[ "${db_status_role}" = "PHYSICAL STANDBY" ]]
+        then
+# Ruta Alert
+RUAL=/altamira_bd/${AP1}/admin/bdump/alert_${ORSI}.log
+# Salida LOG
+RLOG=${RUTA}/Textos${AP1}.txt
+
+# CIERRO BASE
+#echo " Mato Sesiones "
+#ssh oracle@${NODO} "/home/oracle/scripts/./Mata_sessions_connected.sh"
+sleep 10
+echo " Cerrando bd "${AP1}
+echo " Hora de inicio "`date`
+ssh oracle@${NODO} "/home/oracle/scripts/./SubeFisica.ksh ${AP1} ${ORSI}"
+echo " Fin case"
+echo " Finalizo cierre de BD hora :" `date`
+        else
+                echo " Atencion = Base N1, estado ="${db_status_role}
+fi
+
+# FIN script Cierra BD
+
+
+************************+
+* Consulta Status
+************************
+
+# Inicio script Status sync BD
+#!/bin/bash
+# F_miers.
+# Script encargado de cerrar las BD de nivel 2 del SG.
+# este script toma el nombre de las bases como los nodos activos del archivo nodosbd.txt
+
+export LD_ASSUME_KERNEL=2.4.1
+export ORACLE_BASE=/softw/app/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db;
+export ORACLE_DATA=${ORACLE_BASE}/oradata;
+export NLS_LANG=spanish_spain.WE8ISO8859P1;
+export NLS_SORT=BINARY;
+export ORACLE_OWNER=oracle;
+export ORACLE_TERM=xterm
+export PATH=$ORACLE_HOME/bin:$PATH
+export NLS_LANG=SPANISH;
+export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data;
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib;
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:$LD_LIBRARY_PATH
+
+conexion_sg_n2 ()
+{
+USERBD=usuario
+PASSBD=clave
+sqlplus -s $USERBD/$PASSBD/oracle@${AP1}DWH as sysdba
+}
+
+# Variables
+RUTA=/home/dwh/EXTRACTORES/script
+APLI=$1
+# Cargo variables encontradas en nodosbd.txt
+if [ `cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | wc -l` = 1 ]
+then
+    # Aplicacion
+    AP1=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[1]}'`
+    # Nodo activo
+    NODO=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[3]}'`
+    # ORACLE_SID
+    ORSI=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[2]}'`
+
+    else
+        # Salgo si se ingresa nodo incorrecto
+        echo " Variable incorrecta"
+        exit
+fi
+
+# Ruta Alert
+RUAL=/altamira_bd/${AP1}/admin/bdump/alert_${ORSI}.log
+# Salida LOG
+RLOG=${RUTA}/Textos${AP1}.txt
+echo $AP1
+echo $NODO
+echo $ORSI
+
+# Consulto estado BD
+echo "set time off;
+        set timing off;
+        set feedback off;
+        set heading on;
+        set pagesize 10000;
+select DATABASE_ROLE from v\$database;
+alter session set nls_date_format='mm/dd/yyyy hh24:mi:ss';
+select HOST_NAME,STATUS from v\$instance;
+select max(first_time) as COMPLETADO
+from V\$ARCHIVED_LOG
+where applied='YES' ;"| conexion_sg_n2
+
+# FIN script Status sync BD

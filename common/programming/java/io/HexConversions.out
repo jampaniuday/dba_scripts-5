@@ -1,0 +1,46 @@
+--------------------------
+Compile Program
+--------------------------
+javac HexConversions.java
+
+
+--------------------------
+Run Program
+--------------------------
+java HexConversions
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+Original String          : This is a test string.
+Created byte[] of length : 22
+Convert byte[] to String : 546869732069732061207465737420737472696E672E
+
+List individual entries of byte[]
+---------------------------------
+bytes[0]   =  84 :  HEX=(0x54) :  charValue=(T)
+bytes[1]   = 104 :  HEX=(0x68) :  charValue=(h)
+bytes[2]   = 105 :  HEX=(0x69) :  charValue=(i)
+bytes[3]   = 115 :  HEX=(0x73) :  charValue=(s)
+bytes[4]   =  32 :  HEX=(0x20) :  charValue=( )
+bytes[5]   = 105 :  HEX=(0x69) :  charValue=(i)
+bytes[6]   = 115 :  HEX=(0x73) :  charValue=(s)
+bytes[7]   =  32 :  HEX=(0x20) :  charValue=( )
+bytes[8]   =  97 :  HEX=(0x61) :  charValue=(a)
+bytes[9]   =  32 :  HEX=(0x20) :  charValue=( )
+bytes[10]  = 116 :  HEX=(0x74) :  charValue=(t)
+bytes[11]  = 101 :  HEX=(0x65) :  charValue=(e)
+bytes[12]  = 115 :  HEX=(0x73) :  charValue=(s)
+bytes[13]  = 116 :  HEX=(0x74) :  charValue=(t)
+bytes[14]  =  32 :  HEX=(0x20) :  charValue=( )
+bytes[15]  = 115 :  HEX=(0x73) :  charValue=(s)
+bytes[16]  = 116 :  HEX=(0x74) :  charValue=(t)
+bytes[17]  = 114 :  HEX=(0x72) :  charValue=(r)
+bytes[18]  = 105 :  HEX=(0x69) :  charValue=(i)
+bytes[19]  = 110 :  HEX=(0x6e) :  charValue=(n)
+bytes[20]  = 103 :  HEX=(0x67) :  charValue=(g)
+bytes[21]  =  46 :  HEX=(0x2e) :  charValue=(.)

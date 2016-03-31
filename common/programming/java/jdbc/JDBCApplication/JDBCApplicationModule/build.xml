@@ -1,0 +1,532 @@
+<?xml version = '1.0'?>
+
+<!--
+ | =============================================================================
+ |   build.xml
+ | =============================================================================
+ |            Ant buildfile for all Java Programming Examples
+ | 
+ |     Copyright (c) 1998-2004 Jeffrey M. Hunter. All rights reserved.
+ | =============================================================================
+ |
+ |   Ant Tips:
+ |
+ |     1.) When running the "run tasks" (i.e. run_thin) use the Ant option
+ |         '-emacs' to allow Ant to produce output logging information without 
+ |         adornments. (Those annoying [java] prefixes for each line in the 
+ |         output!)
+ |
+ |         % ant -emacs run_thin
+ |
+ |     2.) When running the "run tasks" (i.e. run_thin), be careful when using
+ |         the '-q' Ant option. This option tells Ant to be extra quiet, but
+ |         will suppress stdout. It will not, however, suppress stderr.
+ |
+ |     3.) If you want to really see what Ant is doing when performing tasks,
+ |         you can use the '-v' option. This option provides detailed verbose
+ |         output for things like 'Detecting O/S', 'Detecting JVM to use', 
+ |         'URI for the buildfile', 'Which files are being included, omitted,
+ |         or skipped for a particular task'.
+ |
+ |         % ant -v
+ |
+ | =============================================================================
+ +-->
+
+<project name="JdbcExamples" default="usage" basedir=".">
+
+    <description>Ant build.xml to build all JDBC Examples from "www.iDevelopment.info"</description>
+
+    <!-- Set all global project properties -->
+    <property name="project.name"              value="${ant.project.name}" />
+    <property name="project.version"           value="2.0" />
+    <property name="Specification.Title"       value="${project.name}" /> 
+    <property name="Specification.Version"     value="${project.version}" /> 
+    <property name="Specification.Vendor"      value="iDevelopment.info" />
+    <property name="Implementation.Vendor.URL" value="http://www.iDevelopment.info" />
+
+    <!-- Set all global directory properties -->
+    <property name="dist.dir"                  value="dist" />
+    <property name="build.dir"                 value="build" />
+    <property name="build.conf.dir"            value="${build.dir}/conf" />
+    <property name="javadoc.dir"               value="javadoc" />
+    <property name="src.dir"                   value="src" />
+    <property name="clientlib.dir"             value="lib" />
+    <property name="clientconfig.dir"          value="conf" />
+    
+    <!-- Set all global distribution properties -->
+    <property name="jarfile.name"              value="${project.name}-${project.version}.jar" />
+    <property name="jarfile.path"              value="${dist.dir}/${jarfile.name}" />
+    
+    <!-- Set all global run task properties -->
+    <property name="runclass.thin"             value="${jarfile.path}" />
+    <property name="runclass.oci"              value="JdbcExamples.JdbcExampleOCI" />
+    <property name="runclass.ojvm.outside"     value="OracleJVMExamples.TestConnection" />
+
+    <!-- Read in all Oracle Database Connection properties -->
+    <property name="oracle.db.prop.filename"   value="oracle.db.properties" />
+    <property name="oracle.db.prop.file"       value="${clientconfig.dir}/${oracle.db.prop.filename}" />
+    <property file="${oracle.db.prop.file}" />
+
+
+    <!-- **************************  CLASSPATH  **************************** -->
+    <path id="classpath">
+        <pathelement location="${build.dir}" />
+        <pathelement location="${clientlib.dir}/ojdbc14.jar" />
+    </path>
+
+    <path id="classpath.run">
+        <pathelement location="${build.dir}" />
+    </path>
+
+
+    <!-- ************************  TARGET: "usage"  ************************ -->
+    <target name="usage"
+            description="Display main targets by running 'ant -projecthelp'">
+            
+        <java classname="org.apache.tools.ant.Main">
+            <arg value="-projecthelp" />
+        </java>
+        
+    </target>
+
+
+    <!-- ************************  TARGET: "init"  ************************* -->
+    <target name="init"
+            depends="detect_os"
+            description="Create Time Stamp and all output directories.">
+        
+        <!-- Set several Date / Time formats -->
+        <tstamp>
+            <format property="timestamp.isoformat"  pattern="yyyy-mm-dd HH:mm:ss" locale="en" />
+            <format property="custom.timestamp"     pattern="MMMM d, yyyy HH:mm:ss" />
+            <format property="TSTAMP"               pattern="HH:mm:ss" /> 
+            <format property="DAYSTAMP"             pattern="Mdd" /> 
+            <format property="MONTHSTAMP"           pattern="MMMM d, yyyy" />
+        </tstamp>
+        
+        <!-- Create all required directories for this project -->
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${build.conf.dir}" />
+        <mkdir dir="${dist.dir}" />
+        <mkdir dir="${javadoc.dir}" />
+
+    </target>
+
+
+    <!-- ************************  TARGET: "detect_os"  ************************* -->
+    <target name="detect_os"
+            description="Detect the operating system environment.">
+        
+        <!-- Detect which operating system family -->
+        <condition property="os.isWindows">
+            <or>
+                <os family="windows" />
+                <os family="win9x" />
+                <os family="dos" />
+            </or>
+        </condition>
+
+        <condition property = "os.isUnix">
+            <os family = "unix" />
+        </condition>
+
+        <condition property="os.isMac">
+            <os family="mac" />
+        </condition>
+        
+		<condition property="os.isOther">
+            <or>
+                <os family="netware" />
+                <os family="os/2" />
+            </or>
+        </condition>
+
+        <!-- Display operating environment family -->
+        <echo>Windows     : ${os.isWindows}</echo>
+        <echo>Unix        : ${os.isUnix}</echo>
+        <echo>Macintosh   : ${os.isMac}</echo>
+        <echo>Other       : ${os.isOther}</echo>
+        
+    </target>
+
+
+    <!-- ************************  TARGET: "buildSource"  ************************ -->
+    <target name="buildSource"
+            depends="init"
+            description="Compile all Java source files and prepare for distribution. Output goes to the 'build' dir.">
+        
+        <javac srcdir="${src.dir}"
+               destdir="${build.dir}"
+               includeAntRuntime="no"
+               debug="on">
+            <classpath refid="classpath"/>
+        </javac>
+        
+    </target>
+
+
+    <!-- ************************  TARGET: "buildPostWindows"  ***************** -->
+    <target name="buildPostWindows" if="os.isWindows">
+        
+        <!-- EOL = "crlf" (\r\n) -->
+        <echo>Performing post-build tasks for Microsoft Windows ...</echo>
+
+        <copy file="${oracle.db.prop.file}" todir="${build.conf.dir}" />
+        <fixcrlf srcdir="${build.conf.dir}"
+                 tab="remove"
+                 tablength="4"
+                 eol="crlf"
+                 includes="${oracle.db.prop.filename}" />
+                 
+    </target>
+    
+    
+    <!-- ************************  TARGET: "buildPostUnix"  ******************** -->
+    <target name="buildPostUnix" if="os.isUnix">
+        
+        <!-- EOL = "lf" (\n) -->
+        <echo>Performing post-build tasks for UNIX ...</echo>
+        
+        <copy file="${oracle.db.prop.file}" todir="${build.conf.dir}" />
+        <fixcrlf srcdir="${build.conf.dir}"
+                 tab="remove"
+                 tablength="4"
+                 eol="lf"
+                 includes="${oracle.db.prop.filename}" />
+                 
+    </target>
+
+
+    <!-- ************************  TARGET: "buildPostMac"  ********************* -->
+    <target name="buildPostMac" if="os.isMac">
+        
+        <!-- EOL = "cr" (\r) -->
+        <echo>Performing post-build tasks for Macintosh ...</echo>
+        
+        <copy file="${oracle.db.prop.file}" todir="${build.conf.dir}" />
+        <fixcrlf srcdir="${build.conf.dir}"
+                 tab="remove"
+                 tablength="4"
+                 eol="cr"
+                 includes="${oracle.db.prop.filename}" />
+                 
+    </target>
+
+
+    <!-- ************************  TARGET: "buildPostOther"  ********************* -->
+    <target name="buildPostOther" if="os.isOther">
+        
+        <echo>Performing post-build tasks for unknown operating system ...</echo>
+
+        <copy file="${oracle.db.prop.file}" todir="${build.conf.dir}" />
+        <fixcrlf srcdir="${build.conf.dir}"
+                 tab="remove"
+                 tablength="4"
+                 eol="crlf"
+                 includes="${oracle.db.prop.filename}" />
+        
+    </target>
+
+
+    <!-- ************************  TARGET: "build"  ************************ -->
+    <target name="build"
+            depends=" buildSource
+                    , buildPostWindows
+                    , buildPostUnix
+                    , buildPostMac
+                    , buildPostOther
+                    , loadjava"
+            description="Build the complete project. Includes loading Java into OJVM and copying property files."
+    />
+        
+
+    <!-- ************************  TARGET: "doc"  ************************** -->
+    <target name="doc"
+            depends="init"
+            description="Build all Javadoc API documentation.">
+
+        <javadoc sourcepath="${src.dir}"
+                 classpathref="classpath"
+                 destdir="${javadoc.dir}"
+                 packagenames="*"
+                 version="false"
+                 author="true"
+                 additionalparam="-J-Xmx32m">
+        </javadoc>
+        
+    </target>
+
+
+    <!-- ************************  TARGET: "loadjava"  ********************* -->
+    <target name="loadjava"
+            description="Load all required Java classes into the Oracle database.">
+
+        <exec dir="${src.dir}/OracleJVMExamples"
+              executable="LoadOracleJVM.bat"
+              vmlauncher="false"
+              os="Windows 95, Windows 98, Windows Me, Windows NT, Windows 2000, Windows XP, Windows CE">
+
+            <arg value="${oracle.db.oci8.user.value}" />
+            <arg value="${oracle.db.oci8.password.value}" />
+            <arg value="${oracle.db.oci8.tns.value}" />
+
+        </exec>
+
+        <exec dir="${src.dir}/OracleJVMExamples"
+              executable="sh"
+              vmlauncher="false"
+              os="Linux, Solaris, SunOS, HP-UX, AIX, OS/390, FreeBSD, Irix, Digital Unix, OSF1, OpenVMS, MPE/iX, Mac OS X">
+
+            <arg line="LoadOracleJVM.sh"/>
+            <arg value="${oracle.db.oci8.user.value}" />
+            <arg value="${oracle.db.oci8.password.value}" />
+            <arg value="${oracle.db.oci8.tns.value}" />
+
+        </exec>
+
+        <exec dir="${src.dir}/OracleJVMExamples"
+              executable="sqlplus"
+              vmlauncher="false">
+        
+            <arg value="${oracle.db.oci8.user.value}/${oracle.db.oci8.password.value}@${oracle.db.oci8.tns.value}" />
+            <arg value="@LoadOracleJVMCallSpec.sql" />
+
+        </exec>
+        
+    </target>
+
+
+    <!-- ************************  TARGET: "dropjava"  ********************* -->
+    <target name="dropjava"
+            description="Drop all required Java classes from the Oracle database.">
+
+        <exec dir="${src.dir}/OracleJVMExamples"
+              executable="DropOracleJVM.bat"
+              vmlauncher="false"
+              os="Windows 95, Windows 98, Windows Me, Windows NT, Windows 2000, Windows XP, Windows CE">
+
+            <arg value="${oracle.db.oci8.user.value}" />
+            <arg value="${oracle.db.oci8.password.value}" />
+            <arg value="${oracle.db.oci8.tns.value}" />
+
+        </exec>
+
+        <exec dir="${src.dir}/OracleJVMExamples"
+              executable="sh"
+              vmlauncher="false"
+              os="Linux, Solaris, SunOS, HP-UX, AIX, OS/390, FreeBSD, Irix, Digital Unix, OSF1, OpenVMS, MPE/iX, Mac OS X">
+
+            <arg line="DropOracleJVM.sh"/>
+            <arg value="${oracle.db.oci8.user.value}" />
+            <arg value="${oracle.db.oci8.password.value}" />
+            <arg value="${oracle.db.oci8.tns.value}" />
+
+        </exec>
+
+        <exec dir="${src.dir}/OracleJVMExamples"
+              executable="sqlplus"
+              vmlauncher="false">
+        
+            <arg value="${oracle.db.oci8.user.value}/${oracle.db.oci8.password.value}@${oracle.db.oci8.tns.value}" />
+            <arg value="@DropOracleJVMCallSpec.sql" />
+
+        </exec>
+        
+    </target>
+
+
+    <!-- ************************  TARGET: "distCreateJAR"  ************************* -->
+    <target name="distCreateJAR"
+            description="Create the final JAR archive that includes all JDBC Examples. Output goes to the 'dist' dir.">
+            
+        <jar destfile="${jarfile.path}" compress="true">
+            <fileset    dir="${build.dir}" />
+            <zipfileset src="${clientlib.dir}/ojdbc14.jar" />
+            <manifest>
+                <attribute name="Main-Class"                value="JdbcExamples.JdbcExampleThin" /> 
+                <attribute name="Built-By"                  value="${user.name}" />
+                <attribute name="Built-On"                  value="${custom.timestamp}" />
+                <attribute name="Specification-Title"       value="${Specification.Title}" /> 
+                <attribute name="Specification-Version"     value="${Specification.Version}" /> 
+                <attribute name="Specification-Vendor"      value="${Specification.Vendor}" />
+                <attribute name="Implementation-Vendor-URL" value="${Implementation.Vendor.URL}" />
+            </manifest>
+        </jar>
+        
+    </target>
+
+
+
+    <!-- ************************  TARGET: "distPostWindows"  ***************** -->
+    <target name="distPostWindows" if="os.isWindows">
+        
+        <!-- EOL = "crlf" (\r\n) -->
+        <echo>Performing post-distribution tasks for Microsoft Windows ...</echo>
+
+        <copy file="README.txt" todir="${dist.dir}" />
+        <fixcrlf srcdir="${dist.dir}"
+                 tab="remove"
+                 tablength="4"
+                 eol="crlf"
+                 includes="README.txt" />
+                 
+    </target>
+    
+    
+    <!-- ************************  TARGET: "distPostUnix"  ******************** -->
+    <target name="distPostUnix" if="os.isUnix">
+        
+        <!-- EOL = "lf" (\n) -->
+        <echo>Performing post-distribution tasks for UNIX ...</echo>
+        
+        <copy file="README.txt" todir="${dist.dir}" />
+        <fixcrlf srcdir="${dist.dir}"
+                 tab="remove"
+                 tablength="4"
+                 eol="lf"
+                 includes="README.txt" />
+                 
+    </target>
+
+
+    <!-- ************************  TARGET: "distPostMac"  ********************* -->
+    <target name="distPostMac" if="os.isMac">
+        
+        <!-- EOL = "cr" (\r) -->
+        <echo>Performing post-distribution tasks for Macintosh ...</echo>
+        
+        <copy file="README.txt" todir="${dist.dir}" />
+        <fixcrlf srcdir="${dist.dir}"
+                 tab="remove"
+                 tablength="4"
+                 eol="cr"
+                 includes="README.txt" />
+                 
+    </target>
+
+
+    <!-- ************************  TARGET: "distPostOther"  ********************* -->
+    <target name="distPostOther" if="os.isOther">
+        
+        <echo>Performing post-distribution tasks for unknown operating system ...</echo>
+
+        <copy file="README.txt" todir="${dist.dir}" />
+        <fixcrlf srcdir="${dist.dir}"
+                 tab="remove"
+                 tablength="4"
+                 eol="crlf"
+                 includes="README.txt" />
+        
+    </target>
+
+
+    <!-- ************************  TARGET: "rebuild"  ********************** -->
+    <target name="rebuild"
+            depends=" clean
+                    , build"
+            description="Rebuild the entire project by performing a 'clean' and then a 'build'."/>
+            
+            
+    <!-- ************************  TARGET: "dist"  ************************* -->
+    <target name="dist"
+            depends=" rebuild
+                    , distCreateJAR
+                    , distPostWindows
+                    , distPostUnix
+                    , distPostMac
+                    , distPostOther"
+            description="Perform all tasks for a final software distribution." />
+
+
+    <!-- ************************  TARGET: "all"  ************************** -->
+    <target name="all"
+            depends=" dist
+                    , doc"
+            description="Perform all core tasks including 'distribution' and 'Javadoc API'."/>
+
+
+    <!-- **********************  TARGET: "clean"  ************************** -->
+    <target name="clean"
+            depends=" detect_os
+                    , dropjava"
+            description="Delete all temporary output directories.">
+
+        <delete dir="${build.dir}" />
+        <delete dir="${javadoc.dir}" />
+        <delete dir="${dist.dir}" />
+        
+    </target>
+    
+    
+    <!-- ***********************  TARGET: "run_thin"  ********************** -->
+    <target name="run_thin"
+            depends="dist"
+            description="Run the the Thin JDBC Example Application.">
+        
+        <java jar="${runclass.thin}" fork="true" failonerror="false" maxmemory="128m">
+            <classpath refid="classpath.run" />
+            <arg value="${oracle.db.thin.sid.name}" />
+            <arg value="${oracle.db.thin.sid.value}" />
+            <arg value="${oracle.db.thin.host.name}" />
+            <arg value="${oracle.db.thin.host.value}" />
+            <arg value="${oracle.db.thin.listener.name}" />
+            <arg value="${oracle.db.thin.listener.value}" />
+            <arg value="${oracle.db.thin.user.name}" />
+            <arg value="${oracle.db.thin.user.value}" />
+            <arg value="${oracle.db.thin.password.name}" />
+            <arg value="${oracle.db.thin.password.value}" />
+        </java>
+        
+    </target>
+
+
+    <!-- ***********************  TARGET: "run_oci"  *********************** -->
+    <target name="run_oci"
+            depends="dist"
+            description="Run the the OCI8 JDBC Example Application.">
+
+        <java classname="${runclass.oci}" classpath="${jarfile.path}" fork="true" failonerror="false" maxmemory="128m">
+            <arg value="${oracle.db.oci8.tns.name}" />
+            <arg value="${oracle.db.oci8.tns.value}" />
+            <arg value="${oracle.db.oci8.user.name}" />
+            <arg value="${oracle.db.oci8.user.value}" />
+            <arg value="${oracle.db.oci8.password.name}" />
+            <arg value="${oracle.db.oci8.password.value}" />
+        </java>
+        
+    </target>
+
+
+    <!-- ***********************  TARGET: "run_ojvm_outside"  *********************** -->
+    <target name="run_ojvm_outside"
+            depends="dist"
+            description="Run the the Oracle JVM Example Application. (Outside the Oracle JVM)">
+
+        <java classname="${runclass.ojvm.outside}"
+              classpath="${jarfile.path}"
+              fork="true"
+              failonerror="false"
+              maxmemory="128m"
+        />
+        
+    </target>
+
+
+    <!-- ***********************  TARGET: "run_ojvm_inside"  *********************** -->
+    <target name="run_ojvm_inside"
+            depends="dist"
+            description="Run the the Oracle JVM Example Application. (Inside the Oracle JVM)">
+
+        <exec dir="${src.dir}/OracleJVMExamples"
+              executable="sqlplus"
+              vmlauncher="false">
+        
+            <arg value="${oracle.db.oci8.user.value}/${oracle.db.oci8.password.value}@${oracle.db.oci8.tns.value}" />
+            <arg value="@TestOracleJVMCallSpec.sql" />
+
+        </exec>
+        
+    </target>
+    
+</project>

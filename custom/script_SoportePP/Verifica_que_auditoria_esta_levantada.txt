@@ -1,0 +1,87 @@
+select * from dba_stmt_audit_opts;
+select * from dba_priv_audit_opts;
+
+-- total auditoria conexiones
+select count(1), min(timestamp) from dba_audit_session;
+
+SELECT view_name
+FROM   dba_views
+WHERE  view_name LIKE 'DBA%AUDIT%'
+ORDER BY view_name;
+
+
+
+-- total auditoria global
+select count(1) from aud$
+
+audit alter user;
+
+noaudit alter user;
+
+select * from sys.aud$ where action#=43;
+
+
+SELECT * FROM DBA_OBJ_AUDIT_OPTS
+    WHERE OWNER = 'SCOTT' AND OBJECT_NAME LIKE 'EMP%';
+
+
+
+grep "redeem reward" /home/tom/*.txt
+
+
+grep -H "alter user" *.aud
+
+find . -type f -mtime 2
+
+ls -latr | tail -200
+
+
+-------------------------
+cr........................
+-----------------------------
+
+  COUNT(1) MIN(TIMES
+---------- ---------
+  21719893 30-JUN-11
+
+ COUNT(1)
+
+find /softw/app/oracle/product/10.2.0/db -name 'listener.ora'
+
+find / -name 'listener.ora'
+
+find / -name '*.ora'
+
+
+----------
+  21722556
+
+99.98%
+
+-------------------------
+pa........................
+-----------------------------
+
+  COUNT(1) MIN(TIMES
+---------- ---------
+  20206727 19-JUL-11
+
+  COUNT(1)
+----------
+  20206851
+
+99.99%
+
+-------------------------
+sv........................
+-----------------------------
+
+  COUNT(1) MIN(TIMES
+---------- ---------
+  20730000 18-AUG-11
+
+  COUNT(1)
+----------
+  20730752
+
+99.99%

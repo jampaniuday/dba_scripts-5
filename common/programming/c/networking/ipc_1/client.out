@@ -1,0 +1,4 @@
+$ client newhost.iDevelopment.info 39409 "This is a test"
+CLIENT: Ready to send
+CLIENT: Completed send.
+

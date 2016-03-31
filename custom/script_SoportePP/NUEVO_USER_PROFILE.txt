@@ -1,0 +1,79 @@
+CREATE PROFILE CONSULTA LIMIT
+COMPOSITE_LIMIT   		DEFAULT
+CONNECT_TIME			DEFAULT
+CPU_PER_CALL			UNLIMITED
+CPU_PER_SESSION			DEFAULT
+IDLE_TIME			15
+LOGICAL_READS_PER_CALL		819200
+LOGICAL_READS_PER_SESSION	UNLIMITED
+PRIVATE_SGA			DEFAULT
+SESSIONS_PER_USER		UNLIMITED
+FAILED_LOGIN_ATTEMPTS		UNLIMITED
+PASSWORD_GRACE_TIME		UNLIMITED
+PASSWORD_LIFE_TIME		UNLIMITED
+PASSWORD_LOCK_TIME		UNLIMITED
+PASSWORD_REUSE_MAX		UNLIMITED
+PASSWORD_REUSE_TIME		UNLIMITED
+PASSWORD_VERIFY_FUNCTION	NULL;
+
+CREATE USER CPMPA_SCHEMA 
+    IDENTIFIED BY xiusPA1 
+    DEFAULT TABLESPACE PMPA_DATA 
+    TEMPORARY TABLESPACE temp
+    PROFILE consulta;
+
+grant connect to cpmpa_schema;
+
+ALTER USER CPMGT_SCHEMA PROFILE CONSULTA;
+
+
+select 'GRANT SELECT ON '||OWNER||'.'||OBJECT_NAME||' TO CPMPA_SCHEMA;' 
+from dba_objects where owner = 'PMPA_SCHEMA' and object_type in ('TABLE','VIEW')
+UNION ALL
+select 'GRANT SELECT ON '||OWNER||'.'||OBJECT_NAME||' TO CPMPA_SCHEMA;' 
+from dba_objects where owner = 'PM_SCHEMA' and object_type in ('TABLE','VIEW');
+
+
+
+--- original altamira
+
+USUARIO                        COMPOSITE_LIMIT                  KERNEL   DEFAULT
+USUARIO                        SESSIONS_PER_USER                KERNEL   2
+USUARIO                        CPU_PER_SESSION                  KERNEL   DEFAULT
+USUARIO                        CPU_PER_CALL                     KERNEL   UNLIMITED
+USUARIO                        LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USUARIO                        LOGICAL_READS_PER_CALL           KERNEL   819200
+USUARIO                        IDLE_TIME                        KERNEL   15
+USUARIO                        CONNECT_TIME                     KERNEL   DEFAULT
+USUARIO                        PRIVATE_SGA                      KERNEL   DEFAULT
+USUARIO                        FAILED_LOGIN_ATTEMPTS            PASSWORD 4
+USUARIO                        PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_REUSE_TIME              PASSWORD 30
+USUARIO                        PASSWORD_REUSE_MAX               PASSWORD 13
+USUARIO                        PASSWORD_VERIFY_FUNCTION         PASSWORD NULL
+USUARIO                        PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_GRACE_TIME              PASSWORD 3
+
+--- original xius
+APPL2_USER                     PASSWORD_GRACE_TIME              PASSWORD UNLIMITED
+APPL2_USER                     PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+APPL2_USER                     PASSWORD_VERIFY_FUNCTION         PASSWORD DEFAULT
+APPL2_USER                     PASSWORD_REUSE_MAX               PASSWORD UNLIMITED
+APPL2_USER                     PASSWORD_REUSE_TIME              PASSWORD UNLIMITED
+APPL2_USER                     PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+APPL2_USER                     FAILED_LOGIN_ATTEMPTS            PASSWORD UNLIMITED
+APPL2_USER                     PRIVATE_SGA                      KERNEL   DEFAULT
+APPL2_USER                     CONNECT_TIME                     KERNEL   UNLIMITED
+APPL2_USER                     IDLE_TIME                        KERNEL   UNLIMITED
+APPL2_USER                     LOGICAL_READS_PER_CALL           KERNEL   DEFAULT
+APPL2_USER                     LOGICAL_READS_PER_SESSION        KERNEL   DEFAULT
+APPL2_USER                     CPU_PER_CALL                     KERNEL   DEFAULT
+APPL2_USER                     CPU_PER_SESSION                  KERNEL   DEFAULT
+APPL2_USER                     SESSIONS_PER_USER                KERNEL   UNLIMITED
+APPL2_USER                     COMPOSITE_LIMIT                  KERNEL   DEFAULT
+
+
+
+
+
+

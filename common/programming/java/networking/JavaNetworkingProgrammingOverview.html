@@ -1,0 +1,189 @@
+<html>
+<head>
+
+    <style type="text/css">
+        A.noLink        { text-decoration: none; }
+        A.noLinkYellow  { color:yellow;  text-decoration: none; }
+        A.noLinkBlue    { color:blue;  text-decoration: none; }
+        A.noLinkOrange  { color:orange;  text-decoration: none; }
+        A.noLinkCyan    { color:cyan;  text-decoration: none; }
+        A.noLinkGreen   { color:cream;  text-decoration: none; }
+        A.noLinkRed     { color:red;  text-decoration: none; }
+    </style>
+
+    <title>Java Networking Programming Overview</title>
+
+    <script language="JavaScript" type="text/javascript">
+
+        function cancelForm() {
+            location = "./MAIN_home.shtml";
+        }
+
+    </script>
+
+</head>
+
+<body bgcolor="#FFFFFF" 
+      link="0000ff" 
+      vlink="0000ff" 
+      alink="0000ff">
+
+    <img src="../../../../gifs/header_programming.gif" alt="">
+    <p>
+
+    <i><b><font color="#ff0000"><u>Java Networking Programming Overview</u></font></b></i>
+    <br>
+
+    <p>
+    <a  class="noLinkBlue"
+        onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+        href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no" alt=""></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+    <hr noshade>
+
+
+    <!--
+     | ********************************************
+     |   Sockets
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b>Sockets</b></font>
+    <p>
+
+    <ul>
+        <li> When creating a socket, you pass in the hostname and port number.
+        <li> The <code>java.net.Socket</code> constructor does the
+             <code>gethostbyname()</code> and the <code>socket()</code> system
+             call, sets up the server's <code>sockaddr_in</code> structure,
+             and executes the <code>connect()</code> call.
+        <li> All you have to do is catch the errors, which are subclassed from
+             the familiar <code>IOException</code>.
+        <li> You can both <u>read</u> and <u>write</u> on the same Socket.
+             
+    </ul>
+
+
+    <!--
+     | ********************************************
+     |   Reading / Writing Data
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b>Reading / Writing Data</b></font>
+    <p>
+
+    <ul>
+
+        <li> <b>Reading / Writing on the same Socket</b>
+        <p>
+        <ul>
+            <li> Java allows to both <u>read</u> and <u>write</u> on the same 
+                 Socket.
+            <li> This requirement, copying data in both directions at more or 
+                 less the same time - from the keyboard to the remote program, 
+                 and from the remote program to the screen - there are two 
+                 approaches.
+            <li> Some I/O libraries in C have a function called <code>poll()</code>
+                 or <code>select()</code> that allows you to examine a number of
+                 files to see which ones are ready for reading or writing.
+            <li> Java does not support this model. The other model, which works
+                 on most platforms and is the norm in Java, is to use two
+                 threads, one to handle the data transfer in each direction.
+            <li> The class <code>Pipe</code> encapsulates on threads and the 
+                 code for copying data in one direction; two instances are used,
+                 one to drive each direction of transfer independently of the
+                 other.
+        </ul>
+        <p>
+
+
+        <li> <b>Reading / Writing Textual Data</b>
+        <p>
+        <ul>
+            <li> Construct a <code>BufferedReader</code> or
+                 <code>PrintWriter</code> object.
+            <li> Both objects can be created using the socket's
+                 <code>getInputStream()</code> or <code>getOutputStream()</code>
+                 methods.
+            <li> There is no method to fetch a <code>Reader</code> or
+                 <code>Writer</code>, partly because some network services
+                 are limited to ASCII, but mainly because the
+                 <code>Socket</code> class was decided on before there were
+                 <code>Reader</code> and <code>Writer</code> classes. You can
+                 always create a <code>Reader</code> from an
+                 <code>InputStream</code> or a <code>Writer</code> from an
+                 <code>OutputStream</code> using the conversion classes. The
+                 paradigm for the two most common forms is:
+
+                 <pre>  BufferedReader is = new BufferedReader (
+      new InputStreamReader(sock.getInputStream()));
+
+  PrintWriter os = new PrintWriter(sock.getOutputStream(), true);</pre>
+                 
+        </ul>
+        
+        <li> <b>Reading / Writing Binary Data</b>
+        <p>
+        <ul>
+            <li> Construct a <code>DataInputStream</code> or
+                 <code>DataOutputStream</code> object.
+            <li> Both objects can be created using the socket's
+                 <code>getInputStream()</code> or <code>getOutputStream()</code>
+                 methods.
+            <li> The simplest paradigm is:
+            
+                 <pre>  DataInputStream is = new DataInputStream(sock.getInputStream());
+  DataOutputStream os = new DataOutputStream(sock.getOutputStream());</pre>
+            <li> If the volumne of data might be large, insert a bufferd
+                 stream for efficiency. The paradigm is:
+
+                 <pre>  DataInputStream is = new DataInputStream(
+      new BufferedInputStream(sock.getInputStream()));
+
+  DataOutputStream os = new DataOutputStream(
+      new BufferedOutputStream(sock.getOutputStream()));</pre>
+        </ul>
+        
+    </ul>
+
+    
+    <!--
+     | ********************************************
+     |   Server Sockets
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b>Server Sockets</b></font>
+    <p>
+
+
+
+
+    <!--
+     | ********************************************
+     |   InetAddress
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b>InetAddress</b></font>
+    <p>
+
+    <ul>
+        <li> The <code>InetAddress</code> is mainly used for looking up a host's
+             address name or number.
+        <li> It is also possible to obtain the address at the other end of a
+             connection.
+        <li> The <code>InetAddress</code> object represents the Internet address
+             of a given computer or host.
+        <li> There are no public constructors, you can obtain an
+             <code>InetAddress</code> object by calling the static
+             <code>byName</code> method, passing in either a hostname like
+             <i>wwww.iDevelopment.info</i> or a network address as a String,
+             like "12.4.234.11".
+    </ul>
+
+
+
+
+</body>
+</html>

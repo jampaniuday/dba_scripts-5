@@ -1,0 +1,504 @@
+CREATE OR REPLACE PROCEDURE PPCS.SP_DETALLE_MOV IS
+    
+    V_FECHA_INI DATE    :=  TO_DATE('01/01/2014 00:00:00','DD/MM/YYYY HH24:MI:SS');
+    V_FECHA_FIN  DATE   :=  TO_DATE('01/01/2014 03:00:00','DD/MM/YYYY HH24:MI:SS');
+    V_DATO_TABLA NUMBER;
+    V_HORA_1 DATE := SYSDATE;
+    v_code NUMBER;
+    v_errm VARCHAR2(64);
+
+BEGIN
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'INICIO ACTUALIZACION', SYSDATE,'I');
+    COMMIT;
+
+    ---********************************************************---
+    ------              PPCS_CONSALDO 
+    ---********************************************************---
+	
+    SELECT /*+ PARALLEL(ppcs.ppcs_consaldo,4) */  COUNT(1)  INTO V_DATO_TABLA
+    FROM ppcs.ppcs_consaldo partition (CONSALDO_140101)
+        where FEH_OPER BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_CONSALDO '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE PPCS.PPCS_CONSALDO ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+
+    BEGIN
+     	UPDATE ppcs.ppcs_consaldo partition (CONSALDO_140101) SET FEH_OPER = FEH_OPER-1
+        where FEH_OPER BETWEEN V_FECHA_INI AND V_FECHA_FIN; 
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END; 
+
+    COMMIT;
+
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE PPCS.PPCS_CONSALDO DISABLE ROW MOVEMENT';
+
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_CONSALDO', SYSDATE,'I');
+    COMMIT;
+
+    ---********************************************************---
+    ------              ppcs_mulsaldet 
+    ---********************************************************---
+
+   SELECT /*+ PARALLEL(ppcs.ppcs_mulsaldet,4) */  COUNT(1)  INTO V_DATO_TABLA
+    FROM ppcs.ppcs_mulsaldet partition (MULSALDET_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_MULSALDET '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE PPCS.ppcs_mulsaldet ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+
+    BEGIN
+    UPDATE ppcs.ppcs_mulsaldet partition (MULSALDET_140101) SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END; 
+	
+    COMMIT;     
+
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE PPCS.ppcs_mulsaldet DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_MULSALDET', SYSDATE,'I');
+    COMMIT;
+
+
+    ---********************************************************---
+    ------              ppcs_llamadas 
+    ---********************************************************---
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_llamadas,4) */  COUNT(1)    INTO V_DATO_TABLA
+    FROM ppcs.ppcs_llamadas partition (LLAMADAS_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_LLAMADAS '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_llamadas ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+     UPDATE  ppcs_llamadas partition (LLAMADAS_140101) SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END; 
+
+    COMMIT;     
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_llamadas DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_LLAMADAS', SYSDATE,'I');
+    COMMIT;
+ 
+
+    ---********************************************************---
+    ------              ppcs_mecoorig 
+    ---********************************************************---
+
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_mecoorig,4) */  COUNT(1)    INTO V_DATO_TABLA
+    FROM ppcs.ppcs_mecoorig partition (MECOORIG_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_MECOORIG '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_mecoorig ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+     UPDATE ppcs_mecoorig partition (MECOORIG_140101) SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END; 
+    COMMIT; 
+    
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_mecoorig DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_MECOORIG', SYSDATE,'I');
+    COMMIT;
+
+    ---********************************************************---
+    ------              ppcs_content 
+    ---********************************************************---
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_content,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_content partition (CONTENT_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_CONTENT '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_content ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+    UPDATE ppcs.ppcs_content partition (CONTENT_140101) SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END; 
+    COMMIT;     
+
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_content DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_CONTENT', SYSDATE,'I');
+    COMMIT;
+
+
+    ---********************************************************---
+    ------              ppcs_eventprom 
+    ---********************************************************---
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_eventprom,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_eventprom partition (EVENTPROM_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_EVENTPROM '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_eventprom ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+    UPDATE ppcs.ppcs_eventprom partition (EVENTPROM_140101) SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END;
+
+    COMMIT;     
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_eventprom DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_EVENTPROM', SYSDATE,'I');
+    COMMIT;
+
+    ---********************************************************---
+    ------              ppcs_roamt  
+    ---********************************************************---
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_roamt,4) */  COUNT(1)    INTO V_DATO_TABLA
+    FROM ppcs.ppcs_roamt
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_ROAMT '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_roamt ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+    UPDATE ppcs.ppcs_roamt SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END;
+
+    COMMIT;     
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_roamt DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_ROAMT', SYSDATE,'I');
+    COMMIT;
+
+    ---********************************************************---
+    ------              ppcs_roamo   
+    ---********************************************************---
+
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_roamo,4) */  COUNT(1)  INTO V_DATO_TABLA
+    FROM ppcs.ppcs_roamo
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_ROAMO '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+
+
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_roamo ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+    UPDATE ppcs.ppcs_roamo SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END;
+
+    COMMIT;     
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_roamo DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_ROAMO', SYSDATE,'I');
+    COMMIT;
+
+
+    ---********************************************************---
+    ------              ppcs_roamd    
+    ---********************************************************---
+
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_roamd,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_roamd
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_ROAMD '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_roamd ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+    UPDATE ppcs.ppcs_roamd SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END;
+
+    COMMIT;     
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_roamd DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_ROAMD', SYSDATE,'I');
+    COMMIT;
+
+
+    ---********************************************************---
+    ------              ppcs_mecoterm    
+    ---********************************************************---
+
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_mecoterm,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_mecoterm partition (MECOTERM_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_MECOTERM '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_mecoterm ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+    UPDATE ppcs.ppcs_mecoterm partition (MECOTERM_140101) SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END;
+
+    COMMIT;     
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_mecoterm DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_MECOTERM', SYSDATE,'I');
+    COMMIT; 
+
+   ---********************************************************---
+    ------              ppcs_desvios    
+    ---********************************************************---
+
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_desvios,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_desvios partition (DESVIOS_1401)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_DESVIOS '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_desvios ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+    UPDATE ppcs.ppcs_desvios partition (DESVIOS_1401) SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END;
+
+    COMMIT;     
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE ppcs.ppcs_desvios DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_DESVIOS', SYSDATE,'I');
+    COMMIT; 
+
+
+    ---********************************************************---
+    ------              PPCS_DIAMETER    
+    ---********************************************************---
+
+    SELECT /*+ PARALLEL(PPCS.PPCS_DIAMETER,4) */  COUNT(1)  INTO V_DATO_TABLA
+    FROM PPCS.PPCS_DIAMETER partition (DIAMETER_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_DIAMETER '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    EXECUTE IMMEDIATE 'ALTER TABLE PPCS.PPCS_DIAMETER ENABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------ 
+    BEGIN
+    UPDATE PPCS.PPCS_DIAMETER partition (DIAMETER_140101) SET FEH_LLAMADA = FEH_LLAMADA-1
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+    EXCEPTION
+	WHEN OTHERS THEN
+    	v_code := SQLCODE;
+    	v_errm := SUBSTR(SQLERRM, 1 , 64);
+    	INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'El error encontrado es ' || v_code || '- ' || v_errm, SYSDATE,'E');
+    END;
+
+    COMMIT;     
+    ------------------------------------------------------------------------------------------------
+    EXECUTE IMMEDIATE 'ALTER TABLE PPCS.PPCS_DIAMETER DISABLE ROW MOVEMENT';
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINALIZA ACTUALIZACION PPCS_DIAMETER', SYSDATE,'I');
+    COMMIT; 
+
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA, TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FINAL ACTUALIZACION, INICIO VERIFICACION', SYSDATE,'I');
+    COMMIT;
+
+    ------------------------------------------------------------------------------------------------
+
+    SELECT /*+ PARALLEL(ppcs.ppcs_consaldo,4) */  COUNT(1)  INTO V_DATO_TABLA
+    FROM ppcs.ppcs_consaldo partition (CONSALDO_140101)
+        where FEH_OPER BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_CONSALDO '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    ------------------------------------------------------------------------------------------------
+
+   SELECT /*+ PARALLEL(ppcs.ppcs_mulsaldet,4) */  COUNT(1)  INTO V_DATO_TABLA
+    FROM ppcs.ppcs_mulsaldet partition (MULSALDET_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_MULSALDET '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(ppcs.ppcs_llamadas,4) */  COUNT(1)    INTO V_DATO_TABLA
+    FROM ppcs.ppcs_llamadas partition (LLAMADAS_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_LLAMADAS '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(ppcs.ppcs_mecoorig,4) */  COUNT(1)    INTO V_DATO_TABLA
+    FROM ppcs.ppcs_mecoorig partition (MECOORIG_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_MECOORIG '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(ppcs.ppcs_content,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_content partition (CONTENT_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_CONTENT '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(ppcs.ppcs_eventprom,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_eventprom partition (EVENTPROM_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_EVENTPROM '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(ppcs.ppcs_roamt,4) */  COUNT(1)    INTO V_DATO_TABLA
+    FROM ppcs.ppcs_roamt
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_ROAMT '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(ppcs.ppcs_roamo,4) */  COUNT(1)  INTO V_DATO_TABLA
+    FROM ppcs.ppcs_roamo
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_ROAMO '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(ppcs.ppcs_roamd,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_roamd
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_ROAMD '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(ppcs.ppcs_mecoterm,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_mecoterm partition (MECOTERM_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_MECOTERM '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(ppcs.ppcs_desvios,4) */  COUNT(1) INTO V_DATO_TABLA
+    FROM ppcs.ppcs_desvios partition (DESVIOS_1401)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_DESVIOS '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+    ------------------------------------------------------------------------------------------------
+    SELECT /*+ PARALLEL(PPCS.PPCS_DIAMETER,4) */  COUNT(1)  INTO V_DATO_TABLA
+    FROM PPCS.PPCS_DIAMETER partition (DIAMETER_140101)
+        where FEH_LLAMADA BETWEEN V_FECHA_INI AND V_FECHA_FIN;
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'REGISTROS PPCS.PPCS_DIAMETER '||V_DATO_TABLA, SYSDATE,'I');
+    COMMIT;
+    ------------------------------------------------------------------------------------------------
+
+    INSERT INTO PPCS.PPCS_DETALLE_MOV (SEQ,TEXTO, FECHA,TIPO) VALUES ( PPCS.S_MOV_LLAMADA.NEXTVAL,'FIN DEL PROCESO, SE EJECUTO EN '||TO_CHAR(((SYSDATE-V_HORA_1)*24*60),'99999999')||' MINUTOS', SYSDATE,'I');
+    COMMIT;
+
+END;
+/

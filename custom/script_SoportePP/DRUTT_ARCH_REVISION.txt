@@ -1,0 +1,169 @@
+select capture_name, status, captured_scn, applied_scn, 
+capture_type from dba_capture;
+
+
+select min_required_capture_change# from v$database
+
+select min(required_checkpoint_scn) ,min(source_resetlogs_scn) from dba_capture where capture_type='LOCAL';
+
+
+--- como verificar si falta algun arch
+
+alter session set nls_date_format='dd-mon-rr hh24:mi:ss';
+select recid, dest_id, thread#, sequence#, first_time, completion_time, creator, registrar, archived, applied, deleted, status from v$archived_log where standby_dest='YES' and status='A';
+
+
+select recid, dest_id, thread#, sequence#, first_time, completion_time, creator, registrar, archived, applied, deleted, status from v$archived_log where standby_dest='YES' and status='A';
+
+
+--------------------------
+
+Revision de si esta sincronizado en N1
+
+SELECT THREAD# "Thread",SEQUENCE# "Last Sequence Generated"
+FROM V$ARCHIVED_LOG
+WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$ARCHIVED_LOG GROUP BY THREAD#)
+ORDER BY 1;
+
+
+revision en el n2 para sacar cuantos faltan
+
+SELECT ARCH.THREAD# "Thread", ARCH.SEQUENCE# "Last Sequence Received", APPL.SEQUENCE# "Last Sequence Applied", (ARCH.SEQUENCE# - APPL.SEQUENCE#) "Difference"
+FROM
+(SELECT THREAD# ,SEQUENCE# FROM V$ARCHIVED_LOG WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$ARCHIVED_LOG GROUP BY THREAD#)) ARCH,
+(SELECT THREAD# ,SEQUENCE# FROM V$LOG_HISTORY WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$LOG_HISTORY GROUP BY THREAD#)) APPL
+WHERE
+ARCH.THREAD# = APPL.THREAD#
+ORDER BY 1;
+
+revision de cuantos faltan en recibir en 2
+
+ SELECT THREAD#, LOW_SEQUENCE#, HIGH_SEQUENCE# FROM V$ARCHIVE_GAP;
+
+-------------------------------------- otro control -----------------------------------
+
+select archived_seq# from V$ARCHIVE_DEST_STATUS where dest_id=1;
+select archived_seq# from V$ARCHIVE_DEST_STATUS where dest_id=32;
+select applied_seq# from V$ARCHIVE_DEST_STATUS where dest_id=32;
+
+
+/opt/drutt/msdpdb/diag/rdbms/msdpha/msdpha
+
+
+Mon Aug 20 20:25:16 2012
+Media Recovery Waiting for thread 1 sequence 4743 (in transit)
+Recovery of Online Redo Log: Thread 1 Group 5 Seq 4743 Reading mem 0
+  Mem# 0: /opt/drutt/msdpdb/flash_recovery_area/MSDPHA/onlinelog/o1_mf_5_73fst8xl_.log
+Mon Aug 20 20:25:17 2012
+Archived Log entry 4736 added for thread 1 sequence 4742 ID 0x1f663c3a dest 1:
+Mon Aug 20 22:00:11 2012
+RFS[6]: Selected log 6 for thread 1 sequence 4744 dbid 526638422 branch 757858390
+Mon Aug 20 22:00:15 2012
+Archived Log entry 4737 added for thread 1 sequence 4743 ID 0x1f663c3a dest 1:
+Mon Aug 20 22:00:15 2012
+Media Recovery Waiting for thread 1 sequence 4744 (in transit)
+Recovery of Online Redo Log: Thread 1 Group 6 Seq 4744 Reading mem 0
+  Mem# 0: /opt/drutt/msdpdb/flash_recovery_area/MSDPHA/onlinelog/o1_mf_6_73fst9dr_.log
+Mon Aug 20 22:49:08 2012
+RFS[6]: Selected log 5 for thread 1 sequence 4745 dbid 526638422 branch 757858390
+Mon Aug 20 22:49:10 2012
+Archived Log entry 4738 added for thread 1 sequence 4744 ID 0x1f663c3a dest 1:
+Tue Aug 21 00:12:57 2012
+RFS[6]: Selected log 6 for thread 1 sequence 4746 dbid 526638422 branch 757858390
+
+
+
+SELECT ARCH.THREAD# "Thread", ARCH.SEQUENCE# "Last Sequence Received", APPL.SEQUENCE# "Last Sequence Applied", (ARCH.SEQUENCE# - APPL.SEQUENCE#) "Difference"
+    FROM
+(SELECT THREAD# ,SEQUENCE# FROM V$ARCHIVED_LOG WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$ARCHIVED_LOG GROUP BY THREAD#)) ARCH,
+(SELECT THREAD# ,SEQUENCE# FROM V$LOG_HISTORY WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$LOG_HISTORY GROUP BY THREAD#)) APPL
+  WHERE
+ARCH.THREAD# = APPL.THREAD#
+ORDER BY 1;
+
+
+aplicado y ultimo aplicado
+SELECT ARCHIVED_THREAD#, ARCHIVED_SEQ#, APPLIED_THREAD#, APPLIED_SEQ# FROM V$ARCHIVE_DEST_STATUS;
+
+donde estan los log
+SELECT NAME, CREATOR, SEQUENCE#, registrar,APPLIED,status, COMPLETION_TIME  FROM V$ARCHIVED_LOG;
+
+cual fue el ultimo aplicado
+SELECT THREAD#, MAX(SEQUENCE#) AS "LAST_APPLIED_LOG" FROM V$LOG_HISTORY GROUP BY THREAD#;
+
+estaus de los log aplicados
+SELECT THREAD#, SEQUENCE#, APPLIED FROM V$ARCHIVED_LOG;
+
+que logs no se aplicaron
+
+SELECT LOCAL.THREAD#, LOCAL.SEQUENCE# FROM 
+(SELECT THREAD#, SEQUENCE# FROM V$ARCHIVED_LOG WHERE DEST_ID=1) LOCAL 
+WHERE 
+LOCAL.SEQUENCE# NOT IN 
+(SELECT SEQUENCE# FROM V$ARCHIVED_LOG WHERE DEST_ID=2 AND 
+THREAD# = LOCAL.THREAD#); 
+
+
+
+
+select guard_status,database_role,open_mode,log_mode from v$database;
+
+select sequence#,process,status from v$managed_standby;
+
+SELECT PROCESS, CLIENT_PROCESS, SEQUENCE#, STATUS FROM V$MANAGED_STANDBY;
+
+
+
+
+select current_scn from v$database;
+
+
+
+select SCN_TO_TIMESTAMP(1238790205) from dual;
+
+
+
+Start the database: 
+SQL> STARTUP NOMOUNT;
+
+
+Mount the standby database: 
+SQL> ALTER DATABASE MOUNT STANDBY DATABASE;
+
+
+Start the managed recovery operation: 
+SQL> ALTER DATABASE RECOVER MANAGED STANDBY DATABASE DISCONNECT FROM SESSION;
+
+
+Find out if the standby database is performing managed recovery. If the MRP0 or MRP process exists, then the standby database is performing managed recovery. 
+SQL> SELECT PROCESS, STATUS FROM V$MANAGED_STANDBY;
+
+
+Cancel managed recovery operations. 
+SQL> ALTER DATABASE RECOVER MANAGED STANDBY DATABASE CANCEL;
+
+
+Shut down the standby database. 
+SQL> SHUTDOWN IMMEDIATE;
+
+
+
+
+
+PROCESS   CLIENT_P  SEQUENCE# STATUS
+--------- -------- ---------- ------------
+ARCH      ARCH           7441 CLOSING
+ARCH      ARCH           7442 CLOSING
+ARCH      ARCH              0 CONNECTED
+ARCH      ARCH           7443 CLOSING
+RFS       N/A               0 IDLE
+RFS       LGWR           7444 IDLE
+RFS       UNKNOWN           0 IDLE
+MRP0      N/A            4743 WAIT_FOR_GAP
+
+
+
+
+
+
+

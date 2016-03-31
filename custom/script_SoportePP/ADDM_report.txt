@@ -1,0 +1,5 @@
+SET linesize 32767;
+SET pagesize 15000;
+
+@$ORACLE_HOME/rdbms/admin/addmrpt.sql 
+

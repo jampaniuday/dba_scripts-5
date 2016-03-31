@@ -1,0 +1,29 @@
+-- devuelve el estimado de finalizacion.
+
+select usn, state, undoblockstotal "Total", undoblocksdone "Done", undoblockstotal-undoblocksdone "ToDo", 
+decode(cputime,0,'unknown',sysdate+(((undoblockstotal-undoblocksdone) / (undoblocksdone / cputime)) / 86400)) "Estimated time to complete"
+from v$fast_start_transactions;
+
+
+
+v$fast_start_transactions: contains one row for each one of the transactions that Oracle is recovering in Parallel.
+
+v$fast_start_servers: provides information about all the recovery slaves performing parallel transaction recovery. This contains one row for each parallel query slave. 
+
+
+
+-- consulta procesos corriendo recuperando.
+
+select
+decode(px.qcinst_id,NULL,username,
+' - '||lower(substr(s.program,length(s.program)-4,4) ) ) "Username",
+decode(px.qcinst_id,NULL, 'QC', '(Slave)') "QC/Slave" ,
+to_char( px.server_set) "Slave Set",
+to_char(s.sid) "SID",
+decode(px.qcinst_id, NULL ,to_char(s.sid) ,px.qcsid) "QC SID",
+px.req_degree "Requested DOP",
+px.degree "Actual DOP"
+from gv$px_session px, gv$session s
+where px.sid=s.sid (+) and px.serial#=s.serial#
+order by 5 , 1 desc ;
+

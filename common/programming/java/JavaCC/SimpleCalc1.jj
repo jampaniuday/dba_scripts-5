@@ -1,0 +1,150 @@
+// -----------------------------------------------------------------------------
+// SimpleCalc1.java
+// -----------------------------------------------------------------------------
+
+/*
+ * =============================================================================
+ * Copyright (c) 1998-2011 Jeffrey M. Hunter. All rights reserved.
+ * 
+ * All source code and material located at the Internet address of
+ * http://www.idevelopment.info is the copyright of Jeffrey M. Hunter, 2005 and
+ * is protected under copyright laws of the United States. This source code may
+ * not be hosted on any other site without my express, prior, written
+ * permission. Application to host any of the material elsewhere can be made by
+ * contacting me at jhunter@idevelopment.info.
+ *
+ * I have made every effort and taken great care in making sure that the source
+ * code and other content included on my web site is technically accurate, but I
+ * disclaim any and all responsibility for any loss, damage or destruction of
+ * data or any other property which may arise from relying on it. I will in no
+ * case be liable for any monetary damages arising from such loss, damage or
+ * destruction.
+ * 
+ * As with any code, ensure to test this code in a development environment 
+ * before attempting to run it in production.
+ * =============================================================================
+ */
+ 
+/*
+ * Grammer Rules for a small language that describes basic arthmetric
+ * expressions:
+ * 
+ * expr     :=      number
+ *          |       expr '+' expr
+ *          |       expr '-' expr
+ *          |       expr '*' expr
+ *          |       expr '/' expr
+ *          |       '(' expr ')'
+ *          |       - expr
+ * number   :=      digit+ ('.' digit+)?
+ * digit    :=      '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+ * 
+ * Three production rules define the grammer elements:
+ *      - expr
+ *      - number
+ *      - digit
+ * 
+ * The following grammer will be used to build a simple command-line calculator.
+ * First, we will need to translate the above EBNF grammer into JavaCC format.
+ * 
+ * USAGE:
+ *      % javacc SimpleCalc1.jj
+ *      % java SimpleCalc1.java
+ *      % java SimpleCalc1
+ */
+
+options {
+    LOOKAHEAD=2;
+}
+
+PARSER_BEGIN(SimpleCalc1)
+
+public class SimpleCalc1 {
+
+    public static void main(String[] args) throws ParseException {
+        SimpleCalc1 parser = new SimpleCalc1(System.in);
+        while (true) {
+            parser.parseOneLine();
+        }
+    }
+
+}
+
+PARSER_END(SimpleCalc1)
+
+SKIP:
+{
+    " " | "\r" | "\t"
+}
+
+TOKEN:
+{
+    < NUMBER: ( <DIGIT> ) + ( "." ( <DIGIT> )+ )? >
+    |
+    < DIGIT:  [ "0"-"9" ] >
+    |
+    < EOL: "\n" >
+}
+
+void parseOneLine():
+{
+    double a;
+}
+{
+    a=expr() <EOL>  { System.out.println(a); }
+    |
+    <EOL>
+    |
+    <EOF>   { System.exit(-1); }
+}
+
+double expr():
+{
+    double a;
+    double b;
+}
+{
+    a=term()
+    (
+        "+" b=expr()    {a += b;}
+        |
+        "-" b=expr()    {a -= b;}
+    )*
+        { return a;}
+}
+
+double term():
+{
+    double a;
+    double b;
+}
+{
+    a=unary()
+    (
+        "*" b=term()    {a *= b;}
+        |
+        "/" b=term()    {a /= b;}
+    )*
+        {return a;}
+}
+
+double unary():
+{
+    double a;
+}
+{
+    "-" a=element()     {return -a;}
+    |
+    a=element()         {return a;}
+}
+
+double element():
+{
+    Token t;
+    double a;
+}
+{
+    t=<NUMBER>          {return Double.parseDouble(t.toString()); }
+    |
+    "(" a=expr() ")"    {return a;}
+}

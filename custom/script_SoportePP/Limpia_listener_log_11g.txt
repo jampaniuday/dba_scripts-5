@@ -1,0 +1,9 @@
+
+/app1/softw/oracle/diag/tnslsnr/pmdbssv1/listener/trace
+
+zip listener.log.zip listener.log
+
+cat /dev/null > listener.log
+
+
+/app1/softw/oracle/diag/tnslsnr/pmdbssv1/listener/alert

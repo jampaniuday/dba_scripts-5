@@ -1,0 +1,24 @@
+--------------------------
+Compile Program
+--------------------------
+javac CallPLSQLFunc.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CallPLSQLFunc
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@localhost:1521:CUSTDB
+  Connected as         -> scott
+
+  Monthly salary is $10440.0.
+
+  Closing Connection...

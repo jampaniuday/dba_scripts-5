@@ -1,0 +1,11 @@
+Reporteria
+
+10.225.169.30
+
+su - app_int_aa
+
+sqlplus ppcs/temporal@RPPCSPAN
+
+sqlplus ppcs/temporal@RLPPCSN
+
+sqlplus /@RPPCSPAN as sysdba

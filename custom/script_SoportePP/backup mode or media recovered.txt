@@ -1,0 +1,15 @@
+-- para ver estatus de la base
+
+select open_mode from v$database;
+
+-- para ver que se quedo cone status raro
+select * from v$backup;
+
+
+--- como se quita
+ALTER TABLESPACE USERS END BACKUP;
+
+
+-- revisa como si los quito.
+
+select file#,tablespace_name,status,fuzzy,checkpoint_change# from v$datafile_header;

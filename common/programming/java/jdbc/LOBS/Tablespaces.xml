@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Tablespaces>
+
+    <Tablespace name="SYSTEM"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="MANUAL">
+        <Datafile name="/u06/app/oradata/ORA920/system01.dbf"
+                  size="471859200"
+                  autoextend="TRUE"
+                  next="52428800"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>
+
+
+    <Tablespace name="TEMP"
+                type="TEMPORARY"
+                extent_management="LOCAL"
+                segment_space_management="MANUAL">
+        <Datafile name="/u06/app/oradata/ORA920/temp01.dbf"
+                  size="471859200"
+                  autoextend="TRUE"
+                  next="52428800"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>
+
+
+    <Tablespace name="UNDOTBS1"
+                type="UNDO"
+                extent_management="LOCAL"
+                segment_space_management="MANUAL">
+        <Datafile name="/u06/app/oradata/ORA920/undo1_01.dbf"
+                  size="996147200"
+                  autoextend="TRUE"
+                  next="26214400"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>
+
+
+    <Tablespace name="USER"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/user01.dbf"
+                  size="52428800"
+                  autoextend="FALSE"/>
+        <Datafile name="/u06/app/oradata/ORA920/user02.dbf"
+                  size="838860800"
+                  autoextend="TRUE"
+                  next="52428800"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>
+
+
+    <Tablespace name="INDX"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/indx01.dbf"
+                  size="52428800"
+                  autoextend="TRUE"
+                  next="52428800"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>
+
+
+    <Tablespace name="XDB"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/xdb01.dbf"
+                  size="52428800"
+                  autoextend="TRUE"
+                  next="52428800"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>
+
+
+    <Tablespace name="CWMLITE"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/cwmlitet01.dbf"
+                  size="20971520"
+                  autoextend="FALSE"/>
+    </Tablespace>
+
+
+    <Tablespace name="DRSYS"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/drsys01.dbf"
+                  size="20971520"
+                  autoextend="FALSE"/>
+    </Tablespace>
+
+
+    <Tablespace name="ODM"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/odm01.dbf"
+                  size="20971520"
+                  autoextend="FALSE"/>
+    </Tablespace>
+
+
+    <Tablespace name="EXAMPLE"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/example01.dbf"
+                  size="367001600"
+                  autoextend="TRUE"
+                  next="52428800"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>    
+    
+    
+    <Tablespace name="PERFSTAT"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/perfstat01.dbf"
+                  size="52428800"
+                  autoextend="FALSE"/>
+        <Datafile name="/u06/app/oradata/ORA920/perfstat01.dbf"
+                  size="162529280"
+                  autoextend="TRUE"
+                  next="52428800"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>
+
+
+    <Tablespace name="OEM_REPOSITORY"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/oem_repository01.dbf"
+                  size="36708352"
+                  autoextend="TRUE"
+                  next="20971520"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>
+
+
+    <Tablespace name="TOOLS"
+                type="PERMANENT"
+                extent_management="LOCAL"
+                segment_space_management="AUTO">
+        <Datafile name="/u06/app/oradata/ORA920/tools01.dbf"
+                  size="20971520"
+                  autoextend="TRUE"
+                  next="20971520"
+                  maxsize="UNLIMITED"/>
+    </Tablespace>
+
+</Tablespaces>

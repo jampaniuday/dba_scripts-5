@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac DetermineFileOrDir.java
+
+
+--------------------------
+Run Program
+--------------------------
+java DetermineFileOrDir
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+Original Filename = README_InputFile.txt
+Is README_InputFile.txt a directory? (false)
+Is c:\export\home\jeffreyh\JDeveloper\IsrvWorkspace\JavaProgramming\src\io\FilenamesPathnames a directory? (true)

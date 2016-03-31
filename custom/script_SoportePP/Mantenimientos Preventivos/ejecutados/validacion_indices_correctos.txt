@@ -1,0 +1,25 @@
+
+select status,count(1) from dba_indexes group by status;
+
+select status, count(1) from dba_ind_partitions group by status;
+
+
+tiempos
+
+PA opge 30 minutos
+PA ppga 1:30 minutos
+
+CR 1 hora 30 minutos indices y 25 minutos estadisticas
+
+GT opge 2:00 horas todo
+GT ppga 3:30 horas todo
+NI opge 2:45 minutos todo
+NI ppga 3:30 minutos todo d1
+Ni ppga 2:30 minutos bloque 3 d1
+ni ppga 1:20 minutos bloque 1 d2
+ni ppga 2:00 minutos bloque 2 d2
+
+SV opge 1:20 minutos todo
+SV ppga 2:35 minutos b1
+sv ppga 3:30 minutos b2
+

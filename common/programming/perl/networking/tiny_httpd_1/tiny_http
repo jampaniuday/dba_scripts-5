@@ -1,0 +1,160 @@
+#!/usr/local/bin/perl -w
+
+# +----------------------------------------------------+
+# | FILE         : tiny_http                           |
+# | AUTHOR       : Jeffrey Hunter                      |
+# | DATE         : 01-APR-2001                         |
+# | PURPOSE      : $ tiny_http [port #]                |
+# | OUTPUT FILES :                                     |
+# |                LOG FILE : tiny_http.log            |
+# |                PID FILE : tiny_http.pid            |
+# | NOTES        : If a port is not passed to program, |
+# |                it will pick 3996.                  |
+# +----------------------------------------------------+
+
+# require 5.002;
+use strict;
+BEGIN {$ENV{PATH} = '/usr/ucb:/bin' }
+use Socket;
+use Carp;
+use FileHandle;
+
+sub spawn;
+sub openLogFile;
+sub closeLogFile;
+sub writePID;
+sub logWrite;
+sub exitServerError {print "Could not start server.\n"; exit;}
+
+my $LOG_FILENAME = "$0.log";
+my $PID_FILENAME = "$0.pid";
+
+my $port = shift || 3996;
+my $proto = getprotobyname('http');
+
+unless (socket(Server, PF_INET, SOCK_STREAM, $proto)) {
+  print "socket error: $!\n";
+  exitServerError;
+}
+
+unless (setsockopt(Server, SOL_SOCKET, SO_REUSEADDR, pack("l", 1))) {
+  print "setsocketop error: $!\n";
+  exitServerError;
+}
+
+unless (bind(Server, sockaddr_in($port, INADDR_ANY))) {
+  print "bind error: $!\n";
+  exitServerError;
+}
+
+unless (listen(Server, SOMAXCONN)) {
+  print "listen error: $!\n";
+  exitServerError;
+}
+
+openLogFile;
+writePID;
+
+print     "server started on port $port\n";
+logWrite  "server started on port $port\nThe server PID is: $$";
+
+my $waitedpid = 0;
+my $paddr;
+
+sub REAPER {
+  $waitedpid = wait;
+  $SIG{CHLD} = \&REAPER;
+  logWrite "reaped $waitedpid" . ($? ? " with exit $?" : "");
+}
+
+for ( ; $paddr = accept(Client, Server); close Client) {
+
+  my($port, $iaddr) = sockaddr_in($paddr);
+  my $name = gethostbyaddr($iaddr, AF_INET);
+
+  my $temp_iaddr = inet_ntoa($iaddr);
+
+  logWrite ("connection from $name [$temp_iaddr] at port $port");
+
+    spawn sub {
+      my ($str, $prog);
+      $str = <Client>;
+      $str =~ s/.{5}(.*?)HTTP\/1.*\s$/$1/;    #remove 'GET '
+      ($prog, $str) = split(/\?/, $str);
+      $ENV{'QUERY_STRING'} = $str if($str);   #set the long string into QUERY_STRING
+      $ENV{'REQUEST_METHOD'} = "GET";
+      if ( ($prog =~ /.*?\.pl/) || ($prog =~ /.*?\.cgi/) ) {
+        exec "/usr/local/bin/perl $prog" or die "can't exec: $!\n";
+      } else {
+        open(FD, $prog);
+        while(<FD>) {
+          print $_;
+        }
+        close(FD);
+      }
+    }
+
+}
+
+sub spawn {
+
+  my $coderef = shift;
+
+  unless (@_ == 0 && $coderef && ref($coderef) eq 'CODE') {
+    confess "usuage: spawn CODEREF";
+  }
+
+  my $pid;
+  if (!defined($pid = fork)) {
+    logWrite "cannot fork error: $!";
+    return;
+  } elsif ($pid) {
+    logWrite "begin $pid";
+    return;
+  }
+
+  open(STDIN, "<&Client")     or die "cannot dup client to stdin";
+  open(STDOUT, ">&Client")    or die "cannot dup client to stdout";
+  STDOUT->autoflush();
+  exit &$coderef();
+
+}
+
+sub openLogFile {
+
+  unless (open(LOG, ">$LOG_FILENAME")) {
+    print "open log file error: $!\n";
+    exitServerError;
+  }
+
+}
+
+sub closeLogFile {
+  close LOG;
+}
+
+sub writePID {
+
+  unless (open(PID, ">$PID_FILENAME")) {
+    print "open PID file error: $!\n";
+    exitServerError;
+  }
+
+  print PID "$$";
+
+  close PID;
+
+}
+
+sub logWrite {
+
+  my ($message) = @_;
+
+  my $date=`date +"%B %d, %Y %H:%M:%S"`;
+  chop($date);
+
+  print LOG "$date\n";
+  print LOG "$message\n";
+  print LOG "\n";
+
+}

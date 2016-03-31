@@ -1,0 +1,404 @@
+
+select 
+actabopre
+
+GT
+
+('AGC00247',
+'AGC00266',
+'AGC00278',
+'AGC00282',
+'AGC00295',
+'AGC00305',
+'AGG02022',
+'AGG02023',
+'AGG02076',
+'AGG50002',
+'AGG50008',
+'AGG50091',
+'AGG50092',
+'MGN00032',
+'MGN00144',
+'MGN00263',
+'MGN00291',
+'MGN00292',
+'MGN00326',
+'MGN00334',
+'MGN00536',
+'MGT02216',
+'MGT02253',
+'MGT02375')
+
+
+
+SV
+
+('ASS00500',
+'ASS00327',
+'ASS00609')
+
+
+
+CR
+
+('NXN00064',
+'NXN00148',
+'NXN00152',
+'NXN00236',
+'NXN00465')
+
+
+select /*+ PARALLEL(ppga.ppga_actabopre,4) */ count(1) from ppga.ppga_actabopre where
+cod_usuario in
+('NXN00064',
+'NXN00148',
+'NXN00152',
+'NXN00236',
+'NXN00465')
+and FEC_ACTUACION between TO_DATE('01/01/2012 00:00:00','DD/MM/YYYY HH24:MI:SS') and TO_DATE('31/12/2012 23:59:59','DD/MM/YYYY HH24:MI:SS');
+
+
+alter session set nls_date_format='dd-mm-yyyy hh24:mi:ss';
+col "Actuacion Realizada" format a35
+col "Estado Actuacion" format a15
+set linesize 250
+set pagesize 10000
+
+
+select /*+ PARALLEL(ppga.ppga_actabopre,4) */ * from ppga.ppga_actabopre where
+cod_usuario in
+('AGC00247',
+'AGC00266',
+'AGC00278',
+'AGC00282',
+'AGC00295',
+'AGC00305',
+'AGG02022',
+'AGG02023',
+'AGG02076',
+'AGG50002',
+'AGG50008',
+'AGG50091',
+'AGG50092',
+'MGN00032',
+'MGN00144',
+'MGN00263',
+'MGN00291',
+'MGN00292',
+'MGN00326',
+'MGN00334',
+'MGN00536',
+'MGT02216',
+'MGT02253',
+'MGT02375')
+and FEC_ACTUACION between TO_DATE('01/01/2012 00:00:00','DD/MM/YYYY HH24:MI:SS') and TO_DATE('31/12/2012 23:59:59','DD/MM/YYYY HH24:MI:SS');
+
+V2
+
+select /*+ PARALLEL(ppga.ppga_actabopre,4) */ a.SEC_ACTUACION "ACTUACION", trunc(rtrim(a.NUM_TELEFONO)) "TELEFONO", b.DES_SBACTUACION "Actuacion Realizada", substr(c.DES_ESTAREC,0,9) "Estado Actuacion", a.FEC_ACTUACION "FECHA", trunc(a.IMP_COSTE/100) "Coste", trunc(a.IMP_SALDO/100) "Saldo",  a.COD_USUARIO "USUARIO" 
+from ppga.ppga_actabopre a, ppga.ppga_literalsbactuacion b, ppga.PPGA_ESTAREC c 
+where 
+a.cod_usuario in
+('AGC00247',
+'AGC00266',
+'AGC00278',
+'AGC00282',
+'AGC00295',
+'AGC00305',
+'AGG02022',
+'AGG02023',
+'AGG02076',
+'AGG50002',
+'AGG50008',
+'AGG50091',
+'AGG50092',
+'MGN00032',
+'MGN00144',
+'MGN00263',
+'MGN00291',
+'MGN00292',
+'MGN00326',
+'MGN00334',
+'MGN00536',
+'MGT02216',
+'MGT02253',
+'MGT02375')
+and a.FEC_ACTUACION between TO_DATE('01/01/2012 00:00:00','DD/MM/YYYY HH24:MI:SS') and TO_DATE('31/12/2012 23:59:59','DD/MM/YYYY HH24:MI:SS')
+and a.COD_ACTUACIO = b.COD_ACTUACIO and a.COD_SBACTUACION = b.COD_SBACTUACION and b.COD_IDIOMA = '10' and a.cod_estarec = c.cod_estarec 
+order by 1;
+
+
+ ACTUACION   TELEFONO Actuacion Realizada                      Estado Actuacio FECHA                    Coste      Saldo USUARIO
+---------- ---------- ---------------------------------------- --------------- ------------------- ---------- ---------- ------------
+   3998383   60172434 Promoción recarga                        Ejecutado       24-01-2012 17:38:22      -2200       4701 NXN00152
+  22904125   60082959 Promoción recarga                        Ejecutado       25-05-2012 16:41:27      -1500       6000 NXN00152
+  34210505   60055749 Promoción recarga                        Ejecutado       06-07-2012 18:07:35      -2000       2204 NXN00152
+  36569505   60758400 Promoción recarga                        Ejecutado       13-07-2012 13:14:41       -225       2363 NXN00152
+  43162626   60791192 Promoción recarga                        Ejecutado       31-07-2012 19:13:06       -300       1617 NXN00152
+  44471698   60353856 Promoción recarga                        Ejecutado       04-08-2012 15:22:59       -400       1429 NXN00152
+  45223699   60101907 Promoción fallida                        Ejecutado       07-08-2012 13:20:10      -3000       5902 NXN00152
+  45532394   60143737 Promoción recarga                        Ejecutado       07-08-2012 18:42:29       -300       1385 NXN00152
+  47166198   60080307 Promoción fallida                        Ejecutado       14-08-2012 18:03:16      -3000       5455 NXN00152
+  57038337   60694975 Promoción recarga                        Ejecutado       06-09-2012 15:53:05       -550      10906 NXN00152
+  57207862   60824836 Bono03- 60 Min- P5                       Ejecutado       07-09-2012 19:03:56          0        922 NXN00152
+  59298878   60316269 Promoción recarga                        Ejecutado       12-09-2012 11:45:04       -300        479 NXN00152
+  64175980   60022040 Promoción recarga                        Ejecutado       25-09-2012 12:45:26       -600       1307 NXN00152
+  65106060   60149724 Promoción recarga                        Ejecutado       28-09-2012 20:23:57       -500       1013 NXN00152
+  65691280   60127834 Promoción recarga                        Ejecutado       30-09-2012 14:53:52       -300      28644 NXN00152
+  66643111   60704848 Promoción fallida                        Ejecutado       02-10-2012 20:13:21      -1750       4082 NXN00152
+  66643904   60704848 Promoción fallida                        Ejecutado       02-10-2012 20:20:31        500       3582 NXN00152
+  67738133   60050813 Promoción recarga                        Ejecutado       05-10-2012 19:03:21       -100        439 NXN00152
+
+
+
+
+GT
+
+
+ ACTUACION   TELEFONO Actuacion Realizada                 Estado Actuacio FECHA                    Coste      Saldo USUARIO
+---------- ---------- ----------------------------------- --------------- ------------------- ---------- ---------- ------------
+1605202819   52394166 Recarga Duplicame B3                Ejecutado       12-03-2012 14:06:29       -671        981 AGC00266
+1606531178   43069678 Recarga Duplicame B3                Ejecutado       13-03-2012 12:55:18      -1000       1992 AGC00266
+1610516912   54064798 Recarga Duplicame B3                Ejecutado       16-03-2012 10:51:53       -475        530 AGC00266
+1614483489   52195498 Recarga Duplicame B3                Ejecutado       19-03-2012 14:15:35       -355        729 AGC00266
+1617217505   52234187 Recarga Duplicame B3                Ejecutado       21-03-2012 08:25:33       -250       1300 AGC00266
+1617217671   52234185 Recarga Duplicame B3                Ejecutado       21-03-2012 08:25:48       -250       1300 AGC00266
+1629473985   44265496 Recargas Promocional B5             Ejecutado       30-03-2012 13:46:45      -1000       1500 AGC00266
+1629474346   52544037 Recargas Promocional B5             Ejecutado       30-03-2012 13:47:04       -500        500 AGC00266
+1629474411   52544037 Recargas Promocional B5             Ejecutado       30-03-2012 13:47:08      -1000       1500 AGC00266
+1629474952   44265044 Recargas Promocional B5             Ejecutado       30-03-2012 13:47:31      -1000       1500 AGC00266
+1629475324   44265554 Recargas Promocional B5             Ejecutado       30-03-2012 13:47:46       -500       1500 AGC00266
+1629476411   44265489 Recargas Promocional B5             Ejecutado       30-03-2012 13:48:38      -1000       1500 AGC00266
+1629476843   44265514 Recargas Promocional B5             Ejecutado       30-03-2012 13:48:57      -1000       1500 AGC00266
+1655645698   52675494 Recarga Duplicame B3                Ejecutado       18-04-2012 13:51:03      -1000       3175 AGC00266
+1655645717   52675494 Recarga Duplicame B3                Ejecutado       18-04-2012 13:51:05      -1000       8930 AGC00266
+1655645758   52675494 Recarga Duplicame B3                Ejecutado       18-04-2012 13:51:08      -1000       9930 AGC00266
+1655645783   52675494 Recarga Duplicame B3                Ejecutado       18-04-2012 13:51:09      -1000      10930 AGC00266
+1655645800   52675494 Recarga Duplicame B3                Ejecutado       18-04-2012 13:51:11      -1000       6175 AGC00266
+1655645815   52675494 Recarga Duplicame B3                Ejecutado       18-04-2012 13:51:11      -1000       4175 AGC00266
+1655645831   52675494 Recarga Duplicame B3                Ejecutado       18-04-2012 13:51:13      -1000       5175 AGC00266
+1655645850   52675494 Recarga Duplicame B3                Ejecutado       18-04-2012 13:51:14      -1000       7175 AGC00266
+1655646016   52675494 Recarga Duplicame B3                Ejecutado       18-04-2012 13:51:28       -754       7930 AGC00266
+1663753262   44098009 Recargas Promocional B5             Ejecutado       24-04-2012 16:02:33        -45        125 AGC00266
+1675070663   44265496 Recargas Promocional B5             Ejecutado       02-05-2012 11:33:27      -1000       1500 AGC00266
+1675071063   52544037 Recargas Promocional B5             Ejecutado       02-05-2012 11:33:50       -500       1525 AGC00266
+1675071191   52544037 Recargas Promocional B5             Ejecutado       02-05-2012 11:33:53      -1000       1025 AGC00266
+1675071868   44265044 Recargas Promocional B5             Ejecutado       02-05-2012 11:34:15      -1000       1500 AGC00266
+1675072365   44265554 Recargas Promocional B5             Ejecutado       02-05-2012 11:34:33       -500       1500 AGC00266
+1675073173   44265489 Recargas Promocional B5             Ejecutado       02-05-2012 11:35:02      -1000       1500 AGC00266
+1675074250   44265514 Recargas Promocional B5             Ejecutado       02-05-2012 11:35:51      -1000       1500 AGC00266
+1676630961   52690090 Recarga Duplicame B3                Ejecutado       03-05-2012 09:07:02       -100        367 AGC00266
+1678643603   55184416 Recarga Duplicame B3                Ejecutado       04-05-2012 14:20:01       -830        830 AGC00266
+1678643673   55184416 Recarga Duplicame B3                Ejecutado       04-05-2012 14:20:07      -1000       1830 AGC00266
+1687278008   56064989 Recarga Duplicame B3                Ejecutado       10-05-2012 10:15:11      -1000       1529 AGC00266
+1687278115   56064989 Recarga Duplicame B3                Ejecutado       10-05-2012 10:15:14       -500        529 AGC00266
+1687278905   43370463 Recargas Promocional B5             Ejecutado       10-05-2012 10:16:00      -1000       1270 AGC00266
+1687279144   43370463 Recargas Promocional B5             Ejecutado       10-05-2012 10:16:13       -500       1770 AGC00266
+1687279956   52134747 Recargas Promocional B5             Ejecutado       10-05-2012 10:16:58       -500       1500 AGC00266
+1689062126   56721065 Recargas Promocional B5             Ejecutado       11-05-2012 16:49:01       -200       1251 AGC00266
+1689062281   56721065 Recargas Promocional B5             Ejecutado       11-05-2012 16:49:03      -1000       1051 AGC00266
+1695318591   50267936 Recargas Promocional B5             Ejecutado       16-05-2012 16:53:31       -200        205 AGC00266
+1701817886   50916393 Recargas Promocional B5             Ejecutado       21-05-2012 15:28:26       -200        200 AGC00266
+1705960145   53962795 Recarga Duplicame B3                Ejecutado       24-05-2012 16:12:01       -250        798 AGC00266
+1705960208   53962795 Recarga Duplicame B3                Ejecutado       24-05-2012 16:12:07      -1000       1798 AGC00266
+1706886675   56714395 Recarga Duplicame B3                Ejecutado       25-05-2012 12:13:10       -250        390 AGC00266
+1707012579   52268883 Recargas Promocional B5             Ejecutado       25-05-2012 14:58:31        -60        108 AGC00266
+1713209912   44265496 Recargas Promocional B5             Ejecutado       30-05-2012 14:07:10      -1000       1500 AGC00266
+1713210164   52544037 Recargas Promocional B5             Ejecutado       30-05-2012 14:07:30       -500        885 AGC00266
+1713210202   52544037 Recargas Promocional B5             Ejecutado       30-05-2012 14:07:37      -1000       1885 AGC00266
+1713210563   44265044 Recargas Promocional B5             Ejecutado       30-05-2012 14:08:05      -1000       1500 AGC00266
+1713210788   44265554 Recargas Promocional B5             Ejecutado       30-05-2012 14:08:22       -500        544 AGC00266
+1713210832   44265554 Recargas Promocional B5             Ejecutado       30-05-2012 14:08:26      -1000       1544 AGC00266
+1713211023   44265489 Recargas Promocional B5             Ejecutado       30-05-2012 14:08:42       -500       2000 AGC00266
+1713211077   44265489 Recargas Promocional B5             Ejecutado       30-05-2012 14:08:47      -1000       3000 AGC00266
+1713211275   44265514 Recargas Promocional B5             Ejecutado       30-05-2012 14:09:01       -500       1823 AGC00266
+1713211311   44265514 Recargas Promocional B5             Ejecutado       30-05-2012 14:09:03      -1000       1323 AGC00266
+1714560576   59177261 Recarga Duplicame B3                Ejecutado       31-05-2012 16:25:35       -819        960 AGC00266
+1719946044   52879983 Recarga Duplicame B3                Ejecutado       04-06-2012 13:38:52       -430       1603 AGC00266
+1719946132   52879983 Recarga Duplicame B3                Ejecutado       04-06-2012 13:38:54      -1000       1173 AGC00266
+1737378660   52918069 Recarga Duplicame B3                Ejecutado       17-06-2012 17:35:03       -500        502 AGG02076
+1738568332   43155794 Recarga Duplicame B3                Ejecutado       18-06-2012 16:26:08       -100        133 AGG02076
+1738852410   55081763 Recarga Duplicame B3                Ejecutado       18-06-2012 19:35:03       -378        511 AGC00266
+1738945016   44143263 Recargas Promocional B5             Ejecutado       18-06-2012 20:30:01       -260       1080 AGC00266
+1739862837   50757527 Recargas Promocional B5             Ejecutado       19-06-2012 16:34:39       -750       1470 AGC00266
+1744020365   50921878 Recarga Duplicame B3                Ejecutado       22-06-2012 14:14:18       -500        501 AGC00266
+1752294759   50203148 Recargas Promocional B5             Ejecutado       28-06-2012 10:15:29        -10         10 AGC00266
+1752642138   44265496 Recargas Promocional B5             Ejecutado       28-06-2012 15:27:34       -500        504 AGC00266
+1752642223   44265496 Recargas Promocional B5             Ejecutado       28-06-2012 15:27:40      -1000       1504 AGC00266
+1752642455   52544037 Recargas Promocional B5             Ejecutado       28-06-2012 15:27:59       -500        526 AGC00266
+1752642500   52544037 Recargas Promocional B5             Ejecutado       28-06-2012 15:28:01      -1000       1526 AGC00266
+1752642849   44265044 Recargas Promocional B5             Ejecutado       28-06-2012 15:28:29       -500        728 AGC00266
+1752642921   44265044 Recargas Promocional B5             Ejecutado       28-06-2012 15:28:35      -1000       1728 AGC00266
+1752643238   44265554 Recargas Promocional B5             Ejecutado       28-06-2012 15:28:58       -500        832 AGC00266
+1752643290   44265554 Recargas Promocional B5             Ejecutado       28-06-2012 15:29:03      -1000       1832 AGC00266
+1752652206   44265514 Recargas Promocional B5             Ejecutado       28-06-2012 15:36:20       -500        631 AGC00266
+1754435956   56758478 Recarga Duplicame B3                Ejecutado       29-06-2012 18:01:52       -100       1237 AGG02076
+1758594844   52946864 Recarga Duplicame B3                Ejecutado       02-07-2012 11:26:18       -303        304 AGC00266
+1758594902   52946864 Recarga Duplicame B3                Ejecutado       02-07-2012 11:26:25      -1000       1304 AGC00266
+1758841705   52220961 Recargas Promocional B5             Ejecutado       02-07-2012 14:49:08        -50        100 AGC00266
+1758936870   52946899 Recarga Duplicame B3                Ejecutado       02-07-2012 16:08:21        -78         80 AGC00266
+1758936925   52946899 Recarga Duplicame B3                Ejecutado       02-07-2012 16:08:28      -1000       1080 AGC00266
+1758972738   44737206 Recarga Duplicame B3                Ejecutado       02-07-2012 16:37:43        -10         10 AGG02076
+1759755669   59176150 Recarga Duplicame B3                Ejecutado       03-07-2012 08:42:49       -175        309 AGC00266
+1759755709   59176150 Recarga Duplicame B3                Ejecutado       03-07-2012 08:42:53      -1000       1309 AGC00266
+1760129945   57999310 Recarga Duplicame B3                Ejecutado       03-07-2012 13:39:10       -429        463 AGC00266
+1760288584   52298460 Recarga Duplicame B3                Ejecutado       03-07-2012 16:00:02        -55         55 AGC00266
+1760288674   52298460 Recarga Duplicame B3                Ejecutado       03-07-2012 16:00:06      -1000       1055 AGC00266
+1762836103   56411490 Recargas Promocional B5             Ejecutado       05-07-2012 12:28:24       -500        595 AGC00266
+1762836961   50932800 Recargas Promocional B5             Ejecutado       05-07-2012 12:29:13       -500       1140 AGC00266
+1769123149   50838091 Recarga Duplicame B3                Ejecutado       09-07-2012 18:59:37       -311        311 AGC00266
+1769123232   50838091 Recarga Duplicame B3                Ejecutado       09-07-2012 18:59:41      -1000       1311 AGC00266
+1771545643   44726345 Recarga Duplicame B3                Ejecutado       11-07-2012 10:28:18       -959        959 AGC00266
+1774388481   43423491 Recarga Duplicame B3                Ejecutado       13-07-2012 11:47:48       -500        797 AGC00266
+1774671466   43931947 Recarga Duplicame B3                Ejecutado       13-07-2012 15:08:04        -72         74 AGC00266
+1774671605   43931947 Recarga Duplicame B3                Ejecutado       13-07-2012 15:08:10      -1000       1074 AGC00266
+1776111567   55023826 Recarga Duplicame B3                Ejecutado       14-07-2012 12:07:24       -200        443 AGC00266
+1779335548   56406585 Recarga Duplicame B3                Ejecutado       16-07-2012 18:18:31       -100        106 AGG02076
+1781897539   43823901 Recarga Duplicame B3                Ejecutado       18-07-2012 11:13:27       -250        250 AGC00266
+1784561419   43186105 Recargas Promocional B5             Ejecutado       20-07-2012 08:30:01       -560       1001 AGC00266
+1784561565   43186105 Recargas Promocional B5             Ejecutado       20-07-2012 08:30:06      -1000       2001 AGC00266
+1787540180   54004515 Recarga Duplicame B3                Ejecutado       21-07-2012 16:14:03       -200       2042 AGG02076
+1792602896   52668088 Recargas Promocional B5             Ejecutado       25-07-2012 09:40:37       -100        127 AGC00266
+1795876867   52168198 Recarga Duplicame B3                Ejecutado       27-07-2012 16:46:20       -430       2193 AGC00266
+1799871847   50874297 Recargas Promocional B5             Ejecutado       30-07-2012 13:46:18       -250        245 AGC00266
+1801234632   54093859 Recarga Duplicame B3                Ejecutado       31-07-2012 11:32:45       -500        649 AGC00266
+1801541403   50963974 Recarga Duplicame B3                Ejecutado       31-07-2012 14:29:38       -275        394 AGC00266
+1801688060   44265496 Recargas Promocional B5             Ejecutado       31-07-2012 15:57:51      -1000       1500 AGC00266
+1801689013   52544037 Recargas Promocional B5             Ejecutado       31-07-2012 15:58:27       -500        500 AGC00266
+1801689105   52544037 Recargas Promocional B5             Ejecutado       31-07-2012 15:58:32      -1000       1500 AGC00266
+1801689558   44265044 Recargas Promocional B5             Ejecutado       31-07-2012 15:58:51       -500        697 AGC00266
+1801689667   44265044 Recargas Promocional B5             Ejecutado       31-07-2012 15:58:55      -1000       1697 AGC00266
+1801690156   44265554 Recargas Promocional B5             Ejecutado       31-07-2012 15:59:19      -1000       1500 AGC00266
+1801896634   54025074 Recarga Duplicame B3                Ejecutado       31-07-2012 17:40:50       -507        509 AGC00266
+1801896823   54025074 Recarga Duplicame B3                Ejecutado       31-07-2012 17:40:54      -1000       1509 AGC00266
+1803217942   55020558 Recarga Duplicame B3                Ejecutado       01-08-2012 08:37:48      -1000       3576 AGC00266
+1803217979   55020558 Recarga Duplicame B3                Ejecutado       01-08-2012 08:37:51      -1000       4576 AGC00266
+1803311932   56028320 Recarga Duplicame B3                Ejecutado       01-08-2012 10:05:07       -654        659 AGC00266
+1803382530   44081885 Recargas Promocional B5             Ejecutado       01-08-2012 11:04:44       -100        240 AGC00266
+1804634205   43615092 Recarga Duplicame B3                Ejecutado       02-08-2012 10:41:31        -78         94 AGC00266
+1804634324   43615092 Recarga Duplicame B3                Ejecutado       02-08-2012 10:41:38      -1000       1094 AGC00266
+1806189197   55024287 Recarga Duplicame B3                Ejecutado       03-08-2012 11:29:52       -817        817 AGC00266
+1810952587   52668088 Recargas Promocional B5             Ejecutado       06-08-2012 16:25:40       -384        334 AGC00266
+1812486869   55005612 Recarga Duplicame B3                Ejecutado       07-08-2012 16:10:55       -803        826 AGC00266
+1813383618   53125239 Recargas Promocional B5             Ejecutado       08-08-2012 08:11:06       -300        817 AGC00266
+1814042409   50839094 Recarga Duplicame B3                Ejecutado       08-08-2012 17:35:58      -1000       1024 AGC00266
+1815103312   53126641 Recarga Duplicame B3                Ejecutado       09-08-2012 14:58:01       -357        358 AGC00266
+1815103395   53126641 Recarga Duplicame B3                Ejecutado       09-08-2012 14:58:08      -1000       1358 AGC00266
+1815172241   54021935 Recarga Duplicame B3                Ejecutado       09-08-2012 16:05:59       -321        321 AGC00266
+1815172505   54021935 Recarga Duplicame B3                Ejecutado       09-08-2012 16:06:22      -1000       1321 AGC00266
+1815172537   54021935 Recarga Duplicame B3                Ejecutado       09-08-2012 16:06:25      -1000       2321 AGC00266
+1815217474   52188185 Recarga Duplicame B3                Ejecutado       09-08-2012 16:50:03       -392        392 AGC00266
+1817707487   51052512 Recarga Duplicame B3                Ejecutado       11-08-2012 09:50:03       -605        723 AGC00266
+1826332255   51009957 Recarga Duplicame B3                Ejecutado       17-08-2012 12:09:48       -420        420 AGC00266
+1837572239   50879248 Recarga Duplicame B3                Ejecutado       25-08-2012 09:28:59       -425        427 AGG02076
+1845402234   53120899 Recarga Duplicame B3                Ejecutado       30-08-2012 19:52:30       -774        804 AGC00266
+1849446746   52451182 Recarga Duplicame B3                Ejecutado       01-09-2012 18:39:18       -550        695 AGG02076
+1851883926   44265496 Recargas Promocional B5             Ejecutado       03-09-2012 16:00:17      -1000       1500 AGC00266
+1851885054   52544037 Recargas Promocional B5             Ejecutado       03-09-2012 16:00:40       -500        501 AGC00266
+1851885130   52544037 Recargas Promocional B5             Ejecutado       03-09-2012 16:00:46      -1000       1501 AGC00266
+1851885452   44265044 Recargas Promocional B5             Ejecutado       03-09-2012 16:01:05       -500        579 AGC00266
+1851885529   44265044 Recargas Promocional B5             Ejecutado       03-09-2012 16:01:11      -1000       1579 AGC00266
+1851885820   44265554 Recargas Promocional B5             Ejecutado       03-09-2012 16:01:32      -1000       1500 AGC00266
+1857382973   43086705 Recargas Promocional B5             Ejecutado       07-09-2012 10:09:06       -200        200 AGC00266
+1857466935   79790222 Recarga Duplicame B3                Ejecutado       07-09-2012 11:02:25       -300        334 AGC00266
+1863692853   43718374 Recargas Promocional B5             Ejecutado       11-09-2012 10:48:06        -60       1228 AGC00266
+1874167007   51096787 Recarga Duplicame B3                Ejecutado       17-09-2012 17:00:32        -50        294 AGC00266
+1877195220   52487817 Recarga Duplicame B3                Ejecutado       19-09-2012 15:36:24       -600        551 AGC00266
+1878820814   44230548 Recargas Promocional B5             Rechazado       20-09-2012 14:37:53        -40            AGC00266
+1880910350   44230548 Recargas Promocional B5             Rechazado       21-09-2012 13:24:46        -40            AGC00266
+1886582973   44230548 Recargas Promocional B5             Ejecutado       25-09-2012 11:20:22        -40         45 AGC00266
+1886610402   56067045 Recargas Promocional B5             Ejecutado       25-09-2012 11:35:29       -100        392 AGC00266
+1886625409   56067045 Recarga Duplicame B3                Ejecutado       25-09-2012 11:45:02       -100        392 AGC00266
+1888375137   55450146 Recarga Duplicame B3                Ejecutado       26-09-2012 11:14:10       -500       3031 AGC00266
+1888375187   55450146 Recarga Duplicame B3                Ejecutado       26-09-2012 11:14:13      -1000       4031 AGC00266
+1888407282   22692685 Recarga Duplicame B3                Ejecutado       26-09-2012 11:39:27       -150       1264 AGC00266
+1888407355   22692685 Recarga Duplicame B3                Ejecutado       26-09-2012 11:39:30      -1000       2264 AGC00266
+1889607131   52286456 Recargas Promocional B5             Ejecutado       27-09-2012 09:17:29        -50        104 AGC00266
+1889676463   55479377 Recarga Duplicame B3                Ejecutado       27-09-2012 10:03:46      -1000       9384 AGC00266
+1891803215   56502972 Recarga Duplicame B3                Ejecutado       28-09-2012 14:41:48       -431        431 AGC00266
+1892052555   44265496 Recargas Promocional B5             Ejecutado       28-09-2012 16:30:58      -1000       1186 AGC00266
+1892053033   52544037 Recargas Promocional B5             Ejecutado       28-09-2012 16:31:17       -500        705 AGC00266
+1892053159   52544037 Recargas Promocional B5             Ejecutado       28-09-2012 16:31:22      -1000       1705 AGC00266
+1892053699   44265044 Recargas Promocional B5             Ejecutado       28-09-2012 16:31:40       -500        513 AGC00266
+1892053829   44265044 Recargas Promocional B5             Ejecutado       28-09-2012 16:31:44      -1000       1513 AGC00266
+1892054495   44265554 Recargas Promocional B5             Ejecutado       28-09-2012 16:32:04      -1000       1000 AGC00266
+1896885057   52493846 Recargas Promocional B5             Ejecutado       01-10-2012 10:00:10        -80         31 AGC00266
+1897362474   43637345 Recargas Promocional B5             Ejecutado       01-10-2012 15:32:45       -150        160 AGC00266
+1900732321   44129268 Recargas Promocional B5             Ejecutado       03-10-2012 15:48:50       -363        329 AGC00266
+1900732377   44129268 Recargas Promocional B5             Ejecutado       03-10-2012 15:48:54      -1000       1329 AGC00266
+1910724156   44649378 Recargas Promocional B5             Ejecutado       09-10-2012 16:58:12       -200        202 AGC00266
+1913462053   55027184 Recarga Duplicame B3                Ejecutado       11-10-2012 10:58:53       -670        670 AGC00266
+1913462154   55027184 Recarga Duplicame B3                Ejecutado       11-10-2012 10:58:57      -1000       1670 AGC00266
+1920006565   54071609 Recarga Duplicame B3                Ejecutado       15-10-2012 09:57:06       -900        900 AGC00266
+1922113926   56712213 Recarga Duplicame B3                Ejecutado       16-10-2012 13:40:50       -250        200 AGC00266
+1924408299   52721135 Recarga Duplicame B3                Ejecutado       17-10-2012 17:16:04       -250       1212 AGC00266
+1936091501   56448630 Recarga Duplicame B3                Ejecutado       24-10-2012 16:17:09       -500       1408 AGC00266
+1936146081   52320249 Recargas Promocional B5             Ejecutado       24-10-2012 16:59:02       -100        269 AGC00266
+1943656216   44265496 Recargas Promocional B5             Ejecutado       29-10-2012 10:50:04      -1000       1000 AGC00266
+1943656947   52544037 Recargas Promocional B5             Ejecutado       29-10-2012 10:50:19       -500        537 AGC00266
+1943657123   52544037 Recargas Promocional B5             Ejecutado       29-10-2012 10:50:23      -1000       1537 AGC00266
+1943658232   44265044 Recargas Promocional B5             Ejecutado       29-10-2012 10:50:41       -500        473 AGC00266
+1943658509   44265044 Recargas Promocional B5             Ejecutado       29-10-2012 10:50:44      -1000       1473 AGC00266
+1943659399   44265554 Recargas Promocional B5             Ejecutado       29-10-2012 10:51:05       -500        500 AGC00266
+1943659477   44265554 Recargas Promocional B5             Ejecutado       29-10-2012 10:51:10      -1000       1500 AGC00266
+1943659930   44265514 Recargas Promocional B5             Ejecutado       29-10-2012 10:51:28       -500        500 AGC00266
+1947099735   56466558 PROMOCION FALLIDA                   Ejecutado       31-10-2012 11:41:34        500        500 AGC00266
+1947101292   56466552 Recargas Promocional B5             Ejecutado       31-10-2012 11:42:20       -500       2484 AGC00266
+1949984508   52388910 Recarga Duplicame B3                Ejecutado       01-11-2012 16:27:07       -600       2442 AGC00266
+1951794063   53123387 Recarga Duplicame B3                Ejecutado       02-11-2012 17:09:34       -915        915 AGC00266
+1952017835   44471289 Recargas Promocional B5             Ejecutado       02-11-2012 18:28:16       -150        233 AGC00266
+1953049510   52225449 Recargas Promocional B5             Ejecutado       03-11-2012 10:19:27       -250       1281 AGC00266
+1954574136   43475429 Recargas Promocional B5             Ejecutado       04-11-2012 12:26:00       -150        184 AGC00266
+1956475794   43109821 Recarga Duplicame B3                Ejecutado       05-11-2012 17:12:32       -300        508 AGC00266
+1959662715   52225449 Recargas Promocional B5             Ejecutado       07-11-2012 14:00:03       -500       1538 AGC00266
+1961354929   43978332 Recargas Promocional B5             Ejecutado       08-11-2012 10:46:06       -100        100 AGC00266
+1961355000   43978332 Recargas Promocional B5             Ejecutado       08-11-2012 10:46:08      -1000       1100 AGC00266
+1964519519   56830892 Recargas Promocional B5             Ejecutado       10-11-2012 10:57:17       -250        202 AGC00266
+1967473694   43927903 Recarga Duplicame B3                Ejecutado       12-11-2012 11:58:21       -500       1516 AGC00266
+1973125360   56064989 Recarga Duplicame B3                Ejecutado       15-11-2012 17:03:32       -500        504 AGC00266
+1973125477   56064989 Recarga Duplicame B3                Ejecutado       15-11-2012 17:03:37      -1000       1504 AGC00266
+1973125828   43370463 Recargas Promocional B5             Ejecutado       15-11-2012 17:03:53       -500        500 AGC00266
+1973125930   43370463 Recargas Promocional B5             Ejecutado       15-11-2012 17:03:55      -1000       1500 AGC00266
+1973126882   52134747 Recargas Promocional B5             Ejecutado       15-11-2012 17:04:29       -500        500 AGC00266
+1973126974   52134747 Recargas Promocional B5             Ejecutado       15-11-2012 17:04:35      -1000       1500 AGC00266
+1977686565   56554506 Recarga Duplicame B3                Ejecutado       18-11-2012 09:54:25       -140        140 AGC00266
+1983541229   54037840 Recarga Bancaria Promo              Ejecutado       21-11-2012 14:09:33       -100        100 AGC00278
+1985208486   24595094 Recarga Duplicame B3                Ejecutado       22-11-2012 15:01:42       -300        302 AGG02076
+1986874539   56602438 Recarga Duplicame B3                Ejecutado       23-11-2012 15:10:13       -750       2184 AGC00266
+1996408321   44265496 Recargas Promocional B5             Ejecutado       29-11-2012 11:01:15      -1000       1000 AGC00266
+1996408705   52544037 Recargas Promocional B5             Ejecutado       29-11-2012 11:01:35       -500        670 AGC00266
+1996408776   52544037 Recargas Promocional B5             Ejecutado       29-11-2012 11:01:41      -1000       1670 AGC00266
+1996409119   44265044 Recargas Promocional B5             Ejecutado       29-11-2012 11:02:00       -500        500 AGC00266
+1996409194   44265044 Recargas Promocional B5             Ejecutado       29-11-2012 11:02:03      -1000       1500 AGC00266
+1996409434   44265554 Recargas Promocional B5             Ejecutado       29-11-2012 11:02:16       -500        500 AGC00266
+1996409507   44265554 Recargas Promocional B5             Ejecutado       29-11-2012 11:02:19      -1000       1500 AGC00266
+1996409859   44265514 Recargas Promocional B5             Ejecutado       29-11-2012 11:02:40       -500        500 AGC00266
+1996410834   34087651 Recargas Promocional B5             Ejecutado       29-11-2012 11:03:37        -30         30 AGC00266
+2004600943   44649378 Recargas Promocional B5             Ejecutado       03-12-2012 18:26:39       -198        446 AGC00266
+2005454111   34099948 Recarga Duplicame B3                Ejecutado       04-12-2012 10:35:17       -100        270 AGC00266
+2005982425   43934960 Recarga Duplicame B3                Ejecutado       04-12-2012 16:30:32       -250        254 AGC00266
+2005983330   43934959 Recarga Duplicame B3                Ejecutado       04-12-2012 16:31:20       -250        293 AGC00266
+2007003711   44719465 Recarga Duplicame B3                Ejecutado       05-12-2012 09:38:47      -2500       2991 AGC00266
+2009039391   52630602 Recarga Duplicame B3                Ejecutado       06-12-2012 09:28:00       -200        200 AGC00266
+2009110207   50868324 Recarga Duplicame B3                Ejecutado       06-12-2012 10:15:21       -250        310 AGC00266
+2010838388   50836120 Recarga Duplicame B3                Ejecutado       07-12-2012 10:41:41       -866        866 AGC00266
+2011518979   43396542 Recarga Duplicame B3                Ejecutado       07-12-2012 17:37:55       -200        200 AGC00266
+2023692751   55095333 Recarga Duplicame B3                Ejecutado       14-12-2012 13:22:57       -100        107 AGC00266
+2025745713   54058071 Recargas Promocional B5             Ejecutado       15-12-2012 11:55:01       -150        196 AGC00266
+2025773285   50729900 Recargas Promocional B5             Ejecutado       15-12-2012 12:10:53        -60         32 AGC00266
+2029509068   56606101 Recarga Duplicame B3                Ejecutado       17-12-2012 13:54:10        -22         22 AGC00266
+2029732999   44445352 Recarga Duplicame B3                Ejecutado       17-12-2012 16:10:20       -500       1000 AGC00266
+2029733013   44445352 Recarga Duplicame B3                Ejecutado       17-12-2012 16:10:18       -500        500 AGC00266
+2029754480   44445352 PROMOCION FALLIDA                   Ejecutado       17-12-2012 16:22:33       1000          0 AGC00266
+2029756774   44445352 Recargas Promocional B5             Ejecutado       17-12-2012 16:23:50       -500        500 AGC00266
+2032922144   52882846 Recarga Duplicame B3                Rechazado       19-12-2012 11:08:20        -10            AGC00266
+2033351150   55021026 Recarga Duplicame B3                Ejecutado       19-12-2012 15:38:53       -620       1079 AGC00266
+2033441063   56861884 Recarga Duplicame B3                Ejecutado       19-12-2012 16:36:19        -87         37 AGC00266
+2034768057   52882846 Recarga Duplicame B3                Ejecutado       20-12-2012 12:13:37       -150        150 AGC00266
+2035181308   52481224 Recarga Duplicame B3                Ejecutado       20-12-2012 16:09:56      -5530       6765 AGC00266
+2043114857   43170238 Recarga Duplicame B3                Ejecutado       24-12-2012 11:51:58       -150        175 AGC00266
+2051182897   44265496 Recargas Promocional B5             Ejecutado       28-12-2012 15:45:39      -1000       1004 AGC00266
+2051183629   52544037 Recargas Promocional B5             Ejecutado       28-12-2012 15:46:00      -1500       1706 AGC00266
+2051184418   44265044 Recargas Promocional B5             Ejecutado       28-12-2012 15:46:27      -1500       1514 AGC00266
+2051185354   44265554 Recargas Promocional B5             Ejecutado       28-12-2012 15:47:04      -1500       1500 AGC00266
+2051186299   44265514 Recargas Promocional B5             Ejecutado       28-12-2012 15:47:42       -500        500 AGC00266

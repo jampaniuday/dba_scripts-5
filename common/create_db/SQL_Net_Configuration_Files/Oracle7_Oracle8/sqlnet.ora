@@ -1,0 +1,10 @@
+################
+# Filename......: sqlnet.ora
+# Name..........: TCP.world
+# Date..........: 21-JAN-97 20:21:53
+################
+SQLNET.AUTHENTICATION_SERVICES= (NTS)
+NAMES.DIRECTORY_PATH= (TNSNAMES)
+TRACE_DIRECTORY_CLIENT = D:\oracle\ora817\network\trace
+NAMES.DEFAULT_DOMAIN = world
+NAME.DEFAULT_ZONE = world

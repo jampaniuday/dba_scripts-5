@@ -1,0 +1,117 @@
+--------------------------
+Compile Program
+--------------------------
+javac GetTextFromURL.java
+
+
+--------------------------
+Run Program
+--------------------------
+java GetTextFromURL
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+% java GetTextFromURL
+
+<html>
+<head>
+
+  <style>
+    A.noLink        { text-decoration: none; }
+    A.noLinkYellow  { color:yellow;  text-decoration: none; }
+    A.noLinkBlue    { color:blue;  text-decoration: none; }
+    A.noLinkOrange  { color:orange;  text-decoration: none; }
+    A.noLinkCyan    { color:cyan;  text-decoration: none; }
+    A.noLinkGreen   { color:cream;  text-decoration: none; }
+    A.noLinkRed     { color:red;  text-decoration: none; }
+  </style>
+
+  <title>PUBLIC KEYS - Jeff Hunter Public Key</title>
+
+  <script language="JavaScript">
+
+    function cancelForm() {
+      location = "./MAIN_home.shtml";
+    }
+
+  </script>
+
+</head>
+<body bgcolor="#ffffff" 
+      link="0000ff" 
+      vlink="0000ff" 
+      alink="0000ff">
+
+   <img src="../gifs/header_public_keys.gif">
+   <p>
+
+   <u><b>Public Key for Jeff Hunter</b></u>
+   <p>
+
+<b>Encryption Method:</b> Diffie-Hellman/DSS<br>
+<b>Cipher:</b> CAST<br>
+<b>Expires:</b> Never<br>
+<b>Size:</b> 2048/1024<br>
+<b>Fingerprint:</b> CDB4 DD53 3290 09A5 CD99  4752 4DFE 63CF 67BC 67B8<br>
+<b>Created On:</b> 27-APR-2001<br>
+<b>Last Updated On:</b> 27-APR-2001<br>
+
+<p>
+<hr size="3" noshade>
+<p>
+<pre>
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: PGPfreeware 7.0.3 for non-commercial use <http://www.pgp.com>
+
+mQGiBDrqN88RBADm31aLdJFuqxzhp4EYSU6DHybnP//ZwT1NqTJ1VsLiWyoGOjNn
+OA+4IWFQGjtLA92MgtVe+pdYDrbdXizsR/oeU7W4EYsR9Z49ZlMVA5mjyNlLoSQ8
++/Dx0OC+093f0yuuNWW3WzYYFGRNjfc7If64kfRnh58AmvIqxX6cFFyETwCg/09d
+GCtU+G5acajk+c+U24K6rqkD/0OZJuMuUTZDaxx6IzNrWoqtDIcdv3hUwSLIVcA9
+Mf0gejT7qU5e+LYspYpdFAPauXJltO5bBh9LeQFnIScEiVuOmNFRAxiWErhDVJAw
+hcypiXunSiCJYysEBxD5x2+7YKYx6QRTFXfkMg0X7p89qDsv1bGR6zZBUFrMkezS
+JqhZA/9D2PKpmQxcYE2NhS8xt+bScNpLEpHcbCAoJ8D6s/2aNj4D/iwSIkYi1fEF
+3RA8cUb2d/XZldJZu+i8xn4fE0WmWZ795BDw+T4J2fWJ2theugwaKmUzDEhJDcD0
+Nu4gQ7rO8uuX5Zjf//6IBkN0ENhq+RXbCxWx6OzrMjaxFYJPirQuSmVmZnJleSBN
+LiBIdW50ZXIgPEplZmZyZXkuSHVudGVyQG1hcmNvbmkuY29tPokAWAQQEQIAGAUC
+Ouo3zwgLAwkIBwIBCgIZAQUbAwAAAAAKCRBN/mPPZ7xnuC0gAKDtFra7D2DWHE+T
+1rZ5T+8P0ESqggCgpLu2Ev/zyLfaOskCFrdc79vPTPK5Ag0EOuo30BAIAPZCV7cI
+fwgXcqK61qlC8wXo+VMROU+28W65Szgg2gGnVqMU6Y9AVfPQB8bLQ6mUrfdMZIZJ
++AyDvWXpF9Sh01D49Vlf3HZSTz09jdvOmeFXklnN/biudE/F/Ha8g8VHMGHOfMlm
+/xX5u/2RXscBqtNbno2gpXI61Brwv0YAWCvl9Ij9WE5J280gtJ3kkQc2azNsOA1F
+HQ98iLMcfFstjvbzySPAQ/ClWxiNjrtVjLhdONM0/XwXV0OjHRhs3jMhLLUq/zzh
+sSlAGBGNfISnCnLWhsQDGcgHKXrKlQzZlp+r0ApQmwJG0wg9ZqRdQZ+cfL2JSyIZ
+Jrqrol7DVekyCzsAAgIH+wc6bvhu6cWRUqwqxKQOlHT8Z11B0dVjgMjWabAn90R1
+KsozNthZ9nl+78fvfSCyJNuBHFcPGBN7L5WzxC2btSkxrsKM0vgEbc+Rjs6iP9gv
+vtTLeQpDH6+IK5y1IZAs19V7Skt+y9SEzn9abJKHlXs4lXLu5Y/aZrc7TNjmcp0M
+A8Z4A+NYhMddJk2dwoLmNBsad4TmFuZjxPfXqi7OgtFUvONWJCJQPxBMmNAz+qm8
+tk8NtnwdWZ2OHqMgKrWfweMoUbe+gqjIbkWajT+ZH0Z36iTgaNZYYWmfC2JM+hXo
+PrDUa721+uf9JHhDSjGC5BDW3DRA2fEIjLZvAWzE61mJAEwEGBECAAwFAjrqN9AF
+GwwAAAAACgkQTf5jz2e8Z7gzGACgzJoW+oMwUMGFFakWRqY16rlamSgAoN0SL2lj
+lTe9iJ5wUoEouH0CZp3q
+=HgHl
+-----END PGP PUBLIC KEY BLOCK-----
+</pre>
+</blockquote>
+
+<!--
+  -- *****************************
+  -- *****   PAGE STATISTICS *****
+  -- *****************************
+  -->
+<p>
+<hr size="3" noshade>
+<font size="-2">
+<!-- <b>Created by: </b> Jeff Hunter <br> -->
+<b>Last modified on: </b> Monday, 15-Sep-2003 22:23:19 EDT <br>
+</font>
+<font size="-2" color="#ffffff">
+<b>Page Count: </b> 5 <br>
+</font>
+
+</body>
+</html>

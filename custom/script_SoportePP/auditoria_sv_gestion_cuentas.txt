@@ -1,0 +1,69 @@
+select * from all_objects where owner in
+(
+'MEN00063',
+'MEN00064',
+'MET01856',
+'MGN01436',
+'MGT00267',
+'NJN01433',
+'MEN00063',
+'MEN00064',
+'MET01856',
+'MGN01436',
+'MGT00267',
+'MGT02333',
+'NJN01433',
+'NJT01070',
+'MEN00063',
+'MEN00064',
+'MGN01436',
+'MGT02333',
+'NJN01433',
+'NJT01070',
+'MEN00063',
+'MET01856',
+'MGN01436',
+'MGT00267',
+'MGT02333',
+'NJN01433',
+'NJT01070');
+
+
+-- ppga
+drop user MEN00063;
+drop user MEN00064;
+drop user MET01856;
+drop user MGN01436;
+drop user MGT00267;
+drop user NJN01433;
+
+
+-- ppcs
+drop user MEN00063;
+drop user MEN00064;
+drop user MET01856;
+drop user MGN01436;
+drop user MGT00267;
+drop user MGT02333;
+drop user NJN01433;
+drop user NJT01070;
+
+
+--opge
+drop user MEN00063;
+drop user MEN00064;
+drop user MGN01436;
+drop user MGT02333;
+drop user NJN01433;
+drop user NJT01070;
+
+
+--rasc
+drop user MEN00063;
+drop user MET01856;
+drop user MGN01436;
+drop user MGT00267;
+drop user MGT02333;
+drop user NJN01433;
+drop user NJT01070;
+

@@ -1,0 +1,22 @@
+--------------------------
+Compile Program
+--------------------------
+javac LoggingDemo1.java
+
+
+--------------------------
+Run Program
+--------------------------
+java LoggingDemo1
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+Jun 18, 2003 1:28:52 AM LoggingDemo1 main
+WARNING: sample warning
+Jun 18, 2003 1:28:52 AM LoggingDemo1 main
+INFO: sample info entry

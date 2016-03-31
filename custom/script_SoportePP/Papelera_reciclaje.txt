@@ -1,0 +1,6 @@
+SELECT object_name,original_name,operation,type,dropscn,droptime FROM user_recyclebin;
+
+SELECT owner,original_name,operation,type,droptime FROM dba_recyclebin;
+
+PURGE recyclebin; (Purge all objects in Recyclebin)
+PURGE dba_recyclebin; (Purge all objects / only SYSDBA can)

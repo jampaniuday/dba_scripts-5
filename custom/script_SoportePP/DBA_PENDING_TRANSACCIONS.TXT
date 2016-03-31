@@ -1,0 +1,19 @@
+DBA_PENDING_TRANSACTIONS View Source 
+Oracle 11g's data dictionary defines the DBA_PENDING_TRANSACTIONS view using the following source query: 
+ 
+(((select formatid, globalid, branchid 
+   from   gv$global_transaction 
+   where  preparecount > 0 and refcount = preparecount) 
+minus 
+  (select global_tran_fmt, global_foreign_id, branch_id 
+   from   sys.pending_trans$ tran, sys.pending_sessions$ sess 
+   where  tran.local_tran_id = sess.local_tran_id 
+     and  tran.state != 'collecting' 
+     and  dbms_utility.is_bit_set(tran.session_vector, sess.session_id)=1) 
+) 
+union 
+  (select global_tran_fmt, global_foreign_id, branch_id 
+   from   sys.pending_trans$ tran, sys.pending_sessions$ sess 
+   where  tran.local_tran_id = sess.local_tran_id 
+     and  tran.state != 'collecting' 
+     and  dbms_utility.is_bit_set(tran.session_vector, sess.session_id)=1)

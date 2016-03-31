@@ -1,0 +1,44 @@
+--------------------------
+Compile Program
+--------------------------
+javac ListFilesSubs.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ListFilesSubs
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Simple file listing...
+----------------------
+[D] : new_dir\CustomLogger
+[D] : new_dir\Directories
+[D] : new_dir\Encodings
+[D] : new_dir\FilenamesPathnames
+[D] : new_dir\Files
+[D] : new_dir\Parsing
+[D] : new_dir\ReadingWriting
+[F] : new_dir\README_InputFile.txt
+[F] : new_dir\README_ReadFromStdin.txt
+[D] : new_dir\Serialization
+
+Filter file listing...
+----------------------
+[D] : new_dir\Parsing
+
+Filter Directory listing...
+---------------------------
+[D] : new_dir\CustomLogger
+[D] : new_dir\Directories
+[D] : new_dir\Encodings
+[D] : new_dir\FilenamesPathnames
+[D] : new_dir\Files
+[D] : new_dir\Parsing
+[D] : new_dir\ReadingWriting
+[D] : new_dir\Serialization

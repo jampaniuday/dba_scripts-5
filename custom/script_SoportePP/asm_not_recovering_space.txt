@@ -1,0 +1,10 @@
+select file_id, bytes from dba_data_files where tablespace_name = 'ADM_SV_LOG_DATA';
+select file#, bytes from v$datafile where file# in (select file_id from dba_data_files where tablespace_name = 'ADM_SV_LOG_DATA');
+select file#, trunc(bytes/1024/1024/1024) G from v$datafile where file# in (select file_id from dba_data_files where tablespace_name = 'ADM_SV_LOG_DATA');
+
+alter database datafile '+DATA/pcinf/datafile/users1.303.777062961' resize 15850000000000;
+
+select file_id, bytes from dba_data_files where tablespace_name = 'USERS1';
+select file#, bytes from v$datafile where file# = (select file_id from dba_data_files where tablespace_name = 'USERS1');
+select file#, trunc(bytes/1024/1024/1024) G from v$datafile where file# = (select file_id from dba_data_files where tablespace_name = 'USERS1');
+

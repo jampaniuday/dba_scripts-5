@@ -1,0 +1,41 @@
+column OBJECT_NAME format a30
+
+select OWNER,OBJECT_NAME,OBJECT_ID from 
+dba_objects where object_name like 'SYS_JOURNAL%';
+
+
+
+
+
+column TEMP_TABLE_NAME format a30
+
+
+select a.object_name, b.table_name temp_table_name
+from dba_objects a,
+( select substr(object_name,13) as obj_id,
+object_name as table_name
+from dba_objects
+where object_name like 'SYS_JOURNAL_%') b
+where a.OBJECT_ID = b.obj_id;
+
+
+declare
+isclean boolean;
+begin
+isclean := false;
+while isclean = false
+loop
+isclean := DBMS_REPAIR.ONLINE_INDEX_CLEAN
+(dbms_repair.all_index_id, dbms_repair.lock_wait);
+dbms_lock.sleep (10);
+end loop;
+end;
+/
+
+
+declare
+isclean boolean;
+begin
+isclean := DBMS_REPAIR.ONLINE_INDEX_CLEAN(dbms_repair.all_index_id, dbms_repair.lock_wait);
+end;
+/

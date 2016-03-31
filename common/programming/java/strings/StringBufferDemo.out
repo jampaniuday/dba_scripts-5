@@ -1,0 +1,20 @@
+--------------------------
+Compile Program
+--------------------------
+javac StringBufferDemo.java
+
+
+--------------------------
+Run Program
+--------------------------
+java StringBufferDemo
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+name      : Alex, Hunter
+nameStr1  : Alex, Hunter
+nameStr2  : Alex, Hunter

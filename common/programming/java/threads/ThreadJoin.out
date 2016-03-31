@@ -1,0 +1,55 @@
+--------------------------
+Compile Program
+--------------------------
+javac ThreadJoin.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ThreadJoin
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+<< MAIN METHOD (Begin) >>
+
+Constructing thread  (1)...
+
+
+Constructing thread  (2)...
+
+
+Will now wait until the first thread is complete...
+
+  - Thread 1  ( Current Countdown = 5 )
+  - Thread 1  ( Current Countdown = 4 )
+  - Thread 1  ( Current Countdown = 3 )
+  - Thread 1  ( Current Countdown = 2 )
+  - Thread 1  ( Current Countdown = 1 )
+
+Ending thread 1...
+
+Now that the first thread is complete, starting second thread...
+
+Will now wait until the second thread is complete...
+
+  - Thread 2  ( Current Countdown = 5 )
+  - Thread 2  ( Current Countdown = 4 )
+  - Thread 2  ( Current Countdown = 3 )
+  - Thread 2  ( Current Countdown = 2 )
+  - Thread 2  ( Current Countdown = 1 )
+
+Ending thread 2...
+
+All working threads are complete, now time to print out there values...
+
+    Thread One Value: 25
+    Thread Two Value: 100
+
+<< MAIN METHOD (End) >>
+

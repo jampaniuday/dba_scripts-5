@@ -1,0 +1,4 @@
+select table_name from all_tables where table_Name like '%OLD%';
+
+select tablespace_name,PARTITION_NAME, TABLE_NAME from dba_tab_partitions where table_name in 
+(select table_name from all_tables where table_name like 'PPCS%OLD') order by 1,2;

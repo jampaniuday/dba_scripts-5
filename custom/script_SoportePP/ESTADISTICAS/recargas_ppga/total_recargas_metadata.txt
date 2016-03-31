@@ -1,0 +1,291 @@
+select COD_ORIGRECA, SUm(IMP_RECARGA/(select CON_PASOS from ppga.ppga_moneda where COD_MONEDA = '0')) "IMPORTE"
+from PPGA.ppga_recargas where FEC_INSTALAC > sysdate -1/288 and sec_anulacion is null
+group by COD_ORIGRECA;
+
+PA
+
+COD_    IMPORTE
+---- ----------
+REP      162.24
+3          1454
+TPS          22
+D           100
+7          2656
+A         24.49
+O         130.7
+
+7 rows selected.
+
+Elapsed: 00:00:00.48
+
+
+GT
+
+COD_    IMPORTE
+---- ----------
+3         35.13
+SFX4      10.16
+RX2       26.44
+RX3       36.82
+FX4        24.6
+SOS       46.52
+SFC3      15.23
+FX6        78.2
+SFX2       5.87
+SFC4      20.32
+CC03       8.05
+DS5       147.5
+FX5        3.12
+DS3       31.05
+SFX3      15.23
+FX3       27.36
+SFC6     134.48
+RX6        5.85
+A       115.416
+FX2         .78
+O       1426.24
+Z             6
+SFX6      33.62
+SFX5       5.47
+SFC5      16.41
+RX4        8.22
+CC01         23
+
+27 rows selected.
+
+Elapsed: 00:00:00.15
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 900744299
+
+-------------------------------------------------------------------------------------------------------------------------
+| Id  | Operation                           | Name              | Rows  | Bytes | Cost (%CPU)| Time     | Pstart| Pstop |
+-------------------------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT                    |                   |    17 |   306 |    57   (2)| 00:00:01 |       |       |
+|   1 |  TABLE ACCESS BY INDEX ROWID        | PPGA_MONEDA       |     1 |     5 |     1   (0)| 00:00:01 |       |       |
+|*  2 |   INDEX UNIQUE SCAN                 | PK_MONEDA         |     1 |       |     0   (0)| 00:00:01 |       |       |
+|   3 |  HASH GROUP BY                      |                   |    17 |   306 |    57   (2)| 00:00:01 |       |       |
+|   4 |   PARTITION LIST ALL                |                   |    21 |   378 |    56   (0)| 00:00:01 |     1 |    20 |
+|*  5 |    TABLE ACCESS BY LOCAL INDEX ROWID| PPGA_RECARGAS     |    21 |   378 |    56   (0)| 00:00:01 |     1 |    20 |
+|*  6 |     INDEX RANGE SCAN                | PPGA_RECARGAS_I03 |    21 |       |    41   (0)| 00:00:01 |     1 |    20 |
+-------------------------------------------------------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   2 - access("COD_MONEDA"='0')
+   5 - filter("SEC_ANULACION" IS NULL)
+   6 - access("FEC_INSTALAC">SYSDATE@!-.003472222222222222222222222222222222222222)
+
+
+Statistics
+----------------------------------------------------------
+          1  recursive calls
+          0  db block gets
+       1127  consistent gets
+          0  physical reads
+        152  redo size
+       1121  bytes sent via SQL*Net to client
+        503  bytes received via SQL*Net from client
+          3  SQL*Net roundtrips to/from client
+          0  sorts (memory)
+          0  sorts (disk)
+         27  rows processed
+
+
+SV
+COD_    IMPORTE
+---- ----------
+MG         3440
+RSOS       .111
+3           131
+P          .173
+19          215
+8       1812.84
+10          149
+15          160
+A         57.71
+O       1737.34
+Z            24
+N           153
+
+12 rows selected.
+
+Elapsed: 00:00:00.84
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 900744299
+
+-------------------------------------------------------------------------------------------------------------------------
+| Id  | Operation                           | Name              | Rows  | Bytes | Cost (%CPU)| Time     | Pstart| Pstop |
+-------------------------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT                    |                   |    10 |   160 |    54   (2)| 00:00:01 |       |       |
+|   1 |  TABLE ACCESS BY INDEX ROWID        | PPGA_MONEDA       |     1 |     5 |     1   (0)| 00:00:01 |       |       |
+|*  2 |   INDEX UNIQUE SCAN                 | PK_MONEDA         |     1 |       |     0   (0)| 00:00:01 |       |       |
+|   3 |  HASH GROUP BY                      |                   |    10 |   160 |    54   (2)| 00:00:01 |       |       |
+|   4 |   PARTITION LIST ALL                |                   |    14 |   224 |    53   (0)| 00:00:01 |     1 |    20 |
+|*  5 |    TABLE ACCESS BY LOCAL INDEX ROWID| PPGA_RECARGAS     |    14 |   224 |    53   (0)| 00:00:01 |     1 |    20 |
+|*  6 |     INDEX RANGE SCAN                | PPGA_RECARGAS_I03 |    14 |       |    41   (0)| 00:00:01 |     1 |    20 |
+-------------------------------------------------------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   2 - access("COD_MONEDA"='0')
+   5 - filter("SEC_ANULACION" IS NULL)
+   6 - access("FEC_INSTALAC">SYSDATE@!-.003472222222222222222222222222222222222222)
+
+
+Statistics
+----------------------------------------------------------
+        230  recursive calls
+          0  db block gets
+       2981  consistent gets
+         78  physical reads
+        124  redo size
+        763  bytes sent via SQL*Net to client
+        492  bytes received via SQL*Net from client
+          2  SQL*Net roundtrips to/from client
+          5  sorts (memory)
+          0  sorts (disk)
+         12  rows processed
+
+
+NI
+
+COD_    IMPORTE
+---- ----------
+3         44.47
+SFX4       8.98
+RX3       66.26
+RX2        7.83
+SFC3      30.72
+FX6       91.95
+SFC4      17.18
+FX4       23.46
+SOS        31.9
+SFX2      21.78
+DS5      70.531
+DS3        16.1
+FX3       24.24
+D          2.63
+SFX3      29.94
+SFC6     101.76
+A       111.045
+RX5         7.8
+RX6         7.8
+O       1587.93
+Z             1
+SFX6      21.91
+RX4        8.22
+SFX5      10.18
+SFC5      24.66
+TX6         4.9
+TF6         4.9
+TSP           2
+
+28 rows selected.
+
+Elapsed: 00:00:00.16
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 900744299
+
+-------------------------------------------------------------------------------------------------------------------------
+| Id  | Operation                           | Name              | Rows  | Bytes | Cost (%CPU)| Time     | Pstart| Pstop |
+-------------------------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT                    |                   |    17 |   306 |    57   (2)| 00:00:01 |       |       |
+|   1 |  TABLE ACCESS BY INDEX ROWID        | PPGA_MONEDA       |     1 |     5 |     1   (0)| 00:00:01 |       |       |
+|*  2 |   INDEX UNIQUE SCAN                 | PK_MONEDA         |     1 |       |     0   (0)| 00:00:01 |       |       |
+|   3 |  HASH GROUP BY                      |                   |    17 |   306 |    57   (2)| 00:00:01 |       |       |
+|   4 |   PARTITION LIST ALL                |                   |    21 |   378 |    56   (0)| 00:00:01 |     1 |    20 |
+|*  5 |    TABLE ACCESS BY LOCAL INDEX ROWID| PPGA_RECARGAS     |    21 |   378 |    56   (0)| 00:00:01 |     1 |    20 |
+|*  6 |     INDEX RANGE SCAN                | PPGA_RECARGAS_I03 |    21 |       |    41   (0)| 00:00:01 |     1 |    20 |
+-------------------------------------------------------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   2 - access("COD_MONEDA"='0')
+   5 - filter("SEC_ANULACION" IS NULL)
+   6 - access("FEC_INSTALAC">SYSDATE@!-.003472222222222222222222222222222222222222)
+
+
+Statistics
+----------------------------------------------------------
+          0  recursive calls
+          0  db block gets
+       1033  consistent gets
+          0  physical reads
+        872  redo size
+       1127  bytes sent via SQL*Net to client
+        503  bytes received via SQL*Net from client
+          3  SQL*Net roundtrips to/from client
+          0  sorts (memory)
+          0  sorts (disk)
+         28  rows processed
+
+
+CR
+
+COD_    IMPORTE
+---- ----------
+ORPQ      67250
+RSOS       4500
+3        351500
+TPS       14550
+ORQ6     460695
+C          2000
+O        381220
+ORON      12000
+PRF5       2000
+
+9 rows selected.
+
+Elapsed: 00:00:00.10
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 900744299
+
+-------------------------------------------------------------------------------------------------------------------------
+| Id  | Operation                           | Name              | Rows  | Bytes | Cost (%CPU)| Time     | Pstart| Pstop |
+-------------------------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT                    |                   |     3 |    54 |    45   (3)| 00:00:01 |       |       |
+|   1 |  TABLE ACCESS BY INDEX ROWID        | PPGA_MONEDA       |     1 |     5 |     1   (0)| 00:00:01 |       |       |
+|*  2 |   INDEX UNIQUE SCAN                 | PK_MONEDA         |     1 |       |     0   (0)| 00:00:01 |       |       |
+|   3 |  HASH GROUP BY                      |                   |     3 |    54 |    45   (3)| 00:00:01 |       |       |
+|   4 |   PARTITION LIST ALL                |                   |     4 |    72 |    44   (0)| 00:00:01 |     1 |    20 |
+|*  5 |    TABLE ACCESS BY LOCAL INDEX ROWID| PPGA_RECARGAS     |     4 |    72 |    44   (0)| 00:00:01 |     1 |    20 |
+|*  6 |     INDEX RANGE SCAN                | PPGA_RECARGAS_I03 |     4 |       |    41   (0)| 00:00:01 |     1 |    20 |
+-------------------------------------------------------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   2 - access("COD_MONEDA"='0')
+   5 - filter("SEC_ANULACION" IS NULL)
+   6 - access("FEC_INSTALAC">SYSDATE@!-.003472222222222222222222222222222222222222)
+
+
+Statistics
+----------------------------------------------------------
+        296  recursive calls
+          0  db block gets
+       1205  consistent gets
+          6  physical reads
+          0  redo size
+        739  bytes sent via SQL*Net to client
+        492  bytes received via SQL*Net from client
+          2  SQL*Net roundtrips to/from client
+          5  sorts (memory)
+          0  sorts (disk)
+          9  rows processed
+
+
+
+
+

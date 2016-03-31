@@ -1,0 +1,277 @@
+select capture_name, status, captured_scn, applied_scn, 
+capture_type from dba_capture;
+
+
+select min_required_capture_change# from v$database
+
+select min(required_checkpoint_scn) ,min(source_resetlogs_scn) from dba_capture where capture_type='LOCAL';
+
+
+--- como verificar si falta algun arch
+
+alter session set nls_date_format='dd-mon-rr hh24:mi:ss';
+select recid, dest_id, thread#, sequence#, first_time, completion_time, creator, registrar, archived, applied, deleted, status from v$archived_log where standby_dest='YES' and status='A';
+
+
+select recid, dest_id, thread#, sequence#, first_time, completion_time, creator, registrar, archived, applied, deleted, status from v$archived_log where standby_dest='YES' and status='A';
+
+
+--------------------------
+
+Revision de si esta sincronizado en N1
+
+SELECT THREAD# "Thread",SEQUENCE# "Last Sequence Generated"
+FROM V$ARCHIVED_LOG
+WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$ARCHIVED_LOG GROUP BY THREAD#)
+ORDER BY 1;
+
+select ARCHIVED_THREAD#,archived_seq# from gV$ARCHIVE_DEST_STATUS where dest_id=1;
+
+SELECT THREAD# "Thread",SEQUENCE# "Last Sequence Generated"
+FROM V$ARCHIVED_LOG
+WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$ARCHIVED_LOG GROUP BY THREAD#)
+ORDER BY 1;
+
+
+revision en el n2 para sacar cuantos faltan
+
+SELECT ARCH.THREAD# "Thread", ARCH.SEQUENCE# "Last Sequence Received", APPL.SEQUENCE# "Last Sequence Applied", (ARCH.SEQUENCE# - APPL.SEQUENCE#) "Difference"
+FROM
+(SELECT THREAD# ,SEQUENCE# FROM V$ARCHIVED_LOG WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$ARCHIVED_LOG GROUP BY THREAD#)) ARCH,
+(SELECT THREAD# ,SEQUENCE# FROM V$LOG_HISTORY WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$LOG_HISTORY GROUP BY THREAD#)) APPL
+WHERE
+ARCH.THREAD# = APPL.THREAD#
+ORDER BY 1;
+
+revision de cuantos faltan en recibir en 2
+
+ SELECT THREAD#, LOW_SEQUENCE#, HIGH_SEQUENCE# FROM V$ARCHIVE_GAP;
+
+-------------------------------------- otro control -----------------------------------
+
+select archived_seq# from V$ARCHIVE_DEST_STATUS where dest_id=1;
+select archived_seq# from V$ARCHIVE_DEST_STATUS where dest_id=32;
+select applied_seq# from V$ARCHIVE_DEST_STATUS where dest_id=32;
+
+
+/opt/drutt/msdpdb/diag/rdbms/msdpha/msdpha
+
+
+Mon Aug 20 20:25:16 2012
+Media Recovery Waiting for thread 1 sequence 4743 (in transit)
+Recovery of Online Redo Log: Thread 1 Group 5 Seq 4743 Reading mem 0
+  Mem# 0: /opt/drutt/msdpdb/flash_recovery_area/MSDPHA/onlinelog/o1_mf_5_73fst8xl_.log
+Mon Aug 20 20:25:17 2012
+Archived Log entry 4736 added for thread 1 sequence 4742 ID 0x1f663c3a dest 1:
+Mon Aug 20 22:00:11 2012
+RFS[6]: Selected log 6 for thread 1 sequence 4744 dbid 526638422 branch 757858390
+Mon Aug 20 22:00:15 2012
+Archived Log entry 4737 added for thread 1 sequence 4743 ID 0x1f663c3a dest 1:
+Mon Aug 20 22:00:15 2012
+Media Recovery Waiting for thread 1 sequence 4744 (in transit)
+Recovery of Online Redo Log: Thread 1 Group 6 Seq 4744 Reading mem 0
+  Mem# 0: /opt/drutt/msdpdb/flash_recovery_area/MSDPHA/onlinelog/o1_mf_6_73fst9dr_.log
+Mon Aug 20 22:49:08 2012
+RFS[6]: Selected log 5 for thread 1 sequence 4745 dbid 526638422 branch 757858390
+Mon Aug 20 22:49:10 2012
+Archived Log entry 4738 added for thread 1 sequence 4744 ID 0x1f663c3a dest 1:
+Tue Aug 21 00:12:57 2012
+RFS[6]: Selected log 6 for thread 1 sequence 4746 dbid 526638422 branch 757858390
+
+
+
+SELECT ARCH.THREAD# "Thread", ARCH.SEQUENCE# "Last Sequence Received", APPL.SEQUENCE# "Last Sequence Applied", (ARCH.SEQUENCE# - APPL.SEQUENCE#) "Difference"
+    FROM
+(SELECT THREAD# ,SEQUENCE# FROM V$ARCHIVED_LOG WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$ARCHIVED_LOG GROUP BY THREAD#)) ARCH,
+(SELECT THREAD# ,SEQUENCE# FROM V$LOG_HISTORY WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$LOG_HISTORY GROUP BY THREAD#)) APPL
+  WHERE
+ARCH.THREAD# = APPL.THREAD#
+ORDER BY 1;
+
+
+aplicado y ultimo aplicado
+SELECT ARCHIVED_THREAD#, ARCHIVED_SEQ#, APPLIED_THREAD#, APPLIED_SEQ# FROM V$ARCHIVE_DEST_STATUS;
+
+donde estan los log
+SELECT NAME, CREATOR, SEQUENCE#, registrar,APPLIED,status, COMPLETION_TIME  FROM V$ARCHIVED_LOG;
+
+cual fue el ultimo aplicado
+SELECT THREAD#, MAX(SEQUENCE#) AS "LAST_APPLIED_LOG" FROM V$LOG_HISTORY GROUP BY THREAD#;
+
+estaus de los log aplicados
+SELECT THREAD#, SEQUENCE#, APPLIED FROM V$ARCHIVED_LOG;
+
+que logs no se aplicaron
+
+SELECT LOCAL.THREAD#, LOCAL.SEQUENCE# FROM 
+(SELECT THREAD#, SEQUENCE# FROM V$ARCHIVED_LOG WHERE DEST_ID=1) LOCAL 
+WHERE 
+LOCAL.SEQUENCE# NOT IN 
+(SELECT SEQUENCE# FROM V$ARCHIVED_LOG WHERE DEST_ID=2 AND 
+THREAD# = LOCAL.THREAD#); 
+
+
+SELECT THREAD# "Thread",SEQUENCE# "Last Sequence Generated"
+FROM V$ARCHIVED_LOG
+WHERE (THREAD#,FIRST_TIME ) IN (SELECT THREAD#,MAX(FIRST_TIME) FROM V$ARCHIVED_LOG GROUP BY THREAD#)
+ORDER BY 1;
+
+
+
+select guard_status,database_role,open_mode,log_mode from v$database;
+GUARD_S DATABASE_ROLE    OPEN_MODE  LOG_MODE
+------- ---------------- ---------- ------------
+NONE    PHYSICAL STANDBY MOUNTED    ARCHIVELOG
+
+
+select sequence#,process,status from v$managed_standby;
+
+SELECT PROCESS, CLIENT_PROCESS, SEQUENCE#, STATUS FROM V$MANAGED_STANDBY;
+MRP0      N/A           82692 WAIT_FOR_GAP
+
+
+
+select current_scn from v$database;
+
+
+
+select SCN_TO_TIMESTAMP(1238790205) from dual;
+
+
+
+Start the database: 
+SQL> STARTUP NOMOUNT;
+
+
+Mount the standby database: 
+SQL> ALTER DATABASE MOUNT STANDBY DATABASE;
+
+
+Start the managed recovery operation: 
+SQL> ALTER DATABASE RECOVER MANAGED STANDBY DATABASE DISCONNECT FROM SESSION;
+
+
+Find out if the standby database is performing managed recovery. If the MRP0 or MRP process exists, then the standby database is performing managed recovery. 
+SQL> SELECT PROCESS, STATUS FROM V$MANAGED_STANDBY;
+
+SELECT DATABASE_ROLE, DB_UNIQUE_NAME INSTANCE, OPEN_MODE, PROTECTION_MODE, PROTECTION_LEVEL, SWITCHOVER_STATUS FROM V$DATABASE;
+select name,open_mode ,db_unique_name,switchover_status  from v$database;
+
+
+
+
+
+Cancel managed recovery operations. 
+SQL> ALTER DATABASE RECOVER MANAGED STANDBY DATABASE CANCEL;
+
+
+Shut down the standby database. 
+SQL> SHUTDOWN IMMEDIATE;
+
+
+
+
+
+PROCESS   CLIENT_P  SEQUENCE# STATUS
+--------- -------- ---------- ------------
+ARCH      ARCH           7441 CLOSING
+ARCH      ARCH           7442 CLOSING
+ARCH      ARCH              0 CONNECTED
+ARCH      ARCH           7443 CLOSING
+RFS       N/A               0 IDLE
+RFS       LGWR           7444 IDLE
+RFS       UNKNOWN           0 IDLE
+MRP0      N/A            4743 WAIT_FOR_GAP
+
+
+
+
+Tue Jan 08 05:48:38 2013
+ALTER DATABASE RECOVER MANAGED STANDBY DATABASE CANCEL
+Tue Jan 08 06:03:45 2013
+ORA-1013 signalled during: ALTER DATABASE RECOVER MANAGED STANDBY DATABASE CANCEL...
+Tue Jan 08 06:04:42 2013
+ALTER DATABASE RECOVER MANAGED STANDBY DATABASE DISCONNECT FROM SESSION
+Tue Jan 08 06:04:53 2013
+ORA-1013 signalled during: ALTER DATABASE RECOVER MANAGED STANDBY DATABASE DISCONNECT FROM SESSION...
+Tue Jan 08 06:08:49 2013
+alter database open read only
+ORA-1531 signalled during: alter database open read only...
+Tue Jan 08 06:09:07 2013
+ alter database open read only
+ORA-1531 signalled during:  alter database open read only...
+Tue Jan 08 06:26:05 2013
+ALTER DATABASE RECOVER MANAGED STANDBY DATABASE CANCEL immediate
+Tue Jan 08 06:26:26 2013
+ORA-1013 signalled during: ALTER DATABASE RECOVER MANAGED STANDBY DATABASE CANCEL immediate...
+Tue Jan 08 07:18:54 2013
+
+
+
+
+
+Fri Jan 11 02:23:31 2013
+Process startup failed, error stack:
+Errors in file /opt/drutt/msdpdb/diag/rdbms/msdpha/msdpha/trace/msdpha_psp0_5806.trc:
+ORA-27300: OS system dependent operation:fork failed with status: 12
+ORA-27301: OS failure message: Not enough space
+ORA-27302: failure occurred at: skgpspawn3
+Fri Jan 11 02:23:32 2013
+Process m000 died, see its trace file
+Fri Jan 11 02:39:24 2013
+alter database recover managed standby database cancel
+Fri Jan 11 03:26:48 2013
+RFS[6]: Selected log 6 for thread 1 sequence 7380 dbid 526638422 branch 757858390
+Fri Jan 11 03:26:51 2013
+Archived Log entry 7373 added for thread 1 sequence 7379 ID 0x1f663c3a dest 1:
+Fri Jan 11 03:29:45 2013
+RFS[6]: Selected log 5 for thread 1 sequence 7381 dbid 526638422 branch 757858390
+Fri Jan 11 03:29:49 2013
+Archived Log entry 7374 added for thread 1 sequence 7380 ID 0x1f663c3a dest 1:
+Fri Jan 11 03:31:33 2013
+ORA-1013 signalled during: alter database recover managed standby database cancel...
+Fri Jan 11 03:32:00 2013
+Shutting down instance (abort)
+License high water mark = 13
+USER (ospid: 17604): terminating the instance
+Instance terminated by USER, pid = 17604
+Fri Jan 11 03:32:02 2013
+Instance shutdown complete
+
+
+
+msdp@db2> cat /opt/drutt/msdpdb/diag/rdbms/msdpha/msdpha/trace/msdpha_psp0_5806.trc
+Trace file /opt/drutt/msdpdb/diag/rdbms/msdpha/msdpha/trace/msdpha_psp0_5806.trc
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
+With the Partitioning option
+ORACLE_HOME = /opt/drutt/msdpdb/app/msdp/product/11.2.0/db_1
+System name:    SunOS
+Node name:      db2
+Release:        5.10
+Version:        Generic_142910-17
+Machine:        i86pc
+Instance name: msdpha
+Redo thread mounted by this instance: 1
+Oracle process number: 7
+Unix process pid: 5806, image: oracle@db2 (PSP0)
+
+
+*** 2013-01-11 02:23:31.614
+*** SESSION ID:(615.1) 2013-01-11 02:23:31.614
+*** CLIENT ID:() 2013-01-11 02:23:31.614
+*** SERVICE NAME:(SYS$BACKGROUND) 2013-01-11 02:23:31.614
+*** MODULE NAME:() 2013-01-11 02:23:31.614
+*** ACTION NAME:() 2013-01-11 02:23:31.614
+ 
+Process startup failed, error stack:
+ORA-27300: OS system dependent operation:fork failed with status: 12
+ORA-27301: OS failure message: Not enough space
+ORA-27302: failure occurred at: skgpspawn3
+
+
+
+SQL> SELECT DATABASE_ROLE, DB_UNIQUE_NAME INSTANCE, OPEN_MODE, PROTECTION_MODE, PROTECTION_LEVEL, SWITCHOVER_STATUS FROM V$DATABASE;
+
+DATABASE_ROLE    INSTANCE                       OPEN_MODE            PROTECTION_MODE      PROTECTION_LEVEL     SWITCHOVER_STATUS
+---------------- ------------------------------ -------------------- -------------------- -------------------- --------------------
+PHYSICAL STANDBY msdpha                         MOUNTED              MAXIMUM PERFORMANCE  MAXIMUM PERFORMANCE  RECOVERY NEEDED

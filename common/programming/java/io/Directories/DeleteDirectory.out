@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac DeleteDirectory.java
+
+
+--------------------------
+Run Program
+--------------------------
+java DeleteDirectory
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Successfully deleted empty directory: new_dir1
+Successfully deleted populated directory: new_dir2

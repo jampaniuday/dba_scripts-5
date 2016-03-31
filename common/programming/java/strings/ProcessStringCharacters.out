@@ -1,0 +1,36 @@
+--------------------------
+Compile Program
+--------------------------
+javac ProcessStringCharacters.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ProcessStringCharacters
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Char 0 is A
+Char 1 is l
+Char 2 is e
+Char 3 is x
+Char 4 is
+Char 5 is M
+Char 6 is i
+Char 7 is c
+Char 8 is h
+Char 9 is a
+Char 10 is e
+Char 11 is l
+Char 12 is
+Char 13 is H
+Char 14 is u
+Char 15 is n
+Char 16 is t
+Char 17 is e
+Char 18 is r

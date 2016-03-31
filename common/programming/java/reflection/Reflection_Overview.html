@@ -1,0 +1,117 @@
+<html>
+<head>
+
+    <style type="text/css">
+        A.noLink        { text-decoration: none; }
+        A.noLinkYellow  { color:yellow;  text-decoration: none; }
+        A.noLinkBlue    { color:blue;  text-decoration: none; }
+        A.noLinkOrange  { color:orange;  text-decoration: none; }
+        A.noLinkCyan    { color:cyan;  text-decoration: none; }
+        A.noLinkGreen   { color:cream;  text-decoration: none; }
+        A.noLinkRed     { color:red;  text-decoration: none; }
+    </style>
+
+    <title>Introduction To Using Reflection</title>
+
+    <script language="JavaScript" type="text/javascript">
+
+        function cancelForm() {
+            location = "./MAIN_home.shtml";
+        }
+
+    </script>
+
+</head>
+
+<body bgcolor = "#FFFFFF" 
+      link    = "0000ff" 
+      vlink   = "0000ff" 
+      alink   = "0000ff">
+
+    <img src="../../../../gifs/header_programming.gif" alt="">
+    <p>
+
+    <i><b><font color="#ff0000"><u>Introduction To Using Reflection</u></font></b></i>
+    <br>
+
+    <p>
+    <a  class="noLinkBlue"
+        onMouseOver="window.parent.status='Return to Programming Corner'; return true;"
+        href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no" alt=""></A> &nbsp;&nbsp;Return to the Java Programming Corner.
+    <hr noshade>
+
+
+    <blockquote>
+    One of Java's strengths is that it was designed with the assumption that the
+    environment in which it was running would be changing dynamically. Classes 
+    are loaded dynamically, binding is done dynamically, and object instances 
+    are created dynamically on the fly when they are needed. What has not been 
+    very dynamic historically is the ability to manipulate "anonymous" classes. 
+    In this context, an anonymous class is one that is loaded or presented to a 
+    Java class at run time and whose type was previously unknown to the Java 
+    program. [Sun 1998]
+    <p>
+    Java programs can now "reflect" upon themselves or upon an arbitrary class 
+    to determine the methods and fields defined by that class, arguments and so 
+    on. What exactly does that mean? By utilizing the packages in the Java 
+    Reflection API to obtain complete information about any object, array, 
+    method, constructor, or field.
+    <p>
+    Fundamentally, the Reflection API consists of two components: objects that 
+    represent the various parts of a class file, and a means for extracting 
+    those objects in a safe and secure way. The latter is very important, as 
+    Java provides many security safeguards, and it would not make sense to 
+    provide a set of classes that invalidated those safeguards.
+    <p>    
+    The classes that support the Java reflection API can be found in the 
+    <code>java.lang.reflect</code> package. Reflection is the ability for a
+    class or object to examine itself. With reflection, you can use Java code
+    to look at an object (actually, the class of an object) to determine
+    its structre. Depending on the limits imposed by the 
+    <i>security manager</i>, it is possible  to find information about
+    constructors, methods, and fields a class has, as well as their
+    attributes. It is even possible to change the value of fields, 
+    dynamically invoke methods, and construct new objects. This is just as you
+    would with primitive pointers to variables and methods. This can all be
+    done on objects that your Java code has never seen before.
+    <p>
+    Reflection is used a lot by JavaBeans to determine the capabilities of
+    objects during runtime. Reflection is also used by object serialization
+    to tear apart and build objects for transport over streams or into 
+    persistent storage. The internals  of reflection are guarded by the 
+    security manager. You Java code is not allowed to perform anything with
+    the reflection API that it couldn't do with static (ordinary, compiled)
+    code. An object cannot use the reflection APIs to find out about data
+    fields that it wouldn't normally be able to access (i.e. another objects
+    private fields), and you cannot use it to modify data inappropriately.
+    <p>
+    The three key features of a class are:
+    <ul>
+        <li> Fields (variables)
+        <li> Methods
+        <li> Constructors
+    </ul>
+    <p>
+    The three methods that provide access to the above features are:
+    <p>
+    <ul>
+        <li> <code>java.lang.reflect.Field</code>
+        <li> <code>java.lang.reflect.Method</code>
+        <li> <code>java.lang.reflect.Constructor</code>
+    </ul>
+    <p>
+    All of the above objects can be created using the <code><b>Class</b></code>
+    object.
+    <p>
+    The <code>Class</code> class provides two pairs of methods for getting
+    at each type of feature. One pair allows access to a class's public 
+    features (even those inherited from its superclass), while the other pair
+    allows for access to any public or nonpublic item declared within the
+    class (but not features that are inherited). Keep in mind that all 
+    security considerations are applied.
+    </blockquote>
+
+
+
+</body>
+</html>

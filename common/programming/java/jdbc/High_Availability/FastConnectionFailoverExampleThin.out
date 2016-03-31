@@ -1,0 +1,297 @@
+ +-----------------------------------------------------------------------------+
+ | SET THE CLASSPATH                                                           |
+ +-----------------------------------------------------------------------------+
+ [oracle@packmule src]$ export CLASSPATH=.:/u01/app/oracle/product/10.2.0/db_1/jdbc/lib/ojdbc14.jar:/u01/app/oracle/product/10.2.0/db_1/opmn/lib/ons.jar
+ 
++------------------------------------------------------------------------------+
+| COMPILE                                                                      |
++------------------------------------------------------------------------------+
+[oracle@packmule src]$ javac FastConnectionFailoverExampleThin.java
+
++------------------------------------------------------------------------------+
+| RUN                                                                          |
++------------------------------------------------------------------------------+
+[oracle@packmule src]$ java -Doracle.ons.oraclehome=/u01/app/oracle/product/10.2.0/db_1 FastConnectionFailoverExampleThin
+
+---------------------------------------------
+JDBC DRIVER
+---------------------------------------------
+  --> Loading JDBC Driver.
+  --> JDBC Driver Loaded Succesfully.
+  --> ValidateConnection = TRUE
+
+---------------------------------------------
+INITIAL CONNECTION
+---------------------------------------------
+  --> Initial connection as DB user scott.
+  --> AutoCommit is not enabled.
+  --> JDBC driver version is 10.2.0.4.0
+  --> Fast Connection Failover is enabled.
+  --> Current ODS connection cache
+ODS Pool: Active (2)  Available (18)
+
+---------------------------------------------
+COUNT: [1]
+---------------------------------------------
+ODS Pool: Active (2)  Available (18)
+Connected to thingdb1(1) on node thing1 at 13-APR-2011 18:05:41
+
+---------------------------------------------
+COUNT: [2]
+---------------------------------------------
+ODS Pool: Active (2)  Available (18)
+Connected to thingdb1(1) on node thing1 at 13-APR-2011 18:05:51
+
+---------------------------------------------
+COUNT: [3]
+---------------------------------------------
+ODS Pool: Active (2)  Available (18)
+Connected to thingdb1(1) on node thing1 at 13-APR-2011 18:06:01
+
+---------------------------------------------
+COUNT: [4]
+---------------------------------------------
+ODS Pool: Active (2)  Available (18)
+Connected to thingdb1(1) on node thing1 at 13-APR-2011 18:06:11
+
+---------------------------------------------
+COUNT: [5]
+---------------------------------------------
+ODS Pool: Active (2)  Available (18)
+Connected to thingdb1(1) on node thing1 at 13-APR-2011 18:06:21
+
+---------------------------------------------
+COUNT: [6]
+---------------------------------------------
+ODS Pool: Active (0)  Available (11)
+
++-------------------------------+
+| SQL Exception in loop program |
++-------------------------------+
+SQL Error Code    : 17008
+SQL Error Message : Closed Connection
+
+SQL recoverable exception.
+Will try to re-connect.
+
+ODS connection cache before getting a new connection.
+ODS Pool: Active (0)  Available (11)
+ODS connection cache after a getting new connection.
+ODS Pool: Active (1)  Available (10)
+
+---------------------------------------------
+COUNT: [7]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:06:41
+
+---------------------------------------------
+COUNT: [8]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:06:51
+
+---------------------------------------------
+COUNT: [9]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:07:01
+
+---------------------------------------------
+COUNT: [10]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:07:11
+
+---------------------------------------------
+COUNT: [11]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:07:21
+
+---------------------------------------------
+COUNT: [12]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:07:31
+
+---------------------------------------------
+COUNT: [13]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:07:41
+
+---------------------------------------------
+COUNT: [14]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:07:51
+
+---------------------------------------------
+COUNT: [15]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:08:01
+
+---------------------------------------------
+COUNT: [16]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:08:11
+
+---------------------------------------------
+COUNT: [17]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:08:21
+
+---------------------------------------------
+COUNT: [18]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:08:31
+
+---------------------------------------------
+COUNT: [19]
+---------------------------------------------
+ODS Pool: Active (1)  Available (10)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:08:41
+
+---------------------------------------------
+COUNT: [20]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:08:51
+
+---------------------------------------------
+COUNT: [21]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:09:01
+
+---------------------------------------------
+COUNT: [22]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:09:11
+
+---------------------------------------------
+COUNT: [23]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:09:21
+
+---------------------------------------------
+COUNT: [24]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:09:31
+
+---------------------------------------------
+COUNT: [25]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:09:41
+
+---------------------------------------------
+COUNT: [26]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:09:51
+
+---------------------------------------------
+COUNT: [27]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:10:01
+
+---------------------------------------------
+COUNT: [28]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:10:11
+
+---------------------------------------------
+COUNT: [29]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:10:21
+
+---------------------------------------------
+COUNT: [30]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:10:31
+
+---------------------------------------------
+COUNT: [31]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:10:41
+
+---------------------------------------------
+COUNT: [32]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:10:51
+
+---------------------------------------------
+COUNT: [33]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:11:01
+
+---------------------------------------------
+COUNT: [34]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:11:11
+
+---------------------------------------------
+COUNT: [35]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:11:21
+
+---------------------------------------------
+COUNT: [36]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:11:31
+
+---------------------------------------------
+COUNT: [37]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:11:41
+
+---------------------------------------------
+COUNT: [38]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:11:51
+
+---------------------------------------------
+COUNT: [39]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:12:01
+
+---------------------------------------------
+COUNT: [40]
+---------------------------------------------
+ODS Pool: Active (1)  Available (14)
+Connected to thingdb2(2) on node thing2 at 13-APR-2011 18:12:11
+
+---------------------------------------------
+RELEASING ALL CONNECTIONS BACK TO THE CACHE
+---------------------------------------------
+Return conn1 back to the cache.
+Return conn2 back to the cache.
+ODS Pool: Active (0)  Available (15)
+
+---------------------------------------------
+CLOSING "Oracle Data Source" - (ods)
+---------------------------------------------
+ODS Pool: Active (0)  Available (15)
+

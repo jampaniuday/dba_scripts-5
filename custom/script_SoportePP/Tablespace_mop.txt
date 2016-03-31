@@ -1,0 +1,155 @@
+select  a.tablespace_name,
+       round(a.bytes_alloc / 1024 / 1024) megs_alloc,
+       round(nvl(b.bytes_free, 0) / 1024 / 1024) megs_free,
+       round((a.bytes_alloc - nvl(b.bytes_free, 0)) / 1024 / 1024) megs_used,
+       round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_Free,
+       100 - round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_used,
+       round(maxbytes/1048576) Max
+from  ( select  f.tablespace_name,
+               sum(f.bytes) bytes_alloc,
+               sum(decode(f.autoextensible, 'YES',f.maxbytes,'NO', f.bytes)) maxbytes
+        from dba_data_files f
+        group by tablespace_name) a,
+      ( select  f.tablespace_name,
+               sum(f.bytes)  bytes_free
+        from dba_free_space f
+        group by tablespace_name) b
+where a.tablespace_name = b.tablespace_name (+)
+and a.tablespace_NAME like 'DETACT_DAT%'
+order by 1
+
+
+select  a.tablespace_name,
+       round(a.bytes_alloc / 1024 / 1024) megs_alloc,
+       round(nvl(b.bytes_free, 0) / 1024 / 1024) megs_free,
+       round((a.bytes_alloc - nvl(b.bytes_free, 0)) / 1024 / 1024) megs_used,
+       round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_Free,
+       100 - round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_used,
+       round(maxbytes/1048576) Max
+from  ( select  f.tablespace_name,
+               sum(f.bytes) bytes_alloc,
+               sum(decode(f.autoextensible, 'YES',f.maxbytes,'NO', f.bytes)) maxbytes
+        from dba_data_files f
+        group by tablespace_name) a,
+      ( select  f.tablespace_name,
+               sum(f.bytes)  bytes_free
+        from dba_free_space f
+        group by tablespace_name) b
+where a.tablespace_name = b.tablespace_name (+)
+and round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) < 16
+order by 1 
+
+SERVICIO_DET_1024K_DAT
+
+SERVICIO_DET_256K_IND
+
+col file_name format a60
+col tablespace_name format a23
+
+select file_name, tablespace_name, (bytes/1024)/1024 MB,status, autoextensible from dba_data_files
+ WHERE tablespace_NAME like 'TARJETAS_DAT%'
+order by tablespace_name,file_name
+
+select 'ALTER DATABASE DATAFILE '''||file_name||''' RESIZE 50M;'
+from dba_data_files
+WHERE tablespace_NAME like 'TARJETAS_DAT%'
+order by tablespace_name,file_name
+
+
+/ora120/ppcsnic/oradata/datafiles/mecoorig_256k_dat_32.dbf
+MECOORIG_256K_DAT                    2000 AVAILABLE NO
+
+/ora140/ppcsnic/oradata/datafiles/mecoorig_256k_dat_52.dbf
+MECOORIG_256K_DAT                   10000 AVAILABLE NO
+
+/ora141/ppcsnic/oradata/indexfiles/servicio_det_256k_ind08.dbf
+SERVICIO_DET_256K_IND                4800 AVAILABLE NO
+
+/ora141/ppcsnic/oradata/indexfiles/servicio_det_256k_ind30.dbf
+SERVICIO_DET_256K_IND                1800 AVAILABLE NO
+
+
+
+
+ALTER DATABASE DATAFILE '/ora160/opgegua/oradata/VARIABLE_IND19_00.dbf' RESIZE 50M;   3500 - 2430 =2000
+
+ALTER DATABASE DATAFILE '/ora115/ppcsslv/oradata/datafiles/mecoorig_256k_dat15.dbf' RESIZE 9000M;  2150 + 2000 = 7220
+
+alter tablespace ADM_SV_LOG_DATA add datafile '+BAT2DATA' size 100M autoextend on;
+
+alter tablespace SERVICIO_DET_256K_IND add datafile '/ora138/ppcspan/oradata/indexfiles/servicio_det_256k_ind09.dbf' size 1000M;
+
+
+alter tablespace SERVICIO_DET_1024K_DAT add datafile '/ora192/ppcsnic/oradata/datafiles/servicio_det_1024k_dat24.dbf' size 3000M;
+
+
+select file_name, tablespace_name, bytes,status, autoextensible, 'ALTER DATABASE DATAFILE '''||FILE_NAME||''' AUTOEXTEND OFF;' SCRIPT
+from dba_data_files
+WHERE tablespace_NAME ='UNDOTBS1'
+order by file_name,tablespace_name
+
+select file_name, tablespace_name, bytes,status, autoextensible from dba_data_files
+ WHERE FILE_NAME LIKE '/ora127/ppcsgua%'
+order by file_name,tablespace_name
+
+select tablespace_name, 
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) smallest,
+ceil( blocks*8192/1024/1024) currsize,
+ceil( blocks*8192/1024/1024) -
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) savings,file_name, a.autoextensible
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b
+where a.file_id = b.file_id(+) 
+and a.file_name like '/altamira_bd/CRPPCS/dat_001/%'
+order by 1;
+
+col file_name format a60
+
+select tablespace_name, 
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) smallest,
+ceil( blocks*8192/1024/1024) currsize,
+ceil( blocks*8192/1024/1024) -
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) savings,file_name, a.autoextensible
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b
+where a.file_id = b.file_id(+) 
+and a.tablespace_name like 'MECOTERM_4096K_DAT%'
+order by 4;
+
+select bytes/1024/1024 real_size,ceil( (nvl(hwm,1)*8192)/1024/1024 ) shrinked_size,
+bytes/1024/1024-ceil( (nvl(hwm,1)*8192)/1024/1024 ) released_size
+,'alter database datafile '|| ''''||file_name||'''' || ' resize ' || ceil( (nvl(hwm,1)*8192)/1024/1024 ) || ' m;' cmd
+from
+dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm from dba_extents group by file_id ) b
+where
+tablespace_name='&ts_name'
+and
+a.file_id = b.file_id(+)
+and ceil(blocks*8192/1024/1024)- ceil((nvl(hwm,1)* 8192)/1024/1024 ) > 0;
+
+
+--- cuando tienen autoextend on
+
+select file_name, tablespace_name, (bytes/1024)/1024 MB,status, autoextensible,(maxbytes/1024)/1024 max,increment_by from dba_data_files
+ WHERE tablespace_NAME like 'MECOORIG_256K_DAT%'
+order by tablespace_name,file_name
+
+ALTER DATABASE DATAFILE '/altamira_bd/CRPPCS/dat_001/PPCS_mecoorig_256k_dat_04.dbf' RESIZE 12000M;
+ALTER DATABASE DATAFILE '/altamira_bd/CRPPCS/dat_001/PPCS_mecoorig_256k_dat_04.dbf' autoextend on  maxsize 32767M;
+
+-- revisar siempre esto que este en auto con n2
+
+STANDBY_FILE_MANAGEMENT
+
+
+quotas
+
+SELECT USERNAME, TABLESPACE_NAME, BYTES "espacio usado",MAX_BYTES "Max Quota usable"
+from DBA_TS_QUOTAS
+
+                   

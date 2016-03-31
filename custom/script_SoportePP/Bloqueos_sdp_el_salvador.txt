@@ -1,0 +1,152 @@
+00000002065B7B88
+
+fnf1wmtrnd5av
+
+
+SADDR                   SID    SERIAL#     AUDSID PADDR                 USER# USERNAME                          COMMAND    OWNERID
+---------------- ---------- ---------- ---------- ---------------- ---------- ------------------------------ ---------- ----------
+TADDR            LOCKWAIT         STATUS   SERVER       SCHEMA# SCHEMANAME                     OSUSER
+---------------- ---------------- -------- --------- ---------- ------------------------------ ------------------------------
+PROCESS      MACHINE                                                                PORT TERMINAL
+------------ ---------------------------------------------------------------- ---------- ------------------------------
+PROGRAM                                          TYPE       SQL_ADDRESS      SQL_HASH_VALUE SQL_ID        SQL_CHILD_NUMBER
+------------------------------------------------ ---------- ---------------- -------------- ------------- ----------------
+PREV_SQL_ADDR    PREV_HASH_VALUE PREV_SQL_ID   PREV_CHILD_NUMBER PLSQL_ENTRY_OBJECT_ID PLSQL_ENTRY_SUBPROGRAM_ID PLSQL_OBJECT_ID
+---------------- --------------- ------------- ----------------- --------------------- ------------------------- ---------------
+PLSQL_SUBPROGRAM_ID MODULE                                           MODULE_HASH ACTION                           ACTION_HASH
+------------------- ------------------------------------------------ ----------- -------------------------------- -----------
+CLIENT_INFO                                                      FIXED_TABLE_SEQUENCE ROW_WAIT_OBJ# ROW_WAIT_FILE# ROW_WAIT_BLOCK#
+---------------------------------------------------------------- -------------------- ------------- -------------- ---------------
+ROW_WAIT_ROW# LOGON_TI LAST_CALL_ET PDM FAILOVER_TYPE FAILOVER_M FAI RESOURCE_CONSUMER_GROUP          PDML_STA PDDL_STA PQ_STATU
+------------- -------- ------------ --- ------------- ---------- --- -------------------------------- -------- -------- --------
+CURRENT_QUEUE_DURATION CLIENT_IDENTIFIER                                                BLOCKING_SE BLOCKING_INSTANCE
+---------------------- ---------------------------------------------------------------- ----------- -----------------
+BLOCKING_SESSION       SEQ#     EVENT# EVENT
+---------------- ---------- ---------- ----------------------------------------------------------------
+P1TEXT                                                                   P1 P1RAW
+---------------------------------------------------------------- ---------- ----------------
+P2TEXT                                                                   P2 P2RAW
+---------------------------------------------------------------- ---------- ----------------
+P3TEXT                                                                   P3 P3RAW            WAIT_CLASS_ID WAIT_CLASS#
+---------------------------------------------------------------- ---------- ---------------- ------------- -----------
+WAIT_CLASS                                                        WAIT_TIME SECONDS_IN_WAIT STATE
+---------------------------------------------------------------- ---------- --------------- -------------------
+SERVICE_NAME                                                     SQL_TRAC SQL_T SQL_T
+---------------------------------------------------------------- -------- ----- -----
+ECID
+----------------------------------------------------------------
+0000000251469360       1669      48894   58529969 0000000253C60078         87 EPREPAGO                                0 2147483644
+000000023CAA5500                  INACTIVE NONE              87 EPREPAGO                       oracleag
+26465        telcasv2.me.inet                                                      53802
+oracle@telcasv2.me.inet (TNS V1-V3)              USER       00                            0
+00000002065B7B88      1866896731 fnf1wmtrnd5av                 0
+                    oracle@telcasv2.me.inet (TNS V1-V3)                803596568                                            0
+                                                                           1527091852        143480             16          386365
+            0 11/03/13          239 NO  NONE          NONE       NO                                   DISABLED ENABLED  ENABLED
+                     0                                                                  NO HOLDER
+                      43666        263 SQL*Net message from client
+driver id                                                        1297371904 000000004D545300
+#bytes                                                                    1 0000000000000001
+                                                                          0 00                  2723168908           6
+Idle                                                                      0             239 WAITING
+SDPSV01                                                          DISABLED FALSE FALSE
+
+
+
+
+SQL_TEXT
+------------------------------------------------------------------------------------------------------------------------------------
+SQL_FULLTEXT                                                                     SQL_ID        SHARABLE_MEM PERSISTENT_MEM
+-------------------------------------------------------------------------------- ------------- ------------ --------------
+RUNTIME_MEM      SORTS LOADED_VERSIONS OPEN_VERSIONS USERS_OPENING    FETCHES EXECUTIONS PX_SERVERS_EXECUTIONS END_OF_FETCH_COUNT
+----------- ---------- --------------- ------------- ------------- ---------- ---------- --------------------- ------------------
+USERS_EXECUTING      LOADS FIRST_LOAD_TIME     INVALIDATIONS PARSE_CALLS DISK_READS DIRECT_WRITES BUFFER_GETS APPLICATION_WAIT_TIME
+--------------- ---------- ------------------- ------------- ----------- ---------- ------------- ----------- ---------------------
+CONCURRENCY_WAIT_TIME CLUSTER_WAIT_TIME USER_IO_WAIT_TIME PLSQL_EXEC_TIME JAVA_EXEC_TIME ROWS_PROCESSED COMMAND_TYPE OPTIMIZER_
+--------------------- ----------------- ----------------- --------------- -------------- -------------- ------------ ----------
+OPTIMIZER_COST
+--------------
+OPTIMIZER_ENV
+------------------------------------------------------------------------------------------------------------------------------------
+OPTIMIZER_ENV_HASH_VALUE PARSING_USER_ID PARSING_SCHEMA_ID PARSING_SCHEMA_NAME            KEPT_VERSIONS ADDRESS
+------------------------ --------------- ----------------- ------------------------------ ------------- ----------------
+TYPE_CHK_HEAP    HASH_VALUE OLD_HASH_VALUE PLAN_HASH_VALUE CHILD_NUMBER
+---------------- ---------- -------------- --------------- ------------
+SERVICE                                                          SERVICE_HASH
+---------------------------------------------------------------- ------------
+MODULE                                                           MODULE_HASH
+---------------------------------------------------------------- -----------
+ACTION                                                           ACTION_HASH SERIALIZABLE_ABORTS
+---------------------------------------------------------------- ----------- -------------------
+OUTLINE_CATEGORY                                                   CPU_TIME ELAPSED_TIME OUTLINE_SID CHILD_ADDRESS       SQLTYPE R
+---------------------------------------------------------------- ---------- ------------ ----------- ---------------- ---------- -
+OBJECT_STATUS       LITERAL_HASH_VALUE LAST_LOAD_TIME      I CHILD_LATCH
+------------------- ------------------ ------------------- - -----------
+SQL_PROFILE                                                      PROGRAM_ID PROGRAM_LINE# EXACT_MATCHING_SIGNATURE
+---------------------------------------------------------------- ---------- ------------- ------------------------
+FORCE_MATCHING_SIGNATURE LAST_ACT
+------------------------ --------
+BIND_DATA
+------------------------------------------------------------------------------------------------------------------------------------
+TYPECHECK_MEM
+-------------
+SELECT "A1".ROWID,"A1"."TPE_M0_NURIN_INV","A1"."TPE_M0_NURIN","A1"."TPE_TPB_NUPROMOCION","A1"."TPE_NUVALOR","A1"."TPE_TG_NUTABLATARI
+FA","A1"."TPE_FLAGSPROMOCIONESMSISDN","A1"."TPE_NUVALORFRANQ","A1"."TPE_FHINICIOPROMOCIONUSUARIO","A1"."TPE_FHFINPROMOCIONUSUARIO","
+A1"."TPE_TPG_NUCAMPANIAPROMOCION","A1"."TPE_NUVALOR2","A1"."TPE_TKB_NUCOMBO","A1"."TPE_NUVALORN","A1"."TPE_NUUNIDADESXSESION","A1"."
+TPE_NUVALORFRANQLD","A1"."TPE_NUVALORLD","A1"."TPE_NUSESIONES","A1"."TPE_NUCOSTERENSUBPERIODO","A1"."TPE_FHCOSTERENSUBPERIODO","A1".
+"TPE_NURENOVACIONES","A1"."TPE_NUSUBINDICE","A1"."TPE_NUINSTANCIAPROMOCION","A1"."TPE_CDCODIGOPROMOCIONCOMERCIAL","A1"."TPE_FHSUBPER
+IODO","A1"."TPE_NUDIASCADUCIDADPERIODO","A1"."TPE_NUVALORRENOVACION","A1"."TPE_NUCONDPRORRATEOPERIODOINI","A1"."TPE_NUCANTPRORRATEOP
+ERIODOINI","A1"."TPE_NUCONDPRORRATEOPERIODOOTR","A1"."TPE_NUCANTPRORRATEOPERIODOOTR","A1"."TPE_MAFLAGSPROMOCIONESMSISDN2","A1"."TPE_
+NUDIARENOVACION","A1"."TPE_NULATENCIAROLLOVER","A1"."TPE_FHULTIMOPERIODOROLL
+SELECT "A1".ROWID,"A1"."TPE_M0_NURIN_INV","A1"."TPE_M0_NURIN","A1"."TPE_TPB_NUPR fnf1wmtrnd5av        44731          22840
+      18344          0               1             0             0          5          5                     0                  5
+              0          1 2013-03-11/11:05:40             0           5          2             0        1041                     0
+                 2520             66222             30285               0              0              8            3 ALL_ROWS
+           105
+E289FB89A5E49800D1001000AEFAC3E2CFFA331056414555519521105555551545544558511545449645851D55110585551555151525524555805801564568959263
+0214401008000008000000400000000400004000000880401F00000000200000800C0004040000F0F033080000004006000000100094926302949191099
+              4186675958              87                87 EPREPAGO                                   0 00000002065B7B88
+00               1866896731     1520672766      2400188511            0
+SDPSV01                                                                     0
+oracle@telcasv2.me.inet (TNS V1-V3)                                803596568
+                                                                           0                   0
+                                                                      40991       127796             000000021520BD50          6 N
+VALID                                0 2013-03-11/11:05:40 N          15
+                                                                          0             0               1,4199E+19
+              4,4893E+18 11/03/13
+
+            0
+
+
+PLAN_TABLE_OUTPUT
+------------------------------------------------------------------------------------------------------------------------------------
+SQL_ID  fnf1wmtrnd5av, child number 0
+-------------------------------------
+SELECT "A1".ROWID,"A1"."TPE_M0_NURIN_INV","A1"."TPE_M0_NURIN","A1"."TPE_TPB_NUPROMOCION","A1"."TPE_NUVALOR","A1"."TPE_T
+G_NUTABLATARIFA","A1"."TPE_FLAGSPROMOCIONESMSISDN","A1"."TPE_NUVALORFRANQ","A1"."TPE_FHINICIOPROMOCIONUSUARIO","A1"."TP
+E_FHFINPROMOCIONUSUARIO","A1"."TPE_TPG_NUCAMPANIAPROMOCION","A1"."TPE_NUVALOR2","A1"."TPE_TKB_NUCOMBO","A1"."TPE_NUVALO
+RN","A1"."TPE_NUUNIDADESXSESION","A1"."TPE_NUVALORFRANQLD","A1"."TPE_NUVALORLD","A1"."TPE_NUSESIONES","A1"."TPE_NUCOSTE
+RENSUBPERIODO","A1"."TPE_FHCOSTERENSUBPERIODO","A1"."TPE_NURENOVACIONES","A1"."TPE_NUSUBINDICE","A1"."TPE_NUINSTANCIAPR
+OMOCION","A1"."TPE_CDCODIGOPROMOCIONCOMERCIAL","A1"."TPE_FHSUBPERIODO","A1"."TPE_NUDIASCADUCIDADPERIODO","A1"."TPE_NUVA
+LORRENOVACION","A1"."TPE_NUCONDPRORRATEOPERIODOINI","A1"."TPE_NUCANTPRORRATEOPERIODOINI","A1"."TPE_NUCONDPRORRATEOPERIO
+DOOTR","A1"."TPE_NUCANTPRORRATEOPERIODOOTR","A1"."TPE_MAFLAGSPROMOCIONESMSISDN2","A1"."TPE_NUDIARENOVACION","A1"."TPE_N
+ULATENCIAROLLOVER","A1"."TPE_FHULTIMOPERIODOROLL
+
+Plan hash value: 2400188511
+
+-------------------------------------------------------------------------------------------------------------------------------
+| Id  | Operation                          | Name                     | Rows  | Bytes | Cost (%CPU)| Time     | Pstart| Pstop |
+-------------------------------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT                   |                          |       |       |   105 (100)|          |       |       |
+|   1 |  PARTITION RANGE ALL               |                          |     1 |   160 |   105   (0)| 00:00:02 |     1 |   102 |
+|   2 |   TABLE ACCESS BY LOCAL INDEX ROWID| TPE_PROMOCIONESPORMSISDN |     1 |   160 |   105   (0)| 00:00:02 |     1 |   102 |
+|*  3 |    INDEX RANGE SCAN                | UK_TPE                   |     1 |       |   103   (0)| 00:00:02 |     1 |   102 |
+-------------------------------------------------------------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   3 - access("A1"."TPE_M0_NURIN"=71354036)
+
+
+

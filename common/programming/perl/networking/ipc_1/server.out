@@ -1,0 +1,29 @@
+$ ./server
+
+IPC Server Process
+------------------
+  socket ok
+  bind   ok
+  listen ok
+  Listening on server: angel
+  Listening on port  : 2345
+
+Listening for connection 1....
+
+  accept ok - from client [2]
+
+  Client Connection Information [2]
+  ---------------------------------------------
+    - AF             : 2
+    - CLIENT PORT    : 63359
+    - CLIENT ADDRESS : 12.4.234.11
+
+Listening for connection 3...
+
+  FROM CLIENT [2] --> This is a test
+  FROM CLIENT [2] --> This is another test
+  FROM CLIENT [2] --> quit
+  Closing client connection [2] and exiting this thread...
+
+^C
+

@@ -1,0 +1,53 @@
+--------------------------
+Compile Program
+--------------------------
+javac BLOBFileExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java BLOBFileExample /u01/app/oracle/testing/java_logo.jpg
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Input File         : /u01/app/oracle/testing/java_logo.jpg
+Output File (1)    : /u01/app/oracle/testing/java_logo.jpg.getBytes.out
+Output File (2)    : /u01/app/oracle/testing/java_logo.jpg.Streams.out
+Database User      : SCOTT
+
+Connected.
+
+==========================================================
+  PUT METHOD
+==========================================================
+Wrote file java_logo.jpg to BLOB column.
+8575 bytes read.
+8575 bytes written.
+
+==========================================================
+  GET METHOD
+==========================================================
+Wrote BLOB column data to file java_logo.jpg.getBytes.out.
+8575 bytes read.
+8575 bytes written.
+
+==========================================================
+  OUTPUT STREAMS METHOD
+==========================================================
+Wrote file java_logo.jpg to BLOB column.
+8575 bytes read.
+8575 bytes written.
+
+==========================================================
+  INPUT STREAMS METHOD
+==========================================================
+Wrote BLOB column data to file java_logo.jpg.Streams.out.
+8575 bytes read.
+8575 bytes written.
+
+Disconnected.

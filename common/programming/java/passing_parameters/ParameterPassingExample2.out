@@ -1,0 +1,83 @@
+--------------------------
+Compile Program
+--------------------------
+javac ParameterPassingExample2.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ParameterPassingExample2
+
+
+--------------------------
+Program Output
+--------------------------
+
+
++-----------------------------------------------+
+| EXAMPLE 1                                     |
++-----------------------------------------------+
+
+In main
+=======
+
+    - The value of intValue1's value is 10
+
+        In example1Method1
+        ==================
+
+        - The value of intValueIn is 25
+
+Back in main
+============
+
+    - The value of intValue1's value is 10
+
+
++-----------------------------------------------+
+| EXAMPLE 2                                     |
++-----------------------------------------------+
+
+
+In main
+=======
+
+    - The value of i is: "Alex"
+
+        In methodX
+        ==========
+
+        - The value of y's label is: "Alex"
+
+        Make y reference a different object
+        - The value of y's label is: "AAA"
+
+Back in main
+============
+
+    - The value of i is: "Alex"
+
+
++-----------------------------------------------+
+| EXAMPLE 3                                     |
++-----------------------------------------------+
+
+
+In main
+=======
+
+    - The value of j is Alex
+
+        In methodY
+        ==========
+
+        - The value of k is Alex
+
+        Use copied object reference to make changes to the object.
+        - The value of k is Alex M. Hunter
+
+Back in main
+============
+
+    - The value of j is Alex M. Hunter

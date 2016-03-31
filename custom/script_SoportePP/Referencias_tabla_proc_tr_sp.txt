@@ -1,0 +1,73 @@
+--- Limpia la papelera
+PURGE DBA_RECYCLEBIN;
+
+
+--- Este es trae las tablas que se relacionan a la tabla
+select table_name, constraint_name, status, owner 
+from all_constraints 
+where 
+r_owner = :r_owner and 
+constraint_type = 'R' and 
+r_constraint_name in  
+(
+select constraint_name from all_constraints
+where constraint_type in ('P', 'U') and
+table_name = :r_table_name and
+owner = :r_owner
+) 
+order by table_name, constraint_name 
+
+
+select table_name, constraint_name, status, owner 
+from all_constraints 
+where 
+constraint_type = 'R' and 
+r_constraint_name in  
+(
+select constraint_name from all_constraints
+where constraint_type in ('P', 'U') and
+table_name = :r_table_name and
+owner = :r_owner
+) 
+order by table_name, constraint_name;
+
+
+select table_name, constraint_name, status, owner from all_constraints where constraint_type = 'R' and r_constraint_name in  (select constraint_name from all_constraints where constraint_type in ('P', 'U') and
+table_name = :r_table_name and owner = :r_owner) order by table_name, constraint_name;
+
+----------------------------------------------------------------------------
+-- VERIFICA CUALQUIERA CONSTRAINT
+select * from all_constraints where  table_name = 'PPCS_CALLME' and owner = 'PPCS';
+
+
+-- verifica constraints
+select table_name, constraint_name, status, owner from all_constraints where constraint_type = 'R' and r_constraint_name in  (select constraint_name from all_constraints where constraint_type in ('P', 'U') and table_name = 'PPCS_CALLME' and owner = 'PPCS') order by table_name, constraint_name;
+
+
+-- verifica indices
+select index_type,owner, index_name, table_owner, table_name,  null partition_name, null subpartition_name, tablespace_name, pct_increase, initial_extent, next_extent, max_extents, logging, degree, instances, status
+from   dba_indexes
+where  table_name = 'PPCS_CALLME' and owner = 'PPCS'
+and tablespace_name is not null
+and    index_name not like 'SYS_IOT_TOP_%'
+and    index_name not like 'SYS_IL%$$'
+union all
+select i.index_type,p.index_owner, p.index_name, i.table_owner, i.table_name, p.partition_name, null subpartition_name, p.tablespace_name, p.pct_increase, p.initial_extent, p.next_extent, p.max_extent, p.logging, 'n/a' degree, 'n/a' instances, p.status
+from   dba_ind_partitions p, dba_indexes i
+where  i.table_name = 'PPCS_CALLME' and i.owner = 'PPCS'
+and p.index_owner = i.owner
+and    p.index_name = i.index_name
+and    i.partitioned = 'YES'
+and    i.index_name not like 'SYS_IOT_TOP_%'
+and    i.index_name not like 'SYS_IL%$$'
+and   p.subpartition_count = 0
+union all
+select i.index_type,index_owner, p.index_name, i.table_owner, i.table_name, p.partition_name, p.subpartition_name, p.tablespace_name, p.pct_increase, p.initial_extent, p.next_extent, p.max_extent, p.logging, 'n/a' degree, 'n/a' instances, p.status
+from   dba_ind_subpartitions p, dba_indexes i
+where  i.table_name = 'PPCS_CALLME' and i.owner = 'PPCS'
+and  p.index_owner = i.owner
+and    p.index_name = i.index_name
+and    i.partitioned = 'YES'
+and    i.index_name not like 'SYS_IOT_TOP_%'
+and    i.index_name not like 'SYS_IL%$$'
+order by 2,3;

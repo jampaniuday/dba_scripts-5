@@ -1,0 +1,205 @@
+#!/usr/local/bin/perl
+
+# ------------------------------------------------------------
+# File       :   serverd
+# Programmer :   Jeff Hunter
+# Date       :   4/1/96
+# Purpose    :   A small deamon to act as a server for a simple 
+#                client to demonstrate IPC programming under Perl. 
+#                The process will open a socket on port 2345, 
+#                (Unless another is specified as its first arguement). 
+#                It will then listen on that port for an 
+#                incomming connect from a client. The server will 
+#                then fork a process and open a socket for communication
+#                to the client. The server will receive data via
+#                this socket and print the information back to 
+#                the client. The child process will remain up until
+#                the client disconnects.
+#
+# Note       :   If running either "client" or "server" gives 
+#                you this error:
+#
+#                     socket error: Protocol not supported
+#
+#                Then it is likely that you are using a Solaris
+#                machine, and that you need to make a slight
+#                modification to both the "client" and the 
+#                "server" script. TCP/IP sockets on Solaris
+#                have slightly different values than on other 
+#                platforms.
+#
+#                       #######################
+#                       # SOLARIS socket values 
+#                       $AF_INET = 2; 
+#                       $SOCK_STREAM = 2;
+#
+#                       #########################################
+#                       # WINDOWS (and most others) socket values 
+#                       # $AF_INET = 2; 
+#                       # $SOCK_STREAM = 1;
+#
+#                Simply un-comment the values you want to use.
+#
+# Parameters :   1. Port Number (optional)
+# ------------------------------------------------------------
+
+unless (fork) {     # this is the child
+    unless(fork)  {   # this is the child's child
+        sleep 1 until getppid == 1;
+
+        print "\nIPC Server Process\n";
+        print "------------------\n";
+
+        #######################
+        # SOLARIS socket values
+        $AF_INET = 2;
+        $SOCK_STREAM = 2;
+
+        #########################################
+        # WINDOWS (and most others) socket values
+        # $AF_INET = 2;
+        # $SOCK_STREAM = 1;
+
+        ($serverPort) = @ARGV;
+        $serverPort = 2345 unless $serverPort;
+
+        $connectionID = 1;
+        $sockaddr = 'S n a4 x8';
+
+        ($name, $aliases, $proto) = getprotobyname('tcp');
+
+        if ($serverPort !~ /^\d+$/) {
+            ($name, $aliases, $serverPort) = getservbyport($serverPort, 'tcp');
+        }
+
+        $server = pack($sockaddr, $AF_INET, $serverPort, "\0\0\0\0");
+
+        # +---------------------------------------------------------+
+        # | SET SOCKET TO BE COMMAND BUFFERED                       |
+        # +---------------------------------------------------------+
+
+        select(NS); $| = 1; select(stdout);
+
+        # +---------------------------------------------------------+
+        # | MAKE THE SOCKET FILEHANDLE                              |
+        # +---------------------------------------------------------+
+
+        if ( socket(S, $AF_INET, $SOCK_STREAM, $proto) ) {
+            print "  socket ok\n";
+        } else {
+            die $!;
+        }
+
+        # +---------------------------------------------------------+
+        # | GIVE THE SOCKET AN ADDRESS                              |
+        # +---------------------------------------------------------+
+
+        if ( bind(S, $server) ) {
+            print "  bind   ok\n";
+        } else {
+            die $!;
+        }
+
+        # +---------------------------------------------------------+
+        # | LISTEN ON THE GIVEN SOCKET                              |
+        # +---------------------------------------------------------+
+
+        if ( listen(S, 5) ) {
+            print "  listen ok\n";
+        } else {
+            die $!;
+        }
+
+        # +---------------------------------------------------------+
+        # | SET SOCKET TO BE COMMAND BUFFERED                       |
+        # +---------------------------------------------------------+
+
+        select(S); $| = 1; select(stdout);
+
+        # +---------------------------------------------------------+
+        # | GET / PRINT CONNECTION INFORMATION TO BE USED BY THE    |
+        # | IPC CLIENT. (hostname and port number)                  |
+        # +---------------------------------------------------------+
+
+        $serverName = `hostname`; chop($serverName);
+        $domainName = ".", `domainname`; chop($domainName);
+        print "  Listening on server: ", $serverName, $domainName, "\n";
+        print "  Listening on port  : ", $serverPort, "\n\n";
+
+        print "Listening for connection $connectionID....\n";
+
+        for(;;) {
+
+            ($addr = accept(NS,S)) || die $!;
+
+            $connectionID++;
+
+            if (($child[$connectionID] = fork()) == 0) {
+
+	        ($af, $clientPort, $inetaddr) = unpack($sockaddr, $addr);
+	        @inetaddr = unpack('C4', $inetaddr);
+
+                # +------------------------------------------------------------+
+                # | PRINT CLIENT CONNECTION INFORMATION THAT WAS JUST ACCEPTED |
+                # +------------------------------------------------------------+
+
+                print "\n";
+	        print "  accept ok - from client [$connectionID]\n\n";
+                print "  Client Connection Information [$connectionID]\n";
+                print "  ---------------------------------------------\n";
+                print "    - AF             : $af\n";
+                print "    - CLIENT PORT    : $clientPort\n";
+	        print "    - CLIENT ADDRESS : $inetaddr[0].$inetaddr[1].$inetaddr[2].$inetaddr[3]\n\n";
+
+                # +------------------------------------------------------------+
+                # | PRINT MESSAGE TO CLIENT THROUGH THE "NS" SOCKET            |
+                # +------------------------------------------------------------+
+
+                print NS "\n";
+                print NS "Welcome to the IPC Server Demonstration\n";
+                print NS "---------------------------------------\n";
+                print NS "  - You are Client ID# [$connectionID]\n";
+                print NS "  - Type \"quit\" to exit this client.\n\n";
+
+                # +------------------------------------------------------------+
+                # | LOOP THROUGH EACH MESSAGE SENT FROM THE CLIENT AND ECHO IT |
+                # | TO THE SERVER'S CONSOLE AND BACK TO THE CLIENT THROUGH ITS |
+                # | "NS" SOCKET.                                               |
+                # +------------------------------------------------------------+
+
+	        while ($message = <NS>) {
+
+                    if ($message =~ /^quit$/i ) {
+	                break;
+                    }
+
+                    # -------------------
+                    # Talk back to client
+                    # -------------------
+                    print NS "  FROM SERVER [$connectionID] --> $message\n";
+
+                    # -----------------------------------------------
+                    # Print the message that was sent from the client
+                    # -----------------------------------------------
+	            print "  FROM CLIENT [$connectionID] --> $message";
+ 
+	        }
+                print "  Closing client connection [$connectionID] and exiting this thread...\n\n";
+	        close(NS);
+	        exit;
+            }
+
+            close(NS);
+
+            print "Listening for connection " , $connectionID+1, "...\n\n";
+
+        }
+
+        exit 0;
+    } # second fork
+
+    # first child exists quickly
+    exit 0;
+
+}  # first fork
+wait; # parent reaps first child quickly

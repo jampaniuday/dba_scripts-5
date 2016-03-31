@@ -1,0 +1,8 @@
+Here is the standard output of the command:
+
+     UID     PID    PPID TTY     STIME COMMAND
+Administ    1124       1 con  13:31:43 /usr/bin/bash
+Administ    1664    1124 con  16:27:02 /c/j2sdk1.4.1/bin/java
+Administ    1100       1 con  16:27:02 /usr/bin/ps
+Here is the standard error of the command (if any):
+

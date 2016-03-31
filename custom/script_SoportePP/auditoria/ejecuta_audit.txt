@@ -1,0 +1,1 @@
+@/export/home/oracle/auditoria/ey_script_10g.sql

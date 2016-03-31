@@ -1,0 +1,97 @@
+en el N1;
+
+alter system set log_archive_dest_state_2=defer SID='*'; 
+
+ALTER SYSTEM SWITCH LOGFILE;
+
+
+ALTER SYSTEM SET log_archive_dest_state_2=enable SID='*'; 
+
+ALTER SYSTEM SWITCH LOGFILE;
+
+
+------------
+
+
+
+alter database recover managed standby database cancel;
+
+srvctl stop database -d CRPPCS
+
+srvctl stop nodeapps -n coribesg2
+
+
+como root
+
+/softw/app/oracle/product/10.2.0/crs/bin/crsctl stop crs
+
+
+HA Resource                                   Target     State             
+-----------                                   ------     -----             
+ora.CROPGE.CROPGE1.inst                       ONLINE     ONLINE on coribesg1
+ora.CROPGE.CROPGE2.inst                       OFFLINE    OFFLINE           
+ora.CROPGE.CROPGE_PRIMARIO.CROPGE1.srv        OFFLINE    OFFLINE           
+ora.CROPGE.CROPGE_PRIMARIO.cs                 OFFLINE    OFFLINE           
+ora.CROPGE.CROPGE_TUX.CROPGE1.srv             OFFLINE    OFFLINE           
+ora.CROPGE.CROPGE_TUX.cs                      OFFLINE    OFFLINE           
+ora.CROPGE.db                                 ONLINE     ONLINE on coribesg2
+ora.CRPPCS.CRPPCS1.inst                       OFFLINE    OFFLINE           
+ora.CRPPCS.CRPPCS2.inst                       ONLINE     ONLINE on coribesg2
+ora.CRPPCS.CRPPCS_PRIMARIO.CRPPCS2.srv        OFFLINE    OFFLINE           
+ora.CRPPCS.CRPPCS_PRIMARIO.cs                 OFFLINE    OFFLINE           
+ora.CRPPCS.CRPPCS_TUX.CRPPCS2.srv             OFFLINE    OFFLINE           
+ora.CRPPCS.CRPPCS_TUX.cs                      OFFLINE    OFFLINE           
+ora.CRPPCS.db                                 ONLINE     ONLINE on coribesg2
+ora.CRPPGA.CRPPGA1.inst                       ONLINE     ONLINE on coribesg1
+ora.CRPPGA.CRPPGA2.inst                       OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGATUX_UP00.CRPPGA1.srv         OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGATUX_UP00.cs                  OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGATUX_UP01.CRPPGA2.srv         OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGATUX_UP01.cs                  OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGATUX_UP02.CRPPGA1.srv         OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGATUX_UP02.cs                  OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGATUX_UP03.CRPPGA2.srv         OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGATUX_UP03.cs                  OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGA_UP00.CRPPGA1.srv            OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGA_UP00.cs                     OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGA_UP01.CRPPGA2.srv            OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGA_UP01.cs                     OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGA_UP02.CRPPGA1.srv            OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGA_UP02.cs                     OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGA_UP03.CRPPGA2.srv            OFFLINE    OFFLINE           
+ora.CRPPGA.CRPPGA_UP03.cs                     OFFLINE    OFFLINE           
+ora.CRPPGA.db                                 ONLINE     ONLINE on coribesg1
+ora.CRRASC.CRRASC1.inst                       ONLINE     ONLINE on coribesg1
+ora.CRRASC.CRRASC2.inst                       OFFLINE    OFFLINE           
+ora.CRRASC.CRRASC_PRIMARIO.CRRASC1.srv        OFFLINE    OFFLINE           
+ora.CRRASC.CRRASC_PRIMARIO.cs                 OFFLINE    OFFLINE           
+ora.CRRASC.CRRASC_TUX.CRRASC1.srv             OFFLINE    OFFLINE           
+ora.CRRASC.CRRASC_TUX.cs                      OFFLINE    OFFLINE           
+ora.CRRASC.db                                 ONLINE     ONLINE on coribesg2
+ora.coribesg1.LISTENER_coribesg1.lsnr         ONLINE     ONLINE on coribesg1
+ora.coribesg1.gsd                             ONLINE     ONLINE on coribesg1
+ora.coribesg1.ons                             ONLINE     ONLINE on coribesg1
+ora.coribesg1.vip                             ONLINE     ONLINE on coribesg1
+ora.coribesg2.LISTENER_coribesg2.lsnr         ONLINE     ONLINE on coribesg2
+ora.coribesg2.gsd                             ONLINE     ONLINE on coribesg2
+ora.coribesg2.ons                             ONLINE     ONLINE on coribesg2
+ora.coribesg2.vip                             ONLINE     ONLINE on coribesg2
+
+
+srvctl stop database -d CRPPCS
+srvctl start instance -d CRPPCS -i CRPPCS2 -o mount
+
+
+RECOVER AUTOMATIC FROM '/altamira_bd/CRPPCS/arch/' STANDBY DATABASE UNTIL CANCEL;
+
+
+SQL> RECOVER AUTOMATIC FROM ‘/altamira_bd/CRPPCS/arch/’ STANDBY DATABASE UNTIL CANCEL;
+ORA-00911: invalid character
+
+
+SQL> RECOVER AUTOMATIC FROM '/altamira_bd/CRPPCS/arch/' STANDBY DATABASE UNTIL CANCEL;
+ORA-00283: recovery session canceled due to errors
+ORA-01110: data file 61: '/altamira_bd/CRPPCS/dat_001/PPCS_mulsaldet_4096k_dat_01.dbf'
+ORA-01122: database file 61 failed verification check
+ORA-01110: data file 61: '/altamira_bd/CRPPCS/dat_001/PPCS_mulsaldet_4096k_dat_01.dbf'
+ORA-01200: actual file size of 393216 is smaller than correct size of 1206656 blocks

@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac MoveFileOrDir.java
+
+
+--------------------------
+Run Program
+--------------------------
+java MoveFileOrDir
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+File was successfully moved.

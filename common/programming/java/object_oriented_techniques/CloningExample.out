@@ -1,0 +1,38 @@
+--------------------------
+Compile Program
+--------------------------
+javac CloningExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CloningExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+CloningExample[1]
+-----------------
+        Alex
+        Melody
+        Jeff
+
+CloningExample[2]
+-----------------
+        Alex
+        Melody
+        Jeff
+
+Compare Shallow Copy
+--------------------
+    ce1 == ce2      : false
+    ce1.equals(ce2) : true
+
+Compare Deep Copy
+--------------------
+    ce1 == ce3      : false
+    ce1.equals(ce3) : false

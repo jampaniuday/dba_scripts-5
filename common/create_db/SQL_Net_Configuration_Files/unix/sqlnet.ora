@@ -1,0 +1,239 @@
+# +--------------------------------------------------------------------+
+# | FILE            : sqlnet.ora                                       |
+# | ORGANIZATION    : iDevelopment.info                                |
+# | MACHINE TYPE    : UNIX                                             |
+# | DATE            : 15-AUG-2004                                      |
+# | HISTORY         :                                                  |
+# | ------------------------------------------------------------------ |
+# | DATE      NAME     CHANGE DESCRIPTION                              |
+# | --------- -------- ----------------------------------------------- |
+# | 15-AUG-04 JEFFERYH Initial file creation.                          |
+# +--------------------------------------------------------------------+
+
+# +-------------------------------------------------------------------+
+# | NAMES.DIRECTORY_PATH                                              |
+# | ----------------------------------------------------------------- |
+# | Purpose: Use the parameter NAMES.DIRECTORY_PATH to specify the    |
+# |          order of the naming methods used for client name         |
+# |          resolution lookups. (Basically which configuration file  |
+# |          to look for)                                             |
+# | Default: NAMES.DIRECTORY_PATH=(tnsnames, onames, hostname)        |
+# | Values : tnsnames  - Local Naming. Net service names are resolved |
+# |                      using the tnsnames.ora file which resides on |
+# |                      the client.                                  |
+# |          ldap      - Directory Naming. Net service names and      |
+# |                      database service names are resolved through  |
+# |                      a directory server.                          |
+# |          onames    - Oracle Names. Net service names and database |
+# |                      service names are resolved centrally through |
+# |                      an Oracle Names server.                      |
+# |          hostname  - Host Naming. Net service names are resolved  |
+# |                      using the host naming method. Certain        |
+# |                      criteria must be met to use host naming.     |
+# |          cds       - Cell Directory Services. This naming method  |
+# |                      is available with Oracle Advanced Security.  |
+# |          nis       - Network Information Service. (NIS)           |
+# | Example: NAMES.DIRECTORY_PATH=(tnsnames, onames)                  |
+# +-------------------------------------------------------------------+
+NAMES.DIRECTORY_PATH= (TNSNAMES, LDAP)
+
+# +-------------------------------------------------------------------+
+# | BEQUEATH_DETACH                                                   |
+# | ----------------------------------------------------------------- |
+# | Purpose: The bequeath driver spawns a subprocess which then       |
+# |          executes a program. In the case of a standard database   |
+# |          connection the program executed is the Oracle executable.| 
+# |          On some UNIX platforms the bequeath driver performs a    |
+# |          'double fork' such that it spawns a process which then   |
+# |          spawns a further process and the 'middle' process drops  |
+# |          out. The Oracle shadow process becomes 'orphaned' and    |
+# |          hence its parent becomes 'init'. This is to avoid        |
+# |          potential problems with signal handling (SIGCHLD) and    |
+# |          'wait' code in the client process. Process listings of   |
+# |          LOCAL SQL*Net connections thus show '1' for the          |
+# |          'parent id' of such an Oracle shadow process. This is    |
+# |          quite normal and does NOT indicate a rogue process as    |
+# |          was the case under SQL*Net V1. The default behaviour     |
+# |          (single or double fork) is platform and version specific.|
+# |          From 7.3.3 onwards the SQLNET.ORA parameter              |
+# |          BEQUEATH_DETACH can be used to force the desired         |
+# |          behaviour. If set to YES a double fork occurs, if set to |
+# |          NO only a single fork occurs.                            |
+# | Default: no                                                       |
+# | Values : yes (Turns off signal handling)                          |
+# |          no  (Leaves signal handling on)                          |
+# | Example: BEQUEATH_DETACH=yes                                      |
+# +-------------------------------------------------------------------+
+BEQUEATH_DETACH=yes
+
+# +-------------------------------------------------------------------+
+# | AUTOMATIC_IPC                                                     |
+# | ----------------------------------------------------------------- |
+# | Purpose: Used to control whether an attempt is made to build an   |
+# |          IPC connection before using the addresses specified in   |
+# |          TNSNAMES.ORA. The default is AUTOMATIC_IPC=ON which      |
+# |          causes the generation of the IPC connection request      |
+# |          first. If AUTOMATIC_IPC=OFF, the client will only try to |
+# |          open the connections as defined in TNSNAMES.ORA. Thus,   |
+# |          IPC connections would only be made if the DBA/Network    |
+# |          Administrator manually created TNSNAMES.ORA aliases for  |
+# |          IPC connections. AUTOMATIC_IPC=OFF would be appropriate  |
+# |          for a client that has no local database and thus should  |
+# |          not even attempt to make a local connection. However,    |
+# |          the time it takes for SQL*Net to try the invalid address |
+# |          and redirect is minimal.                                 |
+# | Default: on                                                       |
+# | Values : off (client will only try to open the connections as     |
+# |               defined in TNSNAMES.ORA)                            |
+# |          on  (causes the generation of the IPC connection request |
+# |               first)                                              |
+# | Example: AUTOMATIC_IPC = ON                                       |
+# +-------------------------------------------------------------------+
+AUTOMATIC_IPC = ON
+
+# +-------------------------------------------------------------------+
+# | SQLNET.AUTHENTICATION_SERVICES                                    |
+# | ----------------------------------------------------------------- |
+# | Purpose: Enables one or more authentication services. If          |
+# |          authentication has been installed, it is recommended that|
+# |          this parameter be set to either NONE or to one of the    |
+# |          authentication methods. Keep in mind that this value     |
+# |          should be set to NTS when needing to "connect internal"  |
+# |          an a Windows NT platform.                                |
+# | Default: none                                                     |
+# | Values : Authentication Methods Available with Oracle             |
+# |          Net Services:                                            |
+# |                                                                   |
+# |          none    - No authentication methods. A valid user name   |
+# |                    and password can be used to access the         |
+# |                    database.                                      |
+# |          all     - All authentication methods                     |
+# |          nts     - Windows NT native authentication               |
+# |                                                                   |
+# |          Authentication Methods Available with Oracle             |
+# |          Advanced Security:                                       |
+# |                                                                   |
+# |          kerberos5  - Kerberos authentication                     |
+# |          cybersafe  - Cybersafe authentication                    |
+# |          radius     - RADIUS authentication                       |
+# |          dcegssapi  - DCE GSSAPI authentication                   |
+# | Example: SQLNET.AUTHENTICATION_SERVICES = (NTS)                   |
+# +-------------------------------------------------------------------+
+# SQLNET.AUTHENTICATION_SERVICES= (NTS) 
+
+# +-------------------------------------------------------------------+
+# | TRACE_DIRECTORY_CLIENT                                            |
+# | TRACE_DIRECTORY_SERVER                                            |
+# | TRACE_DIRECTORY_LISTENER                                          |
+# | ----------------------------------------------------------------- |
+# | Purpose: Specifies the destination directory for the client /     |
+# |          server / listener trace file. Set the following trace    |
+# |          parameters in the component configuration file -         |
+# |          SQLNET.ORA for client or server, LISTENER.ORA for        |
+# |          listener.                                                |
+# | Default: $ORACLE_HOME/network/trace directory on (UNIX)           |
+# |          %ORACLE_HOME%\network\trace directory on (Windows NT)    |
+# | Example: TRACE_DIRECTORY_CLIENT=/oracle/traces                    |
+# |          TRACE_DIRECTORY_SERVER=/oracle/traces                    |
+# |          TRACE_DIRECTORY_LISTENER=/oracle/traces                  |
+# +-------------------------------------------------------------------+
+TRACE_DIRECTORY_CLIENT   = /u01/app/oracle/product/9.2.0/network/trace
+TRACE_DIRECTORY_SERVER   = /u01/app/oracle/product/9.2.0/network/trace
+TRACE_DIRECTORY_LISTENER = /u01/app/oracle/product/9.2.0/network/trace
+
+# +-------------------------------------------------------------------+
+# | TRACE_LEVEL_CLIENT                                                |
+# | TRACE_LEVEL_SERVER                                                |
+# | TRACE_LEVEL_LISTENER                                              |
+# | ----------------------------------------------------------------- |
+# | Purpose: Turn tracing on or off on the database server at a       |
+# |          specified level. Set the following trace parameters in   |
+# |          the component configuration file - SQLNET.ORA for client |
+# |          or server, LISTENER.ORA for listener.                    |
+# | Default: $ORACLE_HOME/network/trace directory on (UNIX)           |
+# |          %ORACLE_HOME%\network\trace directory on (Windows NT)    |
+# | Values : Using Character Values:                                  |
+# |                                                                   |
+# |          off      - No trace output                               |
+# |          user     - User trace information                        |
+# |          admin    - Administration trace information              |
+# |          support  - Oracle Support Services trace information     |
+# |                                                                   |
+# |          Using Numberic Values:                                   |
+# |                                                                   |
+# |          0        - No trace output                               |
+# |          4        - User trace information                        |
+# |          10       - Administration trace information              |
+# |          16       - Oracle Support Services trace information     |
+# |                                                                   |
+# | Example: TRACE_LEVEL_CLIENT=4                                     |
+# |          TRACE_LEVEL_SERVER=4                                     |
+# |          TRACE_LEVEL_LISTENER=4                                   |
+# +-------------------------------------------------------------------+
+# TRACE_LEVEL_CLIENT=16
+# TRACE_LEVEL_SERVER=16
+# TRACE_LEVEL_LISTENER=16
+
+# +-------------------------------------------------------------------+
+# | TRACE_UNIQUE_CLIENT                                               |
+# | ----------------------------------------------------------------- |
+# | Purpose: Used to make each client trace file have a unique name   |
+# |          to prevent each trace file from being overwritten with   |
+# |          the next occurrence of the client. The PID is attached   |
+# |          to the end of the filename.                              |
+# | Default: off                                                      |
+# | Values : off (Use the default file name of cli.trc)               |
+# |          on  (attach PID to the end of the filenam)               |
+# | Example: TRACE_UNIQUE_CLIENT=ON                                   |
+# +-------------------------------------------------------------------+
+# TRACE_UNIQUE_CLIENT=ON 
+
+# +-------------------------------------------------------------------+
+# | NAMES.DEFAULT_DOMAIN                                              |
+# | ----------------------------------------------------------------- |
+# | Purpose: Sets the domain from which the client most often looks up|
+# |          names resolution requests. When this parameter is set,   |
+# |          the default domain name is automatically appended to any |
+# |          unqualified net service name or service name. For        |
+# |          example, if the default domain is set to                 |
+# |          iDevelopment.info, the connect string:                   |
+# |          CONNECT scott/tiger@erpdb gets searched as               |
+# |          erpdb.iDevelopment.info. If the connect string           |
+# |          includes the domain extension, such as:                  |
+# |          CONNECT scott/tiger@sales.iDevelopment.info, the         |
+# |          domain is not appended.                                  |
+# | Default: none                                                     |
+# | Example: NAMES.DEFAULT_DOMAIN=iDevelopment.info                   |
+# +-------------------------------------------------------------------+
+NAMES.DEFAULT_DOMAIN = IDEVELOPMENT.INFO
+
+# +-------------------------------------------------------------------+
+# | SQLNET.EXPIRE_TIME                                                |
+# | ----------------------------------------------------------------- |
+# | Purpose: This is a server feature only. It determine the time     |
+# |          interval (in minutes) in which to send a probe to verify |
+# |          that the session is active. Enabling this parameter      |
+# |          allows for Dead Connection Detection (DCD). Connections  |
+# |          which do not respond to this probe signal are            |
+# |          disconnected. DCD is initiated on the server when a      |
+# |          connection is established. At this time SQL*Net reads the|
+# |          SQL*Net parameter files and sets a timer to generate an  |
+# |          alarm. When the timer expires, SQL*Net on the server     |
+# |          sends a "probe" packet to the client.  (In the case of a |
+# |          database link, the destination of the link constitutes   |
+# |          the server side of the connection.)  The probe is        |
+# |          essentially an empty SQL*Net packet and does not         |
+# |          represent any form of SQL*Net level data, but it creates |
+# |          data traffic on the underlying protocol. If the client   |
+# |          end of the connection is still active, the probe is      |
+# |          discarded, and the timer mechanism is reset. If the      |
+# |          client has terminated abnormally, the server will receive|
+# |          an error from the send call issued for the probe, and    |
+# |          SQL*Net on the server will signal the operating system   |
+# |          to release the connection's resources.                   |
+# | Default: None                                                     |
+# | Minimum Value: 0 minutes                                          |
+# | Recommended Value: 10 minutes                                     |
+# | Example: SQLNET.EXPIRE_TIME=10                                    |
+# +-------------------------------------------------------------------+
+# SQLNET.EXPIRE_TIME=15

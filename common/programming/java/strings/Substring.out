@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac Substring.java
+
+
+--------------------------
+Run Program
+--------------------------
+java Substring
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Original string: Alex Michael Hunter
+a.Substring(5) : Michael Hunter
+a.substring(5,12) : Michael
+a.substring(13,a.length()) : Hunter

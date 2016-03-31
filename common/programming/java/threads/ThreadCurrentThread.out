@@ -1,0 +1,55 @@
+--------------------------
+Compile Program
+--------------------------
+javac ThreadCurrentThread.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ThreadCurrentThread
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+<< MAIN METHOD (Begin) >>
+
+Constructing thread  (1)...
+
+[ Starting New Thread ] : The name of this thread is Thread 1
+====================================================================
+
+  - Thread 1  ( Current Countdown = 5 )
+
+Constructing thread  (2)...
+
+
+Both threads have been started....
+Will now wait until both threads are completed...
+
+[ Starting New Thread ] : The name of this thread is Thread 2
+====================================================================
+
+  - Thread 2  ( Current Countdown = 5 )
+  - Thread 2  ( Current Countdown = 4 )
+  - Thread 1  ( Current Countdown = 4 )
+  - Thread 2  ( Current Countdown = 3 )
+  - Thread 2  ( Current Countdown = 2 )
+  - Thread 2  ( Current Countdown = 1 )
+  - Thread 1  ( Current Countdown = 3 )
+
+Ending thread 2...
+
+  - Thread 1  ( Current Countdown = 2 )
+  - Thread 1  ( Current Countdown = 1 )
+
+Ending thread 1...
+
+All working threads are complete...
+
+<< MAIN METHOD (End) >>
+

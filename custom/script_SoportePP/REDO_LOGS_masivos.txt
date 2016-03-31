@@ -1,0 +1,27 @@
+select recid, sequence#,first_time from v$log_history
+
+alter session set nls_date_format='dd-mm-yyyy hh24:mi:ss';
+
+
+
+select s.inst_id, s.sid, serial#, program, module, username, value redo_size 
+from gv$session s, gv$sesstat ss, v$statname sn 
+where s.sid = ss.sid 
+and ss.statistic# = sn.statistic# 
+and sn.name = 'redo size' 
+and s.inst_id = ss.inst_id 
+order by redo_size;
+
+SELECT s.sid, s.serial#, s.username, s.program,
+i.block_changes
+FROM v$session s, v$sess_io i
+WHERE s.sid = i.sid
+ORDER BY 5 desc;
+
+
+select sid,value/1024/1024 redo_mb 
+from gv$statname n, gv$sesstat s 
+where n.name = 'redo size' 
+and s.statistic# = n.statistic#
+order by 2
+

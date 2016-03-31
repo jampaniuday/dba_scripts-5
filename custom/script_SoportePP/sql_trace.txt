@@ -1,0 +1,3 @@
+        ALTER SYSTEM SET sql_trace = TRUE;
+        ALTER SESSION SET sql_trace = TRUE;
+        EXECUTE SYS.dbms_system.set_sql_trace_in_session (sid, serial#, TRUE);

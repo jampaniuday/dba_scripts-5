@@ -1,0 +1,72 @@
+show parameter undo
+
+--- seleciona por espacio de 10min como a estado el valor automatico de undo retention (valido cuando  el undo no tiene autoextend)
+select to_char(begin_time, 'DD-MON-RR HH24:MI') begin_time,
+to_char(end_time, 'DD-MON-RR HH24:MI') end_time, tuned_undoretention
+from v$undostat order by end_time;
+
+
+--- Selecciona cuanto hay en MB cada estatus del undo
+SELECT STATUS, SUM(BYTES)/1024/1024 MB FROM DBA_UNDO_EXTENTS GROUP BY STATUS;
+
+--- La utilizacion de bloques en periodos de 10 min para ver cuando hubo carga
+SELECT TO_CHAR(BEGIN_TIME, 'MM/DD/YYYY HH24:MI:SS') BEGIN_TIME,
+         TO_CHAR(END_TIME, 'MM/DD/YYYY HH24:MI:SS') END_TIME,
+         UNDOTSN, UNDOBLKS, TXNCOUNT, MAXCONCURRENCY AS "MAXCON"
+         FROM v$UNDOSTAT WHERE rownum <= 144;
+
+
+--- a dada una cantidad en tiempo cuando undo se necesita en MB
+SELECT dbms_undo_adv.required_undo_size(11721) FROM dual;
+
+
+set serveroutput on
+
+
+--errores
+DECLARE
+ prob VARCHAR2(100);
+ reco VARCHAR2(100);
+ rtnl VARCHAR2(100);
+ retn PLS_INTEGER;
+ utbs PLS_INTEGER;
+ retv PLS_INTEGER;
+BEGIN
+  retv := dbms_undo_adv.undo_health(prob, reco, rtnl, retn, utbs);
+  dbms_output.put_line('Problem: ' || prob);
+  dbms_output.put_line('Recmmnd: ' || reco);
+  dbms_output.put_line('Rationl: ' || rtnl);
+  dbms_output.put_line('Retentn: ' || TO_CHAR(retn));
+  dbms_output.put_line('UTBSize: ' || TO_CHAR(utbs));
+END;
+/
+
+
+-- configuracion
+DECLARE
+ tsn    VARCHAR2(40);
+ tss    NUMBER(10);
+ aex    BOOLEAN;
+ unr    NUMBER(5);
+ rgt    BOOLEAN;
+ retval BOOLEAN;
+BEGIN
+  retval := dbms_undo_adv.undo_info(tsn, tss, aex, unr, rgt);
+  dbms_output.put_line('Undo Tablespace is: ' || tsn);
+  dbms_output.put_line('Undo Tablespace size is: ' || TO_CHAR(tss));
+
+  IF aex THEN
+    dbms_output.put_line('Undo Autoextend is set to: TRUE');
+  ELSE
+    dbms_output.put_line('Undo Autoextend is set to: FALSE');
+  END IF;
+
+  dbms_output.put_line('Undo Retention is: ' || TO_CHAR(unr));
+
+  IF rgt THEN
+    dbms_output.put_line('Undo Guarantee is set to: TRUE');
+  ELSE
+    dbms_output.put_line('Undo Guarantee is set to: FALSE');
+  END IF;
+END;
+/

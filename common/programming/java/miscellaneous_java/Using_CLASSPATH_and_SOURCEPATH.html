@@ -1,0 +1,183 @@
+<html>
+<head>
+
+  <style>
+    A.noLink        { text-decoration: none; }
+    A.noLinkYellow  { color:yellow;  text-decoration: none; }
+    A.noLinkBlue    { color:blue;  text-decoration: none; }
+    A.noLinkOrange  { color:orange;  text-decoration: none; }
+    A.noLinkCyan    { color:cyan;  text-decoration: none; }
+    A.noLinkGreen   { color:cream;  text-decoration: none; }
+    A.noLinkRed     { color:red;  text-decoration: none; }
+  </style>
+
+  <title>Using CLASSPATH and SOURCEPATH</title>
+
+  <script language="JavaScript">
+
+    function cancelForm() {
+      location = "./MAIN_home.shtml";
+    }
+
+  </script>
+
+</head>
+<body bgcolor="#ffffff" 
+      link="0000ff" 
+      vlink="0000ff" 
+      alink="0000ff">
+
+  <img src="../../../../gifs/header_programming.gif">
+  <p>
+
+  <i><b><font color="#ff0000"><u>Using CLASSPATH and SOURCEPATH</u></font></b></i>
+  <br>
+
+  <p>
+  <a class="noLinkBlue"
+     onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+     href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no"></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+  <hr noshade>
+
+
+  <!--
+   | *****************************************
+   | *****          CLASSPATH            *****
+   | *****************************************
+   +-->
+
+  <p>
+  <font color="#990000"><b>Setting The CLASSPATH</b></font>
+  <p>
+
+  <blockquote>
+    The CLASSPATH setting can be used to set the user class path, overriding the 
+    user class path in the CLASSPATH environment variable. If neither CLASSPATH 
+    or -classpath is specified, the user class path consists of the current 
+    directory. If you DO use either option, then the current directory WILL NOT
+    be included in the class path.
+
+    <p>
+
+    <a class="noLinkBlue" 
+       href="http://java.sun.com/j2se/1.4.1/docs/tooldocs/windows/classpath.html">Click here</a>
+       for a more in-depth discussion on setting the class path.
+
+    <p>
+
+    If the -sourcepath option is not specified, the user class path is searched 
+    for source files as well as class files. 
+
+  </blockquote>
+
+
+
+  <!--
+   | *****************************************
+   | *****         SOURCEPATH            *****
+   | *****************************************
+   +-->
+
+  <p>
+  <font color="#990000"><b>Setting The SOURCEPATH</b></font>
+  <p>
+
+  <blockquote>
+    Specify the source code path to search for class or interface definitions. 
+    As with the user class path, source path entries are separated by 
+    semicolons (;) and can be directories, JAR archives, or ZIP archives. 
+    <p>
+    If packages are used, the local path name within the directory or archive 
+    must reflect the package name.
+    <p>
+    Note that classes found through the classpath are subject to automatic 
+    recompilation if their sources are found.
+    <p>
+    Sourcepath is similar to classpath, the difference being the sourcepath
+    contains .java files and the classpath
+    contains .class files.  They both represent search paths for dependencies.
+    <p>
+    For example, say one has the directory structure:
+    <pre>foo/src/TestFoo.java
+baz/src/TestBaz.java</pre>
+
+    with class TestFoo:
+    <pre>package com.foo.test;
+public class TestFoo {;}</pre>
+    
+    and class TestBaz:
+    <pre>package com.baz.test;
+import com.foo.test.TestFoo;
+class TestBaz extends TestFoo {;}</pre>
+    
+    These two classes have a dependency: TestBaz requires TestFoo to compile.
+
+    To compile TestBaz, the following would NOT work:
+	<pre>javac -d baz/classes baz/src/TestBaz.java</pre>
+    
+    because the compiler would not be able to find TestFoo
+
+    So, you have two options for compiling TestBaz.
+    <ul>
+        <li> The way most of us are accustomed to: compile TestFoo, then add it to
+              the classpath while compiling TestBaz
+              <pre>javac -d foo/classes foo/src/TestFoo.java
+javac -d baz/classes -classpath foo/classes baz/src/TestBaz.java</pre>
+        <p>
+        <li> Add TestFoo to the sourcepath while compiling TestBaz
+              <pre>javac -d baz/classes -sourcepath foo/src baz/src/TestBaz.java</pre>
+
+    (Actually, I lied.  You really have a third option.  Put dependencies in
+    both sourcepath and classpath.  Then, if the .class file in the classpath
+    goes out of date, the .java file in sourcepath will be recompiled.  See
+    Sun's javac page for a description of how sourcepath and classpath work
+    together.
+
+  </blockquote>
+
+
+
+  <!--
+   | *****************************************
+   |  Separating Source Files and Class Files
+   | *****************************************
+   +-->
+
+  <p>
+  <font color="#990000"><b>Separating Source Files and Class Files</b></font>
+  <p>
+
+  <blockquote>
+    It often makes sense to keep source files and class files in separate 
+    directories, especially on large projects. We use -d to indicate the 
+    separate class file destination. Since the source files are not in the user 
+    class path, we use -sourcepath to help the compiler find them. 
+
+    <pre>C:> dir
+classes\  lib\      src\
+C:> dir src
+farewells\
+C:> dir src\farewells
+Base.java      GoodBye.java
+C:> dir lib
+Banners.jar
+C:> dir classes
+C:> javac -sourcepath src -classpath classes;lib\Banners.jar \
+       src\farewells\GoodBye.java -d classes
+C:> dir classes
+farewells\
+C:> dir classes\farewells
+Base.class      GoodBye.class</pre>
+
+
+    Note that the compiler compiled <code>src\farewells\Base.java</code>, even 
+    though we didn't specify it on the command line. To trace automatic 
+    compiles, use the -verbose option. 
+
+  </blockquote>
+
+
+
+
+</body>
+</html>

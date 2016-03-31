@@ -1,0 +1,18 @@
+#!/bin/ksh
+. /export/home/oracle/.profile
+export ORACLE_SID=PPGANIC1
+sqlplus -s /nolog <<EOF >> /export/home/oracle/operadora/monitor.txt
+conn / as sysdba
+set pagesize 600
+set linesize 132
+col machine format a25
+select 'MACHINE','PROGRAM',sysdate, count(*) from gv\$session where machine not in ('nifesg1cl.eri','anicsga02','anicsga01','camtgsg2') group by machine,program,sysdate order by 1;
+exit
+EOF
+
+
+0,10,20,30,40,50 * * * * /export/home/oracle/operadora/control_conexiones.sh
+
+
+
+select MACHINE,PROGRAM,sysdate, count(*) from gv$session where machine not in ('nifesg1cl.eri','anicsga02','anicsga01','camtgsg2') group by machine,program,sysdate order by 1;

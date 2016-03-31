@@ -1,0 +1,21 @@
+-- Display window group details.
+SELECT window_group_name, enabled, number_of_windowS
+FROM   dba_scheduler_window_groups;
+
+-- Display window group details.
+SELECT window_name, resource_plan, enabled, active
+FROM   dba_scheduler_windows;
+
+-- Display window group members.
+SELECT window_group_name, window_name
+FROM   dba_scheduler_wingroup_members;
+
+
+--- cerrar una ventana manualmente
+exec dbms_scheduler.close_window('WEEKEND_WINDOW');
+
+
+--- deshabilita una ventana manualmente
+exec DBMS_SCHEDULER.disable(name => 'WEEKEND_WINDOW', force => TRUE);
+
+

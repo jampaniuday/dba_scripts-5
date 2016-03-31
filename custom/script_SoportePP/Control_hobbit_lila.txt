@@ -1,0 +1,2 @@
+/home/xymon/client/./runclient.sh restart
+/home/xymon/client/ext/TableSpace

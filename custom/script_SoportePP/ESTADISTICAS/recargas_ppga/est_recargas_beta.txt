@@ -1,0 +1,137 @@
+
+-- Se crea la tabla
+
+CREATE TABLE PPCS.RECARGA_EST (                                                                      
+        FECHA_ESCRITURA               DATE NOT NULL,                                                                                         
+        MODULO_MINUTOS                NUMBER(3) NOT NULL,                                                                                    
+        COD_ORIGRECA                  VARCHAR2(4) NOT NULL,                                                                                                
+	IMPORTE			      NUMBER(10) DEFAULT '0' NOT NULL                                                                       
+)
+	 PCTFREE 1
+ 	 PCTUSED 90
+ 	 INITRANS 10
+  	 TABLESPACE EST_4096K_DAT
+ 	 STORAGE  (INITIAL 32M
+		 NEXT 32M
+		 FREELISTS 10 
+		 FREELIST GROUPS 1)
+PARTITION BY RANGE (FECHA_ESCRITURA)
+(PARTITION RECARGA_EST_140401
+VALUES LESS THAN (TO_DATE('2014-04-02 00:00:00', 'SYYYY-MM-DD HH24:MI:SS', 'NLS_CALENDAR=GREGORIAN')));
+/
+
+-- Se documenta la tabla
+
+COMMENT ON COLUMN PPCS.ESTADISTICAS.FECHA_ESCRITURA IS 'Fecha y hora de escritura en la base';                          
+COMMENT ON COLUMN PPCS.ESTADISTICAS.MODULO_MINUTOS IS 'Grupo de 5 minutos en los que se crea la estadistica';                      
+COMMENT ON COLUMN PPCS.ESTADISTICAS.COD_ORIGRECA IS 'Codigo origen de la recarga';                              
+COMMENT ON COLUMN PPCS.ESTADISTICAS.IMPORTE IS 'El total por origen ';                   
+         
+-- Se crea el indice
+
+CREATE UNIQUE INDEX PPCS.PK_RECARGA_EST ON PPCS.RECARGA_EST
+(
+       FECHA_ESCRITURA                ASC,
+       MODULO_MINUTOS		      ASC,
+       COD_ORIGRECA		      ASC
+)
+	 PCTFREE 1
+  	 INITRANS 11
+  	 TABLESPACE EST_4096K_IND
+ 	 STORAGE  (
+		 PCTINCREASE 0 
+		 FREELISTS 10 
+		 FREELIST GROUPS 1 
+ 	)
+LOCAL
+(
+PARTITION RECARGA_EST_140401
+	);
+/
+
+-- Se otorgan los accesos y synonimos
+
+GRANT INSERT, UPDATE, DELETE ON PPCS.RECARGA_EST TO PPCS_IUD;
+/
+
+GRANT SELECT ON PPCS.RECARGA_EST TO PPCS_SEL;
+/
+
+CREATE SYNONYM CPPCS.PPCS.RECARGA_EST FOR PPCS.PPCS.RECARGA_EST;
+/
+
+CREATE SYNONYM EPPCS.PPCS.RECARGA_EST FOR PPCS.RECARGA_EST;
+/
+
+
+-- Se inserta en el control de tablas particionadas para particion diaria a 12 meses
+
+INSERT INTO PPCS.PP_CFGMANTPARTS (NOM_ESQUEMA,NOM_TABLA,COD_TIPO,NUM_MESES_VIGENCIA,IND_MANT_ACTIVO,TXT_PREFIJO_PARTICIONES)
+VALUES ('PPCS','RECARGA_EST',3,12,'S','RECARGA_EST_');
+/
+
+commit;
+/
+
+-- Se ejecuta para crear las particiones iniciales
+
+DECLARE
+   IDE pls_integer;
+BEGIN
+  PPCS.PP_MANT_PARTS_PQ.MANT_PARTS(IDE);
+EXCEPTION
+ WHEN OTHERS THEN
+dbms_output.put_line('Valor resultante de operacion:' || IDE);   
+END;
+/
+
+-- se crea el procedimiento que recupera la informacion almacenandola en la tabla
+
+CREATE OR REPLACE PROCEDURE PPCS.SP_RECARGA_EST_P is
+
+cursor c1 is
+select COD_ORIGRECA, SUm(IMP_RECARGA/(select CON_PASOS from ppga.ppga_moneda where COD_MONEDA = '0')) IMPORTE
+from PPGA.ppga_recargas where FEC_INSTALAC > sysdate -1/288 and sec_anulacion is null
+group by COD_ORIGRECA;
+
+   p_modulo_minutos number :=0;
+   P_fecha_dia date:= null;
+
+BEGIN
+
+   -- llenado de variables
+   p_modulo_minutos :=  trunc(mod(sysdate-trunc(sysdate),1)*288);
+   p_fecha_dia := trunc(sysdate); 
+
+--- inserta el total de registros en la tabla diaria
+for carga in c1 loop
+insert into ppcs.recarga_est(fecha_escritura,modulo_minutos,cod_origreca,importe)
+values
+(p_fecha_dia,p_modulo_minutos,carga.cod_origreca,carga.importe);
+
+
+end loop;
+commit;
+
+END;
+/
+
+
+
+-- Se crea el Job que ejecuta el proceso
+
+
+declare
+x number;
+BEGIN
+SYS.DBMS_JOB.SUBMIT
+( job => X
+,what => 'BEGIN PPCS.SP_RECARGA_EST_P; END;'
+,next_date => trunc(sysdate+1)+1/288
+,interval => 'trunc(SYSDATE)+1'
+,no_parse => FALSE
+);
+SYS.DBMS_OUTPUT.PUT_LINE('Job Number is: ' || to_char(x));
+COMMIT;
+END;
+/

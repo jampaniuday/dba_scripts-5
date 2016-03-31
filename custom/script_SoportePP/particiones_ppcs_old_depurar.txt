@@ -1,0 +1,8 @@
+select a.tablespace_name,b.table_name,a.index_name,a.partition_name,a.num_rows,a.last_analyzed from           
+dba_ind_partitions a, dba_indexes b          
+where a.index_name like '%OLD'           
+and a.index_name=  b.index_name          
+and a.index_owner = b.owner          
+and a.num_rows > 0          
+group by a.tablespace_name,b.table_name,a.index_name,a.partition_name,a.num_rows,a.last_analyzed          
+order by 1,2;

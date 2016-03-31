@@ -1,0 +1,1 @@
+ps -A -o pid,state,command,stime | awk '{ if ($2 == "D") print }'

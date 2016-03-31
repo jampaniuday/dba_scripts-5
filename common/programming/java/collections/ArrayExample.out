@@ -1,0 +1,274 @@
+--------------------------
+Compile Program
+--------------------------
+javac ArrayExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ArrayExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
++===============================================+
+|  ***                                     ***  |
+|  ***        ARRAY DECLARATION            ***  |
+|  ***                                     ***  |
++===============================================+
+
++----------------------------+
+| Declare / Print Examples   |
+| Built-in Types             |
+| - print ExampleArray3[]    |
++----------------------------+
+  - Sun Solaris
+  - HP-UX
+  - Linux
+  - MS Windows
+  - Macintosh
+
+
++----------------------------+
+| Declare / Print Examples   |
+| Object Types               |
+| - print ExampleArray4[]    |
++----------------------------+
+  - 100
+  - 200
+  - 300
+  - 400
+
+
+
++===============================================+
+|  ***                                     ***  |
+|  ***           OBJECT ARRAY              ***  |
+|  ***                                     ***  |
++===============================================+
+
++----------------------------+
+| Declare / Print Examples   |
+| Object Types               |
+| - print platforms[]        |
++----------------------------+
+  - Sun Solaris
+  - HP-UX
+  - RedHat Linux
+  - MS Windows
+  - Macintosh
+
+
+
++===============================================+
+|  ***                                     ***  |
+|  ***            RESIZE ARRAY             ***  |
+|  ***                                     ***  |
++===============================================+
+
++----------------------------+
+| Resize Array               |
++----------------------------+
+Platform 0 = Sun Solaris - 0
+Platform 1 = Sun Solaris - 1
+Platform 2 = Sun Solaris - 2
+Platform 3 = Sun Solaris - 3
+Platform 4 = Sun Solaris - 4
+Platform 5 = Sun Solaris - 5
+Platform 6 = Sun Solaris - 6
+Platform 7 = Sun Solaris - 7
+Platform 8 = Sun Solaris - 8
+Platform 9 = Sun Solaris - 9
+
+
+
++===============================================+
+|  ***                                     ***  |
+|  ***          RANDOM SIZE ARRAY          ***  |
+|  ***                                     ***  |
++===============================================+
+
++--------------------------------+
+| Random Size Array Declaration  |
++--------------------------------+
+Length of Random Size Array (int)    : 36
+Length of Random Size Array (String) : 36
+
+
++===============================================+
+|  ***                                     ***  |
+|  ***           RETURN AN ARRAY           ***  |
+|  ***                                     ***  |
++===============================================+
+
++--------------------------------+
+| Return an Array                |
++--------------------------------+
+  - Platform #0
+  - Platform #1
+  - Platform #2
+  - Platform #3
+  - Platform #4
+
+
++===============================================+
+|  ***                                     ***  |
+|  ***     MULTIDIMENSIONAL ARRAYS         ***  |
+|  ***                                     ***  |
++===============================================+
+
+  -------------
+  2x3 int Array
+  -------------
+  a1[0][0] = 1
+  a1[0][1] = 2
+  a1[0][2] = 3
+  a1[1][0] = 10
+  a1[1][1] = 20
+  a1[1][2] = 30
+
+  ---------------------------------
+  2-D Array of nonprimitive objects
+  ---------------------------------
+  a2[0][0] = 1
+  a2[0][1] = 2
+  a2[1][0] = 10
+  a2[1][1] = 20
+  a2[2][0] = 100
+  a2[2][1] = 200
+
+  ---------------------------
+  3-D Array with fixed length
+  ---------------------------
+  a3[0][0][0] = String [0][0][0]
+  a3[0][0][1] = String [0][0][1]
+  a3[0][0][2] = String [0][0][2]
+  a3[0][1][0] = String [0][1][0]
+  a3[0][1][1] = String [0][1][1]
+  a3[0][1][2] = String [0][1][2]
+  a3[0][2][0] = String [0][2][0]
+  a3[0][2][1] = String [0][2][1]
+  a3[0][2][2] = String [0][2][2]
+  a3[1][0][0] = String [1][0][0]
+  a3[1][0][1] = String [1][0][1]
+  a3[1][0][2] = String [1][0][2]
+  a3[1][1][0] = String [1][1][0]
+  a3[1][1][1] = String [1][1][1]
+  a3[1][1][2] = String [1][1][2]
+  a3[1][2][0] = String [1][2][0]
+  a3[1][2][1] = String [1][2][1]
+  a3[1][2][2] = String [1][2][2]
+
+
++===============================================+
+|  ***                                     ***  |
+|  ***      COPYING / CLONING ARRAYS       ***  |
+|  ***                                     ***  |
+|  ***    (Also checking for EQUALITY)     ***  |
+|  ***                                     ***  |
++===============================================+
+
+  Original Array
+  --------------
+  - Sun Solaris
+  - HP-UX
+  - Linux
+  - MS Windows
+  - Macintosh
+
+  Copied Array
+  ------------
+  - Sun Solaris
+  - HP-UX
+  - Linux
+  - MS Windows
+  - Macintosh
+
+  Check for Equality
+  ------------------
+
+    - originalArray == copiedArray              : false
+
+    - originalArray.equals(copiedArray)         : false
+
+    - Arrays.equals(originalArray, copiedArray) : true
+
+
+  Original Array
+  --------------
+  - Sun Solaris
+  - HP-UX
+  - Linux
+  - MS Windows
+  - Macintosh
+
+  Cloned Array
+  ------------
+  - Sun Solaris
+  - HP-UX
+  - Linux
+  - MS Windows
+  - Macintosh
+
+  Check for Equality
+  ------------------
+
+    - originalArray == clonedArray              : false
+
+    - originalArray.equals(clonedArray)         : false
+
+    - Arrays.equals(originalArray, clonedArray) : true
+
+
++===============================================+
+|  ***                                     ***  |
+|  ***        USING THE ARRAYS CLASS       ***  |
+|  ***                                     ***  |
++===============================================+
+
+  --------------------
+  Arrays.fill() Method
+  --------------------
+
+  ----------------------
+  Arrays.equals() Method
+  ----------------------
+  Array a1 DOES NOT MATCH a2
+
+  --------------------
+  Arrays.sort() Method
+  --------------------
+  Original Array
+    - a3[0] = 7
+    - a3[1] = 36
+    - a3[2] = 17
+    - a3[3] = 12
+    - a3[4] = 39
+    - a3[5] = 32
+    - a3[6] = 49
+    - a3[7] = 15
+    - a3[8] = 39
+    - a3[9] = 18
+
+  Sorted Array
+    - a3[0] = 7
+    - a3[1] = 12
+    - a3[2] = 15
+    - a3[3] = 17
+    - a3[4] = 18
+    - a3[5] = 32
+    - a3[6] = 36
+    - a3[7] = 39
+    - a3[8] = 39
+    - a3[9] = 49
+
+  ----------------------------
+  Arrays.binarySearch() Method
+  ----------------------------
+    - Could not find the number 25.
+

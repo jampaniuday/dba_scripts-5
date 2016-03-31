@@ -1,0 +1,22 @@
+--------------------------
+Compile Program
+--------------------------
+javac ConvertURLtoURI.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ConvertURLtoURI
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+% java ConvertURLtoURI
+
+Original URL  : http://www.idevelopment.info/data/Oracle/DBA_tips/Linux/LINUX_5.shtml
+Converted URI : http://www.idevelopment.info/data/Oracle/DBA_tips/Linux/LINUX_5.shtml

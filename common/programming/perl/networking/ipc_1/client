@@ -1,0 +1,171 @@
+#!/usr/local/bin/perl
+
+# ------------------------------------------------------------
+# File       :   client
+# Programmer :   Jeff Hunter
+# Date       :   4/1/96
+# Purpose    :   A small Perl script that acts as a client 
+#                for the serverd process. This client will open
+#                a socket on port 2345 (unless another is
+#                specified as the 2nd arguement.) It will 
+#                will look for the server on 'server2' (unless
+#                another is specified as the 1st arguement.)
+#
+# Note       :   If running either "client" or "server" gives 
+#                you this error:
+#
+#                     socket error: Protocol not supported
+#
+#                Then it is likely that you are using a Solaris
+#                machine, and that you need to make a slight
+#                modification to both the "client" and the 
+#                "server" script. TCP/IP sockets on Solaris
+#                have slightly different values than on other 
+#                platforms.
+#
+#                       #######################
+#                       # SOLARIS socket values 
+#                       $AF_INET = 2; 
+#                       $SOCK_STREAM = 2;
+#
+#                       #########################################
+#                       # WINDOWS (and most others) socket values 
+#                       # $AF_INET = 2; 
+#                       # $SOCK_STREAM = 1;
+#
+#                Simply un-comment the values you want to use.
+#
+# Parameters :   1.) server       (optional)
+#                2.) Port Number  (optional)
+# ------------------------------------------------------------
+
+$SIG{'INT'} = 'dokill';
+
+#######################
+# SOLARIS socket values 
+$AF_INET = 2; 
+$SOCK_STREAM = 2;
+
+#########################################
+# WINDOWS (and most others) socket values 
+# $AF_INET = 2;
+# $SOCK_STREAM = 1;
+
+# +---------------------------------------------------------+
+# | GET REMOTE SERVER AND PORT FROM USER                    |
+# +---------------------------------------------------------+
+
+($remoteHostName, $remotePort) = @ARGV;
+
+unless ($remoteHostName && $remotePort) {
+    print "\nusage: client <remote host> <remote port>\n\n";
+    exit;
+}
+
+# +---------------------------------------------------------+
+# | SUB: dokill()                                           |
+# +---------------------------------------------------------+
+
+sub dokill {
+    kill 9,$child if $child;
+}
+
+$sockAddrMask = 'S n a4 x8';
+
+chop($clientHostName = `hostname`);
+
+# +---------------------------------------------------------+
+# | GET PROTOCOL BY NAME                                    |
+# +---------------------------------------------------------+
+
+($name, $aliases, $proto) = getprotobyname('tcp');
+
+
+# +---------------------------------------------------------+
+# | GET PROTOCOL BY NAME                                    |
+# +---------------------------------------------------------+
+
+unless ($remotePort =~ /^\d+$/) {
+    ($name, $aliases, $remotePort) = getservbyname($remotePort, 'tcp');
+}
+
+($name, $aliases, $type, $len, $clientAddr) = gethostbyname($clientHostName);
+($name, $aliases, $type, $len, $remoteAddr) = gethostbyname($remoteHostName);
+
+$client = pack($sockAddrMask, $AF_INET, 0          , $clientAddr);
+$server = pack($sockAddrMask, $AF_INET, $remotePort, $remoteAddr);
+
+# +---------------------------------------------------------+
+# | MAKE THE SOCKET FILEHANDLE                              |
+# +---------------------------------------------------------+
+
+if (socket(S, $AF_INET, $SOCK_STREAM, $proto)) { 
+    print "socket  ok\n";
+} else {
+    die $!;
+}
+
+# +---------------------------------------------------------+
+# | GIVE THE SOCKET AN ADDRESS                              |
+# +---------------------------------------------------------+
+
+if ( bind(S, $client) ) {
+    print "bind    ok\n";
+} else {
+    die $!;
+}
+
+# +---------------------------------------------------------+
+# | CALL UP THE SERVER                                      |
+# +---------------------------------------------------------+
+
+if ( connect(S, $server) ) {
+    print "connect ok\n";
+} else {
+    die $!;
+}
+
+# +---------------------------------------------------------+
+# | SET SOCKET TO BE COMMAND BUFFERED                       |
+# +---------------------------------------------------------+
+
+select(S); $| = 1; select(STDOUT);
+
+# +---------------------------------------------------------+
+# | AVOID DEADLOCK BY FORKING.                              |
+# |                                                         |
+# | THIS WILL ALLOW FOR TWO THREADS, ONE FOR TALKING TO     |
+# | THE SERVER PROCESS AND ANOTHER TO RECEIVE FROM THE      |
+# | SERVER.                                                 |
+# +---------------------------------------------------------+
+
+if ($child = fork) {
+
+    while (<STDIN>) {
+
+        # --------------------------------------------
+        # Send message to Server Socket taken from the
+        # command-line. In this case STDIN.
+        # --------------------------------------------
+	print S;
+        last if (/^quit$/i);
+
+    }
+    print "Closing client connection\n";
+    do dokill();
+
+} else {
+
+    while(<S>) {
+
+        # -----------------------------------------------
+        # Print all messages that are coming
+        # from the IPC Server. Receiving messages
+        # from the server and printing them in a sepatate
+        # thread, is to reduce dead locking.
+        # -----------------------------------------------
+	print;
+
+    }
+
+}

@@ -1,0 +1,21 @@
+----SO-----
+mknod pipes p
+gzip < pipes> MOF_CLIENT_HIST.txt.gz &
+sqlplus
+
+---Dentro de sqlplus----
+SET ECHO OFF
+SET SPACE 0
+SET LINESIZE 200
+SET PAGESIZE 0
+SET HEADING OFF
+SET MARKUP HTML OFF SPOOL OFF
+SET COLSEP ","
+SPOOL pipes
+SELECT * from app_aplicaciones.MOF_CLIENT_HIST;
+SPOOL off
+QUIT
+
+exportsql
+
+echo "@/u01/app/oracle/product/11.2.0/db_1/exportsql.sql" | sqlplus APP_APLICACIONES/aplicaciones%%2009@VENUS

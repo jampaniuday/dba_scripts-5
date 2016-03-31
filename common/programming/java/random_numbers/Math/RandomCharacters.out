@@ -1,0 +1,49 @@
+--------------------------
+Compile Program
+--------------------------
+javac RandomCharacters.java
+
+
+--------------------------
+Run Program
+--------------------------
+java RandomCharacters
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+----------------------------------------------------------------------
+GENERATING RANDOM CHARACTERS
+----------------------------------------------------------------------
+Since Math.random() generates a value between 0 and 1, you need only
+multiply it by the upper bound of the range of numbers you want to product
+(26 for the letters in the alphabet) and add an offset to establish
+the lower bound.
+
+Although it appears you're switching on a character here, the switch statement
+is actually using the integral value of the character. The singly-quoted characters
+in the case statements also produce integral values that are used to comparison.
+
+Math.random() produces a double, so the value 26 is converted to a double to perform
+the multiplication, which also produces a double. This means that 'a' must be
+converted to a double to perform the addition. The double result is turned back
+into a "char" with the cast.
+
+If for example, you have the value 29.7 and you cast it to a char, the resulting
+value is 29. Always remember, that casting from a float or double to an integral
+value always truncates.
+----------------------------------------------------------------------
+f: consonant - Random number was (0.1924264616022513)
+d: consonant - Random number was (0.1262829554134165)
+f: consonant - Random number was (0.2047449257948708)
+h: consonant - Random number was (0.28516735888913114)
+j: consonant - Random number was (0.357738848456542)
+g: consonant - Random number was (0.24615136178871178)
+c: consonant - Random number was (0.07834975054676985)
+u: vowel - Random number was (0.8039660010669257)
+g: consonant - Random number was (0.2677338427347995)
+l: consonant - Random number was (0.43369022747703767)
+----------------------------------------------------------------------

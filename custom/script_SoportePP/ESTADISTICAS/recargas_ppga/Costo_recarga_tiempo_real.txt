@@ -1,0 +1,46 @@
+ select COD_ORIGRECA, SUm(IMP_RECARGA/(select CON_PASOS from ppga_moneda where COD_MONEDA = '0')) "IMPORTE"
+ from ppga_recargas where FEC_EJECUCIO > sysdate -1/288 and sec_anulacion is null
+ group by COD_ORIGRECA;
+
+COD_    IMPORTE
+---- ----------
+RSOS       1863
+3           585
+P          ,008
+Q      12892,71
+8      12938,71
+10          970
+J          ,066
+RI         ,003
+A       631,762
+N          4432
+O      21322,79
+9           570
+
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+COLUMN_NAME
+------------------------------------------------------------------------------------------------------------------------------------
+PK_RECARGAS                    PPGA_RECARGAS
+SEC_ACTUACION
+
+PK_RECARGAS                    PPGA_RECARGAS
+COD_PARTICION
+
+PPGA_RECARGAS_I01              PPGA_RECARGAS
+FEC_INSTALAC
+
+PPGA_RECARGAS_I01              PPGA_RECARGAS
+NUM_TELEFONO
+
+PPGA_RECARGAS_I02              PPGA_RECARGAS
+COD_REFERENCI
+
+PPGA_RECARGAS_I03              PPGA_RECARGAS
+FEC_INSTALAC
+
+PPGA_RECARGAS_I04              PPGA_RECARGAS
+COD_ADMIN
+
+

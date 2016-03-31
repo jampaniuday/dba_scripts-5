@@ -1,0 +1,26 @@
+--------------------------
+Compile Program
+--------------------------
+javac ParseURL.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ParseURL
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+% java ParseURL
+
+Original URL Object : http://www.idevelopment.info:80/index.shtml#main
+Protocol            : http
+Host                : www.idevelopment.info
+Port                : 80
+File                : /index.shtml
+Ref                 : main

@@ -1,0 +1,2 @@
+1001,100,Jeff Hunter,20-AUG-1967,17-JUN-1997,127000.00,Sr. Software Engineer,6007,Pittsburgh
+1002,101,Alex Hunter,19-JUL-2000,19-DEC-2001,68000.00,Help Desk,6008,Pittsburgh

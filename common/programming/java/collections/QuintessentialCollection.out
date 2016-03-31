@@ -1,0 +1,73 @@
+--------------------------
+Compile Program
+--------------------------
+javac QuintessentialCollection.java
+
+
+--------------------------
+Run Program
+--------------------------
+java QuintessentialCollection
+
+
+--------------------------
+Program Output
+--------------------------
+
+
++-------------+
+| ArrayList   |
++-------------+
+  - Ordered group of elements
+  - Duplicates allowed
+================================
+    [Enterprise Server, Department Server, Workstation]
+
++-------------+
+| LinkedList  |
++-------------+
+  - Ordered (by entry into the list) group of elements
+  - Duplicates allowed
+================================
+    [Enterprise Server, Department Server, Workstation]
+
++-------------+
+| HashSet     |
++-------------+
+  - No ordering of elements
+  - No duplicates are allowed
+  - add, remove, and contains methods constant time
+    complexity: O(c).
+================================
+    [Workstation, Enterprise Server, Department Server]
+
++-------------+
+| TreeSet     |
++-------------+
+  - Ordered (by element ASCII value) group of elements
+  - No duplicates are allowed
+  - add, remove, and contains methods logarithmic
+    time complexity: O(log(n)), where n is the number of
+    elements in the group.
+================================
+    [Department Server, Enterprise Server, Workstation]
+
++-------------+
+| HashMap     |
++-------------+
+  - No ordering on (key, value) pairs.
+  - A Map is an object that maps keys to values.
+  - Also called an Associative Array or Dictionary.
+================================
+    {Workstation=Macintosh, Enterprise Server=HP-UX, Department Server=Linux}
+
++-------------+
+| TreeMap     |
++-------------+
+  - (key, value) pairs are ordered on the key.
+  - The implementation is based on red-black tree structure.
+  - A Map is an object that maps keys to values.
+  - Also called an Associative Array or Dictionary.
+================================
+    {Department Server=Linux, Enterprise Server=HP-UX, Workstation=Macintosh}
+

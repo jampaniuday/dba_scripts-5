@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac info/iDevelopment/logging/*.java
+
+
+--------------------------
+Run Program
+--------------------------
+java info.iDevelopment.logging.LoggerApp
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Jun 26, 2003 12:37:19 PM info.iDevelopment.logging.child.ChildLogger printMethod
+INFO: Child Logger: Info message!
+Jun 26, 2003 12:37:19 PM info.iDevelopment.logging.child.ChildLogger printMethod
+SEVERE: Child Logger: Severe message!

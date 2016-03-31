@@ -1,0 +1,25 @@
+--------------------------
+Compile Program
+--------------------------
+javac ControllingCase.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ControllingCase
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Original string  : Alex Michael Hunter
+Uppercase string : ALEX MICHAEL HUNTER
+Lowercase string : alex michael hunter
+
+Original string  : Alex Michael Hunter
+Compare string  : alex michael hunter
+equal() returned FALSE
+equalIgnoreCase() returned TRUE

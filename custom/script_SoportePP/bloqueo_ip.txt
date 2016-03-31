@@ -1,0 +1,13 @@
+tcp.validnode_checking = yes
+tcp.invited_nodes = (localhost, PayrollDB, PApp1, PApp2, PApp3)
+
+SELECT user#,username,terminal, machine,program,module FROM v$session
+
+SELECT host_name FROM v$instance;
+
+SELECT UTL_INADDR.get_host_address('anippcs01') FROM dual
+222.1.2.5
+
+
+SELECT UTL_INADDR.get_host_address('anippcs02') FROM dual
+222.1.2.6

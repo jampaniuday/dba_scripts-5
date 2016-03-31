@@ -1,0 +1,67 @@
+# +--------------------------------------------------------------------+
+# | FILE            : listener.ora                                     |
+# | ORGANIZATION    : iDevelopment.info                                |
+# | MACHINE TYPE    : UNIX                                             |
+# | DATE            : 15-AUG-2004                                      |
+# | HISTORY         :                                                  |
+# | ------------------------------------------------------------------ |
+# | DATE      NAME     CHANGE DESCRIPTION                              |
+# | --------- -------- ----------------------------------------------- |
+# | 15-AUG-04 JEFFREYH Initial file creation.                          |
+# | 15-AUG-04 JEFFREYH Added support for IPC connections in a separate |
+# |                    DESCRIPTION.                                    |
+# +--------------------------------------------------------------------+
+
+LISTENER =
+  (DESCRIPTION_LIST =
+
+    (DESCRIPTION =
+      (ADDRESS_LIST =
+        (ADDRESS = (PROTOCOL = TCP)(HOST = <machine_name>.idevelopment.info)(PORT = 1521))
+      )
+      (PROTOCOL_STACK =
+       (PRESENTATION = TTC)
+       (SESSION = NS)
+      )
+    )
+
+    (DESCRIPTION =
+      (ADDRESS_LIST =
+        (ADDRESS = (PROTOCOL = TCP)(HOST = <machine_name>.idevelopment.info)(PORT = 2481))
+      )
+      (PROTOCOL_STACK =
+       (PRESENTATION = GIOP)
+       (SESSION = RAW)
+      )
+    )
+
+    (DESCRIPTION =
+      (ADDRESS_LIST =
+        (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC))
+        (ADDRESS = (PROTOCOL = IPC)(KEY = JEFFDB_<machine_name>.idevelopment.info))
+        (ADDRESS = (PROTOCOL = IPC)(KEY = JEFFDB_<machine_name>))
+      )
+      (PROTOCOL_STACK =
+       (PRESENTATION = TTC)
+       (SESSION = NS)
+      )
+    )
+
+  )
+
+CONNECT_TIMEOUT_LISTENER = 10
+
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (SID_NAME = PLSExtProc)
+      (ORACLE_HOME = /u01/app/oracle/product/9.2.0)
+      (PROGRAM = extproc)
+      (ENVS="EXTPROC_DLLS=ANY")
+    )
+    (SID_DESC =
+      (GLOBAL_DBNAME  = JEFFDB_<machine_name>.idevelopment.info)
+      (SID_NAME       = JEFFDB)
+      (ORACLE_HOME    = /u01/app/oracle/product/9.2.0)
+    )
+  )

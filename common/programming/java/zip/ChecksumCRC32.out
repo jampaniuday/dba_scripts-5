@@ -1,0 +1,18 @@
+--------------------------
+Compile Program
+--------------------------
+javac ChecksumCRC32.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ChecksumCRC32 example1.txt
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+2798908386 165 example1.txt

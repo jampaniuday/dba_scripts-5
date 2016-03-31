@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac CompressFileGZIP.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CompressFileGZIP example1.txt
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Creating the GZIP output stream.
+Opening the input file.
+Transfering bytes from input file to GZIP Format.
+Completing the GZIP file

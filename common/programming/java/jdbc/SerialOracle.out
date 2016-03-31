@@ -1,0 +1,28 @@
+--------------------------
+Compile Program
+--------------------------
+javac SerialOracle.java
+
+
+--------------------------
+Run Program
+--------------------------
+java SerialOracle
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+Connecting to        -> jdbc:oracle:thin:@localhost:1521:CUSTDB
+Connected as         -> scott
+
+Done serializing: java.util.LinkedList
+Serialized OBJECT_ID => 1
+
+Done de-serializing: java.util.LinkedList
+OBJECT VALUES  => [This is a test, 123456789, Tue Jul 01 21:03:03 EDT 2003]
+
+Closing down all connections...

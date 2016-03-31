@@ -1,0 +1,66 @@
+To properly move the datafile around or rename the datafile, follow this guide:
+
+1.Login to SQLPlus.
+2.Connect as SYS DBA with CONNECT / AS SYSDBA command.
+3.Shutdown the database instance with SHUTDOWN command.
+4.Rename or/and move the datafiles at operating system level.
+5.Start Oracle database in mount state with STARTUP MOUNT command.
+6.Modify the name or location of datafiles in Oracle data dictionary using following command syntax: 
+ALTER DATABASE RENAME FILE ‘<fully qualified path to original data file name>’ TO ‘<new or original fully qualified path to new or original data file name>’;
+
+7.Open Oracle database instance completely with ALTER DATABASE OPEN command.
+If the datafiles that need to be changed or moved do not belong to SYSTEM tablespaces, and do not contain active rollback segments or temporary segments, there is another workaround that does not require database instance to be shutdown. Instead, only the particular tablespace that contains the date files is taken offline.
+
+1.Login to SQLPlus.
+2.Connect as SYS DBA with CONNECT / AS SYSDBA command.
+3.Make offline the affected tablespace with ALTER TABLESPACE <tablespace name> OFFLINE; command.
+4.Modify the name or location of datafiles in Oracle data dictionary using following command syntax: 
+ALTER TABLESPACE <tablespace name> RENAME DATAFILE ‘<fully qualified path to original data file name>’ TO ‘<new or original fully qualified path to new or original data file name>’;
+
+5.Bring the tablespace online again with ALTER TABLESPACE alter tablespace <tablespace name> ONLINE; command.
+
+
+
+col name format a55   
+select name,creation_time from v$datafile order by 2
+
+-rw-r----- 1 ora112 dba 1001M Jul  2 16:46 INDX_LAST_EVENT_GCDT1_5.dbf
+/opt/oracle/11.2.0/dbs[OTADB2]:pwd
+/opt/oracle/11.2.0/dbs
+
+
+
+cp -i /opt/oracle/11.2.0/dbs/INDX_LAST_EVENT_GCDT1_5.dbf /database/OTADB2/index/INDX_LAST_EVENT_GCDT1_6.dbf
+
+ALTER DATABASE RENAME FILE '/opt/oracle/11.2.0/dbs/INDX_LAST_EVENT_GCDT1_5.dbf' TO '/database/OTADB2/index/INDX_LAST_EVENT_GCDT1_6.dbf';
+
+rollback
+
+ALTER DATABASE RENAME FILE  '/database/OTADB2/index/INDX_LAST_EVENT_GCDT1_6.dbf' TO '/opt/oracle/11.2.0/dbs/INDX_LAST_EVENT_GCDT1_5.dbf';
+
+
+
+-rw-r----- 1 ora112 dba  522158080 Jul  5 00:27 INDX_JAVA_RCA_00.dbf
+-rw-r----- 1 ora112 dba 1676861440 Jul  5 00:27 INDX_LAST_EVENT_GCDT_0.dbf
+-rw-r----- 1 ora112 dba 1676861440 Jul  5 00:27 INDX_LAST_EVENT_GCDT1_1.dbf
+-rw-r----- 1 ora112 dba 1677729792 Jul  5 00:27 INDX_LAST_EVENT_GCDT1_2.dbf
+-rw-r----- 1 ora112 dba  524296192 Jul  5 00:26 INDX_LAST_EVENT_GCDT1_3.dbf
+-rw-r----- 1 ora112 dba 1048584192 Jul  5 00:27 INDX_LAST_EVENT_GCDT1_4.dbf
+-rw-r----- 1 ora112 dba 1048584192 Jul  5 00:27 INDX_LAST_EVENT_GCDT1_5.dbf
+-rw-r----- 1 ora112 dba 2021220352 Jul  5 00:27 INDX_LAST_EVENT_GDM_0.dbf
+
+-rw-r----- 1 ora112 dba  522158080 Jul  5 01:38 INDX_JAVA_RCA_00.dbf
+-rw-r----- 1 ora112 dba 1676861440 Jul  5 01:38 INDX_LAST_EVENT_GCDT_0.dbf
+-rw-r----- 1 ora112 dba 1676861440 Jul  5 01:38 INDX_LAST_EVENT_GCDT1_1.dbf
+-rw-r----- 1 ora112 dba 1677729792 Jul  5 01:38 INDX_LAST_EVENT_GCDT1_2.dbf
+-rw-r----- 1 ora112 dba  524296192 Jul  5 01:38 INDX_LAST_EVENT_GCDT1_3.dbf
+-rw-r----- 1 ora112 dba 1048584192 Jul  5 01:38 INDX_LAST_EVENT_GCDT1_4.dbf
+-rw-r----- 1 ora112 dba 1048584192 Jul  5 01:38 INDX_LAST_EVENT_GCDT1_5.dbf
+-rw-r----- 1 ora112 dba 1048584192 Jul  5 01:39 INDX_LAST_EVENT_GCDT1_6.dbf
+-rw-r----- 1 ora112 dba 2021220352 Jul  5 01:38 INDX_LAST_EVENT_GDM_0.dbf
+
+/database/OTADB2/index/INDX_LAST_EVENT_GCDT1_6.dbf
+19-MAR-13
+
+/database/OTADB2/index/INDX_LAST_EVENT_GCDT1_5.dbf
+19-MAR-13

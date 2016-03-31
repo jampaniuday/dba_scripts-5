@@ -1,0 +1,68 @@
+--------------------------
+Compile Program
+--------------------------
+javac ClientSocketTest.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ClientSocketTest <host name>
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+$ java  ClientSocketTest angel.isrv.com
+
+-------------------------
+Server Socket Information
+-------------------------
+serverSocket         : Socket[addr=angel.isrv.com/12.4.234.11,port=13,localport=1321]
+Keep Alive           : false
+Receive Buffer Size  : 8192
+Send Buffer Size     : 8192
+Is Socket Bound?     : true
+Is Socket Connected? : true
+Is Socket Closed?    : false
+So Timeout           : 0
+So Linger            : -1
+TCP No Delay         : false
+Traffic Class        : 0
+Socket Channel       : null
+Reuse Address?       : false
+
+
+---------------------------
+Remote (Server) Information
+---------------------------
+InetAddress - (Structure) : angel.isrv.com/12.4.234.11
+Socket Address - (Remote) : angel.isrv.com/12.4.234.11:13
+Canonical Name            : 12.4.234.11
+Host Name                 : angel.isrv.com
+Host Address              : 12.4.234.11
+Port                      : 13
+RAW IP Address - (byte[]) : 12.4.234.11
+Is Loopback Address?      : false
+Is Multicast Address?     : false
+
+
+--------------------------
+Local (Client) Information
+--------------------------
+InetAddress - (Structure) : /192.168.1.103
+Socket Address - (Local)  : /192.168.1.103:1321
+Canonical Name            : cartman.iDevelopment.info
+Host Name                 : cartman.iDevelopment.info
+Host Address              : 192.168.1.103
+Port                      : 1321
+RAW IP Address - (byte[]) : 192.168.1.103
+Is Loopback Address?      : false
+Is Multicast Address?     : false
+
+
+Remote Server Time : Wed Mar 12 22:38:18 2003
+

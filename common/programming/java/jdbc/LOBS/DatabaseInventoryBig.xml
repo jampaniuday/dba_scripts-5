@@ -1,0 +1,883 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE DatabaseInventory>
+
+<DatabaseInventory>
+
+  <DatabaseName>
+    <GlobalDatabaseName>production.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>production</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <DatabaseAttributes Type="Production" Version="9i"/>
+    <Comments>
+      The following database should be considered the most stable for
+      up-to-date data. The backup strategy includes running the database
+      in Archive Log Mode and performing nightly backups. All new accounts
+      need to be approved by the DBA Group before being created.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>development.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>development</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <DatabaseAttributes Type="Development" Version="9i"/>
+    <Comments>
+      The following database should contain all hosted applications. Production
+      data will be exported on a weekly basis to ensure all development environments
+      have stable and current data.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing1.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing1</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host more than half of the testing
+      for our hosting environment.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing2.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing2</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the HR 
+      department only.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing3.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing3</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the Finance 
+      department only.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing4.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing4</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the HQ
+      department only.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing5.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing5</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the Engineering
+      department only.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing6.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing6</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the IT
+      department only.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing7.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing7</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the Marketing
+      department only.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing8.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing8</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the Purchasing
+      department only.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing9.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing9</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the Accounts Payable
+      department only.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing10.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing10</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing OEM.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing11.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing11</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing XMLDB.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing12.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing12</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for tuning.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing13.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing13</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for UAT.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing14.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing14</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for additional monitoring.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing15.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing15</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing upgrades.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing16.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing16</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for certification tesing.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing17.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing17</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing18.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing18</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing19.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing19</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing20.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing20</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing21.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing21</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing22.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing22</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing23.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing23</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing24.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing24</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing25.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing25</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing26.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing26</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing27.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing27</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing28.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing28</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing29.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing29</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing30.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing30</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing31.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing31</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing32.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing32</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing33.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing33</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing34.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing34</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing35.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing35</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing36.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing36</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing37.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing37</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing38.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing38</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing39.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing39</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing40.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing40</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing41.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing41</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing42.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing42</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing43.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing43</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing44.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing44</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing45.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing45</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing46.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing46</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing47.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing47</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing48.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing48</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing49.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing49</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing50.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing50</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing51.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing51</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing52.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing52</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing53.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing53</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing54.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing54</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing55.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing55</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing56.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing56</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing57.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing57</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing58.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing58</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing59.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing59</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the DBA
+      department for testing of all ERP application modules.
+    </Comments>
+  </DatabaseName>
+
+  <DatabaseName>
+    <GlobalDatabaseName>testing60.iDevelopment.info</GlobalDatabaseName>
+    <OracleSID>testing60</OracleSID>
+    <DatabaseDomain>iDevelopment.info</DatabaseDomain>
+    <Administrator EmailAlias="jhunter" Extension="6007">Jeffrey Hunter</Administrator>
+    <Administrator EmailAlias="mhunter" Extension="6008">Melody Hunter</Administrator>
+    <Administrator EmailAlias="ahunter">Alex Hunter</Administrator>
+    <DatabaseAttributes Type="Testing" Version="9i"/>
+    <Comments>
+      The following database will host a testing database to be used by the Sales Force Automation
+      department.
+    </Comments>
+  </DatabaseName>
+
+</DatabaseInventory>

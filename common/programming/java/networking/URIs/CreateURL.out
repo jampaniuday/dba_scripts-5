@@ -1,0 +1,22 @@
+--------------------------
+Compile Program
+--------------------------
+javac CreateURL.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CreateURL
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+% java CreateURL
+
+Component Example   : http://www.idevelopment.info:80index.shtml
+Full String Example : http://www.idevelopment.info:80/index.shtml

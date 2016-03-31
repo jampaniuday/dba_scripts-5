@@ -1,0 +1,28 @@
+select machine,program, count(1) from gv$session where machine not in 
+('apappga01','apappga02','pafesg1cl.eri','camtgsg1') group by machine,program
+order by 1,2;
+
+
+select username,machine,program, count(1) from gv$session where machine not in 
+('apappga01','apappga02','pafesg1cl.eri','camtgsg1') group by username,machine,program
+order by 1,2;
+
+
+USERNAME   MACHINE                      PROGRAM                                            COUNT(1)
+---------- ---------------------------- ------------------------------------------------ ----------
+CPPGA      bat1feadm1                   JDBC Thin Client                                         11
+CPPGA      bat1feadm2                   JDBC Thin Client                                         11
+CPPGA      bat1feadm3                   JDBC Thin Client                                         11
+CPPGA      bat1feadm4                   JDBC Thin Client                                         11
+EPPGA      tmp-altdpp-srv.panama.local  JDBC Thin Client                                          2
+EPPGA      tmp-altdpp-srv.panama.local  oracle@tmp-altdpp-srv.panama.local (TNS V1-V3)           39
+EPPGA      tmp-crmapp-n2                JDBC Thin Client                                          1
+EPPGA      tmp-crmapp-n2                                                                          1
+TMPPPGA    Z-collector                  JDBC Thin Client                                          6
+TMPPPGA    bat1feadm1                   JDBC Thin Client                                          1
+TMPPPGA    bat1feadm2                   JDBC Thin Client                                          1
+TMPPPGA    bat1feadm3                   JDBC Thin Client                                          1
+TMPPPGA    bat1feadm4                   JDBC Thin Client                                          1
+TMPPPGA    gus-1-pa                     JDBC Thin Client                                          9
+TMPPPGA    gus-2-pa                     JDBC Thin Client                                          8
+TMPPPGA    sclpano                      oracle@sclpano (TNS V1-V3)                                7

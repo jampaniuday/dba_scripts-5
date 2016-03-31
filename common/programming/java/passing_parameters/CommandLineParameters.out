@@ -1,0 +1,20 @@
+--------------------------
+Compile Program
+--------------------------
+javac CommandLineParameters.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CommandLineParameters p1 p_blah p3
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Received the correct first parameter "p1".
+You did not pass the second parameter as "p2".
+Received the correct third parameter "p3".

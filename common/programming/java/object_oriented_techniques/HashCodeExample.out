@@ -1,0 +1,49 @@
+--------------------------
+Compile Program
+--------------------------
+javac HashCodeExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java HashCodeExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Running several hashCode() implementations
+==========================================
+
+Default hashCode() method        [Object]                 : 13288040
+Default hashCode() method        [HashCodeExample]        : 27355241
+Default hashCode() method        [NoSuchElementException] : 24052850
+Classes that Override hashCode() [Integer]                : 1
+Negative Hash Codes              [Color]                  : -12285748
+Override hashCode() method       [HashCodeExample2]       : 100
+Call default hashCode() method   [HashCodeExample2]       : 10039797
+
+HashMap Example Method
+======================
+
+11111 is mapped to Jay
+55555 not mapped.
+
+Testing Override hashCode() Method
+==================================
+
+Hash code for william  = 83581639
+Hash code for bill     = 83581639
+Silly
+Silly
+
+Running hashCode() and equals() Override
+========================================
+
+2036856011
+2036856011
+Yes
+

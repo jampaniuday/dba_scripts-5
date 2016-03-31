@@ -1,0 +1,33 @@
+select text
+from all_source
+where type = 'PACKAGE'
+AND OWNER = 'PPCS'
+
+select text
+from all_source
+where type = 'PROCEDURE'
+AND OWNER = 'PPCS'
+
+SELECT DISTINCT TYPE 
+from all_source
+where OWNER = 'PPCS'
+
+
+
+select text
+from all_source
+where NAME LIKE '%PPGA%'
+
+and type = 'PACKAGE BODY'
+
+and name = 'PARTICIONES.PURGA_PARTICIONES'
+ORDER BY LINE;
+
+SQL> DESC ALL_SOURCE;
+ Name                                                                     Null?    Type
+ ------------------------------------------------------------------------ -------- -------------------------------------------------
+ OWNER                                                                             VARCHAR2(30)
+ NAME                                                                              VARCHAR2(30)
+ TYPE                                                                              VARCHAR2(12)
+ LINE                                                                              NUMBER
+ TEXT                                                                              VARCHAR2(4000)

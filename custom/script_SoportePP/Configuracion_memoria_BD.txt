@@ -1,0 +1,60 @@
+SQL> show parameter target
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+archive_lag_target                   integer     0
+db_flashback_retention_target        integer     1440
+fast_start_io_target                 integer     0
+fast_start_mttr_target               integer     300
+pga_aggregate_target                 big integer 56M
+sga_target                           big integer 452M
+ 
+
+
+SQL> show parameter sga
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+lock_sga                             boolean     FALSE
+pre_page_sga                         boolean     FALSE
+sga_max_size                         big integer 452M
+sga_target                           big integer 452M
+
+
+---maximo valor del pga en la historia de la bd.
+
+select value from v$pgastat where name='maximum PGA allocated';
+
+     VALUE
+----------
+ 449745920   428 MB
+
+
+-- formula como se calcula la memoria global en oracle.
+
+memory_target = sga_target + max(pga_aggregate_target, maximum PGA allocated)
+
+-- desglozando
+
+memory_target = 452MB + max(56M,428M)
+
+memory_target = 880MB
+
+
+-- SI tiene los parametros asi se cambiarian. pueden ser iguales o max un poco mas alto
+
+ALTER SYSTEM SET MEMORY_TARGET = nM SCOPE = SPFILE;
+ALTER SYSTEM SET MEMORY_MAX_TARGET = nM SCOPE = SPFILE;
+
+Parametros Memoria lock
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+pga_aggregate_target                 big integer 56M
+
+
+sga_max_size                         big integer 452M
+sga_target                           big integer 452M
+
+
+distributed_lock_timeout             integer     60

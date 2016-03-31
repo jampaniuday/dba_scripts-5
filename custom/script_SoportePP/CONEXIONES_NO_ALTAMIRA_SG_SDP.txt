@@ -1,0 +1,8 @@
+COL MACHINE FORMAT A30
+COL OSUSER FORMAT A20
+
+select machine,osuser,program,username from gv$session where username is not null and upper(machine) not like '%PAN%' group by machine,osuser,program,username order by 1,2,3,4
+
+
+select machine,osuser,program,username from gv$session where username is not null and upper(machine) not like '%CORIMTY%' and upper(machine) not like '%APAAPPL%' group by machine,osuser,program,username order by 1,2,3,4
+

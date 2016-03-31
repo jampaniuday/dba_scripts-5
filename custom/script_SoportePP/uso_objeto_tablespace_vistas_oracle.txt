@@ -1,0 +1,197 @@
+SELECT * FROM ALL_OBJECTS WHERE OBJECT_NAME LIKE 'DBA_HIST%';
+
+SELECT * FROM SYS.DBA_HIST_SEG_STAT;
+
+SELECT * FROM v$segment_statistics 
+
+
+
+SELECT DISTINCT TS#
+FROM v$segment_statistics
+WHERE TABLESPACE_NAME = 'PMSV_DATA';
+
+
+SELECT trunc(b.BEGIN_INTERVAL_TIME) FECHA,
+--TO_CHAR(SUM(a.SPACE_USED_TOTAL)/1024/1024,'999,999,990.00') TOTAL_USADO,
+ TO_CHAR(SUM(a.SPACE_USED_DELTA)/1024/1024,'999,999,990.00') TOTAL_DUSADO,
+--TO_CHAR(SUM(a.SPACE_ALLOCATED_TOTAL)/1024/1024,'999,999,990.00') TOTAL_ASIGNADO,
+ TO_CHAR(SUM(a.SPACE_ALLOCATED_DELTA)/1024/1024,'999,999,990.00') TOTAL_DASIGNADO
+FROM   DBA_HIST_SEG_STAT a,  dba_hist_snapshot b
+WHERE a.TS# = 6
+---AND A.OBJ# = 14411
+and a.snap_id = b.snap_id
+AND A.DBID = B.DBID
+AND A.INSTANCE_NUMBER = B.INSTANCE_NUMBER
+group by trunc(b.BEGIN_INTERVAL_TIME)
+order by 1
+
+SELECT TS#, OBJ#, DATAOBJ# FROM 
+v$segment_statistics WHERE 
+tablespace_name = 'PMSV_DATA'
+
+
+DESC dba_hist_snapshot ;
+ Name                                                                     Null?    Type
+ ------------------------------------------------------------------------ -------- -------------------------------------------------
+ SNAP_ID                                                                  NOT NULL NUMBER
+ DBID                                                                     NOT NULL NUMBER
+ INSTANCE_NUMBER                                                          NOT NULL NUMBER
+ STARTUP_TIME                                                             NOT NULL TIMESTAMP(3)
+ BEGIN_INTERVAL_TIME                                                      NOT NULL TIMESTAMP(3)
+ END_INTERVAL_TIME                                                        NOT NULL TIMESTAMP(3)
+ FLUSH_ELAPSED                                                                     INTERVAL DAY(5) TO SECOND(1)
+ SNAP_LEVEL                                                                        NUMBER
+ ERROR_COUNT                                                                       NUMBER
+ SNAP_FLAG                                                                         NUMBER
+ SNAP_TIMEZONE                                                                     INTERVAL DAY(0) TO SECOND(0)
+
+
+DESC v$segment_statistics 
+
+ Name                                                                     Null?    Type
+ ------------------------------------------------------------------------ -------- -------------------------------------------------
+ OWNER                                                                             VARCHAR2(30)
+ OBJECT_NAME                                                                       VARCHAR2(30)
+ SUBOBJECT_NAME                                                                    VARCHAR2(30)
+ TABLESPACE_NAME                                                                   VARCHAR2(30)
+ TS#                                                                               NUMBER
+ OBJ#                                                                              NUMBER
+ DATAOBJ#                                                                          NUMBER
+ OBJECT_TYPE                                                                       VARCHAR2(18)
+ STATISTIC_NAME                                                                    VARCHAR2(64)
+ STATISTIC#                                                                        NUMBER
+ VALUE                                                                             NUMBER
+
+DESC SYS.DBA_HIST_SEG_STAT
+
+SNAP_ID                                                                  NOT NULL NUMBER
+ DBID                                                                     NOT NULL NUMBER
+ INSTANCE_NUMBER                                                          NOT NULL NUMBER
+ TS#                                                                      NOT NULL NUMBER
+ OBJ#                                                                     NOT NULL NUMBER
+ DATAOBJ#                                                                 NOT NULL NUMBER
+ LOGICAL_READS_TOTAL                                                               NUMBER
+ LOGICAL_READS_DELTA                                                               NUMBER
+ BUFFER_BUSY_WAITS_TOTAL                                                           NUMBER
+ BUFFER_BUSY_WAITS_DELTA                                                           NUMBER
+ DB_BLOCK_CHANGES_TOTAL                                                            NUMBER
+ DB_BLOCK_CHANGES_DELTA                                                            NUMBER
+ PHYSICAL_READS_TOTAL                                                              NUMBER
+ PHYSICAL_READS_DELTA                                                              NUMBER
+ PHYSICAL_WRITES_TOTAL                                                             NUMBER
+ PHYSICAL_WRITES_DELTA                                                             NUMBER
+ PHYSICAL_READS_DIRECT_TOTAL                                                       NUMBER
+ PHYSICAL_READS_DIRECT_DELTA                                                       NUMBER
+ PHYSICAL_WRITES_DIRECT_TOTAL                                                      NUMBER
+ PHYSICAL_WRITES_DIRECT_DELTA                                                      NUMBER
+ ITL_WAITS_TOTAL                                                                   NUMBER
+ ITL_WAITS_DELTA                                                                   NUMBER
+ ROW_LOCK_WAITS_TOTAL                                                              NUMBER
+ ROW_LOCK_WAITS_DELTA                                                              NUMBER
+ GC_CR_BLOCKS_SERVED_TOTAL                                                         NUMBER
+ GC_CR_BLOCKS_SERVED_DELTA                                                         NUMBER
+ GC_CU_BLOCKS_SERVED_TOTAL                                                         NUMBER
+ GC_CU_BLOCKS_SERVED_DELTA                                                         NUMBER
+ GC_BUFFER_BUSY_TOTAL                                                              NUMBER
+ GC_BUFFER_BUSY_DELTA                                                              NUMBER
+ GC_CR_BLOCKS_RECEIVED_TOTAL                                                       NUMBER
+ GC_CR_BLOCKS_RECEIVED_DELTA                                                       NUMBER
+ GC_CU_BLOCKS_RECEIVED_TOTAL                                                       NUMBER
+ GC_CU_BLOCKS_RECEIVED_DELTA                                                       NUMBER
+ SPACE_USED_TOTAL                                                                  NUMBER
+ SPACE_USED_DELTA                                                                  NUMBER
+ SPACE_ALLOCATED_TOTAL                                                             NUMBER
+ SPACE_ALLOCATED_DELTA                                                             NUMBER
+ TABLE_SCANS_TOTAL                                                                 NUMBER
+ TABLE_SCANS_DELTA                                                                 NUMBER
+ CHAIN_ROW_EXCESS_TOTAL                                                            NUMBER
+ CHAIN_ROW_EXCESS_DELTA                                                            NUMBER
+ PHYSICAL_READ_REQUESTS_TOTAL                                                      NUMBER
+ PHYSICAL_READ_REQUESTS_DELTA                                                      NUMBER
+ PHYSICAL_WRITE_REQUESTS_TOTAL                                                     NUMBER
+ PHYSICAL_WRITE_REQUESTS_DELTA                                                     NUMBER
+ OPTIMIZED_PHYSICAL_READS_TOTAL                                                    NUMBER
+ OPTIMIZED_PHYSICAL_READS_DELTA                                                    NUMBER
+
+------------------
+
+OPCION 2
+
+
+select 
+      decode(partition_name, null, segment_name, segment_name || ':' || partition_name) objectname,
+       segment_type object_type,
+       round(bytes/1024/1024,2) Mb ,
+       initial_extent initial_ex,
+       next_extent next_ex ,
+       extents ,
+       bytes ttlsize, Owner, max_extents 
+from   dba_segments
+Where  tablespace_name='PMSV_DATA'
+ORDER BY 3 DESC
+
+120
+
+
+SELECT * FROM ALL_OBJECTS
+WHERE OBJECT_NAME = 'PK_TRANSACTION_PROMOTIONS'
+14411
+
+
+select trunc(timepoint) FECHA, 
+TO_CHAR((SPACE_USage)/1024/1024,'999,999,990.00') TOTAL_DUSADO, 
+TO_CHAR((SPACE_ALLOC)/1024/1024,'999,999,990.00') TOTAL_DASIGNADO,
+QUALITY from 
+table(dbms_space.OBJECT_GROWTH_TREND 
+('PMSV_SCHEMA','PK_TRANSACTION_PROMOTIONS','INDEX'))
+
+
+
+SELECT trunc(b.BEGIN_INTERVAL_TIME) FECHA,
+--TO_CHAR(SUM(a.SPACE_USED_TOTAL)/1024/1024,'999,999,990.00') TOTAL_USADO,
+ TO_CHAR(SUM(a.SPACE_USED_DELTA)/1024/1024,'999,999,990.00') TOTAL_DUSADO,
+--TO_CHAR(SUM(a.SPACE_ALLOCATED_TOTAL)/1024/1024,'999,999,990.00') TOTAL_ASIGNADO,
+ TO_CHAR(SUM(a.SPACE_ALLOCATED_DELTA)/1024/1024,'999,999,990.00') TOTAL_DASIGNADO
+FROM   DBA_HIST_SEG_STAT a,  dba_hist_snapshot b
+WHERE a.TS# = 6
+AND A.OBJ# = 14411
+and a.snap_id = b.snap_id
+AND A.DBID = B.DBID
+AND A.INSTANCE_NUMBER = B.INSTANCE_NUMBER
+group by trunc(b.BEGIN_INTERVAL_TIME)
+order by 1
+
+
+------- crecimiento ppcs
+
+select 
+      decode(partition_name, null, segment_name, segment_name || ':' || partition_name) objectname,
+       segment_type object_type,
+       round(bytes/1024/1024,2) Mb ,
+       initial_extent initial_ex,
+       next_extent next_ex ,
+       extents ,
+       bytes ttlsize, Owner, max_extents 
+from   dba_segments
+Where  owner='PPCS'
+ORDER BY 3 DESC
+
+SELECT TS#,OBJ# FROM v$segment_statistics  WHERE OWNER= 'PPCS' GROUP BY TS#,OBJ#
+
+col total_dusado format a30
+col total_dasignado format a30
+
+SELECT trunc(b.BEGIN_INTERVAL_TIME) FECHA,
+--TO_CHAR(SUM(a.SPACE_USED_TOTAL)/1024/1024,'999,999,990.00') TOTAL_USADO,
+ TO_CHAR(SUM(a.SPACE_USED_DELTA)/1024/1024,'999,999,990.00') TOTAL_DUSADO,
+--TO_CHAR(SUM(a.SPACE_ALLOCATED_TOTAL)/1024/1024,'999,999,990.00') TOTAL_ASIGNADO,
+ TO_CHAR(SUM(a.SPACE_ALLOCATED_DELTA)/1024/1024,'999,999,990.00') TOTAL_DASIGNADO
+FROM   DBA_HIST_SEG_STAT a,  dba_hist_snapshot b
+WHERE 
+--a.TS# = 17
+--AND A.OBJ# = 262545
+a.snap_id = b.snap_id
+AND A.DBID = B.DBID
+AND A.INSTANCE_NUMBER = B.INSTANCE_NUMBER
+group by trunc(b.BEGIN_INTERVAL_TIME)
+order by 1

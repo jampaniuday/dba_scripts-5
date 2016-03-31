@@ -1,0 +1,87 @@
+
+Del sistema
+----------------
+select client_name, job_status, job_start_time, job_duration from dba_autotask_job_history order by job_start_time;
+select client_name, status, window_group from dba_autotask_client;
+
+Del JOb
+---------------
+
+SELECT * FROM DBA_SCHEDULER_WINDOWS;
+select * from dba_scheduler_window_groups;
+select * from dba_scheduler_wingroup_members order by 1,2;
+select window_name, repeat_interval, duration from dba_scheduler_windows where window_name like 'WEEK%';
+
+
+select job_name,state from dba_scheduler_jobs;
+
+
+--------------------------------
+
+Ejemplos
+
+select window_name, repeat_interval, duration from dba_scheduler_windows where window_name like 'WEEK%';
+WINDOW_NAME          REPEAT_INTERVAL                                                            DURATION
+-------------------- -------------------------------------------------------------------------- --------------------
+WEEKNIGHT_WINDOW     freq=daily;byday=MON,TUE,WED,THU,FRI;byhour=22;byminute=0; bysecond=0      +000 08:00:00
+WEEKEND_WINDOW       freq=daily;byday=SAT;byhour=0;byminute=0;bysecond=0                        +002 00:00:00
+
+EXECUTE DBMS_SCHEDULER.SET_ATTRIBUTE('WEEKNIGHT_WINDOW','repeat_interval','freq=daily;byday=MON,TUE,WED,THU,FRI;byhour=05;byminute=0; bysecond=0');
+EXECUTE DBMS_SCHEDULER.SET_ATTRIBUTE('WEEKEND_WINDOW','repeat_interval',' freq=daily;byday=SAT;byhour=07;byminute=0;bysecond=0');
+
+
+BEGIN
+dbms_scheduler.disable(
+    name  => 'SATURDAY_WINDOW');
+dbms_scheduler.set_attribute(
+    name      => 'SATURDAY_WINDOW',
+    attribute => 'DURATION',
+    value     => numtodsinterval(4, 'hour'));
+dbms_scheduler.enable(
+    name => 'SATURDAY_WINDOW');
+END;
+
+
+
+--------------------------------
+
+propuesta
+
+BEGIN
+exec dbms_scheduler.disable(name  => 'WEEKNIGHT_WINDOW');
+dbms_scheduler.set_attribute(name      => 'WEEKNIGHT_WINDOW', attribute => 'DURATION', value     => numtodsinterval(6, 'hour'));
+DBMS_SCHEDULER.SET_ATTRIBUTE('WEEKNIGHT_WINDOW','repeat_interval','freq=daily;byday=MON,TUE,WED,THU,FRI;byhour=00;byminute=5; bysecond=0');
+exec dbms_scheduler.enable(name => 'WEEKNIGHT_WINDOW');
+END;
+/
+
+
+-----------------------------------------------
+
+
+
+
+PPGA SV
+
+WINDOW_NAME
+------------------------------
+REPEAT_INTERVAL
+------------------------------------------------------------------------------------------------------------------------------------
+DURATION
+---------------------------------------------------------------------------
+WEEKNIGHT_WINDOW
+freq=daily;byday=MON,TUE,WED,THU,FRI;byhour=22;byminute=0; bysecond=0
++000 08:00:00
+
+
+
+WINDOW_NAME
+------------------------------
+REPEAT_INTERVAL
+------------------------------------------------------------------------------------------------------------------------------------
+DURATION
+---------------------------------------------------------------------------
+WEEKNIGHT_WINDOW
+freq=daily;byday=MON,TUE,WED,THU,FRI;byhour=00;byminute=5; bysecond=0
++000 06:00:00
+

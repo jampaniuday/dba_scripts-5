@@ -1,0 +1,112 @@
+#!/usr/local/bin/perl
+
+# ------------------------------------------------------------
+# File       :   serverd
+# Programmer :   Jeff Hunter
+# Date       :   4/1/96
+# Purpose    :   A small deamon to act as a server for a simple 
+#                client to demonstrate IPC programming under Perl. 
+#                The process will open a socket on port 2345, 
+#                (Unless another is specified as its first arguement). 
+#                It will then listen on that port for an 
+#                incomming connect from a client. The server will 
+#                then fork a process and open a socket for communication
+#                to the client. The server will receive data via
+#                this socket and print the information back to 
+#                the client. The child process will remain up until
+#                the client disconnects.
+#
+# Note       :   If running either "client" or "server" gives 
+#                you this error:
+#
+#                     socket error: Protocol not supported
+#
+#                Then it is likely that you are using a Solaris
+#                machine, and that you need to make a slight
+#                modification to both the "client" and the 
+#                "server" script. TCP/IP sockets on Solaris
+#                have slightly different values than on other 
+#                platforms.
+#
+#                       #######################
+#                       # SOLARIS socket values 
+#                       $AF_INET = 2; 
+#                       $SOCK_STREAM = 2;
+#
+#                       #########################################
+#                       # WINDOWS (and most others) socket values 
+#                       # $AF_INET = 2; 
+#                       # $SOCK_STREAM = 1;
+#
+#                Simply un-comment the values you want to use.
+#
+# Parameters :   1. Port Number (optional)
+# ------------------------------------------------------------
+
+unless (fork) {     # this is the child
+  unless(fork)  {   # this is the child's child
+    sleep 1 until getppid == 1;
+
+    ($port) = @ARGV;
+    $port = 2345 unless $port;
+
+    #######################
+    # SOLARIS socket values
+    $AF_INET = 2;
+    $SOCK_STREAM = 2;
+
+    #########################################
+    # WINDOWS (and most others) socket values
+    # $AF_INET = 2;
+    # $SOCK_STREAM = 1;
+
+
+    $sockaddr = 'S n a4 x8';
+
+    ($name, $aliases, $proto) = getprotobyname('tcp');
+    if ($port !~ /^\d+$/) {
+      ($name, $aliases, $port) = getservbyport($port, 'tcp');
+    }
+
+    # *** print "Port = $port\n";
+
+    $this = pack($sockaddr, $AF_INET, $port, "\0\0\0\0");
+
+    select(NS); $| = 1; select(stdout);
+
+    socket(S, $AF_INET, $SOCK_STREAM, $proto) || die "socket: $!";
+    bind(S,$this) || die "bind: $!";
+    listen(S,5) || die "connect: $!";
+
+    select(S); $| = 1; select(stdout);
+
+    $con = 0;
+    # *** print "Listening for connection 1....\n";
+    for(;;) {
+      ($addr = accept(NS,S)) || die $!;
+
+      $con++;
+      if (($child[$con] = fork()) == 0) {
+	# *** print "accept ok\n";
+
+	($af,$port,$inetaddr) = unpack($sockaddr,$addr);
+	@inetaddr = unpack('C4',$inetaddr);
+	# *** print "$con: $af $port @inetaddr\n";
+
+	while (<NS>) {
+            print NS "SERVER --> $con: $_";  # Talk back to client
+	    # *** print "$con: $_";
+	}
+	close(NS);
+	exit;
+      }
+      close(NS);
+
+      # *** printf("Listening for connection %d\n",$con+1);
+    }
+    exit 0;
+  } # second fork
+  # first child exists quickly
+  exit 0;
+}  # first fork
+wait; # parent reaps first child quickly

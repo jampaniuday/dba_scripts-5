@@ -1,0 +1,124 @@
+
+#!/bin/sh
+
+#
+# $Header: unixenv.pp 3090000.1 95/09/05 14:55:48 wyim Generic<base> $ Copyr (c) 1994 Oracle
+#
+# unixenv	Report details of the current unix environment
+#
+# 		This is intended to be a portable shell script to dump out
+#		the main Unix configuration details for a given platform.
+#		A number of 'standard' commands are tried to gather the 
+#		relevant information. The script is not guaranteed to 
+# 		work.
+#
+echo " "
+echo "Machine Environment:"
+echo "--------------------"
+echo " "
+#
+# Which echo to use ?
+#
+if `echo -n| grep n >/dev/null 2>&1` ; then
+        ECHO="echo"
+        NC='\c'
+else
+        ECHO="echo -n"
+        NC=""
+fi;
+#
+(
+init()
+{ 
+  PREV=1;
+  echo $1
+}
+tryit()
+{
+  if [ $PREV -ne 0 ] ; then
+   if $* ;  then
+	PREV=$?
+	echo "[From $*]"
+   fi;
+  fi;
+}
+echo " "
+echo "User:              `id`"
+echo "Current Directory: `pwd`"
+init "Machine: {"
+	tryit uname -X
+	tryit uname -a
+	tryit uname
+	init " "
+	tryit hostname
+echo "}"
+init "Ulimit: {"
+	(ulimit -a) 
+	PREV=$?
+	tryit  csh -f -c limit 
+	if [ $PREV -ne 0 ]; then
+		(ulimit)
+	fi;
+	echo "}"
+init "Swap: {"
+	tryit swapinfo -l
+	tryit /etc/swapinfo -l
+	tryit swap -l
+	tryit /etc/swap -l
+	tryit /etc/pstat -s
+	tryit sar -r 1 1
+	tryit vmstat
+	echo "}"
+init "Disk Mounts: {"
+	tryit mount
+	tryit /etc/mount
+	echo "}"
+init "Disk Free: {"
+
+	tryit df -k	
+
+	tryit df 
+	echo "}"
+init "Environment: {"
+	env | sort
+echo "}"
+init "System Tables: {"
+	tryit sar -v 1 1
+	tryit /etc/pstat -T
+echo "}"
+init "Semaphores: {"
+	tryit ipcs -sa
+	init " "
+	tryit /etc/sysdef | grep SEM
+echo "}"
+init "Shared Mem: {"
+	tryit ipcs -ma
+	init " "
+	tryit /etc/sysdef | grep SHM
+echo "}"
+OT="x"
+if [ -r /var/opt/oracle/oratab ]; then
+	OT=/var/opt/oracle/oratab
+else if [ -r /etc/oratab ]; then
+	OT=/etc/oratab
+fi;
+fi;
+if [ "$OT" != "x" ]; then
+	init "$OT: {"
+	grep -v "^#" $OT
+fi;
+echo "}"
+$ECHO "Tracing: { $NC"
+	for i in dbx xdb sdb adb trace truss prss crash kcrash debug
+	do
+	    ( $i ) </dev/null 2>&1 1>/dev/null |grep -i 'not found' > /dev/null
+	    if [ $? -ne 0 ] ; then 
+		$ECHO "$i $NC"
+	    fi
+	done
+echo "}"
+echo " "
+) 2>/dev/null | awk  'BEGIN { pfx="" } 
+ 	  /}$/  { pfx="" } 
+ 		{ printf "%s%s\n",pfx,$0 }
+  	  /\{$/ { pfx="	" }'

@@ -1,0 +1,8 @@
+busca que hace el proceso
+strace -c -p 29883
+
+busca el cpu de procesos llamados conbol
+
+ps -eo pcpu,comm | grep conbol
+
+

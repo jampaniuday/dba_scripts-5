@@ -1,0 +1,62 @@
+sp_get_dist_last_trans
+
+
+
+select text from user_source where type ='PROCEDURE' and name='SP_GET_DIST_LAST_TRANS' order by line
+
+select * from v$sql where upper(SQL_TEXT) like '%SP_GET_DIST_LAST%';
+
+
+select * from v_$sql where upper(SQL_TEXT) like '%SP_GET_DIST_LAST%';
+
+
+
+select SQL_TEXT,ADDRESS,HASH_VALUE from v$sql where upper(SQL_TEXT) like '%SP_GET_DIST_LAST%';
+
+SELECT * FROM V$SQLAREA WHERE ADDRESS='00000000B20CDAB8' AND HASH_VALUE=839695016;
+
+
+SELECT * FROM V$SQLTEXT_WITH_NEWLINES WHERE ADDRESS='00000000B20CDAB8' AND HASH_VALUE=839695016;
+
+00000000B20CDAB8
+
+select * from v$sqltext WHERE ADDRESS='00000000B20CDAB8' AND HASH_VALUE=839695016;
+
+
+BEGIN sp_get_dist_last_trans(:1,:2,:3,:4,:5,:6,:7,:8,:9); END;
+
+
+
+SELECT NAME,POSITION,DATATYPE_STRING,VALUE_STRING FROM v$sql_bind_capture WHERE sql_id='ca8n1mwt0tfp8';
+
+select * from table ( dbms_xplan.display_cursor ('ca8n1mwt0tfp8',0, 'ADVANCED')); 
+
+select username,machine,program,module,sid,serial# from v$session where username is not null order by username;
+
+dbms_monitor.session_trace_enable(session_id => 127, serial_num => 29, waits => FALSE, binds => TRUE) 
+
+select * from v$sql_plan where sql_id='ca8n1mwt0tfp8';
+
+select * from v$sql_plan where address='00000000B20CDAB8';
+
+
+select sql_id,sq.sql_text, sq.address, sq.hash_value,sq.child_number from v$sql sq where address='00000000B20CDAB8'
+
+SELECT 
+v$session.SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, v$session.STATUS, v$session.OSUSER, v$session.MACHINE, v$session.PROGRAM, v$session.MODULE ,
+sq.sql_text, sq.address, sq.hash_value,sq.child_number
+FROM v$session, v$process ,V$SQL SQ
+
+
+EXEC DBMS_WORKLOAD_REPOSITORY.create_snapshot;
+
+
+
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'ACTIVE')) 
+AND v$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and v$session.USERNAME <> 'SYS'
+and v$session.SQL_ADDRESS=sq.ADDRESS
+ORDER BY v$session.last_call_et ASC;
+
+
+

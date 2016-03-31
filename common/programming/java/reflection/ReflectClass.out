@@ -1,0 +1,42 @@
+--------------------------
+Compile Program
+--------------------------
+javac ReflectClass.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ReflectClass ReflectClass
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+import java.lang.String;
+import java.util.Hashtable;
+
+public class ReflectClass extends Object {
+
+/*
+ * Field Definitions.
+ */
+    private String firstName;
+    private String lastName;
+    private int idNumber;
+
+/*
+ * Declared Constructors.
+ */
+    public ReflectClass( ) { ... }
+
+/*
+ * Declared Methods.
+ */
+    public static void main( String[]) { ... }
+    static String tName( String, Hashtable) { ... }
+}
+

@@ -1,0 +1,29 @@
+--------------------------
+Compile Program
+--------------------------
+javac ConnectionOptions.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ConnectionOptions
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@localhost:1521:TRUESRC
+  Connected as         -> scott
+  Creating Statement...
+  Opening ResultsSet...
+      Database User  -> SYS
+      Date / Time    -> 20-MAR-2003 17:31:08
+
+  Closing ResultSet...
+  Closing Statement...
+  Closing Connection...

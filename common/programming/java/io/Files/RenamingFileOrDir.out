@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac RenamingFileOrDir.java
+
+
+--------------------------
+Run Program
+--------------------------
+java RenamingFileOrDir
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+File1 = OldFile.txt
+File2 = NewFile.txt
+File was successfully renamed.

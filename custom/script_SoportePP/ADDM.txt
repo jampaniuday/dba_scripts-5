@@ -1,0 +1,92 @@
+---Selecciona el nombre y codigo de la base
+
+select distinct dbid, db_name
+from   DBA_HIST_DATABASE_INSTANCE
+
+--- valida el nombre actual de la base
+
+select dbid from V$DATABASE;
+
+--- selecciona las instancias y sus nombres de la base obtenida
+
+select distinct  instance_number, instance_name
+from   DBA_HIST_DATABASE_INSTANCE
+where  dbid = 1386125707
+order by 1
+
+:dbid(FLOAT,IN/OUT)=1017078404
+
+--- Saca las snapshots disponibles de esta base de datos
+
+select snap_interval, retention, topNSQL
+from   dba_hist_wr_control
+where  dbid = 3263040919
+:dbid(FLOAT,IN/OUT)=1017078404
+
+--- saca la snapshot inicial de la base
+
+SELECT   snap_id, snap_level, instance_number, 
+         to_char(begin_interval_time, 'yyyy/mm/dd hh24:mi:ss') begin_interval_time,
+         to_char(end_interval_time, 'yyyy/mm/dd hh24:mi:ss') end_interval_time,
+         to_char(flush_elapsed) flush_elapsed,
+         to_char(startup_time, 'yyyy/mm/dd hh24:mi:ss') startup_time,
+         error_count
+FROM     DBA_HIST_SNAPSHOT
+WHERE    dbid = 3237785178
+order by 1
+:dbid(FLOAT,IN/OUT)=1017078404
+
+--- saca el listado de otras snapshot posteriores
+
+SELECT   snap_id, snap_level, instance_number, 
+         to_char(begin_interval_time, 'yyyy/mm/dd hh24:mi:ss') begin_interval_time,
+         to_char(end_interval_time, 'yyyy/mm/dd hh24:mi:ss') end_interval_time,
+         to_char(flush_elapsed) flush_elapsed,
+         to_char(startup_time, 'yyyy/mm/dd hh24:mi:ss') startup_time,
+         error_count
+FROM     DBA_HIST_SNAPSHOT
+WHERE    snap_id > 1
+AND      dbid = :dbid
+AND      startup_time = (SELECT startup_time
+                         FROM   DBA_HIST_SNAPSHOT
+                         WHERE  snap_id = 1
+                         AND    instance_number = 1
+                         AND    dbid = :dbid)
+AND      instance_number = 1
+order by 1
+:dbid(FLOAT,IN/OUT)=2819027160
+
+--- corrida de las snapshot
+
+Session: SYS@MUNI
+Timestamp: 05:39:13.155
+DECLARE
+  tname VARCHAR2 (60);
+  taskid NUMBER;
+BEGIN
+  dbms_advisor.create_task('ADDM', taskid, tname);
+  dbms_advisor.set_task_parameter(tname, 'START_SNAPSHOT',1);
+  dbms_advisor.set_task_parameter(tname, 'END_SNAPSHOT', 1);
+  dbms_advisor.set_task_parameter(tname, 'INSTANCE', 1);
+  dbms_advisor.execute_task(tname);
+  :out_task := tname;
+END;
+:out_task(VARCHAR[0],OUT)=<NULL>
+
+----------------------------------
+Session: SYS@MUNI
+Timestamp: 05:39:13.514
+DECLARE
+  tname VARCHAR2 (60);
+  taskid NUMBER;
+BEGIN
+  dbms_advisor.create_task('ADDM', taskid, tname);
+  dbms_advisor.set_task_parameter(tname, 'START_SNAPSHOT',1);
+  dbms_advisor.set_task_parameter(tname, 'END_SNAPSHOT', 1);
+  dbms_advisor.set_task_parameter(tname, 'INSTANCE', 1);
+  dbms_advisor.execute_task(tname);
+  :out_task := tname;
+END;
+
+
+

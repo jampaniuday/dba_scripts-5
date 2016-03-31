@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac ThreadJoin2.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ThreadJoin2
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Before join...
+After join...

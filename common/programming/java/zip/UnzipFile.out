@@ -1,0 +1,30 @@
+--------------------------
+Compile Program
+--------------------------
+javac UnzipFile.java
+
+
+--------------------------
+Run Program
+--------------------------
+java UnzipFile example.zip
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Archive:  example.zip
+  inflating: dir_1/
+  inflating: dir_1/dir_1_1/
+  inflating: dir_1/dir_1_1/example1_1_1.txt
+  inflating: dir_1/dir_1_1/example1_1_2.txt
+  inflating: dir_1/dir_1_1/example1_1_3.txt
+  inflating: dir_1/example1_1.txt
+  inflating: dir_1/example1_2.txt
+  inflating: dir_1/example1_3.txt
+  inflating: dir_2/
+  inflating: dir_2/example2_1.txt
+  inflating: dir_2/example2_2.txt
+  inflating: dir_2/example2_3.txt

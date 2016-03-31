@@ -1,0 +1,60 @@
+--------------------------
+Compile Program
+--------------------------
+javac RefCursorExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java RefCursorExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@localhost:1521:CUSTDB
+  Connected as         -> scott
+
+Using OracleCallableStatement / OracleResultSet
+-----------------------------------------------
+ - AFTER HOURS SUPPORT (113), SAN JOSE, CA
+ - APPLICATION SUPPORT (114), WEXFORD, PA
+ - ASSISTANTS (118), WEXFORD, PA
+ - COMMUNICATIONS (119), SEATTLE, WA
+ - CUSTOMER SUPPORT (108), TRANSFER, PA
+ - DIRECTORS OFFICE (117), WEXFORD, PA
+ - DOCUMENTATION (111), WEXFORD, PA
+ - ENGINEERING (105), WEXFORD, PA
+ - HELP DESK (112), GREENVILLE, PA
+ - HQ (109), WEXFORD, PA
+ - MARKETING (115), SEASIDE, CA
+ - NETWORKING (116), WEXFORD, PA
+ - PROCESSING (107), NEW YORK, NY
+ - PRODUCTION SUPPORT (110), MONTEREY, CA
+ - QA (106), WEXFORD, PA
+ - REGIONAL SUPPORT (120), PORTLAND, OR
+
+Using CallableStatement / ResultSet
+-----------------------------------
+ - AFTER HOURS SUPPORT (113), SAN JOSE, CA
+ - APPLICATION SUPPORT (114), WEXFORD, PA
+ - ASSISTANTS (118), WEXFORD, PA
+ - COMMUNICATIONS (119), SEATTLE, WA
+ - CUSTOMER SUPPORT (108), TRANSFER, PA
+ - DIRECTORS OFFICE (117), WEXFORD, PA
+ - DOCUMENTATION (111), WEXFORD, PA
+ - ENGINEERING (105), WEXFORD, PA
+ - HELP DESK (112), GREENVILLE, PA
+ - HQ (109), WEXFORD, PA
+ - MARKETING (115), SEASIDE, CA
+ - NETWORKING (116), WEXFORD, PA
+ - PROCESSING (107), NEW YORK, NY
+ - PRODUCTION SUPPORT (110), MONTEREY, CA
+ - QA (106), WEXFORD, PA
+ - REGIONAL SUPPORT (120), PORTLAND, OR
+
+  Closing Connection...

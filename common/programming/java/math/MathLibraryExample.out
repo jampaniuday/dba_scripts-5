@@ -1,0 +1,105 @@
+--------------------------
+Compile Program
+--------------------------
+javac MathLibraryExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java MathLibraryExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+PRINT VARIABLES
+===========================================
+  (int)    i = 7
+  (int)    j = -9
+  (double) x = 72.3
+  (double) y = 0.34
+
+MATH CONSTANTS
+===========================================
+  Pi is 3.141592653589793
+  e  is 2.718281828459045
+
+ABSOLUTE VALUE
+===========================================
+  |7| is 7
+  |-9| is 9
+  |72.3| is 72.3
+  |0.34| is 0.34
+
+TRUNCATING AND ROUNDING FUNCTIONS
+===========================================
+  72.3 is approximately 72
+  0.34 is approximately 0
+
+  The ceiling of 7 is 7.0
+  The ceiling of -9 is -9.0
+  The ceiling of 72.3 is 73.0
+  The ceiling of 0.34 is 1.0
+
+  The floor of 7 is 7.0
+  The floor of -9 is -9.0
+  The floor of 72.3 is 72.0
+  The floor of 0.34 is 0.0
+
+COMPARISON OPERATORS
+===========================================
+  min(7, -9) is -9
+  min(72.3, 0.34) is 0.34
+  min(7, 72.3) is 7.0
+  min(0.34, -9) is -9.0
+
+  max(7, -9) is 7
+  max(72.3, 0.34) is 72.3
+  max(7, 72.3) is 72.3
+  max(0.34, -9) is 0.34
+
+TRIGONOMETRIC METHODS
+===========================================
+  cos(0.7853981633974483) is 0.7071067811865476
+  sin(0.7853981633974483) is 0.7071067811865475
+  acos(0.707) is 0.7855491633997437
+  asin(0.707) is 0.785247163395153
+  atan(0.707) is 0.6154085176292563
+
+EXPONENTIAL AND LOGARITHMIC METHODS
+===========================================
+  exp(1.0)    is 2.7182818284590455
+  exp(10.0)   is 22026.465794806718
+  exp(0.0)    is 1.0
+
+  log(1.0)    is 0.0
+  log(10.0)   is 2.302585092994046
+  log(Math.E) is 1.0
+
+POWER METHOD
+===========================================
+  pow(2.0, 2.0)  is 4.0
+  pow(10.0, 3.5) is 3162.2776601683795
+  pow(8, -1)     is 0.125
+
+SQUARE ROOT METHOD
+===========================================
+  The square root of 0 is 0.0
+  The square root of 1 is 1.0
+  The square root of 2 is 1.4142135623730951
+  The square root of 3 is 1.7320508075688772
+  The square root of 4 is 2.0
+  The square root of 5 is 2.23606797749979
+  The square root of 6 is 2.449489742783178
+  The square root of 7 is 2.6457513110645907
+  The square root of 8 is 2.8284271247461903
+  The square root of 9 is 3.0
+
+RANDOM NUMBERS
+===========================================
+  Random number: 0.17545101176097477
+  Random number: 0.7567266093761437
+

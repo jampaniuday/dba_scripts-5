@@ -1,0 +1,1545 @@
+Connected.
+
+      DBID NAME      CREATED  RESETLOGS_CHANGE# RESETLOG PRIOR_RESETLOGS_CHANGE# PRIOR_RE
+---------- --------- -------- ----------------- -------- ----------------------- --------
+LOG_MODE     CHECKPOINT_CHANGE# ARCHIVE_CHANGE# CONTROL CONTROLF CONTROLFILE_SEQUENCE#
+------------ ------------------ --------------- ------- -------- ---------------------
+CONTROLFILE_CHANGE# CONTROLF OPEN_RESETL VERSION_ OPEN_MODE            PROTECTION_MODE
+------------------- -------- ----------- -------- -------------------- --------------------
+PROTECTION_LEVEL     REMOTE_A ACTIVATION# SWITCHOVER# DATABASE_ROLE    ARCHIVELOG_CHANGE# ARCHIVEL
+-------------------- -------- ----------- ----------- ---------------- ------------------ --------
+SWITCHOVER_STATUS    DATAGUAR GUARD_S SUPPLEME SUP SUP FOR PLATFORM_ID
+-------------------- -------- ------- -------- --- --- --- -----------
+PLATFORM_NAME
+----------------------------------------------------------------------------------------------------
+RECOVERY_TARGET_INCARNATION# LAST_OPEN_INCARNATION# CURRENT_SCN FLASHBACK_ON       SUP SUP
+---------------------------- ---------------------- ----------- ------------------ --- ---
+DB_UNIQUE_NAME                 STANDBY_BECAME_PRIMARY_SCN FS_FAILOVER_STATUS
+------------------------------ -------------------------- ----------------------
+FS_FAILOVER_CURRENT_TARGET     FS_FAILOVER_THRESHOLD FS_FAIL
+------------------------------ --------------------- -------
+FS_FAILOVER_OBSERVER_HOST
+----------------------------------------------------------------------------------------------------
+CON PRIMARY_DB_UNIQUE_NAME         SUP MIN_REQUIRED_CAPTURE_CHANGE#
+--- ------------------------------ --- ----------------------------
+2793621321 VEN       28/06/13                 1 28/06/13                       0
+ARCHIVELOG           1.1018E+13      1.1018E+13 CURRENT 28/06/13               3372051
+         1.1018E+13 27/05/14 NOT ALLOWED 28/06/13 READ WRITE           MAXIMUM PERFORMANCE
+MAXIMUM PERFORMANCE  ENABLED   2793662793  2793662793 PRIMARY                  1.1018E+13 DISABLED
+NOT ALLOWED          DISABLED NONE    NO       NO  NO  NO            2
+Solaris[tm] OE (64-bit)
+                           1                      1  1.1018E+13 NO                 NO  NO
+ven                                                     0 DISABLED
+                                                   0
+
+NO                                 NO
+
+
+INSTANCE_NUMBER INSTANCE_NAME    HOST_NAME
+--------------- ---------------- ----------------------------------------------------------------
+VERSION           STARTUP_ STATUS       PAR    THREAD# ARCHIVE LOG_SWITCH_WAIT LOGINS     SHU
+----------------- -------- ------------ --- ---------- ------- --------------- ---------- ---
+DATABASE_STATUS   INSTANCE_ROLE      ACTIVE_ST BLO
+----------------- ------------------ --------- ---
+              1 ven1             sracni004
+11.2.0.3.0        16/05/14 OPEN         YES          1 STARTED                 ALLOWED    NO
+ACTIVE            PRIMARY_INSTANCE   NORMAL    NO
+
+
+BANNER
+--------------------------------------------------------------------------------
+Oracle Database 11g Enterprise Edition Release 11.2.0.3.0 - 64bit Production
+PL/SQL Release 11.2.0.3.0 - Production
+CORE	11.2.0.3.0	Production
+TNS for Solaris: Version 11.2.0.3.0 - Production
+NLSRTL Version 11.2.0.3.0 - Production
+
+NAME                      VALUE
+-------------------- ----------
+Fixed Size              2170008
+Variable Size        7918846824
+Database Buffers     1.5569E+10
+Redo Buffers           33611776
+
+Controlfile                                                  Status
+------------------------------------------------------------ -------
++DATA/ven/controlfile/current.316.819278413                  UNKNOWN
++FRA/asm/controlfile/current.316.ctl.268.837696655           UNKNOWN
+
+Datafile                                                     Status  Enabled    Size (M)
+------------------------------------------------------------ ------- ---------- ----------
++DATA/ven/datafile/app_data1_00.dbf                          ONLINE  READ WRITE    65273.8
++DATA/ven/datafile/app_data1_01.dbf                          ONLINE  READ WRITE    67108.8
++DATA/ven/datafile/app_data1_02.dbf                          ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/app_data1_03.dbf                          ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/app_data1_04.dbf                          ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/app_data1_05.dbf                          ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/app_data1_06.dbf                          ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/app_data1_07.dbf                          ONLINE  READ WRITE    67108.8
++DATA/ven/datafile/app_data1_08.dbf                          ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/app_data1_09.dbf                          ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/app_data_00.dbf                           ONLINE  READ WRITE    47185.9
++DATA/ven/datafile/app_data_01.dbf                           ONLINE  READ WRITE    50331.6
++DATA/ven/datafile/app_data_02.dbf                           ONLINE  READ WRITE    36962.3
++DATA/ven/datafile/app_data_03.dbf                           ONLINE  READ WRITE    34078.7
++DATA/ven/datafile/app_data_04.dbf                           ONLINE  READ WRITE    37224.4
++DATA/ven/datafile/app_data_05.dbf                           ONLINE  READ WRITE    33554.4
++DATA/ven/datafile/app_data_06.dbf                           ONLINE  READ WRITE    33947.6
++DATA/ven/datafile/app_data_07.dbf                           ONLINE  READ WRITE    34996.2
++DATA/ven/datafile/app_data_08.dbf                           ONLINE  READ WRITE    29229.0
++DATA/ven/datafile/app_data_09.dbf                           ONLINE  READ WRITE    20709.3
++DATA/ven/datafile/app_data_10.dbf                           ONLINE  READ WRITE    17170.4
++DATA/ven/datafile/app_data_reports_00.dbf                   ONLINE  READ WRITE      102.4
++DATA/ven/datafile/app_gestcont.377.837856963                ONLINE  READ WRITE    25034.7
++DATA/ven/datafile/app_index01.dbf                           ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/app_index1_00.dbf                         ONLINE  READ WRITE    20971.5
++DATA/ven/datafile/app_index1_01.dbf                         ONLINE  READ WRITE    11272.1
++DATA/ven/datafile/app_index1_02.dbf                         ONLINE  READ WRITE     6684.6
++DATA/ven/datafile/app_index1_03.dbf                         ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/app_index_00.dbf                          ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/app_index_reports_00.dbf                  ONLINE  READ WRITE      102.4
++DATA/ven/datafile/app_pivote_data_01.dbf                    ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/app_pivote_data_02.dbf                    ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/app_pivote_index_01.dbf                   ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/app_rrhh_01.dbf                           ONLINE  READ WRITE     3295.2
++DATA/ven/datafile/appgac_data_01_01.dbf                     ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/appgac_data_01_02.dbf                     ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/appgac_data_01_03.dbf                     ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/appgac_index_01_01.dbf                    ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/appgac_index_01_02.dbf                    ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/appgac_index_01_03.dbf                    ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/apppyme_data_00.dbf                       ONLINE  READ WRITE     2097.1
++DATA/ven/datafile/appsegur_data_00.dbf                      ONLINE  READ WRITE    31457.2
++DATA/ven/datafile/appsegur_data_01.dbf                      ONLINE  READ WRITE     4194.3
++DATA/ven/datafile/appsegur_index_00.dbf                     ONLINE  READ WRITE      364.5
++DATA/ven/datafile/bpmdata.300.753027759.dbf                 ONLINE  READ WRITE    12582.9
++DATA/ven/datafile/cav_data_00.dbf                           ONLINE  READ WRITE     7481.3
++DATA/ven/datafile/cav_data_01.dbf                           ONLINE  READ WRITE     8519.6
++DATA/ven/datafile/convert_slash.342.827096661.dbf           ONLINE  READ WRITE        5.1
++DATA/ven/datafile/data_lobs.409.778204917.dbf               ONLINE  READ WRITE    10485.7
++DATA/ven/datafile/ext_data1_00.dbf                          ONLINE  READ WRITE    46143.6
++DATA/ven/datafile/ext_data1_01.dbf                          ONLINE  READ WRITE    67108.8
++DATA/ven/datafile/ext_data1_02.dbf                          ONLINE  READ WRITE    67108.8
++DATA/ven/datafile/ext_data1_03.dbf                          ONLINE  READ WRITE    67108.8
++DATA/ven/datafile/ext_data1_04.dbf                          ONLINE  READ WRITE    67108.8
++DATA/ven/datafile/ext_data1_05.dbf                          ONLINE  READ WRITE    67108.8
++DATA/ven/datafile/ext_data2.408.767926477.dbf               ONLINE  READ WRITE      102.4
++DATA/ven/datafile/ext_data_00.dbf                           ONLINE  READ WRITE    26083.3
++DATA/ven/datafile/ext_data_02.dbf                           ONLINE  READ WRITE    26607.6
++DATA/ven/datafile/ext_data_03.dbf                           ONLINE  READ WRITE    21495.8
++DATA/ven/datafile/ext_data_04.dbf                           ONLINE  READ WRITE    16515.0
++DATA/ven/datafile/ext_data_part_00.dbf                      ONLINE  READ WRITE    14811.1
++DATA/ven/datafile/ext_data_part_01.dbf                      ONLINE  READ WRITE    14942.2
++DATA/ven/datafile/ext_data_part_02.dbf                      ONLINE  READ WRITE    14286.8
++DATA/ven/datafile/ext_data_part_04.dbf                      ONLINE  READ WRITE    19791.8
++DATA/ven/datafile/ext_data_part_05.dbf                      ONLINE  READ WRITE     5505.0
++DATA/ven/datafile/ext_index1_00.dbf                         ONLINE  READ WRITE    12845.0
++DATA/ven/datafile/ext_index1_01.dbf                         ONLINE  READ WRITE     8519.6
++DATA/ven/datafile/ext_index1_02.dbf                         ONLINE  READ WRITE     9830.4
++DATA/ven/datafile/ext_index1_03.dbf                         ONLINE  READ WRITE     1048.5
++DATA/ven/datafile/ext_index_00.dbf                          ONLINE  READ WRITE    21102.5
++DATA/ven/datafile/ext_index_01.dbf                          ONLINE  READ WRITE    10223.6
++DATA/ven/datafile/ext_index_02.dbf                          ONLINE  READ WRITE     9306.1
++DATA/ven/datafile/ext_index_03.dbf                          ONLINE  READ WRITE     9699.3
++DATA/ven/datafile/ext_index_part_00.dbf                     ONLINE  READ WRITE    14286.8
++DATA/ven/datafile/ext_index_part_01.dbf                     ONLINE  READ WRITE    14712.8
++DATA/ven/datafile/ext_index_part_02.dbf                     ONLINE  READ WRITE     9437.1
++DATA/ven/datafile/ext_index_part_03.dbf                     ONLINE  READ WRITE     9306.1
++DATA/ven/datafile/gac_data00.dbf                            ONLINE  READ WRITE     1048.5
++DATA/ven/datafile/gac_data01.dbf                            ONLINE  READ WRITE     1048.5
++DATA/ven/datafile/gac_data2_00.dbf                          ONLINE  READ WRITE     1048.5
++DATA/ven/datafile/gac_data_00.dbf                           ONLINE  READ WRITE    34865.1
++DATA/ven/datafile/gac_data_01.dbf                           ONLINE  READ WRITE     4190.2
++DATA/ven/datafile/gac_data_02.dbf                           ONLINE  READ WRITE    10485.7
++DATA/ven/datafile/gac_index_00.dbf                          ONLINE  READ WRITE    13361.1
++DATA/ven/datafile/gac_index_01.dbf                          ONLINE  READ WRITE     6238.2
++DATA/ven/datafile/gac_index_02.dbf                          ONLINE  READ WRITE     3121.1
++DATA/ven/datafile/quest_data_00.dbf                         ONLINE  READ WRITE      204.8
++DATA/ven/datafile/quest_index_00.dbf                        ONLINE  READ WRITE      204.8
++DATA/ven/datafile/scl_datab_00.dbf                          ONLINE  READ WRITE     1048.5
++DATA/ven/datafile/sclrep_data_00.dbf                        ONLINE  READ WRITE     1048.5
++DATA/ven/datafile/sysaux.262.819278473                      ONLINE  READ WRITE     8722.4
++DATA/ven/datafile/system.327.819278467                      SYSTEM  READ WRITE    26214.4
++DATA/ven/datafile/system.378.819730657                      SYSTEM  READ WRITE    15728.6
++DATA/ven/datafile/telefonica.341.820862037                  ONLINE  READ WRITE       10.2
++DATA/ven/datafile/ultfilegroup.273.753027761.dbf            ONLINE  READ WRITE      204.8
++DATA/ven/datafile/ultimus_data.312.753057165.dbf            ONLINE  READ WRITE      921.6
++DATA/ven/datafile/ultimus_index.317.753057235.dbf           ONLINE  READ WRITE      102.4
++DATA/ven/datafile/undotbs1.315.819278475                    ONLINE  READ WRITE    44040.1
++DATA/ven/datafile/undotbs1.336.828612651                    ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/undotbs1.386.819731725                    ONLINE  READ WRITE    62914.5
++DATA/ven/datafile/undotbs2.259.819278487                    ONLINE  READ WRITE    67102.7
++DATA/ven/datafile/user_data_00.dbf                          ONLINE  READ WRITE     1310.7
++DATA/ven/datafile/users01.dbf                               ONLINE  READ WRITE        5.1
+
+     Group Logfile                                                      Status
+---------- ------------------------------------------------------------ -------
+         1 +FRA/ven/onlinelog/group_1.259.820953033                     UNKNOWN
+         1 +FRA/ven/onlinelog/group_1.452.837264379                     UNKNOWN
+         2 +DATA/ven/onlinelog/group_2.257.820864569                    UNKNOWN
+         3 +DATA/ven/onlinelog/group_3.265.820864367                    UNKNOWN
+         4 +DATA/ven/onlinelog/group_4.256.820864425                    UNKNOWN
+         5 +FRA/ven/onlinelog/group_5.257.820952987                     UNKNOWN
+         6 +DATA/ven/onlinelog/group_6.268.820864517                    UNKNOWN
+         7 +FRA/ven/onlinelog/group_7.260.820953051                     UNKNOWN
+         8 +FRA/ven/onlinelog/group_8.258.820953005                     UNKNOWN
+         9 +DATA/ven/onlinelog/group_9.264.820953067                    UNKNOWN
+        10 +DATA/ven/onlinelog/group_10.320.820953023                   UNKNOWN
+
+
+USERNAME        OSUSER                 SID    SERIAL# SPID       LOCKWAIT         STATUS   SERVICE_NAME    MODULE                              MACHINE                   PROGRAM                                          LOGON_TIME
+--------------- --------------- ---------- ---------- ---------- ---------------- -------- --------------- ----------------------------------- ------------------------- ------------------------------------------------ --------------------
+APPGAC          appwasadm             1943       6905 22669                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:17
+APPGAC          appwasadm             1636      64839 9900                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:41
+APPGAC          appwasadm             2206       9401 9465                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 06:53:45
+APPGAC          appwasadm             1005      49921 26723                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 08:07:49
+APPGAC          appwasadm              224      61675 9471                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 06:53:48
+APPGAC          appwasadm              721      39751 25620                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 08:21:05
+APPGAC          appwasadm             1497      41935 9931                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:50
+APPGAC          appwasadm              884      41351 26771                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 08:08:08
+APPGAC          appwasadm             1317      28279 23146                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 07:54:26
+APPGAC          appwasadm              111      11871 22979                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 07:53:42
+APPGAC          appwasadm              737       4861 26665                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 08:23:19
+APPGAC          appwasadm             1148      15865 9522                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 06:54:08
+APPGAC          appwasadm             2030       5919 9921                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:49
+APPGAC          appwasadm             1459      50711 7570                        INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 25-MAY-2014 11:58:10
+APPGAC          appwasadm             1591      51383 9530                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 06:54:12
+APPGAC          appwasadm              244       3587 22671                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:17
+APPGAC          appwasadm             1422      13775 22628                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:11
+APPGAC          appwasadm             2228      13497 11250                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 09:23:55
+APPGAC          appwasadm             1169      41721 11254                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 09:23:56
+APPGAC          appwasadm              110       7195 22715                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:22
+APPGAC          appwasadm              738      50457 26942                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 08:09:08
+APPGAC          appwasadm             1866      44845 22646                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:15
+APPGAC          appwasadm             1237       4519 22440                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:52:32
+APPGAC          appwasadm              105       7973 22446                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:52:32
+APPGAC          appwasadm              890      14117 9927                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:50
+APPGAC          appwasadm              943      27939 22649                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:15
+APPGAC          appwasadm             1286      18399 22717                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:22
+APPGAC          appwasadm             1438      45171 22713                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:20
+APPGAC          appwasadm             2098      56615 22705                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:19
+APPGAC          appwasadm              679       6801 22707                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:19
+APPGAC          appwasadm              892      19741 9929                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:50
+APPGAC          appwasadm             1161      12687 9881                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:39
+APPGAC          appwasadm             1028      64323 9886                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:40
+APPGAC          appwasadm             1307      37271 9890                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:40
+APPGAC          appwasadm             1382       8817 9892                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:40
+APPGAC          appwasadm             1425      52081 9894                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:40
+APPGAC          appwasadm             1516      39539 9896                        INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 11:36:40
+APPGAC          appwasadm             1592      28969 26667                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 08:23:20
+APPGAC          appwasadm              527      44621 22701                       INACTIVE venus           JDBC Thin Client                    lnxni005                  JDBC Thin Client                                 24-MAY-2014 07:53:19
+APP_APLICACIONE NETWORK SERVICE        742      33767 11274                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:44:19
+S
+
+APP_APLICACIONE NETWORK SERVICE       1027       8951 25971                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 22:01:45
+S
+
+APP_APLICACIONE NETWORK SERVICE        580      30847 8197                        INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:55:29
+S
+
+APP_APLICACIONE NETWORK SERVICE       2081      44907 8213                        INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:55:30
+S
+
+APP_APLICACIONE NETWORK SERVICE       1816      12997 23701                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:57:32
+S
+
+APP_APLICACIONE NETWORK SERVICE       2070        273 22702                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 22:01:17
+S
+
+APP_APLICACIONE NETWORK SERVICE       1087      46623 16864                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:56:37
+S
+
+APP_APLICACIONE NETWORK SERVICE       1360      45667 8181                        INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:55:29
+S
+
+APP_APLICACIONE NETWORK SERVICE       1441      32985 4922                        INACTIVE venus                                               TCN\01NI030               w3wp.exe                                         27-MAY-2014 19:57:37
+S
+
+APP_APLICACIONE NETWORK SERVICE       1582      22177 804                         INACTIVE venus           w3wp.exe                            TCN\01NI061               w3wp.exe                                         27-MAY-2014 22:02:28
+S
+
+APP_APLICACIONE NETWORK SERVICE       1663      59987 11511                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:51:59
+S
+
+APP_APLICACIONE NETWORK SERVICE        452      19007 15898                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:52:36
+S
+
+APP_APLICACIONE NETWORK SERVICE        797      24565 13705                       INACTIVE venus           w3wp.exe                            TCN\01NI061               w3wp.exe                                         27-MAY-2014 21:37:01
+S
+
+APP_APLICACIONE NETWORK SERVICE       1076       6571 16965                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 22:00:31
+S
+
+APP_APLICACIONE NETWORK SERVICE       1210      55619 27538                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 19:47:24
+S
+
+APP_APLICACIONE NETWORK SERVICE        175      20733 4956                        INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:47:18
+S
+
+APP_APLICACIONE NETWORK SERVICE        385      23921 26204                       ACTIVE   venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:54:00
+S
+
+APP_APLICACIONE NETWORK SERVICE       1355      44317 1278                        INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 22:02:31
+S
+
+APP_APLICACIONE NETWORK SERVICE       1780      19641 8165                        INACTIVE venus                                               TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:55:29
+S
+
+APP_APLICACIONE NETWORK SERVICE        169      26449 3605                        INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:35:44
+S
+
+APP_APLICACIONE NETWORK SERVICE       1652      33417 6942                        ACTIVE   venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:47:33
+S
+
+APP_APLICACIONE NETWORK SERVICE       1728      39429 1440                        INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 20:52:25
+S
+
+APP_APLICACIONE NETWORK SERVICE       2065      44397 12962                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 20:33:34
+S
+
+APP_APLICACIONE NETWORK SERVICE       1424      36139 29868                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:58:22
+S
+
+APP_APLICACIONE NETWORK SERVICE       1778      47109 111                         INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:58:24
+S
+
+APP_APLICACIONE NETWORK SERVICE         99      53509 14423                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:52:24
+S
+
+APP_APLICACIONE NETWORK SERVICE        505       9831 4906                        INACTIVE venus                                               TCN\01NI030               w3wp.exe                                         27-MAY-2014 10:16:43
+S
+
+APP_APLICACIONE NETWORK SERVICE       1157      52017 24272                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 20:59:32
+S
+
+APP_APLICACIONE appaltam               101      18531 15324                       INACTIVE venus           SQL*Plus                            lnxni001.tcn.com.ni       sqlplus@lnxni001.tcn.com.ni (TNS V1-V3)          27-MAY-2014 14:52:14
+S
+
+APP_APLICACIONE appaltam              1871      38299 1959                        INACTIVE venus           JDBC Thin Client                    lnxni001.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 08:01:34
+S
+
+APP_APLICACIONE appaltam               229      29711 27172                       INACTIVE venus           SQL*Plus                            lnxni001.tcn.com.ni       sqlplus@lnxni001.tcn.com.ni (TNS V1-V3)          27-MAY-2014 19:28:22
+S
+
+APP_APLICACIONE appjava               1534        215 5752                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:25
+S
+
+APP_APLICACIONE appjava               2239       4143 7994                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1798      58803 7996                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:38
+S
+
+APP_APLICACIONE appjava               1873      63089 7998                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:38
+S
+
+APP_APLICACIONE appjava               2157      30521 8000                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:38
+S
+
+APP_APLICACIONE appjava                 43        391 8002                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                180      11387 8004                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                326        341 8006                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                378      34475 8008                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                459      52681 8010                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                536       9489 8012                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                584       9513 8014                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                675        905 8016                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                888       9245 8018                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                968        527 8020                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1021      40415 8022                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1078      21630 8024                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1152      43049 8026                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1221      55785 8028                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1308       3555 8030                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1391       1903 8032                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1464       1895 8034                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1517      58667 8036                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1600       2879 8038                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1670       3007 8040                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1709      61439 8042                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1891       6921 8046                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1927       8741 8048                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               2032        571 8050                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               2083      39719 8052                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               2137      34995 8054                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               2237       5451 8056                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                 30       2447 8058                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                104      38805 8060                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                176       4671 8062                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                254       1295 8064                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                383       9651 8067                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                471        241 8069                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                541        373 8071                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava                654      58817 28217                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:23:09
+S
+
+APP_APLICACIONE appjava                811      26957 25476                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:09:32
+S
+
+APP_APLICACIONE appjava                946      16465 27769                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:28:10
+S
+
+APP_APLICACIONE appjava               1103      60349 5825                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:35:32
+S
+
+APP_APLICACIONE appjava               1233       7299 27089                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:44:05
+S
+
+APP_APLICACIONE appjava               1667       9861 19647                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:13:18
+S
+
+APP_APLICACIONE appjava               1779      24213 26650                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:14:26
+S
+
+APP_APLICACIONE appjava                501      36653 16047                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:38:55
+S
+
+APP_APLICACIONE appjava                667      22199 826                         INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:32:09
+S
+
+APP_APLICACIONE appjava                719       7957 4432                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:15:39
+S
+
+APP_APLICACIONE appjava                828       6933 12596                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:12:06
+S
+
+APP_APLICACIONE appjava                969      32799 14264                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:07:09
+S
+
+APP_APLICACIONE appjava               1174      62015 15812                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:38:53
+S
+
+APP_APLICACIONE appjava               1299      12833 4627                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 19:57:34
+S
+
+APP_APLICACIONE appjava               1443      51229 1149                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:32:12
+S
+
+APP_APLICACIONE appjava               1732      62927 17919                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:26:36
+S
+
+APP_APLICACIONE appjava               1782      16911 9127                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 19:39:46
+S
+
+APP_APLICACIONE appjava               1926      53013 6601                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:30:47
+S
+
+APP_APLICACIONE appjava               2064      25273 18802                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:17:54
+S
+
+APP_APLICACIONE appjava               2143      30055 16379                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:38:58
+S
+
+APP_APLICACIONE appjava               2232      50417 6691                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:30:48
+S
+
+APP_APLICACIONE appjava                 92       9403 17901                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:02:52
+S
+
+APP_APLICACIONE appjava                187      60455 14460                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:07:11
+S
+
+APP_APLICACIONE appjava                458      29689 25353                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:04:07
+S
+
+APP_APLICACIONE appjava                542      15741 18072                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:42:31
+S
+
+APP_APLICACIONE appjava                582      56027 6768                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:30:48
+S
+
+APP_APLICACIONE appjava               1294      40499 28183                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:34:21
+S
+
+APP_APLICACIONE appjava               1657      22083 22552                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:35:23
+S
+
+APP_APLICACIONE appjava               1932      65145 22318                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:35:21
+S
+
+APP_APLICACIONE appjava               2027      12781 21500                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 18:14:49
+S
+
+APP_APLICACIONE appjava                741      37993 2569                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:00:07
+S
+
+APP_APLICACIONE appjava                789      42673 115                         INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:59:19
+S
+
+APP_APLICACIONE appjava               1526      17911 2576                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:00:07
+S
+
+APP_APLICACIONE appjava               1570       8177 2635                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:00:08
+S
+
+APP_APLICACIONE appjava               2163      47637 8252                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:48:35
+S
+
+APP_APLICACIONE appjava               2026      53655 27605                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:56:21
+S
+
+APP_APLICACIONE appjava                866      15573 12572                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:01:14
+S
+
+APP_APLICACIONE appjava               1036      39821 12508                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:01:14
+S
+
+APP_APLICACIONE appjava               1219      64837 5565                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:14:51
+S
+
+APP_APLICACIONE appjava               2102      16369 7992                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:38
+S
+
+APP_APLICACIONE appjava                649      27981 5736                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+S
+
+APP_APLICACIONE appjava                730        393 5738                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+S
+
+APP_APLICACIONE appjava                949      47899 5740                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+S
+
+APP_APLICACIONE appjava               1081      34811 5744                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+S
+
+APP_APLICACIONE appjava               1165      52095 5746                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+S
+
+APP_APLICACIONE appjava               1228      47041 5748                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+S
+
+APP_APLICACIONE appjava               1313      44713 5750                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+S
+
+APP_APLICACIONE appjava                731      26389 10453                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:11:29
+S
+
+APP_APLICACIONE appjava                883      16679 3755                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:10:46
+S
+
+APP_APLICACIONE appjava               1040      59723 3159                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:05:26
+S
+
+APP_APLICACIONE appjava               2135      51255 28834                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:39:25
+S
+
+APP_APLICACIONE appjava                739      18485 25826                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:13:18
+S
+
+APP_APLICACIONE appjava               1026      26273 11371                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:53:25
+S
+
+APP_APLICACIONE appjava                607      16419 17260                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:57:28
+S
+
+APP_APLICACIONE appjava               1091      15313 18893                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:17:58
+S
+
+APP_APLICACIONE appjava               2151      23041 1525                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:01:06
+S
+
+APP_APLICACIONE appjava                402      10599 27049                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:44:05
+S
+
+APP_APLICACIONE appjava                  9        349 28027                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:23:07
+S
+
+APP_APLICACIONE appjava                226      21711 28076                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:23:08
+S
+
+APP_APLICACIONE appjava                587      54109 17540                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:08:19
+S
+
+APP_APLICACIONE appjava                662      46791 13181                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:49:07
+S
+
+APP_APLICACIONE appjava                792      22547 5807                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:35:32
+S
+
+APP_APLICACIONE appjava               1070       5875 5051                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:20:38
+S
+
+APP_APLICACIONE appjava               1153      35685 12460                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:12:05
+S
+
+APP_APLICACIONE appjava               1590       4413 20375                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:50:19
+S
+
+APP_APLICACIONE appjava                238      31835 10405                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:11:29
+S
+
+APP_APLICACIONE appjava                668       4029 26515                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:14:25
+S
+
+APP_APLICACIONE appjava               1093       3489 19804                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:13:20
+S
+
+APP_APLICACIONE appjava                608      27673 10072                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:20:21
+S
+
+APP_APLICACIONE appjava               1879      16603 5790                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:47:52
+S
+
+APP_APLICACIONE appjava               1004       6621 24619                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 19:42:16
+S
+
+APP_APLICACIONE appjava               1144      17159 3877                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:10:47
+S
+
+APP_APLICACIONE appjava               1300       4597 27348                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:55:56
+S
+
+APP_APLICACIONE appjava               1351      43697 13032                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:49:05
+S
+
+APP_APLICACIONE appjava               1587      63211 1460                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:46:51
+S
+
+APP_APLICACIONE appjava               1718      26287 19393                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 09:41:24
+S
+
+APP_APLICACIONE appjava                314      12123 4255                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:15:38
+S
+
+APP_APLICACIONE appjava                651      18875 17837                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:02:51
+S
+
+APP_APLICACIONE appjava               1213      14125 1528                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:51:55
+S
+
+APP_APLICACIONE appjava               1788      35659 13104                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:49:06
+S
+
+APP_APLICACIONE appjava               2016      39843 20458                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:54:53
+S
+
+APP_APLICACIONE appjava               2084      64981 17451                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:08:18
+S
+
+APP_APLICACIONE appjava                242      31241 24022                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:58:38
+S
+
+APP_APLICACIONE appjava                308      55946 25802                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:13:17
+S
+
+APP_APLICACIONE appjava                577      20401 5688                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:35:32
+S
+
+APP_APLICACIONE appjava                817      49213 24059                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:58:39
+S
+
+APP_APLICACIONE appjava               1717       2085 23778                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 06:44:11
+S
+
+APP_APLICACIONE appjava               2145       1325 22675                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:04:31
+S
+
+APP_APLICACIONE appjava               1995      31117 8647                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:40:58
+S
+
+APP_APLICACIONE appjava                 10      24895 11439                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:01:40
+S
+
+APP_APLICACIONE appjava                222      56009 13169                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:51:51
+S
+
+APP_APLICACIONE appjava                615      16951 29581                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:46:51
+S
+
+APP_APLICACIONE appjava                745      53823 29645                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:46:52
+S
+
+APP_APLICACIONE appjava               1312      26357 3443                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:39:30
+S
+
+APP_APLICACIONE appjava               1952      53813 26503                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:14:25
+S
+
+APP_APLICACIONE appjava                247       1727 20926                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:59:30
+S
+
+APP_APLICACIONE appjava                444      51383 1660                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:51:56
+S
+
+APP_APLICACIONE appjava               2170      13583 23337                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:38:16
+S
+
+APP_APLICACIONE appjava                245      40011 5710                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:47:52
+S
+
+APP_APLICACIONE appjava                318      27665 209                         INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 16:59:19
+S
+
+APP_APLICACIONE appjava                576       1947 10060                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:07:04
+S
+
+APP_APLICACIONE appjava                669      46053 7396                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:16:08
+S
+
+APP_APLICACIONE appjava               1244      59917 25462                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:09:32
+S
+
+APP_APLICACIONE appjava               1429       3289 9010                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 18:17:38
+S
+
+APP_APLICACIONE appjava               1515       6745 17222                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:57:28
+S
+
+APP_APLICACIONE appjava               1648      38113 20267                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 13:50:18
+S
+
+APP_APLICACIONE appjava               1887      49987 27690                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:28:09
+S
+
+APP_APLICACIONE appjava               2217      16831 10620                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:11:31
+S
+
+APP_APLICACIONE appjava                395       4577 7990                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:45:39
+S
+
+APP_APLICACIONE appjava               1017      35727 13135                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:51:50
+S
+
+APP_APLICACIONE appjava               1100      43884 27317                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 14:19:18
+S
+
+APP_APLICACIONE appjava               1216       1473 29973                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 15:09:49
+S
+
+APP_APLICACIONE appwasadm              376      57007 29234                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:50:23
+S
+
+APP_APLICACIONE appwasadm               25      64311 24171                       INACTIVE venus           PortalCautivo                       lnxni063.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 20:09:35
+S
+
+APP_APLICACIONE appwasadm              387      39823 13939                       INACTIVE venus           AMTServiciosOperaciones             lnxni063.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 22:34:09
+S
+
+APP_APLICACIONE appwasadm             1247      38909 24181                       INACTIVE venus           PortalCautivo                       lnxni063.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 20:09:35
+S
+
+APP_APLICACIONE appwasadm             1309      40303 8152                        INACTIVE venus           JDBC Thin Client                    lnxni016.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:51:30
+S
+
+APP_APLICACIONE appwasadm             1585      33589 8162                        INACTIVE venus           JDBC Thin Client                    lnxni016.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:51:30
+S
+
+APP_APLICACIONE appwasadm              583       2413 8139                        INACTIVE venus           JDBC Thin Client                    lnxni016.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:51:30
+S
+
+APP_APLICACIONE appwasadm             1498      22147 1835                        INACTIVE venus           PortalCautivo                       lnxni063.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 20:19:23
+S
+
+APP_APLICACIONE appwasadm              605      50983 16731                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 18:18:55
+S
+
+APP_APLICACIONE appwasadm               77      45691 16820                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 18:18:55
+S
+
+APP_APLICACIONE appwasadm              435      54097 16729                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 18:18:55
+S
+
+APP_APLICACIONE appwasadm              363      17607 75                          INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 19:28:51
+S
+
+APP_APLICACIONE appwasadm              451       5969 18789                       INACTIVE venus           AMTServiciosOperaciones             lnxni063.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 04:53:39
+S
+
+APP_APLICACIONE appwasadm             1224      63571 18416                       INACTIVE venus           PortalCautivo                       lnxni063.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 19:07:12
+S
+
+APP_APLICACIONE oracle                1467       3137 2294                        ACTIVE   venus           SQL*Plus                            sunni005                  sqlplus@sunni005 (TNS V1-V3)                     27-MAY-2014 08:01:37
+S
+
+APP_APLICACIONE oracle                 358      47033 20566                       ACTIVE   venus           SQL*Plus                            sunni005                  sqlplus@sunni005 (TNS V1-V3)                     27-MAY-2014 11:01:37
+S
+
+APP_APLICACIONE oracle                1716      10613 2297                        ACTIVE   venus           SQL*Plus                            sunni005                  sqlplus@sunni005 (TNS V1-V3)                     27-MAY-2014 08:01:37
+S
+
+APP_APLICACIONE                        856      37443 7745                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1288      54997 7749                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1368      11541 7752                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1508      38515 7755                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1656      26617 7759                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1854      42735 7762                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1925      10163 7765                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1991      15101 7769                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       2134      42285 7773                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        221      59517 7776                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        445      16305 7779                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        520        273 7786                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        653      32491 7783                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        798      24217 7789                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1084      42069 7793                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1495      27367 7797                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1565      20075 7800                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1714      15355 7803                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1960      51207 7807                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       2018      20325 7812                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       2075      48743 7816                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                         15      29099 7820                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                         75      35063 7823                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        156      40923 5099                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:24
+S
+
+APP_APLICACIONE                        223      47321 7826                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        317      45957 7830                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                        666       6063 7833                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                        734      24011 7838                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                        867       4995 7841                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                        928      37019 7844                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                       1289       3921 7848                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                       1427      49237 7852                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                       1513       2863 7855                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                       1643      31699 7858                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                       1792       7955 7862                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                       2067      60149 7865                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                       2205       8493 7868                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                         16      42119 7872                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                        167      54439 7876                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                        442      24791 7879                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                        717      42613 7634                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        933      32835 7638                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1918      46865 7640                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        503      54437 7644                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        575       5597 15923                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 19:54:43
+S
+
+APP_APLICACIONE                        801      22603 7676                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        947      21907 7648                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1494      17689 7652                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1605        757 5057                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:23
+S
+
+APP_APLICACIONE                       1861      33177 7655                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       2086      32285 7658                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       2146      20375 7662                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       2210       1623 7667                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        106      60671 7679                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        157      28915 7685                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        655      32883 7689                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        735         31 7692                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        784      33203 7696                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        966      51737 7698                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1143      46023 7702                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1214      17643 7706                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1284      29129 7708                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1936      59273 7712                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       2010      11451 7716                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1655      20373 29692                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1848      58265 29695                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1963      16171 29699                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       2203      37757 29701                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                         42      24373 29705                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                        256      49379 29709                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                        600      59805 29712                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                        727      26583 29715                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                        952      29365 29719                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1035      49841 29723                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1074      60609 29738                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1173      27613 29741                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1354      58285 29745                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1433      12945 29749                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1528      58985 29751                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1567      16219 29755                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1661      60031 29759                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       1888      24115 29762                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                       2160      28843 29765                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                         39        153 5027                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:22
+S
+
+APP_APLICACIONE                        186      27055 29769                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:40
+S
+
+APP_APLICACIONE                        934      45165 7628                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1920       5065 7632                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       2235      55031 1592                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:52
+S
+
+APP_APLICACIONE                        178       4485 23126                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 21:30:40
+S
+
+APP_APLICACIONE                        665      23277 1552                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 04:01:52
+S
+
+APP_APLICACIONE                        725      44431 7882                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:18
+S
+
+APP_APLICACIONE                       1003      19193 5130                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:24
+S
+
+APP_APLICACIONE                       1435      60793 5220                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+S
+
+APP_APLICACIONE                        820        527 5254                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+S
+
+APP_APLICACIONE                       1999      16193 5284                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+S
+
+APP_APLICACIONE                       2093      63099 5286                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+S
+
+APP_APLICACIONE                        661      44887 5298                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+S
+
+APP_APLICACIONE                       1357      49475 5310                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+S
+
+APP_APLICACIONE                       1533         79 5312                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+S
+
+APP_APLICACIONE                       1606        255 5314                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+S
+
+APP_APLICACIONE                         96      23735 7718                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        300      29517 7722                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1232      52169 7726                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                       1296      52611 7730                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                         20      42585 7736                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_APLICACIONE                        216      32453 7740                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 13:43:17
+S
+
+APP_CANALT      appjava               1930      19411 3678                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 22:02:52
+APP_CANALT      appjava               2224        267 12377                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 17-MAY-2014 12:30:08
+APP_CANALT      appjava                295      15355 22412                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 16-MAY-2014 13:41:22
+APP_CANALT      appjava               2103      54259 3411                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 22:02:50
+APP_CAV         appwasadm              465      24751 4563                        INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:35:52
+APP_CLUBMOVISTA NETWORK SERVICE        367      45217 7112                        INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:55:22
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE       2219      63331 26647                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 16:54:06
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE       2089      48309 14608                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 13:11:00
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE       1493      25779 7313                        INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:55:24
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE       1784       7647 6710                        INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:43:44
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE       1736      47993 28817                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:54:19
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE        804      60315 18617                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 22:00:45
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE         26      57763 28917                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:58:14
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE       1581       6219 29681                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 13:13:23
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE        302      51505 845                         INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 22:02:28
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE       1505      62119 29519                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:50:26
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE         90      24509 19675                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:45:22
+R
+
+APP_CLUBMOVISTA NETWORK SERVICE       1786      22457 16298                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 13:58:47
+R
+
+USERNAME        OSUSER                 SID    SERIAL# SPID       LOCKWAIT         STATUS   SERVICE_NAME    MODULE                              MACHINE                   PROGRAM                                          LOGON_TIME
+--------------- --------------- ---------- ---------- ---------- ---------------- -------- --------------- ----------------------------------- ------------------------- ------------------------------------------------ --------------------
+
+APP_CLUBMOVISTA NETWORK SERVICE        103      58411 7329                        INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:55:24
+R
+
+APP_COBRE       appcobre               511        939 15006                       INACTIVE venus           webService@lnxni052 (TNS V1-V3)     lnxni052                  webService@lnxni052 (TNS V1-V3)                  26-MAY-2014 19:09:41
+APP_COBRE       appcobre               956      49357 15101                       INACTIVE venus           webService@lnxni052 (TNS V1-V3)     lnxni052                  webService@lnxni052 (TNS V1-V3)                  26-MAY-2014 19:09:42
+APP_COBRE       appcobre                76       6239 15052                       INACTIVE venus           webService@lnxni052 (TNS V1-V3)     lnxni052                  webService@lnxni052 (TNS V1-V3)                  26-MAY-2014 19:09:42
+APP_COBRE       appcobre               393      19687 15163                       INACTIVE venus           webService@lnxni052 (TNS V1-V3)     lnxni052                  webService@lnxni052 (TNS V1-V3)                  26-MAY-2014 19:09:43
+APP_COBRE       appcobre              1676       4963 15118                       INACTIVE venus           webService@lnxni052 (TNS V1-V3)     lnxni052                  webService@lnxni052 (TNS V1-V3)                  26-MAY-2014 19:09:43
+APP_COBRE       appcobre                18      46815 15127                       INACTIVE venus           webService@lnxni052 (TNS V1-V3)     lnxni052                  webService@lnxni052 (TNS V1-V3)                  26-MAY-2014 19:09:43
+APP_COBRE       appcobre               316      11177 15070                       INACTIVE venus           webService@lnxni052 (TNS V1-V3)     lnxni052                  webService@lnxni052 (TNS V1-V3)                  26-MAY-2014 19:09:42
+APP_COBRE       appcobre                36      41651 15041                       INACTIVE venus           webService@lnxni052 (TNS V1-V3)     lnxni052                  webService@lnxni052 (TNS V1-V3)                  26-MAY-2014 19:09:42
+APP_COBRE       appcobre               322       1221 15150                       INACTIVE venus           webService@lnxni052 (TNS V1-V3)     lnxni052                  webService@lnxni052 (TNS V1-V3)                  26-MAY-2014 19:09:43
+APP_DATOS       NETWORK SERVICE        149      34961 27244                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:54:07
+APP_DATOS       appdatos               936      40969 24096                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:45:39
+APP_DATOS       appdatos              2133      38425 22150                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:37:36
+APP_DATOS       appdatos                17      30975 21977                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:57
+APP_DATOS       appdatos               152      35725 21981                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:57
+APP_DATOS       appdatos               948      46889 21984                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:57
+APP_DATOS       appdatos              1374        577 21961                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:56
+APP_DATOS       appdatos              1859       8721 21965                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:56
+APP_DATOS       appdatos              1365      47071 21969                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:56
+APP_DATOS       appdatos              1649      44583 21973                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:57
+APP_DATOS       appdatos              1437      16717 24098                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:45:39
+APP_DATOS       appdatos              2076      63023 24100                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:45:39
+APP_DATOS       appdatos              1168      23923 21957                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:56
+APP_DATOS       appdatos              1223      61849 29563                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 01:57:35
+APP_DATOS       appdatos              1806      36073 29566                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 01:57:35
+APP_DATOS       appdatos              1071      26279 29569                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 01:57:35
+APP_DATOS       appdatos              1566      50999 21949                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:56
+APP_DATOS       appdatos              2012      40771 21953                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:36:56
+APP_DATOS       appdatos               574      29903 22132                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:37:34
+APP_DATOS       appdatos              1381        775 22142                       INACTIVE SYS$USERS       JDBC Thin Client                    sunni005.tcn.com.ni       JDBC Thin Client                                 21-MAY-2014 15:37:36
+APP_KIOSCOS     NETWORK SERVICE       1921       5595 13143                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 22:00:01
+APP_MONIBMC     SYSTEM                 519       1131 17705                       ACTIVE   SYS$USERS                                           01ni064                                                                    26-MAY-2014 10:38:35
+APP_MOVIL       appwasadm             1306      32493 14932                       INACTIVE venus           JDBC Thin Client                    lnxni063.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:52:28
+APP_MOVIL       appwasadm             1301      60207 15421                       INACTIVE venus           JDBC Thin Client                    lnxni063.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:52:32
+APP_MOVIL       appwasadm             1019      43605 14285                       INACTIVE venus           JDBC Thin Client                    lnxni063.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:52:22
+APP_RECELECT                           857      19931 20784                       INACTIVE venus                                               lnxni015.tcn.com.ni                                                        27-MAY-2014 03:57:11
+APP_RE_TELEPAGO NETWORK SERVICE       1884      22499 10907                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:55:51
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE        724      47159 26750                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:50:05
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE       1387      21807 21635                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:49:27
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE       2215      31265 8564                        INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:59:26
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE        954      10427 5490                        INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:55:10
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE        593      19997 18449                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:56:50
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE       1950      10755 21655                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 22:01:10
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE       1520      22809 21800                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 22:01:11
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE        506      31579 10282                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:48:00
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE        822      24021 10049                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:47:58
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE       1945      12121 23344                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 22:01:22
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE       1496        737 11379                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:55:55
+S
+
+APP_RE_TELEPAGO NETWORK SERVICE       2208      61521 29529                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 18:35:21
+S
+
+APP_SCL_ALTAMIR NETWORK SERVICE       2003      14495 12444                       INACTIVE venus                                               TCN\01NI030               w3wp.exe                                         27-MAY-2014 10:04:38
+A
+
+APP_SCL_ALTAMIR NJT01021              1155      22623 19328                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01021       toad.exe                                         26-MAY-2014 17:37:05
+A
+
+APP_SCL_ALTAMIR NJT01021              1154      59291 3491                        INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01021       toad.exe                                         27-MAY-2014 14:35:11
+A
+
+APP_SCL_ALTAMIR NJT01021               243      39195 16239                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01021       toad.exe                                         27-MAY-2014 11:27:29
+A
+
+APP_SCL_ALTAMIR NJT01021              1962      14489 22964                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01021       toad.exe                                         27-MAY-2014 09:47:52
+A
+
+APP_SCL_ALTAMIR NJT01021               863      36491 27645                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01021       toad.exe                                         26-MAY-2014 18:02:38
+A
+
+APP_SCL_ALTAMIR appwasadm             2166      38769 18726                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 20:54:46
+A
+
+APP_SCL_ALTAMIR oracle                2136      29625 24515                       ACTIVE   venus           SQL*Plus                            sunni005                  sqlplus@sunni005 (TNS V1-V3)                     27-MAY-2014 22:01:32
+A
+
+APP_SCL_ALTAMIR oracle                1877       8181 27447                       ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (O003)                          26-MAY-2014 05:03:36
+A
+
+APP_SCL_ALTAMIR oracle                1672       8545 27439                       ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (O002)                          26-MAY-2014 05:03:36
+A
+
+APP_SCL_ALTAMIR oracle                  87      34159 26527                       ACTIVE   venus           SQL*Plus                            sunni005                  sqlplus@sunni005 (TNS V1-V3)                     27-MAY-2014 04:01:36
+A
+
+APP_SEGURIDAD   appwasadm             1805      14471 13580                       INACTIVE venus           JDBC Thin Client                    lnxni037                  JDBC Thin Client                                 24-MAY-2014 14:11:45
+APP_SEGURIDAD   appwasadm             1378       7215 28751                       INACTIVE venus           JDBC Thin Client                    lnxni037                  JDBC Thin Client                                 27-MAY-2014 21:46:31
+APP_SEGURIDAD   appwasadm              324        985 1039                        INACTIVE venus           JDBC Thin Client                    lnxni037                  JDBC Thin Client                                 27-MAY-2014 21:46:48
+APP_SEGURIDAD   appwasadm             1666      36465 13533                       INACTIVE venus           JDBC Thin Client                    lnxni037                  JDBC Thin Client                                 24-MAY-2014 14:11:31
+APP_SEGURIDAD   appwasadm             2096      44135 28800                       INACTIVE venus           JDBC Thin Client                    lnxni037                  JDBC Thin Client                                 27-MAY-2014 21:46:31
+APP_SMS         NETWORK SERVICE        454      40425 11348                       INACTIVE venus           w3wp.exe                            TCN\01NI061               w3wp.exe                                         27-MAY-2014 21:55:54
+APP_SMS         NETWORK SERVICE       2011      41699 4068                        INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:58:53
+APP_SMS         NETWORK SERVICE       2150      45085 19682                       INACTIVE venus           w3wp.exe                            TCN\01NI061               w3wp.exe                                         27-MAY-2014 22:00:54
+APP_SMS         NETWORK SERVICE       2068       8123 3683                        INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:58:50
+APP_SMS         NETWORK SERVICE       2097      48879 27252                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:38:45
+APP_SMS         NETWORK SERVICE        950       4701 8013                        INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:59:22
+APP_SMS         NETWORK SERVICE        392      28835 29847                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:58:21
+APP_SMS         NETWORK SERVICE         91      34097 9027                        INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 20:24:37
+APP_SMS         NETWORK SERVICE        448      38785 25439                       INACTIVE venus           w3wp.exe                            TCN\01NI052               w3wp.exe                                         27-MAY-2014 21:57:47
+APP_SMS         NETWORK SERVICE       1176      18361 16896                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:56:37
+APP_SMS         NETWORK SERVICE       1101      50601 19968                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:45:24
+APP_SMS         NETWORK SERVICE       2077      48843 19622                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:45:22
+APP_SMS         NETWORK SERVICE       2008      38083 19948                       INACTIVE venus           w3wp.exe                            TCN\01NI030               w3wp.exe                                         27-MAY-2014 21:45:24
+APP_SMS         NETWORK SERVICE       1150      54459 9861                        INACTIVE venus           w3wp.exe                            TCN\01NI061               w3wp.exe                                         27-MAY-2014 20:07:22
+APP_SMS         appjava                359      63229 23191                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:40
+APP_SMS         appjava               2222      14937 23151                       ACTIVE   venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                521      11349 23199                       ACTIVE   venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:40
+APP_SMS         appjava                824      48961 23132                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                 31      14923 5726                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+APP_SMS         appjava                160      44761 5728                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+APP_SMS         appjava                327        171 5730                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+APP_SMS         appjava                391       2797 5732                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+APP_SMS         appjava                430      46825 23195                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:40
+APP_SMS         appjava               1088      61231 23135                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava               1733      22319 23143                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava               2159      11727 11752                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 07:07:08
+APP_SMS         appjava               1230      33949 11760                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 07:07:08
+APP_SMS         appjava               2243       6741 11754                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 07:07:08
+APP_SMS         appjava                181      52611 11756                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 07:07:08
+APP_SMS         appjava               1665      45555 23094                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava               2009       8937 23098                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                102      34623 23106                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                298      36801 23110                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                377      31327 23114                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                462      27983 23118                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                499      38497 23120                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                601      30647 11758                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 07:07:08
+APP_SMS         appjava                671      28685 23124                       ACTIVE   venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava               2174      43031 23185                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:40
+APP_SMS         appjava               1863      36825 23181                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:40
+APP_SMS         appjava               1812       6403 5724                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+APP_SMS         appjava               1644      27035 5722                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+APP_SMS         appjava               1430      46607 5720                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+APP_SMS         appjava               1371       2275 23178                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:40
+APP_SMS         appjava               1303      25329 5718                        INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 06:32:24
+APP_SMS         appjava               1248      60823 23175                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:40
+APP_SMS         appjava                749      16991 23167                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:40
+APP_SMS         appjava                390      51711 23164                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                163      22915 23161                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                 82      42161 23157                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appjava                 34      31033 23155                       INACTIVE venus           JDBC Thin Client                    lnxni002.tcn.com.ni       JDBC Thin Client                                 26-MAY-2014 07:14:39
+APP_SMS         appwasadm             2005      42461 29663                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 08:14:52
+APP_SMS         oracle                1292      39017 1448                        ACTIVE   venus           SQL*Plus                            sunni005                  sqlplus@sunni005 (TNS V1-V3)                     27-MAY-2014 22:02:33
+APP_SMS         oracle                1461      38805 13218                       ACTIVE   venus           SQL*Plus                            sunni005                  sqlplus@sunni005 (TNS V1-V3)                     27-MAY-2014 03:01:34
+APP_SMS                                885      49949 22180                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               2079      18169 21514                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:24
+APP_SMS                                287      19691 21517                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:24
+APP_SMS                                590      42713 21523                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:24
+APP_SMS                                865      18471 21535                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:24
+APP_SMS                               1140      58299 22220                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               1234       1507 22222                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               1741      44459 22248                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               2022       3501 5114                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:24
+APP_SMS                                970         13 5163                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:24
+APP_SMS                                259       2647 5178                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:24
+APP_SMS                                 81      54901 5212                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+APP_SMS                                330         73 5214                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+APP_SMS                               1998      43795 5228                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+APP_SMS                                177      22903 5240                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+APP_SMS                                234      28759 5242                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:25
+APP_SMS                               1801      35787 22184                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                114        229 5029                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:23
+APP_SMS                                443      63551 22187                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                674      50915 22190                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                875      26613 22196                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               1031      22913 22202                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               1726       5483 13722                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:03:20
+APP_SMS                                869      62187 22206                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                997      12427 22210                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               1295      23693 22237                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               2141      23881 21467                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:23
+APP_SMS                                813      14531 22212                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               1104       4937 22216                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                               1142      11115 21473                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:23
+APP_SMS                               1384      20549 21481                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:23
+APP_SMS                               1511      45483 21487                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:23
+APP_SMS                               1595      13299 21489                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:23
+APP_SMS                               1890      48367 16384                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 20:30:39
+APP_SMS                                158       2443 5081                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:24
+APP_SMS                                938      47005 21501                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:24
+APP_SMS                               1010      20549 21507                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:24
+APP_SMS                               1602      48965 21511                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:54:24
+APP_SMS                                360      26617 5844                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 22:03:11
+APP_SMS                               1025      14699 27279                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 17:23:11
+APP_SMS                               1376      60791 4936                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 22:03:03
+APP_SMS                               1579      63473 5957                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 22:03:12
+APP_SMS                                796      43853 27783                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        17-MAY-2014 23:41:46
+APP_SMS                                681      36543 965                         INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 17:23:46
+APP_SMS                                 44      25549 1869                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 21:23:29
+APP_SMS                                146       5971 24143                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        16-MAY-2014 04:01:47
+APP_SMS                                440      59109 5011                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        24-MAY-2014 06:29:22
+APP_SMS                               1361      65269 22153                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                154      45333 22157                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                321      13413 22163                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                394      57841 22167                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                540      34073 22173                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                588       9283 22177                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                664      10261 22199                       INACTIVE venus                                               lnxni002.tcn.com.ni                                                        27-MAY-2014 06:04:35
+APP_SMS                                722      40167 1883                        INACTIVE venus                                               lnxni002.tcn.com.ni                                                        26-MAY-2014 21:23:29
+APP_SVA_NI      appjavaprocess        1243        671 27412                       INACTIVE venus           JDBC Thin Client                    lnxni085.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 05:01:35
+APP_SVA_NI      appjavaprocess         939       9069 27404                       INACTIVE venus           JDBC Thin Client                    lnxni085.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 05:01:34
+APP_SVA_NI      appjavaprocess         999       6325 27406                       INACTIVE venus           JDBC Thin Client                    lnxni085.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 05:01:34
+APP_SVA_NI      appjavaprocess        1083        243 27408                       INACTIVE venus           JDBC Thin Client                    lnxni085.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 05:01:34
+APP_SVA_NI      appjavaprocess        1172      44857 27414                       INACTIVE venus           JDBC Thin Client                    lnxni085.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 05:01:35
+APP_SVA_NI      appjavaprocess        1231      50647 27416                       INACTIVE venus           JDBC Thin Client                    lnxni085.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 05:01:35
+APP_SVA_NI      appjavaprocess        1440      54929 27418                       INACTIVE venus           JDBC Thin Client                    lnxni085.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 05:01:35
+APP_SVA_NI      appjavaprocess        1573      55033 27420                       INACTIVE venus           JDBC Thin Client                    lnxni085.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 05:01:35
+APP_SVA_NI      appjavaprocess        1638      63127 27422                       INACTIVE venus           JDBC Thin Client                    lnxni085.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 05:01:35
+APP_USSD        appwasadm             1521      27683 5045                        INACTIVE venus           JDBC Thin Client                    lnxni016.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:20:26
+NJN01776        NJN01776              1146      38757 10138                       INACTIVE venus           TOAD 10.1.1.8                       INTRA\AJ01TYSNJN01776     Toad.exe                                         27-MAY-2014 08:11:40
+NJN01966        NJN01966              1095      28639 1032                        INACTIVE venus           TOAD 10.1.1.8                       INTRA\AJ01TYSNJN01966     Toad.exe                                         27-MAY-2014 17:42:47
+NJN02265        NJN02265              1750      39967 20563                       INACTIVE venus           TOAD 10.1.1.8                       INTRA\AJ01TYSNJN02265     Toad.exe                                         27-MAY-2014 08:13:18
+NJT00982        NJT00982               810       6001 13760                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00982       Toad.exe                                         22-MAY-2014 09:50:06
+NJT00982        NJT00982              1869      61901 18030                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00982       Toad.exe                                         27-MAY-2014 18:09:23
+NJT00982        NJT00982              1444      58283 11833                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00982       Toad.exe                                         27-MAY-2014 14:07:22
+NJT00983        NJT00983              1000      18691 2047                        INACTIVE venus           TOAD 11.6.1.6                       TCN\CM02ITMNJT00983       Toad.exe                                         26-MAY-2014 14:14:48
+NJT00983        NJT00983              1086       7259 27077                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00983       Toad.exe                                         27-MAY-2014 11:07:08
+NJT00983        NJT00983               656       9689 23922                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00983       Toad.exe                                         27-MAY-2014 15:23:50
+NJT00983        NJT00983              1574      32425 29887                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00983       Toad.exe                                         26-MAY-2014 15:16:07
+NJT00983        NJT00983               802      38825 15227                       INACTIVE venus           TOAD 11.6.1.6                       TCN\CM02ITMNJT00983       Toad.exe                                         27-MAY-2014 11:40:23
+NJT00983        NJT00983              1941      34169 18536                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00983       Toad.exe                                         27-MAY-2014 11:40:52
+NJT00983        NJT00983              2167      25539 15801                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00983       Toad.exe                                         26-MAY-2014 14:55:04
+NJT00983        NJT00983              1996      54227 5191                        INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00983       Toad.exe                                         26-MAY-2014 14:15:19
+NJT00983        NJT00983               880      51031 20623                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00983       Toad.exe                                         26-MAY-2014 20:51:50
+NJT00983        NJT00983              1227      62919 2456                        INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT00983       Toad.exe                                         26-MAY-2014 14:14:52
+NJT01050        NJT01050              2019      23481 15870                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01050       TOAD.exe                                         23-MAY-2014 10:33:20
+NJT01050        NJT01050               524      54879 24972                       INACTIVE venus           TOAD.exe                            TCN\CM02ITMNJT01050       TOAD.exe                                         26-MAY-2014 11:44:17
+NJT01050        NJT01050              1323       9109 5241                        INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01050       TOAD.exe                                         26-MAY-2014 08:21:45
+NJT01155        NJT01155              1809      44319 8519                        INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01155       Toad.exe                                         27-MAY-2014 09:15:27
+NJT01155        NJT01155                19      10303 5290                        INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01155       Toad.exe                                         27-MAY-2014 19:29:41
+NJT01155        NJT01155              1092      46729 25611                       INACTIVE venus           TOAD background query session       TCN\CM02ITMNJT01155       Toad.exe                                         26-MAY-2014 11:10:09
+NJT01155        NJT01155               432      24539 24820                       INACTIVE venus           TOAD 11.6.1.6                       TCN\CM02ITMNJT01155       Toad.exe                                         26-MAY-2014 11:10:03
+NJT01219        NJT01219              1322      52693 20399                       INACTIVE venus           TOAD 10.6.0.42                      TCN\CM02SIGNJT01219       Toad.exe                                         27-MAY-2014 17:31:43
+NJTADM505       NJT00505               373      13679 17259                       INACTIVE venus           TOAD 10.6.0.42                      TCN\CM02ITMNJT00505       Toad.exe                                         27-MAY-2014 20:46:28
+SEG_EXTRANET_NI appwasadm              304      51271 12101                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 17:58:42
+SEG_EXTRANET_NI appwasadm             1664       2275 21276                       INACTIVE venus           AMTServiciosOperaciones             lnxni063.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 04:56:05
+SEG_EXTRANET_NI appwasadm              246      19487 15582                       ACTIVE   venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:44:52
+SEG_EXTRANET_NI appwasadm             1747      31087 15579                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 21:44:52
+SEG_EXTRANET_NI appwasadm              531      25743 15610                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 22-MAY-2014 13:15:54
+SEG_EXTRANET_NI appwasadm              881      56247 7808                        INACTIVE venus           AMTServiciosOperaciones             lnxni063.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 01:34:52
+SEG_EXTRANET_NI appwasadm              889      38999 18638                       INACTIVE venus           JDBC Thin Client                    lnxni012.tcn.com.ni       JDBC Thin Client                                 27-MAY-2014 20:54:46
+SEG_EXTRANET_NI appwasadm             2207      22463 5189                        INACTIVE venus           AMTServiciosOperaciones             lnxni063.tcn.com.ni       JDBC Thin Client                                 24-MAY-2014 04:37:14
+SYS             oracle                1102      21301 13270                       INACTIVE SYS$USERS       rman@sracni004 (TNS V1-V3)          sracni004                 rman@sracni004 (TNS V1-V3)                       27-MAY-2014 22:00:02
+SYS             oracle                1993      43519 14916                       ACTIVE   SYS$USERS       backup archivelog                   sracni004                 rman@sracni004 (TNS V1-V3)                       27-MAY-2014 22:00:15
+SYS             oracle                2156      25557 4418                        INACTIVE SYS$USERS       oraagent.bin@sracni004 (TNS V1-V3)  sracni004                 oraagent.bin@sracni004 (TNS V1-V3)               24-MAY-2014 04:32:08
+SYS             oracle                1209          1 2997                        INACTIVE SYS$USERS       oraagent.bin@sracni004 (TNS V1-V3)  sracni004                 oraagent.bin@sracni004 (TNS V1-V3)               16-MAY-2014 01:16:36
+SYS             oracle                1872      34319 13507                       INACTIVE SYS$USERS       rman@sracni004 (TNS V1-V3)          sracni004                 rman@sracni004 (TNS V1-V3)                       27-MAY-2014 22:00:04
+SYS             oracle                1280          1 2999                        INACTIVE SYS$USERS       oraagent.bin@sracni004 (TNS V1-V3)  sracni004                 oraagent.bin@sracni004 (TNS V1-V3)               16-MAY-2014 01:16:36
+SYSMAN          oracle                 861      10105 26067                       INACTIVE venus           OEM.DefaultPool                     sracni004                 OMS                                              16-MAY-2014 10:56:27
+SYSMAN          oracle                2209       8679 26188                       INACTIVE venus           OEM.DefaultPool                     sracni004                 OMS                                              16-MAY-2014 10:57:01
+SYSMAN          oracle                1710       7643 26130                       INACTIVE venus           OEM.SystemPool                      sracni004                 OMS                                              16-MAY-2014 10:56:46
+SYSMAN          oracle                1641      28059 26174                       ACTIVE   venus           OEM.SystemPool                      sracni004                 OMS                                              16-MAY-2014 10:56:58
+SYSMAN          oracle                 502      11609 26176                       INACTIVE venus           OEM.SystemPool                      sracni004                 OMS                                              16-MAY-2014 10:56:58
+SYSMAN          oracle                 815      41461 11477                       INACTIVE venus           OEM.CacheModeWaitPool               sracni004                 OMS                                              24-MAY-2014 00:00:06
+SYSMAN          oracle                1777      16885 26186                       INACTIVE venus           OEM.DefaultPool                     sracni004                 OMS                                              16-MAY-2014 10:57:01
+SYSMAN          oracle                1447      49387 2746                        INACTIVE venus           OEM.BoundedPool                     sracni004                 OMS                                              27-MAY-2014 05:32:38
+SYSMAN          oracle                1929       1721 26202                       INACTIVE venus           OEM.DefaultPool                     sracni004                 OMS                                              16-MAY-2014 10:57:02
+SYSMAN          oracle                1790       4195 26200                       INACTIVE venus           OEM.DefaultPool                     sracni004                 OMS                                              16-MAY-2014 10:57:02
+SYSMAN          oracle                 650      18221 26190                       INACTIVE venus           OEM.DefaultPool                     sracni004                 OMS                                              16-MAY-2014 10:57:01
+SYSMAN          oracle                1720       8067 26198                       INACTIVE venus           OEM.DefaultPool                     sracni004                 OMS                                              16-MAY-2014 10:57:02
+SYSMAN          oracle                 380      37039 28985                       INACTIVE venus           OEM.CacheModeWaitPool               sracni004                 OMS                                              23-MAY-2014 06:08:33
+SYSTEM          AbnerIvan              944       6905 5795                        ACTIVE   SYS$USERS       SQL*Plus                            WORKGROUP\01NI0777        sqlplus.exe                                      27-MAY-2014 22:03:11
+(oracle)        oracle                 143          1 2701                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (PMON)                          16-MAY-2014 01:16:09
+(oracle)        oracle                 523      26405 28531                       ACTIVE   SYS$BACKGROUND  Streams                             sracni004                 oracle@sracni004 (Q002)                          27-MAY-2014 22:02:09
+(oracle)        oracle                 285          1 2705                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (VKTM)                          16-MAY-2014 01:16:10
+(oracle)        oracle                 356          1 2709                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (GEN0)                          16-MAY-2014 01:16:10
+(oracle)        oracle                 427          1 2711                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (DIAG)                          16-MAY-2014 01:16:10
+(oracle)        oracle                 498          1 2713                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (DBRM)                          16-MAY-2014 01:16:11
+(oracle)        oracle                 569          1 2715                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (PING)                          16-MAY-2014 01:16:11
+(oracle)        oracle                 640          1 2717                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (ACMS)                          16-MAY-2014 01:16:11
+(oracle)        oracle                 711          1 2719                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (DIA0)                          16-MAY-2014 01:16:11
+(oracle)        oracle                 782          1 2721                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (LMON)                          16-MAY-2014 01:16:11
+(oracle)        oracle                 853          1 2723                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (LMD0)                          16-MAY-2014 01:16:11
+(oracle)        oracle                 924          1 2741                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (LMS0)                          16-MAY-2014 01:16:11
+(oracle)        oracle                 995          1 2745                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (LMS1)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1066          1 2749                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (LMS2)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1137          1 2753                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (RMS0)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1208          1 2755                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (LMHB)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1279          1 2758                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (MMAN)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1350          1 2760                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (DBW0)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1421          1 2762                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (DBW1)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1492          1 2764                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (DBW2)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1563          1 2766                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (DBW3)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1634          1 2768                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (LGWR)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1705          1 2770                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (CKPT)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1776          1 2772                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (SMON)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1847          1 2774                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (RECO)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1919          1 2776                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (RBAL)                          16-MAY-2014 01:16:11
+(oracle)        oracle                1989          1 2778                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (ASMB)                          16-MAY-2014 01:16:12
+(oracle)        oracle                2060          1 2780                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (MMON)                          16-MAY-2014 01:16:12
+(oracle)        oracle                2131          1 2783                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (MMNL)                          16-MAY-2014 01:16:12
+(oracle)        oracle                  72          1 2790                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (MARK)                          16-MAY-2014 01:16:12
+(oracle)        oracle                 215          1 2813                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (LCK0)                          16-MAY-2014 01:16:14
+(oracle)        oracle                 286          1 2815                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (RSMN)                          16-MAY-2014 01:16:14
+(oracle)        oracle                 570          1 2899                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (ARC0)                          16-MAY-2014 01:16:24
+(oracle)        oracle                 641          1 2901                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (ARC1)                          16-MAY-2014 01:16:25
+(oracle)        oracle                 712          1 2903                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (ARC2)                          16-MAY-2014 01:16:25
+(oracle)        oracle                 783          1 2905                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (ARC3)                          16-MAY-2014 01:16:25
+(oracle)        oracle                 854          1 2945                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (RCBG)                          16-MAY-2014 01:16:30
+(oracle)        oracle                 926          3 2949                        ACTIVE   SYS$BACKGROUND  Streams                             sracni004                 oracle@sracni004 (QMNC)                          16-MAY-2014 01:16:31
+(oracle)        oracle                1068          1 2973                        ACTIVE   SYS$BACKGROUND  Streams                             sracni004                 oracle@sracni004 (Q001)                          16-MAY-2014 01:16:33
+(oracle)        oracle                1138          5 3033                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (CJQ0)                          16-MAY-2014 01:16:38
+(oracle)        oracle                1525      44093 25679                       ACTIVE   SYS$BACKGROUND  KTSJ                                sracni004                 oracle@sracni004 (W000)                          27-MAY-2014 21:57:49
+(oracle)        oracle                 144         13 3911                        ACTIVE   SYS$BACKGROUND  KTSJ                                sracni004                 oracle@sracni004 (SMCO)                          16-MAY-2014 01:22:07
+(oracle)        oracle                 672       7425 4969                        ACTIVE   SYS$BACKGROUND  Streams                             sracni004                 oracle@sracni004 (Q000)                          27-MAY-2014 21:51:07
+(oracle)        oracle                1637      15683 3323                        ACTIVE   SYS$USERS                                           sracni004                 oracle@sracni004 (J002)                          27-MAY-2014 22:02:49
+(oracle)        oracle                1707          9 4415                        ACTIVE   SYS$BACKGROUND  MMON_SLAVE                          sracni004                 oracle@sracni004 (M000)                          16-MAY-2014 01:27:30
+(oracle)        oracle                1858      23607 12993                       ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (VKRM)                          27-MAY-2014 22:00:00
+(oracle)        oracle                1564      39151 19114                       ACTIVE   SYS$USERS                                           sracni004                 oracle@sracni004 (J000)                          27-MAY-2014 22:02:49
+(oracle)        oracle                1746      31611 28711                       ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (O001)                          26-MAY-2014 00:32:59
+(oracle)        oracle                1379      57357 26399                       ACTIVE   SYS$USERS                                           sracni004                 oracle@sracni004 (J001)                          27-MAY-2014 22:02:49
+(oracle)        oracle                 153      12019 19109                       ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (O000)                          25-MAY-2014 23:27:13
+(oracle)        oracle                 214          1 2703                        ACTIVE   SYS$BACKGROUND                                      sracni004                 oracle@sracni004 (PSP0)                          16-MAY-2014 01:16:09
+
+650 rows selected.
+
+SP2-0734: unknown command beginning "-         ..." - rest of line ignored.
+Tablespaces nearing 0% free
+***************************
+
+no rows selected
+
+
+Tables and Indexes nearing MAX_EXTENTS
+**************************************
+
+no rows selected
+

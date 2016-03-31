@@ -1,0 +1,35 @@
+--------------------------
+Compile Program
+--------------------------
+javac DatabaseMetaDataExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java DatabaseMetaDataExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@localhost:1521:CUSTDB
+  Connected as         -> scott
+
+  DatabaseMetaData Information
+  ============================
+  - Product Name          : Oracle
+  - Product Version Number : Oracle9i Enterprise Edition Release 9.2.0.3.0 - Production
+With the Partitioning, OLAP and Oracle Data Mining options
+JServer Release 9.2.0.3.0 - Production
+  - Database Major Version : java.sql.SQLException: Unsupported feature
+  - Database Minor Version : java.sql.SQLException: Unsupported feature
+  - Driver Name            : Oracle JDBC driver
+  - Driver Major Version   : 9
+  - Driver Minor Version   : 2
+  - Username               : SCOTT
+  - Catalogs               :
+  Closing Connection...

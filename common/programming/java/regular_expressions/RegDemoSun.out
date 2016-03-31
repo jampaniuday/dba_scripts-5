@@ -1,0 +1,64 @@
+--------------------------
+Compile Program
+--------------------------
+javac RegDemoSun.java
+
+
+--------------------------
+Run Program
+--------------------------
+java RegDemoSun
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Case sensitive :: matches() v.s. find()
+---------------------------------------
+
+Test 1: /AU-120 - Network Cable./ [ MATCHES ]  /^A[^b]-\d+ - .+$/
+
+Test 2: /AU-120 - Network Cable./ [ DOES NOT MATCH ]  /^A[^b]-\d+ - /
+
+Test 3: /AU-120 - Network Cable./ [ FOUND ]  /^A[^b]-\d+ - .+$/
+
+Test 4: /AU-120 - Network Cable./ [ FOUND ]  /^A[^b]-\d+ - /
+
+Test 5: /au-120 - Network Cable./ [ DOES NOT MATCH ]  /^A[^b]-\d+ - .+$/
+
+Test 6: /au-120 - Network Cable./ [ DOES NOT MATCH ]  /^A[^b]-\d+ - /
+
+Test 7: /au-120 - Network Cable./ [ NOT FOUND ]  /^A[^b]-\d+ - .+$/
+
+Test 8: /au-120 - Network Cable./ [ NOT FOUND ]  /^A[^b]-\d+ - /
+
+
+Case Insensitive :: matches() v.s. find()
+-----------------------------------------
+
+Test 1: /AU-120 - Network Cable./ [ MATCHES ]  /^A[^b]-\d+ - .+$/
+
+Test 2: /AU-120 - Network Cable./ [ DOES NOT MATCH ]  /^A[^b]-\d+ - /
+
+Test 3: /AU-120 - Network Cable./ [ FOUND ]  /^A[^b]-\d+ - .+$/
+
+Test 4: /AU-120 - Network Cable./ [ FOUND ]  /^A[^b]-\d+ - /
+
+Test 5: /au-120 - Network Cable./ [ MATCHES ]  /^A[^b]-\d+ - .+$/
+
+Test 6: /au-120 - Network Cable./ [ DOES NOT MATCH ]  /^A[^b]-\d+ - /
+
+Test 7: /au-120 - Network Cable./ [ FOUND ]  /^A[^b]-\d+ - .+$/
+
+Test 8: /au-120 - Network Cable./ [ FOUND ]  /^A[^b]-\d+ - /
+
+
+Case Sensitive :: Using convenience method Pattern.matches(Pattern, CharSequence)
+---------------------------------------------------------------------------------
+
+Test 1: /AU-120 - Network Cable./ [ MATCHES ]  /^A[^b]-\d+ - .+$/
+
+Test 2: /AU-120 - Network Cable./ [ DOES NOT MATCH ]  /^A[^b]-\d+ - /
+

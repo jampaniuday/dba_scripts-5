@@ -1,0 +1,46 @@
+--------------------------
+Compile Program
+--------------------------
+javac CalendarExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CalendarExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+CURRENT DATE/TIME
+=================================================================
+  Calendar.getInstance().getTime() : Sun Sep 15 22:48:02 EDT 2002
+
+SIMPLE DATE FORMAT
+=================================================================
+  It is now : Sun 2002.09.15 at 10:48:03 PM EDT
+
+ADD / SUBTRACT CALENDAR / DATEs
+=================================================================
+  Two years ago it was: Fri 2000.09.15 at 10:48:03 PM EDT
+  In five days it will be: Fri 2002.09.20 at 10:48:03 PM EDT
+
+DIFFERENCE BETWEEN TWO DATES
+=================================================================
+  Difference between Sun Sep 15 22:48:03 EDT 2002
+  and Mon Mar 14 14:00:00 EST 1994 is 3107 days.
+
+CALENDAR GET METHODS
+=================================================================
+  YEAR                 : 2002
+  MONTH                : 8
+  DAY_OF_MONTH         : 15
+  DAY_OF_WEEK          : 1
+  DAY_OF_YEAR          : 258
+  WEEK_OF_YEAR         : 38
+  WEEK_OF_MONTH        : 3
+  DAY_OF_WEEK_IN_MONTH : 3
+

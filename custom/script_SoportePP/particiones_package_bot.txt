@@ -1,0 +1,986 @@
+PACKAGE BODY      particiones
+IS
+  /*-----------------------------------------------------------------------
+   Fichero: particiones.pbs
+   Version: 2.0.1
+   Autor : Grupo de desarrollo
+   Fecha de creacion: 21/06/2006
+   Fecha Modificacin: 15-Jun-2007
+   ------------------------------------------------------------------------
+  */
+
+  -- Valor de un segundo relativo a un d¿a
+  cg_seg_fdd     constant float := 0.0000115740740740740740740740740740740741;
+
+/*
+  ============================================================================
+  Procedimiento: TRAZA
+  ============================================================================
+*/
+   PROCEDURE traza (nivel IN INTEGER, msg IN VARCHAR2)
+   IS
+      tmp   VARCHAR2 (255);
+   BEGIN
+      IF (nivel <= nivel_trazas)
+      THEN
+         tmp := '';
+
+         FOR i IN 2 .. nivel
+         LOOP
+            tmp := '.' || tmp;
+         END LOOP;
+
+         DBMS_OUTPUT.put_line (tmp || msg);
+      END IF;
+   END traza;
+
+/*
+  ============================================================================
+  Funcin: is_digits
+  ============================================================================
+*/
+
+  FUNCTION is_digits(pf_txtnum VARCHAR2) RETURN boolean IS
+  BEGIN
+
+    if pf_txtnum is null then
+      RETURN false;
+    end if;
+
+    for i in 1..length( pf_txtnum ) loop
+      if ( ascii( substr(pf_txtnum , i , 1) ) < 48 ) or ( ascii( substr(pf_txtnum , i , 1) ) > 57 ) then
+        return false;
+        exit;
+      end if;
+    end loop;
+
+    RETURN true;
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE ('Error en is_digits: '||SQLERRM);
+      RETURN false;
+  END;
+
+
+/*
+  ============================================================================
+  PROCEDURE size_extent;
+  Dado un valor en bytes retorna el tama¿o de un extent en formato <size><K|M>
+  para evitar la excesiva fragmentacin en los tablespaces que no han sido
+  ajustados a extents uniformes
+  ============================================================================
+*/
+  procedure size_extent(
+    pe_bytes      in  number ,
+    ps_tam_extent out varchar2
+  ) is
+    lbytes_extent   number;
+    ltxt_tam_extent varchar2( 40 );
+  begin
+
+    lbytes_extent := nvl( pe_bytes , 0 );
+
+    if lbytes_extent > 268435456 then
+      lbytes_extent := 268435456;
+      ltxt_tam_extent := '256M';
+    elsif lbytes_extent > 134217728 then
+      lbytes_extent := 134217728;
+      ltxt_tam_extent := '128M';
+    elsif lbytes_extent > 67108864 then
+      lbytes_extent := 67108864;
+      ltxt_tam_extent := '64M';
+    elsif lbytes_extent > 33554432 then
+      lbytes_extent := 33554432;
+      ltxt_tam_extent := '32M';
+    elsif lbytes_extent > 16777216 then
+      lbytes_extent := 16777216;
+      ltxt_tam_extent := '16M';
+    elsif lbytes_extent > 8388608 then
+      lbytes_extent := 8388608;
+      ltxt_tam_extent := '8M';
+    elsif lbytes_extent > 4194304 then
+      lbytes_extent := 4194304;
+      ltxt_tam_extent := '4M';
+    elsif lbytes_extent > 2097152 then
+      lbytes_extent := 2097152;
+      ltxt_tam_extent := '2M';
+    elsif lbytes_extent > 1048576 then
+      lbytes_extent := 1048576;
+      ltxt_tam_extent := '1M';
+    elsif lbytes_extent > 524288 then
+      lbytes_extent := 524288;
+      ltxt_tam_extent := '512K';
+    elsif lbytes_extent > 262144 then
+      lbytes_extent := 262144;
+      ltxt_tam_extent := '256K';
+    elsif lbytes_extent > 131072 then
+      lbytes_extent := 131072;
+      ltxt_tam_extent := '128K';
+    else
+      lbytes_extent := 65536;
+      ltxt_tam_extent := '64K';
+    end if;
+
+    ps_tam_extent := ltxt_tam_extent;
+
+  exception
+    when others then
+      ps_tam_extent := '64K';
+      dbms_output.put_line( 'Error calculando tama¿o de extent para: ' || lbytes_extent );
+      dbms_output.put_line( sqlerrm );
+  end;
+
+
+/*
+  ============================================================================
+  PROCEDURE create_new_parts_tab;
+  Crea las particiones de una tabla dada
+  ============================================================================
+*/
+  procedure create_new_parts_tab(
+    pe_nbr_tabla in  PPCS_TABLAS.NOM_TABLA%type ,
+    pe_dias_crear in number,
+    ps_pc        out number
+  ) is
+    lctd_pc       number := 0;
+    lbytes_extent number := 0;
+    ltam_esp_disp number := 0;
+    ltam_extent   varchar2( 40 );
+    lreg_tabla    PPCS_TABLAS%rowtype;
+    lfec_tope     date;
+    lint          number;
+    ltxt_sql      varchar2( 32767 );
+    lnbr_part     USER_TAB_PARTITIONS.PARTITION_NAME%type;
+
+    ldes_part     PPCS_PARTICIONES.DES_PARTICIONES%type;
+    lnbr_esptatb  USER_FREE_SPACE.TABLESPACE_NAME%type;
+
+    lincremento   number;
+    ltxt_valmayor varchar2( 20 );
+
+    lfec_top_part date;
+    lfec_bas_part date;
+
+    e_no_user     exception; -- ORA-01017: invalid username/password; logon denied
+    e_no_dcrear   exception;
+    e_salida      exception;
+
+  begin
+
+    if USER <> 'PPCS' then
+      raise e_no_user;
+    end if;
+
+    lctd_pc := nvl( pe_dias_crear , 0 );
+
+    if lctd_pc <= 0 then
+      raise e_no_dcrear;
+    end if;
+
+    SELECT * INTO lreg_tabla
+    FROM PPCS_TABLAS
+    WHERE NOM_TABLA = pe_nbr_tabla;
+
+    lfec_tope := last_day( trunc(sysdate) ) + lctd_pc;
+
+    lint := ceil( months_between( last_day(trunc(sysdate)) , lfec_tope ) );
+    lfec_tope := add_months ( last_day( trunc(sysdate) ) , -(lint) );
+
+    SELECT MAX( FEH_MAX) INTO lfec_top_part
+    FROM PPCS_PARTICIONES
+    WHERE COD_TABLA = lreg_tabla.COD_TABLA;
+
+    if lfec_top_part < lfec_tope then
+
+      if lreg_tabla.cod_tipo = 3 then
+
+        SELECT PARTITION_NAME , CEIL(MAX(BYTES)*.9/10) INTO lnbr_part, lbytes_extent
+        FROM USER_SEGMENTS
+        WHERE SEGMENT_NAME = pe_nbr_tabla
+        AND ROWNUM <= 1
+        GROUP BY PARTITION_NAME;
+
+        SELECT CEIL( lbytes_extent/(FEH_MAX - FEH_MIN) ) INTO lbytes_extent
+        FROM PPCS_PARTICIONES
+        WHERE NOM_PARTICION = lnbr_part;
+
+      else
+
+        SELECT CEIL(MAX(BYTES)*.9/10) INTO lbytes_extent
+        FROM USER_SEGMENTS
+        WHERE SEGMENT_NAME = pe_nbr_tabla;
+
+      end if;
+
+      size_extent( lbytes_extent , ltam_extent );
+
+    else
+
+      raise e_salida;
+
+    end if;
+
+    lctd_pc := 0;
+
+    WHILE lfec_top_part < lfec_tope LOOP
+
+      IF lreg_tabla.COD_TIPO = 1 THEN
+        lincremento := 100 / lreg_tabla.NUM_PARTICIONES;
+        lfec_bas_part := lasT_day( lfec_top_part ) + cg_seg_fdd;
+        lfec_top_part := add_months( lfec_top_part , 1 );
+
+        FOR I IN 1..lreg_tabla.NUM_PARTICIONES LOOP
+
+          SELECT FREESPA.TABLESPACE_NAME , MAX(FREESPA.BYTES)
+          INTO lnbr_esptatb , ltam_esp_disp
+          FROM USER_FREE_SPACE FREESPA
+          WHERE EXISTS (SELECT NULL FROM USER_SEGMENTS USEGS WHERE USEGS.SEGMENT_NAME = pe_nbr_tabla
+            AND USEGS.TABLESPACE_NAME = FREESPA.TABLESPACE_NAME
+          )
+          AND ROWNUM <= 1
+          GROUP BY FREESPA.TABLESPACE_NAME;
+
+          lnbr_part := TRIM(lreg_tabla.DES_PREFIJO_PARTICIONES) || TO_CHAR(lfec_top_part,'RRMM')
+            || lpad( trim(to_char(I-1)) , 2 , '0' );
+
+          if I = lreg_tabla.NUM_PARTICIONES then
+            ltxt_valmayor := TO_CHAR( add_months( lfec_top_part , 1 ) ,'RRMM') || '00';
+          else
+            ltxt_valmayor := TO_CHAR(lfec_top_part,'RRMM') || lpad( trim(to_char((I*lincremento))) , 2 , '0' );
+          end if;
+
+          ldes_part := 'Particin con valores menores al ' || ltxt_valmayor;
+
+          ltxt_sql := 'ALTER TABLE ' || lreg_tabla.NOM_TABLA || ' ADD PARTITION ' || lnbr_part
+            || chr(10) || ' VALUES LESS THAN ( ''' || ltxt_valmayor || ''' ) '
+            || chr(10) || ' TABLESPACE ' || lnbr_esptatb
+            || chr(10) || ' STORAGE ( INITIAL ' || ltam_extent || ' NEXT ' || ltam_extent || ' PCTINCREASE 0 )';
+
+          traza ( 1, 'Creando particion: ' || lnbr_part );
+          execute immediate ltxt_sql;
+
+          insert into PPCS_PARTICIONES ( COD_PARTICION , COD_TABLA , NOM_PARTICION
+            , DES_PARTICIONES , FEH_ACTUALIZACION , FEH_MIN , FEH_MAX )
+          VALUES ( ppcs_sec_particion.NEXTVAL , lreg_tabla.COD_TABLA , lnbr_part , ldes_part
+            , TO_CHAR (SYSDATE, 'DD-MON-YYYY HH24:MI:SS') , lfec_bas_part , lfec_top_part );
+
+          commit;
+
+          lctd_pc := lctd_pc + 1;
+
+        END LOOP;
+
+      ELSIF lreg_tabla.COD_TIPO = 2 THEN
+
+        lfec_bas_part := lasT_day( lfec_top_part ) + cg_seg_fdd;
+        lfec_top_part := add_months( lfec_top_part , 1 );
+
+        SELECT FREESPA.TABLESPACE_NAME , MAX(FREESPA.BYTES)
+        INTO lnbr_esptatb , ltam_esp_disp
+        FROM USER_FREE_SPACE FREESPA
+        WHERE EXISTS (SELECT NULL FROM USER_SEGMENTS USEGS WHERE USEGS.SEGMENT_NAME = pe_nbr_tabla
+          AND USEGS.TABLESPACE_NAME = FREESPA.TABLESPACE_NAME
+        )
+        AND ROWNUM <= 1
+        GROUP BY FREESPA.TABLESPACE_NAME;
+
+        lnbr_part := TRIM(lreg_tabla.DES_PREFIJO_PARTICIONES) || TO_CHAR(lfec_bas_part,'RRMM');
+
+        ltxt_valmayor := to_char( lfec_top_part+cg_seg_fdd , 'dd-mm-yyyy hh24:mi:ss' ) ;
+
+        ldes_part := 'Particin con valores menores al ' || ltxt_valmayor;
+
+        ltxt_sql := 'ALTER TABLE ' || lreg_tabla.NOM_TABLA || ' ADD PARTITION ' || lnbr_part
+          || chr(10) || ' VALUES LESS THAN ( TO_DATE(''' || ltxt_valmayor || ''', ''DD-MM-YYYY HH24:MI:SS'' ) )'
+          || chr(10) || ' TABLESPACE ' || lnbr_esptatb
+          || chr(10) || ' STORAGE ( INITIAL ' || ltam_extent || ' NEXT ' || ltam_extent || ' PCTINCREASE 0 )';
+
+        traza ( 1, 'Creando particion: ' || lnbr_part );
+        execute immediate ltxt_sql;
+
+
+        insert into PPCS_PARTICIONES ( COD_PARTICION , COD_TABLA , NOM_PARTICION
+          , DES_PARTICIONES , FEH_ACTUALIZACION , FEH_MIN , FEH_MAX )
+        VALUES ( ppcs_sec_particion.NEXTVAL , lreg_tabla.COD_TABLA , lnbr_part , ldes_part
+          , TO_CHAR (SYSDATE, 'DD-MON-YYYY HH24:MI:SS'), lfec_bas_part , lfec_top_part );
+
+        commit;
+
+        lctd_pc := lctd_pc + 1;
+
+      ELSE
+
+        lfec_bas_part := lfec_top_part + cg_seg_fdd;
+        lfec_top_part := lfec_bas_part + 1 - cg_seg_fdd;
+
+        SELECT FREESPA.TABLESPACE_NAME , MAX(FREESPA.BYTES)
+        INTO lnbr_esptatb , ltam_esp_disp
+        FROM USER_FREE_SPACE FREESPA
+        WHERE EXISTS (SELECT NULL FROM USER_SEGMENTS USEGS WHERE USEGS.SEGMENT_NAME = pe_nbr_tabla
+          AND USEGS.TABLESPACE_NAME = FREESPA.TABLESPACE_NAME
+        )
+        AND ROWNUM <= 1
+        GROUP BY FREESPA.TABLESPACE_NAME;
+
+        lnbr_part := TRIM(lreg_tabla.DES_PREFIJO_PARTICIONES) || TO_CHAR(lfec_bas_part,'RRMMDD');
+
+        ltxt_valmayor := to_char( lfec_top_part+cg_seg_fdd , 'dd-mm-yyyy hh24:mi:ss' ) ;
+
+        ldes_part := 'Particin con valores menores al ' || ltxt_valmayor;
+
+        ltxt_sql := 'ALTER TABLE ' || lreg_tabla.NOM_TABLA || ' ADD PARTITION ' || lnbr_part
+          || chr(10) || ' VALUES LESS THAN ( TO_DATE(''' || ltxt_valmayor || ''', ''DD-MM-YYYY HH24:MI:SS'' ) )'
+          || chr(10) || ' TABLESPACE ' || lnbr_esptatb
+          || chr(10) || ' STORAGE ( INITIAL ' || ltam_extent || ' NEXT ' || ltam_extent || ' PCTINCREASE 0 )';
+
+        traza ( 1, 'Creando particion: ' || lnbr_part );
+
+        execute immediate ltxt_sql;
+
+        insert into PPCS_PARTICIONES ( COD_PARTICION , COD_TABLA , NOM_PARTICION
+          , DES_PARTICIONES , FEH_ACTUALIZACION , FEH_MIN , FEH_MAX )
+        VALUES ( ppcs_sec_particion.NEXTVAL , lreg_tabla.COD_TABLA , lnbr_part , ldes_part
+          , TO_CHAR (SYSDATE, 'DD-MON-YYYY HH24:MI:SS') , lfec_bas_part , lfec_top_part );
+
+        commit;
+
+        lctd_pc := lctd_pc + 1;
+
+      END IF;
+
+    END LOOP;
+
+    ps_pc := lctd_pc;
+
+  exception
+    when e_salida then
+      ps_pc := 0;
+
+    when e_no_dcrear then
+      ps_pc := lctd_pc;
+      dbms_output.put_line( chr(10) || '-> La cantidad de dias a crear debe ser mayor a 0 (cero)' || chr(10) );
+      raise;
+
+    when e_no_user then
+      ps_pc := lctd_pc;
+      dbms_output.put_line( chr(10) || chr(10) || '-> Debe ser ejecutado como usuario PPCS' || chr(10) );
+
+    when others then
+      ps_pc := lctd_pc;
+      dbms_output.put_line( 'Error creando particiones para la tabla: ' || pe_nbr_tabla );
+      dbms_output.put_line( 'Error creando particin: ' || lnbr_part );
+      dbms_output.put_line( sqlerrm );
+      raise;
+
+  end;
+
+
+/*
+  ============================================================================
+  PROCEDURE create_new_parts;
+  Crear las particiones de todas las tablas que lo requieran
+  ============================================================================
+*/
+  procedure create_new_parts(
+    pe_dias_crear in number default 31 ,
+    ps_pc out number
+  ) is
+    lacu_pc      number := 0;
+    lctd_pc      number;
+    cursor CTP is
+      SELECT NOM_TABLA
+      FROM PPCS_TABLAS, USER_TABLES
+      WHERE TABLE_NAME = NOM_TABLA;
+  begin
+
+    for RTP in CTP loop
+      create_new_parts_tab ( RTP.NOM_TABLA, pe_dias_crear , lctd_pc );
+      lacu_pc := lacu_pc + lctd_pc;
+    end loop;
+
+    ps_pc := lacu_pc;
+
+  end;
+
+
+/*
+  ============================================================================
+  PROCEDURE ajuste_fechas;
+  Corrige las posibles desviaciones de las fechas m¿nimas y m¿ximas
+  en cada particin en la tabla PPCS_PARTICIONES
+  ============================================================================
+*/
+PROCEDURE ajuste_fechas
+is
+
+  gfecha       date;
+
+  gfec_min     constant date := to_date( '01010001' , 'ddmmyyyy' );
+  gnum         integer;
+  gtxt_yymm    varchar2(4);
+  gtxt_mod     varchar2(2);
+
+  gcod_tipo    PPCS_TABLAS.COD_TIPO%type;
+
+  type typ_parts_table_rec is record (
+    nbr_particion   USER_TAB_PARTITIONS.PARTITION_NAME%type
+    , txt_val_max   varchar2( 30000 )
+    , feh_min       date
+    , feh_max       date
+  );
+
+  type typ_parts_table_tab is table of typ_parts_table_rec
+    INDEX BY BINARY_INTEGER;
+
+  gparts_table  typ_parts_table_tab;
+
+  lnbr_prueba USER_TAB_PARTITIONS.PARTITION_NAME%type;
+
+  cursor CTC is
+    SELECT COD_TABLA , NOM_TABLA , DES_PREFIJO_PARTICIONES
+      , COD_TIPO , NUM_PARTICIONES , NUM_TAMANYO_PARTICION , NUM_VIGENCIA
+    FROM PPCS_TABLAS TPC
+    WHERE EXISTS (
+      SELECT NULL
+      FROM USER_TAB_PARTITIONS UTP
+      WHERE TPC.NOM_TABLA = UTP.TABLE_NAME );
+
+  cursor C_UTP ( pc_nbr_tabla USER_TABLES.TABLE_NAME%type ) is
+    SELECT PARTITION_NAME, PARTITION_POSITION, HIGH_VALUE
+    FROM USER_TAB_PARTITIONS
+    WHERE TABLE_NAME = pc_nbr_tabla
+    ORDER BY PARTITION_POSITION;
+
+begin
+
+  dbms_output.disable;
+  dbms_output.enable;
+
+  for RTC in CTC loop
+
+    gcod_tipo := RTC.COD_TIPO;
+
+    gnum := 0;
+
+    for RUTP in C_UTP ( RTC.NOM_TABLA ) loop
+
+      gnum := gnum + 1;
+      gparts_table( gnum ).nbr_particion := rutp.PARTITION_NAME;
+      gparts_table( gnum ).txt_val_max := rutp.HIGH_VALUE;
+
+      if gcod_tipo = 2 or gcod_tipo = 3 then
+
+        execute immediate 'SELECT '|| gparts_table( gnum ).txt_val_max || ' FROM DUAL' into gfecha;
+        gparts_table( gnum ).feh_max := gfecha - cg_seg_fdd;
+
+        if gnum = 1 then
+          gparts_table( gnum ).feh_min := gfec_min;
+        else
+          gparts_table( gnum ).feh_min := gparts_table( gnum-1 ).feh_max + cg_seg_fdd;
+        end if;
+
+      else
+
+        if length( gparts_table( gnum ).txt_val_max ) < 8 then
+          gtxt_yymm := '0101';
+          gtxt_mod  := '00';
+          dbms_output.put_line( chr(10)|| ' Advertencia ' );
+          dbms_output.put_line( 'El valor m¿ximo definido para la particin: ' || gparts_table( gnum ).nbr_particion );
+          dbms_output.put_line( 'es: ' || gparts_table( gnum ).txt_val_max || ' y deber¿a tener 6 digitos.');
+        else
+          gtxt_yymm := substr( gparts_table( gnum ).txt_val_max , 2 , 4 );
+          gtxt_mod  := substr( gparts_table( gnum ).txt_val_max , 6 , 2 );
+        end if;
+
+        if gtxt_mod = '00' then
+          lnbr_prueba := RTC.DES_PREFIJO_PARTICIONES
+             || to_char(add_months(to_date(gtxt_yymm,'RRMM'),-1) , 'RRMM' )
+             ||'09';
+        else
+          lnbr_prueba := RTC.DES_PREFIJO_PARTICIONES||gtxt_yymm|| lpad( to_char((to_number(gtxt_mod)-10)/10), 2 , '0' );
+        end if;
+
+        if gparts_table( gnum ).nbr_particion != lnbr_prueba then
+          dbms_output.put_line( chr(10)|| ' Advertencia ' );
+          dbms_output.put_line( 'El nombre de la particin '|| gparts_table( gnum ).nbr_particion
+            ||' deber¿a ser: ' || lnbr_prueba );
+        end if;
+
+        if gtxt_mod = '00' then
+          gfecha := ADD_MONTHS( TO_DATE( gtxt_yymm||'01' , 'RRMMDD' ) , -1 );
+        else
+          gfecha := TO_DATE( gtxt_yymm||'01' , 'RRMMDD' ) ;
+        end if;
+
+        gparts_table( gnum ).feh_min := gfecha;
+
+        gparts_table( gnum ).feh_max := ADD_MONTHS( gfecha , 1 ) - cg_seg_fdd;
+
+      end if;
+
+    end loop;
+
+    for I in gparts_table.first..gparts_table.last loop
+
+      UPDATE PPCS_PARTICIONES SET FEH_MIN = gparts_table(I).feh_min
+        WHERE NOM_PARTICION = gparts_table(I).nbr_particion
+        AND FEH_MIN != (gparts_table(I).feh_min) OR (FEH_MIN is null);
+
+      UPDATE PPCS_PARTICIONES SET FEH_MAX = gparts_table(I).feh_max
+        WHERE NOM_PARTICION = gparts_table(I).nbr_particion
+        AND FEH_MAX != (gparts_table(I).feh_max) or FEH_MAX is null;
+
+    end loop;
+
+    commit;
+
+    gparts_table.DELETE;
+
+  end loop;
+
+end;
+
+
+/*
+  ============================================================================
+  PROCEDURE drop_old_parts_tab
+  Elimina todas las particiones "antiguas" de una tabla
+  seg¿n datos configurados en la tabla PPCS_TABLAS
+  ============================================================================
+*/
+  procedure drop_old_parts_tab(
+    pe_nbr_tabla in  PPCS_TABLAS.NOM_TABLA%type ,
+    ps_pe        out number
+  ) is
+
+    lfec_segura  date:= add_months(trunc( SYSDATE, 'MM' ), -1);
+    lctd_pe      number := 0;
+    lreg_ctp     PPCS_TABLAS%rowtype;
+    lfec_partida date;
+    lint         number;
+    ltxt_sql     varchar2( 32767 );
+
+    cursor CPT ( pec_cod_tabla PPCS_PARTICIONES.COD_TABLA%type ) is
+      SELECT COD_PARTICION , COD_TABLA , NOM_PARTICION , FEH_MAX
+      FROM PPCS_PARTICIONES
+      WHERE COD_TABLA = pec_cod_tabla;
+
+    lreg_part     CPT%rowtype;
+
+    e_unica_part  exception;
+
+    deadlock_detected EXCEPTION;
+    PRAGMA EXCEPTION_INIT(deadlock_detected, -60);
+
+  begin
+
+    SELECT * INTO lreg_ctp
+    FROM PPCS_TABLAS
+    WHERE NOM_TABLA = pe_nbr_tabla;
+
+    lfec_partida := trunc(sysdate) - lreg_ctp.NUM_VIGENCIA;
+
+    lfec_partida := least( lfec_segura , lfec_partida );
+
+    if lreg_ctp.COD_TIPO = 1 or lreg_ctp.COD_TIPO = 2 then
+      lint := ceil( months_between( last_day(trunc(sysdate,'MM')) , lfec_partida ) );
+      lfec_partida := add_months ( last_day(trunc(sysdate,'MM')) , -(lint) ) + 1;
+    end if;
+
+    lctd_pe := 0;
+    for RPT in CPT ( lreg_ctp.COD_TABLA ) loop
+
+      IF lreg_ctp.COD_TIPO = 1 THEN
+
+        SELECT COUNT( TABLE_NAME ) INTO lint
+        FROM USER_TAB_PARTITIONS
+        WHERE TABLE_NAME = lreg_ctp.NOM_TABLA
+        AND ROWNUM <= 11;
+
+        if lint <= 10 then
+          raise e_unica_part;
+        end if;
+
+      ELSE
+
+        SELECT COUNT( TABLE_NAME ) INTO lint
+        FROM USER_TAB_PARTITIONS
+        WHERE TABLE_NAME = lreg_ctp.NOM_TABLA
+        AND ROWNUM <= 3;
+
+        if lint <= 1 then
+          raise e_unica_part;
+        end if;
+
+      END IF;
+
+      lreg_part := RPT;
+
+      if lreg_part.FEH_MAX < lfec_partida then
+        -- traza (1, '-> Eliminando particion: ' || lreg_part.NOM_PARTICION );
+        begin
+          ltxt_sql := 'ALTER TABLE ' || lreg_ctp.NOM_TABLA || ' DROP PARTITION ' || lreg_part.NOM_PARTICION;
+          execute immediate ltxt_sql;
+          delete from PPCS_PARTICIONES WHERE COD_PARTICION = lreg_part.COD_PARTICION;
+          COMMIT;
+          lctd_pe := lctd_pe + 1;
+        exception
+          when others then
+            dbms_output.put_line( 'Error eliminando particin: ' || lreg_part.NOM_PARTICION
+              || ' de la tabla ' || lreg_ctp.NOM_TABLA );
+            dbms_output.put_line( sqlerrm );
+            raise;
+        end;
+      end if;
+
+    end loop;
+
+    ps_pe := lctd_pe;
+
+  exception
+    when deadlock_detected then
+      dbms_output.put_line( 'La tabla ' || pe_nbr_tabla || ' est¿ bloqueada por otra sesin' );
+      raise;
+    when no_data_found then
+      dbms_output.put_line( 'La tabla ' || pe_nbr_tabla || ' no existe ' );
+      raise;
+    when e_unica_part then
+      ps_pe := lctd_pe;
+      dbms_output.put_line( 'A la tabla ' || pe_nbr_tabla || ' le queda una particin o un mes.' );
+    when others then
+      ps_pe := lctd_pe;
+      dbms_output.put_line( 'Error procesando: ' || pe_nbr_tabla );
+      dbms_output.put_line( sqlerrm );
+  end;
+
+
+/*
+  ==================================================================================
+  PROCEDURE drop_old_parts
+  Elimina todas las particiones "antiguas" de todas las tablas
+  seg¿n datos configurados en la tabla PPCS_TABLAS
+  Si queda una sola particin para la tabla, esta no se elimina aunque se "antigua"
+  ==================================================================================
+*/
+  procedure drop_old_parts(
+    ps_pe out number
+  ) is
+    lacu_pe      number := 0;
+    lctd_pe      number;
+    cursor CTP is
+      SELECT NOM_TABLA
+      FROM PPCS_TABLAS, USER_TABLES
+      WHERE TABLE_NAME = NOM_TABLA;
+  begin
+
+    for RTP in CTP loop
+      traza (1, '-> Eliminando particiones antiguas de la tabla: ' || RTP.NOM_TABLA);
+      drop_old_parts_tab ( RTP.NOM_TABLA, lctd_pe );
+      lacu_pe := lacu_pe + lctd_pe;
+    end loop;
+
+    ps_pe := lacu_pe;
+
+  end;
+
+
+/*
+  ============================================================================
+  Procedimiento: Actualizar_Tabla_Particiones
+  ============================================================================
+*/
+  PROCEDURE actualizar_tabla_particiones
+  IS
+      -- Cantidad de particiones que no existen
+      lctd_parts_ne   NUMBER             := 0;
+
+      -- Cantidad de particiones existentes no registradas
+      lctd_parts_nr   NUMBER             := 0;
+
+      --  Valor m¿ximo definido en la particin
+      ltxt_val_max     VARCHAR2 (32000)  := '';
+
+      -- Nombre de la particin
+      lnbr_particion     user_tab_partitions.partition_name%TYPE;
+
+      ltxt_fec_desc_max    VARCHAR2 (2048)    := '';
+      ltxt_fec_max         VARCHAR2 (2048)    := '';
+      fecha                DATE;        -- Variable tipo fecha de uso general
+
+      lfec_min             date;
+      lfec_max             date;
+
+      ltxt_sql             VARCHAR2 (32000)   := '';
+
+      -- Cursor de tablas particionadas por fechas
+      CURSOR c_tabs
+      IS
+         SELECT cod_tabla, cod_tipo , nom_tabla, des_prefijo_particiones prefijo,
+                num_tamanyo_particion ctd_dias
+           FROM ppcs_tablas
+          WHERE cod_tipo <> 1;
+
+      -- Cursor de tablas particionadas por cdigos de "fecha/mdulo tel¿fono"
+      CURSOR c_tabs_pc
+      IS
+         SELECT cod_tabla, nom_tabla, des_prefijo_particiones prefijo,
+                num_tamanyo_particion ctd_dias
+           FROM ppcs_tablas
+          WHERE cod_tipo = 1;
+      --
+      CURSOR c_parts_tab (pc_tab_name IN user_tables.table_name%TYPE)
+      IS
+         SELECT   partition_name, high_value valor_maximo
+             FROM user_tab_partitions
+            WHERE table_name = pc_tab_name
+              AND partition_name NOT IN (SELECT nom_particion
+                                           FROM ppcs_particiones)
+         ORDER BY partition_position;
+     --
+
+  BEGIN
+    dbms_output.disable;
+    dbms_output.enable(100000);
+    --
+    -- Primera parte: Eliminacion de particiones inexistentes
+    --
+    SELECT COUNT (nom_particion) parts_ne
+      INTO lctd_parts_ne
+      FROM ppcs_particiones
+      WHERE nom_particion NOT IN (SELECT partition_name FROM user_tab_partitions)
+      and rownum < 2;
+
+    IF lctd_parts_ne > 0
+    THEN
+         -- Eliminacin de particiones que no existen
+         traza (1,
+                   '-> Eliminando particiones no existentes'
+               );
+
+         DELETE FROM ppcs_particiones PC
+           WHERE NOT EXISTS(
+             SELECT NULL
+             FROM USER_TAB_PARTITIONS UTP
+             WHERE UTP.PARTITION_NAME = PC.NOM_PARTICION );
+         COMMIT;
+
+      END IF;
+
+      --
+      -- Segunda parte: Inclusin de particiones DE FECHAS existentes y no registradas
+      --
+      FOR r_tabs IN c_tabs
+      LOOP
+
+        SELECT COUNT (partition_name) INTO lctd_parts_nr
+        FROM user_tab_partitions UTP
+        WHERE table_name = r_tabs.nom_tabla
+        AND NOT EXISTS
+         (SELECT NULL FROM ppcs_particiones PPP
+          WHERE UTP.partition_name = PPP.nom_particion)
+        and rownum < 2;
+
+        IF lctd_parts_nr > 0 THEN
+
+          traza (1, '-> Incluyendo particiones existentes y no registradas de la tabla '
+            || r_tabs.nom_tabla || ' (Tipo fecha)' );
+
+          FOR r_parts_tab IN c_parts_tab (r_tabs.nom_tabla)
+          LOOP
+
+            lnbr_particion := r_parts_tab.partition_name;
+
+            ltxt_val_max := r_parts_tab.valor_maximo;
+
+            ltxt_sql := 'select ' || ltxt_val_max || ' from dual';
+
+            traza (1, '-> ' || ltxt_sql );
+            EXECUTE IMMEDIATE ltxt_sql INTO fecha;
+
+            lfec_max := fecha - cg_seg_fdd;
+
+            if r_tabs.cod_tipo = 2 then
+              lfec_min := add_months( trunc( lfec_max ) , -1 ) + 1;
+            else
+              lfec_min := trunc( lfec_max ) - 1;
+            end if;
+
+            traza (1, '-> lfec_min: ' || to_char( lfec_min , 'dd-mon-yyyy hh24:mi:ss' ) );
+            traza (1, '-> lfec_max: ' || to_char( lfec_max , 'dd-mon-yyyy hh24:mi:ss' ) );
+
+            -- ltxt_fec_min := to_char( lfec_min , 'YYYYMMDD' );
+
+            -- ltxt_fec_max := to_char( lfec_max , 'YYYYMMDD' );
+
+            ltxt_fec_desc_max := TO_CHAR (fecha, 'dd-mon-yyyy hh24:mi:ss');
+
+            traza (1, '-> Incluyendo particion: ' || lnbr_particion);
+
+            INSERT INTO ppcs_particiones ( cod_particion , cod_tabla , nom_particion , des_particiones
+              , feh_actualizacion , FEH_MIN , FEH_MAX )
+              VALUES ( ppcs_sec_particion.NEXTVAL , r_tabs.cod_tabla , lnbr_particion
+              , 'Particin con valores menores al ' || ltxt_fec_desc_max
+              , TO_CHAR (SYSDATE, 'DD-MON-YYYY HH24:MI:SS') , lfec_min , lfec_max );
+
+          END LOOP; -- Particiones de FECHAS
+            --
+          COMMIT;
+        END IF;
+      END LOOP; -- Tablas DE FECHAS
+
+      --
+      -- Tercera parte: Inclusin de particiones DE CODIGO existentes y no registradas
+      --
+      FOR r_tabs IN c_tabs_pc
+      LOOP
+        SELECT COUNT (partition_name) X
+        INTO lctd_parts_nr
+        FROM user_tab_partitions UTP
+        WHERE table_name = r_tabs.nom_tabla
+        AND NOT EXISTS
+         (SELECT NULL FROM ppcs_particiones PPP
+          WHERE UTP.partition_name = PPP.nom_particion)
+        and rownum < 2;
+         --
+         IF lctd_parts_nr > 0
+         THEN
+            traza (1, '-> Incluyendo particiones de la tabla: ' || r_tabs.nom_tabla || ' (Tipo cdigo)' );
+
+            FOR r_parts_tab IN c_parts_tab (r_tabs.nom_tabla)
+            LOOP
+
+               lnbr_particion := r_parts_tab.partition_name;
+               traza (1, '-> lnbr_particion: ' || lnbr_particion );
+
+               ltxt_fec_desc_max := REPLACE ( r_parts_tab.valor_maximo , '''' , '' );
+
+               if length( ltxt_fec_desc_max ) < 6 then
+                 dbms_output.put_line( 'Codigo de valor maximo incorrecto: '|| ltxt_fec_desc_max
+                    || ' Particin: ' || lnbr_particion );
+                 lfec_min := to_date( '00010101' , 'YYYYMMDD' );
+               else
+                 lfec_min := to_date( ltxt_fec_max , 'RRMM' ) ;
+               end if;
+
+               traza (1, '-> lfec_min: ' || to_char( lfec_min , 'dd-mon-yyyy hh24:mi:ss' ) );
+
+               lfec_max := add_months( lfec_min , 1 ) - cg_seg_fdd;
+
+               traza (1, '-> lfec_max: ' || to_char( lfec_max , 'dd-mon-yyyy hh24:mi:ss' ) );
+
+               traza (1, '-> Incluyendo particion: ' || lnbr_particion );
+
+               INSERT INTO ppcs_particiones
+                           (cod_particion, cod_tabla,
+                            nom_particion,
+                            des_particiones,
+                            feh_actualizacion, FEH_MIN , FEH_MAX
+                           )
+                    VALUES (ppcs_sec_particion.NEXTVAL, r_tabs.cod_tabla , lnbr_particion,
+                            'Particin con valores menores a '|| ltxt_fec_desc_max,
+                            TO_CHAR (SYSDATE, 'DD-MON-YYYY HH24:MI:SS') , lfec_min , lfec_max
+                           );
+
+            END LOOP; -- Particiones CODIGO
+
+            COMMIT;
+         END IF;
+      END LOOP; -- Tablas con particiones CODIGO
+
+      ajuste_fechas;
+
+  END; -- Actualizar_Tabla_Particiones
+
+
+/*
+  ============================================================================
+  Procedimiento: Purga_Tabla
+  El procedimiento puede purgar y crear particiones
+  ============================================================================
+*/
+   PROCEDURE purga_tabla (
+      in_nom_tabla            IN       VARCHAR2,
+      in_dias_crear           IN       NUMBER,
+      out_partcreadas         OUT      NUMBER,
+      out_partatraspurgadas   OUT      NUMBER
+   )
+   IS
+   BEGIN
+      IF (in_dias_crear < 0)
+      THEN
+         raise_application_error
+                               (-20000,
+                                'No se pueden purgar ni crear menos de 1 particin'
+                               );
+      END IF;
+
+      out_partcreadas       := 0;
+      out_partatraspurgadas := 0;
+
+      Actualizar_Tabla_Particiones;
+      create_new_parts_tab( in_nom_tabla, in_dias_crear , out_partcreadas );
+      drop_old_parts_tab( in_nom_tabla , out_partatraspurgadas );
+
+   END purga_tabla;
+
+/*
+  ============================================================================
+  Procedimiento: Purga_Tabla
+  El procedimiento puede purgar y crear particiones
+  ============================================================================
+*/
+  PROCEDURE purga_tablas (
+    in_dias_crear           IN       NUMBER default 31,
+    out_partcreadas         OUT      NUMBER,
+    out_partatraspurgadas   OUT      NUMBER
+  )
+  IS
+    fecha   DATE;
+
+  BEGIN
+
+     dbms_output.disable;
+     dbms_output.enable(2000000);
+     IF (in_dias_crear < 1)
+     THEN
+       raise_application_error
+                              (-20000,
+                               'No se pueden purgar ni crear menos de 1 particin'
+                              );
+     END IF;
+
+     out_partcreadas := 0;
+     out_partatraspurgadas := 0;
+
+     Actualizar_Tabla_Particiones;
+     drop_old_parts( out_partatraspurgadas );
+     create_new_parts( in_dias_crear , out_partcreadas );
+
+  END purga_tablas;
+
+
+/*
+  ============================================================================
+  PROCEDURE inicia
+  ============================================================================
+*/
+  PROCEDURE inicia
+  IS
+
+    lctd_creadas    number := 0;
+    lctd_eliminadas number := 0;
+
+  BEGIN
+
+    dbms_output.enable;
+    Actualizar_Tabla_Particiones;
+    create_new_parts( 31 , lctd_creadas );
+    drop_old_parts( lctd_eliminadas );
+
+    dbms_output.put_line( 'Particiones creadas   : ' || lctd_creadas );
+    dbms_output.put_line( 'Particiones eliminadas: ' || lctd_eliminadas );
+
+ END inicia;
+
+END particiones;

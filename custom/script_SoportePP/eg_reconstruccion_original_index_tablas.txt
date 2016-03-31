@@ -1,0 +1,718 @@
+/export/SDPNI01/home/UTIL/Herramientas/1_bin/cron/estad/estad_unificado.sh
+
+
+30 2 * * * /bin/ksh -c ". ./.profile; /export/SDPNI01/home/UTIL/Herramientas/1_bin/cron/estad/estad_unificado.sh >>/export/SDPNI01/home/UTIL/Herramientas/1_bin/cron/estad/log/ejecucion.log 2>/dev/null"
+
+
+/export/SDPPA01/home/UTIL/Herramientas/1_bin/cron/estad/estad_unificado.sh
+
+30 2 * * * /bin/ksh -c ". ./.profile; /export/SDPPA01/home/UTIL/Herramientas/1_bin/cron/estad/estad_unificado.sh >>/export/SDPPA01/home/UTIL/Herramientas/1_bin/cron/estad/log/ejecucion.log 2>/dev/null"
+
+
+-----------------------------------------------------------------------------------------
+
+estad_unificado.sh PA
+
+-----------------------------------------------------------------------------------------
+#!/bin/ksh
+
+export DIR=~/UTIL/Herramientas/1_bin/cron/estad
+
+echo "" >> ${DIR}/log/ejecucion.log
+echo "Fecha: " ${FECHA} >> ${DIR}/log/ejecucion.log
+
+##################### PARAR GESTAD y GESTADJ
+
+~/UTIL/Herramientas/1_bin/cron/estad/./parar_arrancar_gestad.sh parar GESTAD
+sleep 5
+~/UTIL/Herramientas/1_bin/cron/estad/./parar_arrancar_gestad.sh parar GESTADJ
+sleep 5
+
+##################### FIN PARA GESTAD Y GESTADJ
+
+FECHA=`date +"%Y%m%d_%H%M%S"`
+
+cd `dirname $0`
+
+#export ORACLE_BASE=/export/oracle/app/oracle/
+#export ORACLE_HOME=$ORACLE_BASE/product/9.2.0
+export PATH=$ORACLE_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:$LD_LIBRARY_PATH:/usr/local/lib
+
+#cd /export/oracle
+#. $HOME/.env_oracle_SDPVE05.sh
+cd $DIR
+
+#Primera conexion para obtener el listado de usuarios que tienen una tabla ESTAD
+$ORACLE_HOME/bin/sqlplus -s << END > ${DIR}/log/usuarios_${FECHA}.log
+sdp/sdp@egsdp 
+
+SET LINESIZE 4000
+SET NEWPAGE 0
+SET SPACE 0
+SET PAGESIZE 0
+SET ECHO OFF
+SET FEEDBACK OFF
+SET HEADING OFF
+SET TRIMOUT ON
+SET TRIMSPOOL ON
+SET VERIFY OFF
+--spool usuarios.txt
+select distinct owner from dba_tables where table_name='ESTAD';
+--spool off
+
+exit;
+
+END
+
+#Primera conexion para obtener el listado de usuarios que tienen una tabla ESTAD_MINUTOS
+$ORACLE_HOME/bin/sqlplus -s << END > ${DIR}/log/usuarios_minutos_${FECHA}.log
+sdp/sdp@egsdp
+
+SET LINESIZE 4000
+SET NEWPAGE 0
+SET SPACE 0
+SET PAGESIZE 0
+SET ECHO OFF
+SET FEEDBACK OFF
+SET HEADING OFF
+SET TRIMOUT ON
+SET TRIMSPOOL ON
+SET VERIFY OFF
+--spool usuarios.txt
+select distinct owner from dba_tables where table_name='ESTAD_MINUTOS';
+--spool off
+
+exit;
+
+END
+
+#Ahora procedemos a conectarnos con cada uno de los usuarios para compactar su tabla ESTAD y reconstruir sus indices.
+
+for user in `cat ${DIR}/log/usuarios_${FECHA}.log`
+do
+### ESTAD
+echo Procesando ESTAD para el usuario $user
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_${user}_${FECHA}.log
+${user}/${user}@egsdp
+
+alter table estad move;
+alter index estad_cp rebuild online;
+
+exit;
+
+END
+
+###### HORAS
+sleep 15
+echo Procesando ESTAD_HORAS para el usuario $user
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_horas_${user}_${FECHA}.log
+${user}/${user}@egsdp
+
+        set serveroutput on size 1000000
+
+DECLARE
+        part_tabla varchar2(3) := 'YES';
+        part_ind varchar2(3) := 'YES';
+        nom_tabla varchar2(30) := 'ESTAD_HORAS';
+        tab_part varchar2(30);
+        indice varchar2(30) := 'ESTAD_HORAS_CP';
+        ind_part varchar2(30);
+        cursor ctab is select partition_name from user_tab_partitions where table_name='ESTAD_HORAS';
+        cursor cind is select partition_name from user_ind_partitions where index_name='ESTAD_HORAS_CP';
+
+BEGIN
+
+        select partitioned into part_tabla from user_tables where table_name='ESTAD_HORAS';
+        select partitioned into part_ind from user_indexes where index_name='ESTAD_HORAS_CP';
+
+        if part_tabla='YES' then
+                open ctab;
+                loop
+                        fetch ctab into tab_part;
+                        execute immediate 'alter table ' || nom_tabla || ' move partition ' || tab_part;
+                        dbms_output.put_line('Compactada la particion ' || tab_part || ' de la tabla ' || nom_tabla);
+                        exit when ctab%NOTFOUND;
+                end loop;
+                close ctab;
+        else
+                execute immediate 'alter table ESTAD_HORAS move';
+                dbms_output.put_line('Compactada la tabla ESTAD_HORAS sin particiones');
+        end if;
+
+        if part_ind='YES' then
+                open cind;
+                loop
+                        fetch cind into ind_part;
+                        execute immediate 'alter index ' || indice || ' rebuild partition ' || ind_part || ' online';
+                        dbms_output.put_line('Reconstruida la particion ' || ind_part || ' del indice ' || indice);
+                        exit when cind%NOTFOUND;
+                end loop;
+                close cind;
+        else
+                execute immediate 'alter index ESTAD_HORAS_CP rebuild online';
+                dbms_output.put_line('Recontruccion del indice ESTAD_HORAS_CP sin particiones');
+        end if;
+END;
+/
+
+
+exit;
+
+END
+
+#### DIAS
+sleep 15
+echo Procesando ESTAD_DIAS para el usuario $user
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_dias_${user}_${FECHA}.log
+${user}/${user}@egsdp
+
+        set serveroutput on size 1000000
+
+DECLARE
+        part_tabla varchar2(3) := 'YES';
+        part_ind varchar2(3) := 'YES';
+        nom_tabla varchar2(30) := 'ESTAD_DIAS';
+        tab_part varchar2(30);
+        indice varchar2(30) := 'ESTAD_DIAS_CP';
+        ind_part varchar2(30);
+        cursor ctab is select partition_name from user_tab_partitions where table_name='ESTAD_DIAS';
+        cursor cind is select partition_name from user_ind_partitions where index_name='ESTAD_DIAS_CP';
+
+BEGIN
+
+        select partitioned into part_tabla from user_tables where table_name='ESTAD_DIAS';
+        select partitioned into part_ind from user_indexes where index_name='ESTAD_DIAS_CP';
+
+        if part_tabla='YES' then
+                open ctab;
+                loop
+                        fetch ctab into tab_part;
+                        execute immediate 'alter table ' || nom_tabla || ' move partition ' || tab_part;
+                        dbms_output.put_line('Compactada la particion ' || tab_part || ' de la tabla ' || nom_tabla);
+                        exit when ctab%NOTFOUND;
+                end loop;
+                close ctab;
+        else
+                execute immediate 'alter table ESTAD_DIAS move';
+                dbms_output.put_line('Compactada la tabla ESTAD_DIAS sin particiones');
+        end if;
+
+        if part_ind='YES' then
+                open cind;
+                loop
+                        fetch cind into ind_part;
+                        execute immediate 'alter index ' || indice || ' rebuild partition ' || ind_part || ' online';
+                        dbms_output.put_line('Reconstruida la particion ' || ind_part || ' del indice ' || indice);
+                        exit when cind%NOTFOUND;
+                end loop;
+                close cind;
+        else
+                execute immediate 'alter index ESTAD_DIAS_CP rebuild online';
+                dbms_output.put_line('Recontruccion del indice ESTAD_DIAS_CP sin particiones');
+        end if;
+END;
+/
+
+
+exit;
+
+END
+
+
+######## MESES
+sleep 15
+echo Procesando ESTAD_MESES para el usuario $user
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_meses_${user}_${FECHA}.log
+${user}/${user}@egsdp
+
+        set serveroutput on size 1000000
+
+DECLARE
+        part_tabla varchar2(3) := 'YES';
+        part_ind varchar2(3) := 'YES';
+        nom_tabla varchar2(30) := 'ESTAD_MESES';
+        tab_part varchar2(30);
+        indice varchar2(30) := 'ESTAD_MESES_CP';
+        ind_part varchar2(30);
+        cursor ctab is select partition_name from user_tab_partitions where table_name='ESTAD_MESES';
+        cursor cind is select partition_name from user_ind_partitions where index_name='ESTAD_MESES_CP';
+
+BEGIN
+
+        select partitioned into part_tabla from user_tables where table_name='ESTAD_MESES';
+        select partitioned into part_ind from user_indexes where index_name='ESTAD_MESES_CP';
+
+        if part_tabla='YES' then
+                open ctab;
+                loop
+                        fetch ctab into tab_part;
+                        execute immediate 'alter table ' || nom_tabla || ' move partition ' || tab_part;
+                        dbms_output.put_line('Compactada la particion ' || tab_part || ' de la tabla ' || nom_tabla);
+                        exit when ctab%NOTFOUND;
+                end loop;
+                close ctab;
+        else
+                execute immediate 'alter table ESTAD_MESES move';
+                dbms_output.put_line('Compactada la tabla ESTAD_MESES sin particiones');
+        end if;
+
+        if part_ind='YES' then
+                open cind;
+                loop
+                        fetch cind into ind_part;
+                        execute immediate 'alter index ' || indice || ' rebuild partition ' || ind_part || ' online';
+                        dbms_output.put_line('Reconstruida la particion ' || ind_part || ' del indice ' || indice);
+                        exit when cind%NOTFOUND;
+                end loop;
+                close cind;
+        else
+                execute immediate 'alter index ESTAD_MESES_CP rebuild online';
+                dbms_output.put_line('Recontruccion del indice ESTAD_MESES_CP sin particiones');
+        end if;
+END;
+/
+
+
+exit;
+
+END
+done
+
+#### MINUTOS
+sleep 15
+for user_minutos in `cat ${DIR}/log/usuarios_minutos_${FECHA}.log`
+do
+echo Procesando ESTAD_MINUTOS para el usuario $user_minutos
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_minutos_${user_minutos}_${FECHA}.log
+${user_minutos}/${user_minutos}@egsdp
+
+        set serveroutput on size 1000000
+
+DECLARE
+        part_tabla varchar2(3) := 'YES';
+        part_ind varchar2(3) := 'YES';
+        nom_tabla varchar2(30) := 'ESTAD_MINUTOS';
+        tab_part varchar2(30);
+        indice varchar2(30) := 'ESTAD_MINUTOS_CP';
+        ind_part varchar2(30);
+        cursor ctab is select partition_name from user_tab_partitions where table_name='ESTAD_MINUTOS';
+        cursor cind is select partition_name from user_ind_partitions where index_name='ESTAD_MINUTOS_CP';
+
+BEGIN
+
+        select partitioned into part_tabla from user_tables where table_name='ESTAD_MINUTOS';
+        select partitioned into part_ind from user_indexes where index_name='ESTAD_MINUTOS_CP';
+
+        if part_tabla='YES' then
+                open ctab;
+                loop
+                        fetch ctab into tab_part;
+                        execute immediate 'alter table ' || nom_tabla || ' move partition ' || tab_part;
+                        dbms_output.put_line('Compactada la particion ' || tab_part || ' de la tabla ' || nom_tabla);
+                        exit when ctab%NOTFOUND;
+                end loop;
+                close ctab;
+        else
+                execute immediate 'alter table ESTAD_MINUTOS move';
+                dbms_output.put_line('Compactada la tabla ESTAD_MINUTOS sin particiones');
+        end if;
+
+        if part_ind='YES' then
+                open cind;
+                loop
+                        fetch cind into ind_part;
+                        execute immediate 'alter index ' || indice || ' rebuild partition ' || ind_part || ' online';
+                        dbms_output.put_line('Reconstruida la particion ' || ind_part || ' del indice ' || indice);
+                        exit when cind%NOTFOUND;
+                end loop;
+                close cind;
+        else
+                execute immediate 'alter index ESTAD_MINUTOS_CP rebuild online';
+                dbms_output.put_line('Recontruccion del indice ESTAD_MINUTOS_CP sin particiones');
+        end if;
+END;
+/
+
+
+exit;
+
+END
+done
+
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "estad_EST*.log" -mtime +15 -exec rm {} \;
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "usuario*" -mtime +15 -exec rm {} \;
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "estad_meses*.log" -mtime +15 -exec rm {} \;
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "estad_dias*.log" -mtime +15 -exec rm {} \;
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "estad_horas*.log" -mtime +15 -exec rm {} \;
+
+############################## ARRANCAR GESTAD Y GESTADJ
+~/UTIL/Herramientas/1_bin/cron/estad/./parar_arrancar_gestad.sh arrancar TODOS;
+sleep 10
+############################## FIN ARRACNAR GESTAD Y GESTADJ
+
+-----------------------------------------------------------------------------------------
+
+estad_unificado.sh NI
+
+-----------------------------------------------------------------------------------------
+
+
+#!/bin/ksh
+
+export DIR=~/UTIL/Herramientas/1_bin/cron/estad
+
+echo "" >> ${DIR}/log/ejecucion.log
+echo "Fecha: " ${FECHA} >> ${DIR}/log/ejecucion.log
+
+FECHA=`date +"%Y%m%d_%H%M%S"`
+echo "FECHA Y HORA INICIO DEL MANTENIMIENTO: ${FECHA}" >> ${DIR}/log/ejecucion.log
+
+##################### PARAR GESTAD y GESTADJ
+
+~/UTIL/Herramientas/1_bin/cron/estad/./parar_arrancar_gestad.sh parar GESTAD
+sleep 5
+~/UTIL/Herramientas/1_bin/cron/estad/./parar_arrancar_gestad.sh parar GESTADJ
+sleep 5
+
+##################### FIN PARA GESTAD Y GESTADJ
+
+FECHA=`date +"%Y%m%d_%H%M%S"`
+
+cd `dirname $0`
+
+#export ORACLE_BASE=/export/oracle/app/oracle/
+#export ORACLE_HOME=$ORACLE_BASE/product/9.2.0
+export PATH=$ORACLE_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib:$LD_LIBRARY_PATH:/usr/local/lib
+
+#cd /export/oracle
+#. $HOME/.env_oracle_SDPVE05.sh
+cd $DIR
+
+#Primera conexion para obtener el listado de usuarios que tienen una tabla ESTAD
+$ORACLE_HOME/bin/sqlplus -s << END > ${DIR}/log/usuarios_${FECHA}.log
+sdp/sdp@egsdp 
+
+SET LINESIZE 4000
+SET NEWPAGE 0
+SET SPACE 0
+SET PAGESIZE 0
+SET ECHO OFF
+SET FEEDBACK OFF
+SET HEADING OFF
+SET TRIMOUT ON
+SET TRIMSPOOL ON
+SET VERIFY OFF
+--spool usuarios.txt
+select distinct owner from dba_tables where table_name='ESTAD';
+--spool off
+
+exit;
+
+END
+
+#Primera conexion para obtener el listado de usuarios que tienen una tabla ESTAD_MINUTOS
+$ORACLE_HOME/bin/sqlplus -s << END > ${DIR}/log/usuarios_minutos_${FECHA}.log
+sdp/sdp@egsdp
+
+SET LINESIZE 4000
+SET NEWPAGE 0
+SET SPACE 0
+SET PAGESIZE 0
+SET ECHO OFF
+SET FEEDBACK OFF
+SET HEADING OFF
+SET TRIMOUT ON
+SET TRIMSPOOL ON
+SET VERIFY OFF
+--spool usuarios.txt
+select distinct owner from dba_tables where table_name='ESTAD_MINUTOS';
+--spool off
+
+exit;
+
+END
+
+#Ahora procedemos a conectarnos con cada uno de los usuarios para compactar su tabla ESTAD y reconstruir sus indices.
+
+for user in `cat ${DIR}/log/usuarios_${FECHA}.log`
+do
+### ESTAD
+echo Procesando ESTAD para el usuario $user
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_${user}_${FECHA}.log
+${user}/${user}@egsdp
+
+alter table estad move;
+alter index estad_cp rebuild online;
+
+exit;
+
+END
+
+###### HORAS
+sleep 15
+echo Procesando ESTAD_HORAS para el usuario $user
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_horas_${user}_${FECHA}.log
+${user}/${user}@egsdp
+
+        set serveroutput on size 1000000
+
+DECLARE
+        part_tabla varchar2(3) := 'YES';
+        part_ind varchar2(3) := 'YES';
+        nom_tabla varchar2(30) := 'ESTAD_HORAS';
+        tab_part varchar2(30);
+        indice varchar2(30) := 'ESTAD_HORAS_CP';
+        ind_part varchar2(30);
+        cursor ctab is select partition_name from user_tab_partitions where table_name='ESTAD_HORAS';
+        cursor cind is select partition_name from user_ind_partitions where index_name='ESTAD_HORAS_CP';
+
+BEGIN
+
+        select partitioned into part_tabla from user_tables where table_name='ESTAD_HORAS';
+        select partitioned into part_ind from user_indexes where index_name='ESTAD_HORAS_CP';
+
+        if part_tabla='YES' then
+                open ctab;
+                loop
+                        fetch ctab into tab_part;
+                        execute immediate 'alter table ' || nom_tabla || ' move partition ' || tab_part;
+                        dbms_output.put_line('Compactada la particion ' || tab_part || ' de la tabla ' || nom_tabla);
+                        exit when ctab%NOTFOUND;
+                end loop;
+                close ctab;
+        else
+                execute immediate 'alter table ESTAD_HORAS move';
+                dbms_output.put_line('Compactada la tabla ESTAD_HORAS sin particiones');
+        end if;
+
+        if part_ind='YES' then
+                open cind;
+                loop
+                        fetch cind into ind_part;
+                        execute immediate 'alter index ' || indice || ' rebuild partition ' || ind_part || ' online';
+                        dbms_output.put_line('Reconstruida la particion ' || ind_part || ' del indice ' || indice);
+                        exit when cind%NOTFOUND;
+                end loop;
+                close cind;
+        else
+                execute immediate 'alter index ESTAD_HORAS_CP rebuild online';
+                dbms_output.put_line('Recontruccion del indice ESTAD_HORAS_CP sin particiones');
+        end if;
+END;
+/
+
+
+exit;
+
+END
+
+#### DIAS
+sleep 15
+echo Procesando ESTAD_DIAS para el usuario $user
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_dias_${user}_${FECHA}.log
+${user}/${user}@egsdp
+
+        set serveroutput on size 1000000
+
+DECLARE
+        part_tabla varchar2(3) := 'YES';
+        part_ind varchar2(3) := 'YES';
+        nom_tabla varchar2(30) := 'ESTAD_DIAS';
+        tab_part varchar2(30);
+        indice varchar2(30) := 'ESTAD_DIAS_CP';
+        ind_part varchar2(30);
+        cursor ctab is select partition_name from user_tab_partitions where table_name='ESTAD_DIAS';
+        cursor cind is select partition_name from user_ind_partitions where index_name='ESTAD_DIAS_CP';
+
+BEGIN
+
+        select partitioned into part_tabla from user_tables where table_name='ESTAD_DIAS';
+        select partitioned into part_ind from user_indexes where index_name='ESTAD_DIAS_CP';
+
+        if part_tabla='YES' then
+                open ctab;
+                loop
+                        fetch ctab into tab_part;
+                        execute immediate 'alter table ' || nom_tabla || ' move partition ' || tab_part;
+                        dbms_output.put_line('Compactada la particion ' || tab_part || ' de la tabla ' || nom_tabla);
+                        exit when ctab%NOTFOUND;
+                end loop;
+                close ctab;
+        else
+                execute immediate 'alter table ESTAD_DIAS move';
+                dbms_output.put_line('Compactada la tabla ESTAD_DIAS sin particiones');
+        end if;
+
+        if part_ind='YES' then
+                open cind;
+                loop
+                        fetch cind into ind_part;
+                        execute immediate 'alter index ' || indice || ' rebuild partition ' || ind_part || ' online';
+                        dbms_output.put_line('Reconstruida la particion ' || ind_part || ' del indice ' || indice);
+                        exit when cind%NOTFOUND;
+                end loop;
+                close cind;
+        else
+                execute immediate 'alter index ESTAD_DIAS_CP rebuild online';
+                dbms_output.put_line('Recontruccion del indice ESTAD_DIAS_CP sin particiones');
+        end if;
+END;
+/
+
+
+exit;
+
+END
+
+
+######## MESES
+sleep 15
+echo Procesando ESTAD_MESES para el usuario $user
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_meses_${user}_${FECHA}.log
+${user}/${user}@egsdp
+
+        set serveroutput on size 1000000
+
+DECLARE
+        part_tabla varchar2(3) := 'YES';
+        part_ind varchar2(3) := 'YES';
+        nom_tabla varchar2(30) := 'ESTAD_MESES';
+        tab_part varchar2(30);
+        indice varchar2(30) := 'ESTAD_MESES_CP';
+        ind_part varchar2(30);
+        cursor ctab is select partition_name from user_tab_partitions where table_name='ESTAD_MESES';
+        cursor cind is select partition_name from user_ind_partitions where index_name='ESTAD_MESES_CP';
+
+BEGIN
+
+        select partitioned into part_tabla from user_tables where table_name='ESTAD_MESES';
+        select partitioned into part_ind from user_indexes where index_name='ESTAD_MESES_CP';
+
+        if part_tabla='YES' then
+                open ctab;
+                loop
+                        fetch ctab into tab_part;
+                        execute immediate 'alter table ' || nom_tabla || ' move partition ' || tab_part;
+                        dbms_output.put_line('Compactada la particion ' || tab_part || ' de la tabla ' || nom_tabla);
+                        exit when ctab%NOTFOUND;
+                end loop;
+                close ctab;
+        else
+                execute immediate 'alter table ESTAD_MESES move';
+                dbms_output.put_line('Compactada la tabla ESTAD_MESES sin particiones');
+        end if;
+
+        if part_ind='YES' then
+                open cind;
+                loop
+                        fetch cind into ind_part;
+                        execute immediate 'alter index ' || indice || ' rebuild partition ' || ind_part || ' online';
+                        dbms_output.put_line('Reconstruida la particion ' || ind_part || ' del indice ' || indice);
+                        exit when cind%NOTFOUND;
+                end loop;
+                close cind;
+        else
+                execute immediate 'alter index ESTAD_MESES_CP rebuild online';
+                dbms_output.put_line('Recontruccion del indice ESTAD_MESES_CP sin particiones');
+        end if;
+END;
+/
+
+
+exit;
+
+END
+done
+
+#### MINUTOS
+sleep 15
+FECHA=`date +"%Y%m%d_%H%M%S"`
+echo "FECHA Y HORA DE INICIO MANTENIMIENTO TABLAS MINUTOS: ${FECHA}" >> ${DIR}/log/ejecucion.log
+
+for user_minutos in `cat ${DIR}/log/usuarios_minutos_${FECHA}.log`
+do
+echo Procesando ESTAD_MINUTOS para el usuario $user_minutos
+
+$ORACLE_HOME/bin/sqlplus -s << END >> ${DIR}/log/estad_minutos_${user_minutos}_${FECHA}.log
+${user_minutos}/${user_minutos}@egsdp
+
+        set serveroutput on size 1000000
+
+DECLARE
+        part_tabla varchar2(3) := 'YES';
+        part_ind varchar2(3) := 'YES';
+        nom_tabla varchar2(30) := 'ESTAD_MINUTOS';
+        tab_part varchar2(30);
+        indice varchar2(30) := 'ESTAD_MINUTOS_CP';
+        ind_part varchar2(30);
+        cursor ctab is select partition_name from user_tab_partitions where table_name='ESTAD_MINUTOS';
+        cursor cind is select partition_name from user_ind_partitions where index_name='ESTAD_MINUTOS_CP';
+
+BEGIN
+
+        select partitioned into part_tabla from user_tables where table_name='ESTAD_MINUTOS';
+        select partitioned into part_ind from user_indexes where index_name='ESTAD_MINUTOS_CP';
+
+        if part_tabla='YES' then
+                open ctab;
+                loop
+                        fetch ctab into tab_part;
+                        execute immediate 'alter table ' || nom_tabla || ' move partition ' || tab_part;
+                        dbms_output.put_line('Compactada la particion ' || tab_part || ' de la tabla ' || nom_tabla);
+                        exit when ctab%NOTFOUND;
+                end loop;
+                close ctab;
+        else
+                execute immediate 'alter table ESTAD_MINUTOS move';
+                dbms_output.put_line('Compactada la tabla ESTAD_MINUTOS sin particiones');
+        end if;
+
+        if part_ind='YES' then
+                open cind;
+                loop
+                        fetch cind into ind_part;
+                        execute immediate 'alter index ' || indice || ' rebuild partition ' || ind_part || ' online';
+                        dbms_output.put_line('Reconstruida la particion ' || ind_part || ' del indice ' || indice);
+                        exit when cind%NOTFOUND;
+                end loop;
+                close cind;
+        else
+                execute immediate 'alter index ESTAD_MINUTOS_CP rebuild online';
+                dbms_output.put_line('Recontruccion del indice ESTAD_MINUTOS_CP sin particiones');
+        end if;
+END;
+/
+
+
+exit;
+
+END
+done
+FECHA=`date +"%Y%m%d_%H%M%S"`
+echo "FECHA Y HORA DE FIN MANTENIMIENTO TABLAS MINUTOS: ${FECHA}" >> ${DIR}/log/ejecucion.log
+
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "estad_EST*.log" -mtime +15 -exec rm {} \;
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "usuario*" -mtime +15 -exec rm {} \;
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "estad_meses*.log" -mtime +15 -exec rm {} \;
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "estad_dias*.log" -mtime +15 -exec rm {} \;
+find ~/UTIL/Herramientas/1_bin/cron/estad/log -name "estad_horas*.log" -mtime +15 -exec rm {} \;
+
+############################## ARRANCAR GESTAD Y GESTADJ
+~/UTIL/Herramientas/1_bin/cron/estad/./parar_arrancar_gestad.sh arrancar TODOS;
+sleep 10
+############################## FIN ARRACNAR GESTAD Y GESTADJ
+FECHA=`date +"%Y%m%d_%H%M%S"`
+echo "FECHA Y HORA DE FIN DEL PROCESO DE MANTENIMIENTO: ${FECHA}" >> ${DIR}/log/ejecucion.log
+
+

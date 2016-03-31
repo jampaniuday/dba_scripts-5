@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!-- <!DOCTYPE log SYSTEM "logger.dtd"> -->
+<log>
+<record>
+  <date>2003-06-23T11:21:09</date>
+  <millis>1056381669440</millis>
+  <sequence>0</sequence>
+  <logger>info.iDevelopment.MyLogger</logger>
+  <level>INFO</level>
+  <class>LoggingDemo2</class>
+  <method>logMessage</method>
+  <thread>10</thread>
+  <message>I am logging a test message...</message>
+</record>
+</log>

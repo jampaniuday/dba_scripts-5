@@ -1,0 +1,107 @@
+  CREATE OR REPLACE TRIGGER "SYS"."LOGON_VALID_TRG"
+AFTER LOGON
+ON DATABASE
+DECLARE
+   v_sid     number;
+   v_program varchar2(48) :=NULL;
+   v_logon_timestamp date:=NULL;
+   v_username varchar2(30):=NULL;
+   v_module varchar2(48) :=NULL;
+
+BEGIN
+   select sid,program, logon_time, username,module
+   into v_sid,  v_program , v_logon_timestamp,v_username, v_module
+   from v$session
+   where sid=(select sid from v$mystat where rownum=1)
+   and audsid = (select userenv ('sessionid') from dual);
+
+-- se remueven espacios
+IF trim(sys_context('USERENV','IP_ADDRESS')) NOT IN (
+'10.225.162.29',   --- crppga crppga_2 #### Virtual Service Network Application ####
+'10.225.162.30',   --- crppcs
+'10.225.162.31',   --- cropge
+'10.225.162.32',   --- crrasc
+'10.225.162.33',   --- crgeac
+'10.225.217.93',   --- coriswdtsg1 #### Data Switches Network ####
+'10.225.217.94',   --- coriswdtsg2
+'192.168.28.191',  --- coribesg1  #### Operation  Management Network ######
+'192.168.28.192',  --- coribesg2
+'192.168.28.193',  --- corifesg1
+'192.168.28.194',  --- corifesg2
+'192.168.28.195',  --- corifewsg1
+'192.168.28.196',  --- coritgsg1
+'192.168.28.185',  --- coribesg1-rc
+'192.168.28.186',  --- coribesg2-rc
+'192.168.28.187',  --- corifesg1-rc
+'192.168.28.188',  --- corifesg2-rc
+'192.168.28.189',  --- corifewsg1-rc
+'192.168.28.190',  --- coritgsg1-rc
+'192.168.28.183',  --- coribesg1-v   #### Provisional Virtual OM Network Database #####
+'192.168.28.184',  --- coribesg2-v
+'10.225.162.25',   --- corifesg1c  ##### Service Network #####
+'10.225.162.26',   --- corifesg2c
+'10.225.162.27',   --- corifewsg1c
+'10.225.162.28',   --- coritgsg1c
+'10.225.162.29',   --- corifeppga   #### Virtual Service Network Application ####
+'10.225.162.30',   --- corifeppcs
+'10.225.162.31',   --- corifeopge
+'10.225.162.32',   --- coriferasc
+'10.225.162.33',   --- corifegeac
+'10.225.192.65',   --- besg1  ##### Private Network #####
+'10.225.192.66',   --- besg2
+'10.225.192.67',   --- fesg1
+'10.225.192.68',   --- fesg2
+'10.225.192.69',   --- fewsg1
+'10.225.192.70',   --- tgsg1
+'10.225.192.71',   --- besg1-v  #### Virtual Private Network Database ####
+'10.225.192.72',   --- besg2-v
+'10.225.192.97',   --- clbesg1   ##### Cluster Network Database #####
+'10.225.192.98',   --- clbesg2
+'10.225.129.45',   --- controlm ### Control-M ###
+'192.168.28.212',  --- corimtybesg3 #### FASE2 OM IP's Blade servers ########
+'192.168.28.213',  --- corimtybesg4
+'192.168.28.214',  --- corimtybesg5
+'192.168.28.215',  --- corimtybesg6
+'10.231.220.4',    --- bat1feadm1
+'10.231.220.5',    --- bat1feadm2
+'10.231.220.8',    --- bat1feadm1-rc
+'10.231.220.9',    --- bat1feadm2-rc
+'10.231.220.20',   --- bat1feadm3-rc
+'10.231.220.21',   --- bat1feadm3
+'10.231.220.194',  --- bat1feadm1CRc
+'10.231.220.195',  --- bat1feadm2CRc
+'10.231.220.199',  --- bat1feadm3CRc
+'10.231.220.162',  --- bat1feadm1NIc
+'10.231.220.163',  --- bat1feadm2NIc
+'10.231.220.169',  --- bat1feadm3NIc
+'10.231.220.226',  --- bat1feadm1PAc
+'10.231.220.227',  --- bat1feadm2PAc
+'10.231.220.231',   --- bat1feadm3Pac
+'10.225.162.105',  --- PROGAC
+'10.225.162.106',  --- icon
+'10.225.162.107',  --- icon
+'10.225.162.108',   --- icon
+'10.225.162.109',    --- GAC_CR
+'10.225.205.230',    --- SCL CR
+'10.225.205.233',     --- SCL BATCH
+'10.231.194.198',    --- hobbit
+'10.231.194.199'    --- hobbit
+) THEN
+  RAISE_APPLICATION_ERROR (-20001,'El acceso no esta permitido desde esta direccion' || sys_context('USERENV','IP_ADDRESS') );
+END IF;
+
+-- se valida por program en la vista
+IF UPPER(v_program) LIKE '%TOAD%' OR UPPER(v_program) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_program) LIKE '%SQLNAV%'      -- SQL Navigator QUEST
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion');
+END IF;
+
+-- se valida por module en la vista por si renombraron el ejecutable para pasarla anterior validacion
+IF UPPER(v_module) like '%TOAD%' OR UPPER(v_module) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_module) LIKE '%SQLNAV%'      -- SQL Navigator QUEST
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion');
+END IF;
+END;
+/

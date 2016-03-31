@@ -1,0 +1,252 @@
+# +-------------------------------------------------------------------+
+# | FILE          : init805.ora                                       |
+# | CREATION DATE : 15-MAR-1998                                       |
+# | SERVER        : dbaprod.comanage.net                              |
+# | INSTANCE NAME : ORA806                                            |
+# | DATABASE NAME : ORA806                                            |
+# |                                                                   |
+# |  --------                                                         |
+# | |HISTORY |                                                        |
+# |  ---------------------------------------------------------------- |
+# | NAME DATE      DESCRIPTION (including old/new values)             |
+# | ---- --------- -------------------------------------------------- |
+# | JMH  15-MAR-99 Created original file.                             |
+# +-------------------------------------------------------------------+
+
+# +-------------------+
+# | HIDDEN PARAMETERS |
+# +-------------------+
+_trace_files_public                          = TRUE
+
+# +---------------------+
+# | DATABASE PARAMETERS |
+# +---------------------+
+# O7_DICTIONARY_ACCESSIBILITY                = TRUE
+# allow_partial_sn_results                   = FALSE
+# always_anti_join                           = nested_loops
+# always_semi_join                           = standard
+aq_tm_processes                              = 1
+# arch_io_slaves                             = 0
+audit_file_dest                       = /u01/app/oracle/admin/ORA806/adump
+# audit_trail                                = NONE
+# b_tree_bitmap_plans                        = FALSE
+# background_core_dump                       = full
+background_dump_dest                  = /u01/app/oracle/admin/ORA806/bdump
+# backup_disk_io_slaves                      = 0
+# backup_tape_io_slaves                      = FALSE
+# bitmap_merge_area_size                     = 1048576
+# blank_trimming                             = FALSE
+# buffer_pool_keep                           =
+# buffer_pool_recycle                        =
+# cache_size_threshold                       = 50
+# cleanup_rollback_entries                   = 20
+# close_cached_open_cursors                  = FALSE
+# commit_point_strength                      = 1
+compatible                                   = 8.0.6
+# compatible_no_recovery                     = 0.0.0
+# complex_view_merging                       = FALSE
+# control_file_record_keep_time              = 7
+control_files                         = (/u03/app/oradata/ORA806/control01.ctl,
+                                         /u04/app/oradata/ORA806/control02.ctl,
+                                         /u05/app/oradata/ORA806/control03.ctl)
+core_dump_dest                        = /u01/app/oracle/admin/ORA806/cdump
+# cpu_count                                  = 2
+# create_bitmap_area_size                    = 8388608
+# cursor_space_for_time                      = FALSE
+db_block_buffers                             = 500
+# db_block_checkpoint_batch                  = 8
+# db_block_checksum                          = FALSE
+# db_block_lru_extended_statistics           = 0
+# db_block_lru_latches                       = 1
+# db_block_lru_statistics                    = FALSE
+# db_block_max_dirty_target                  = 4294967294
+db_block_size                                = 8192
+# db_domain                                  = WORLD
+# db_file_direct_io_count                    = 64
+db_file_multiblock_read_count                = 32
+# db_file_name_convert                       =
+# db_file_simultaneous_writes                = 4
+db_files                                     = 500
+db_name                                      = ORA806
+# db_writer_processes                        = 1
+# dblink_encrypt_login                       = FALSE
+# dbwr_io_slaves                             = 0
+# delayed_logging_block_cleanouts            = TRUE
+# discrete_transactions_enabled              = FALSE
+# disk_asynch_io                             = TRUE
+# distributed_lock_timeout                   = 60
+# distributed_recovery_connection_hold_time  = 200
+# distributed_transactions                   = 31
+# dml_locks                                  = 3000
+# enqueue_resources                          = 5000
+# event                                      =
+# fast_full_scan_enabled                     = FALSE
+# fixed_date                                 =
+# freeze_DB_for_fast_instance_recovery       = FALSE
+# gc_defer_time                              = 10
+# gc_files_to_locks                          =
+# gc_latches                                 = 4
+# gc_lck_procs                               = 1
+# gc_releasable_locks                        = 0
+# gc_rollback_locks                          =
+global_names                                 = FALSE
+# hash_area_size                             = 0
+# hash_join_enabled                          = TRUE
+# hash_multiblock_io_count                   = 1
+# hi_shared_memory_address                   = 0
+# ifile                                      =
+# instance_groups                            =
+# instance_nodeset                           =
+# instance_number                            = 0
+job_queue_interval                           = 60
+job_queue_keep_connections                   = TRUE
+job_queue_processes                          = 2
+# large_pool_min_alloc                       = 16K
+large_pool_size                              = 20000000
+# lgwr_io_slaves                             = 0
+# license_max_sessions                       = 0
+# license_max_users                          = 0
+# license_sessions_warning                   = 0
+# lm_locks                                   = 12000
+# lm_procs                                   = 127
+# lm_ress                                    = 6000
+# local_listener                             =
+# lock_name_space                            =
+# lock_sga                                   = FALSE
+# lock_sga_areas                             = 0
+# log_archive_buffer_size                    = 64
+# log_archive_buffers                        = 4
+log_archive_dest                      = /u07/app/oradata/ORA806/archive
+# log_archive_duplex_dest                    =
+log_archive_format                           = "arch_t%t_s%s.dbf"
+# log_archive_min_succeed_dest               = 1
+log_archive_start                            = TRUE
+# log_block_checksum                         = FALSE
+log_buffer                                   = 819200
+log_checkpoint_interval                      = 12500000
+log_checkpoint_timeout                       = 21600
+log_checkpoints_to_alert                     = TRUE
+# log_file_name_convert                      =
+# log_files                                  = 255
+log_simultaneous_copies                      = 6
+log_small_entry_max_size                     = 40
+# max_commit_propagation_delay               = 90000
+max_dump_file_size                           = 20480
+max_enabled_roles                            = 145
+# max_rollback_segments                      = 30
+# max_transaction_branches                   = 8
+# mts_dispatchers                            =
+# mts_listener_address                       =
+# mts_max_dispatchers                        = 5
+# mts_max_servers                            = 20
+# mts_multiple_listeners                     = FALSE
+# mts_rate_log_size                          =
+# mts_rate_scale                             =
+# mts_servers                                = 0
+# mts_service                                = ORA806
+# nls_calendar                               =
+# nls_currency                               =
+nls_date_format                              = DD-MON-RR
+# nls_date_language                          =
+# nls_iso_currency                           =
+# nls_language                               = AMERICAN
+# nls_numeric_characters                     =
+# nls_sort                                   =
+# nls_territory                              = AMERICA
+# object_cache_max_size_percent              = 10
+# object_cache_optimal_size                  = 102400
+# ogms_home                                  =
+open_cursors                                 = 255
+# open_links                                 = 4
+# open_links_per_instance                    = 4
+# ops_admin_group                            =
+# optimizer_features_enable                  = 8.0.0
+# optimizer_index_caching                    = 0
+# optimizer_index_cost_adj                   = 100
+# optimizer_max_permutations                 = 80000
+optimizer_mode                               = CHOOSE
+# optimizer_percent_parallel                 = 0
+# optimizer_search_limit                     = 5
+# oracle_trace_collection_name               =
+# oracle_trace_collection_path               = ?/otrace/admin/cdf
+# oracle_trace_collection_size               = 5242880
+# oracle_trace_enable                        = FALSE
+# oracle_trace_facility_name                 = oracled
+# oracle_trace_facility_path                 = ?/otrace/admin/fdf
+# os_authent_prefix                          = ops$
+# os_roles                                   = FALSE
+# parallel_adaptive_multi_user               = FALSE
+# parallel_broadcast_enabled                 = FALSE
+# parallel_default_max_instances             = 0
+# parallel_execution_message_size            = 2148
+# parallel_instance_group                    =
+# parallel_max_servers                       = 5
+# parallel_min_message_pool                  = 64440
+# parallel_min_percent                       = 0
+# parallel_min_servers                       = 0
+# parallel_server                            = FALSE
+# parallel_server_idle_time                  = 5
+# parallel_transaction_resource_timeout      = 300
+# partition_view_enabled                     = FALSE
+# plsql_v2_compatibility                     = FALSE
+pre_page_sga                                 = TRUE
+processes                                    = 200
+# push_join_predicate                        = FALSE
+# read_only_open_delayed                     = FALSE
+# recovery_parallelism                       = 0
+# reduce_alarm                               = FALSE
+# remote_dependencies_mode                   = TIMESTAMP
+remote_login_passwordfile                    = EXCLUSIVE
+# remote_os_authent                          = FALSE
+# remote_os_roles                            = FALSE
+# replication_dependency_tracking            = TRUE
+# resource_limit                             = FALSE
+rollback_segments                            = (rbs1,
+                                                rbs2,
+                                                rbs3,
+                                                rbs4,
+                                                rbs5,
+                                                rbs6,
+                                                rbs7,
+                                                rbs8)
+# row_cache_cursors                          = 10
+# row_locking                                = always
+sequence_cache_entries                       = 100
+sequence_cache_hash_buckets                  = 89
+# serial_reuse                               = DISABLE
+# serializable                               = FALSE
+# session_cached_cursors                     = 0
+# session_max_open_files                     = 0
+# sessions                                   = 115
+# shadow_core_dump                           = full
+# shared_memory_address                      = 0
+# shared_pool_reserved_min_alloc             = 5K
+# shared_pool_reserved_size                  = 204800
+shared_pool_size                             = 4096000
+# snapshot_refresh_interval                  = 60
+# snapshot_refresh_keep_connections          = FALSE
+# snapshot_refresh_processes                 = 0
+sort_area_retained_size                      = 256000
+sort_area_size                               = 256000
+# sort_direct_writes                         = AUTO
+# sort_read_fac                              = 5
+# sort_spacemap_size                         = 512
+# sort_write_buffer_size                     = 32768
+# sort_write_buffers                         = 2
+# spin_count                                 = 2000
+# sql92_security                             = FALSE
+# sql_trace                                  = FALSE
+# star_transformation_enabled                = FALSE
+# tape_asynch_io                             = TRUE
+# temporary_table_locks                      = 115
+# text_enable                                = FALSE
+# thread                                     = 0
+# timed_os_statistics                        = 0
+timed_statistics                             = TRUE
+# transaction_auditing                       = TRUE
+# transactions                               = 126
+# transactions_per_rollback_segment          = 24
+# use_indirect_data_buffers                  = FALSE
+use_ism                                      = TRUE
+user_dump_dest                        = /u01/app/oracle/admin/ORA806/udump
+# utl_file_dir                               =

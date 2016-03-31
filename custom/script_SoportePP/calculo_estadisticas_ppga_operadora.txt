@@ -1,0 +1,34 @@
+# Calculo de estadisticas
+0 1 * * 2,4,6  ksh /export/home/oracle/procesos/analyzePPGA.sh > /export/home/oracle/procesos/analyze.log
+
+
+
+cd /export/home/oracle/procesos/
+export ORACLE_SID=PPGAGUA2
+export CRS_HOME=/softw/app/oracle/product/10.2.0/crs
+export ORACLE_BASE=/softw/app/oracle/product
+export ORACLE_HOME=/softw/app/oracle/product/10.2.0/db
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:$LD_LIBRARY_PATH
+export PATH=$ORACLE_HOME/bin:$CRS_HOME/bin:$PATH
+
+sqlplus -s '/ as sysdba' @analyzeppga.sql
+
+
+analyzeppga.sql
+
+exec SYS.DBMS_STATS.GATHER_TABLE_STATS ('PPGA','PPGA_AJUSTES' ,Estimate_Percent => 10,Degree => 4,Cascade=> TRUE); 
+exec SYS.DBMS_STATS.GATHER_TABLE_STATS ('PPGA','PPGA_ACTABOPRE' ,Estimate_Percent => 10,Degree => 4,Cascade=> TRUE); 
+exec SYS.DBMS_STATS.GATHER_TABLE_STATS ('PPGA','PPGA_RECARGAS' ,Estimate_Percent => 10,Degree => 4,Cascade=> TRUE); 
+exec SYS.DBMS_STATS.GATHER_TABLE_STATS ('PPGA','PPGA_CAMBSALDOS' ,Estimate_Percent => 10,Degree => 4,Cascade=> TRUE);
+
+
+
+select owner,table_name,num_rows,sample_size, round( sample_size / num_rows,2)Porcentaje,last_analyzed from dba_tables
+where table_name in ('PPGA_AJUSTES','PPGA_ACTABOPRE','PPGA_RECARGAS','PPGA_CAMBSALDOS');
+
+OWNER                          TABLE_NAME                       NUM_ROWS SAMPLE_SIZE PORCENTAJE LAST_ANALYZED
+------------------------------ ------------------------------ ---------- ----------- ---------- -------------------
+PPGA                           PPGA_CAMBSALDOS                  38547688     4612114       0.15 24/08/2013 00:15:41
+PPGA                           PPGA_RECARGAS                   276406844    69101711       0.25 06/09/2013 01:28:36
+PPGA                           PPGA_ACTABOPRE                  774096119   774096119          1 03/09/2013 02:41:33
+PPGA                           PPGA_AJUSTES                     14119836     3529959       0.25 11/09/2013 00:13:40

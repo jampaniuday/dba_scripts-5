@@ -1,0 +1,227 @@
+----- original -----------------
+
+SELECT UPPER('&&table_name'),
+        s.segment_type,
+        SUM(s.bytes)/1048576 megs
+FROM   user_segments s
+WHERE  (s.segment_name,s.segment_type)
+                       IN (SELECT t.table_name,
+                              'TABLE'
+                       FROM   user_tables t
+                       WHERE  t.table_name = UPPER('&&table_name')
+                       UNION
+                       SELECT i.index_name,
+                              'INDEX'
+                       FROM   user_indexes i
+                       WHERE  i.table_name = UPPER('&&table_name')
+                       )
+GROUP BY s.segment_type
+ORDER BY 1 DESC
+
+
+
+----------
+
+                       SELECT p.index_name,
+                              'INDEX PARTITION'
+from   dba_ind_partitions p, dba_indexes i
+where  p.index_owner = i.owner
+and    p.index_name = i.index_name
+and    i.partitioned = 'YES'
+group by p.index_name,'INDEX PARTITION'
+
+------ General ----------------
+
+SELECT t.table_name,'TABLE' FROM   DBA_tables t WHERE  t.table_name = UPPER(b.table_name)
+UNION
+SELECT i.index_name,'INDEX' FROM   DBA_indexes i WHERE  i.table_name = UPPER(b.table_name)
+UNION
+SELECT p.index_name,'INDEX PARTITION' from   dba_ind_partitions p, dba_indexes i where  p.index_owner = i.owner and    p.index_name = i.index_name and    i.partitioned = 'YES' and    i.table_name = UPPER(b.table_name) group by p.index_name,'INDEX PARTITION'
+
+
+SELECT UPPER(b.table_name) Tabla,
+        s.segment_type Tipo,
+        substr(to_char(SUM(s.bytes)/1048576,'999,999,990.00'),1,20) megs
+FROM   dba_segments s, ( select table_name from dba_tables where owner = 'PPCS') b
+WHERE  (s.segment_name,s.segment_type)
+                       IN (
+SELECT t.table_name,'TABLE' FROM   DBA_tables t WHERE  t.table_name = UPPER(b.table_name)
+UNION
+SELECT i.index_name,'INDEX' FROM   DBA_indexes i WHERE  i.table_name = UPPER(b.table_name)
+                       )
+GROUP BY UPPER(b.table_name),s.segment_type
+ORDER BY 1 DESC
+
+---------------General V2 ------------------
+
+select  segment_name,
+--decode(partition_name, null, segment_name, segment_name || ':' || partition_name) objectname,
+       segment_type object_type,
+       (round(bytes/1024/1024,2)) Mb ,
+       Owner
+from   dba_segments
+Where  tablespace_name='MECOORIG_256K_DAT'
+and owner = 'PPCS'
+
+
+select decode(partition_name, null, segment_name, segment_name || ':' || partition_name) objectname,
+       segment_type object_type,
+       sum(round(bytes/1024/1024,2)) Mb ,
+       Owner,count(1)
+from   dba_segments
+Where  tablespace_name='EVENTPROM_64K_IND'
+group by decode(partition_name, null, segment_name, segment_name || ':' || partition_name), segment_type,owner
+------------------------------------
+
+
+SELECT TABLESPACE_NAME
+FROM DBA_TABLES
+WHERE OWNER = 'PPCS'
+and tablespace_name is not null
+GROUP BY TABLESPACE_NAME
+union
+select tablespace_name
+from DBA_TAB_PARTITIONS
+where table_owner = 'PPCS'
+GROUP BY TABLESPACE_NAME
+union
+SELECT TABLESPACE_NAME
+FROM DBA_INDEXES
+WHERE OWNER = 'PPCS'
+and tablespace_name is not null
+GROUP BY TABLESPACE_NAME
+UNION 
+select tablespace_name
+from DBA_IND_PARTITIONS
+where INDEX_owner = 'PPCS'
+GROUP BY TABLESPACE_NAME
+
+-------------------- General v 2.1 ------------
+
+
+select segment_name objectname,
+       segment_type object_type,
+       sum(round(bytes/1024/1024,2)) Mb ,
+       Owner
+from   dba_segments
+Where  tablespace_name in 
+(
+SELECT TABLESPACE_NAME
+FROM DBA_TABLES
+WHERE OWNER = 'PPCS'
+and tablespace_name is not null
+GROUP BY TABLESPACE_NAME
+union
+select tablespace_name
+from DBA_TAB_PARTITIONS
+where table_owner = 'PPCS'
+GROUP BY TABLESPACE_NAME
+union
+SELECT TABLESPACE_NAME
+FROM DBA_INDEXES
+WHERE OWNER = 'PPCS'
+and tablespace_name is not null
+GROUP BY TABLESPACE_NAME
+UNION 
+select tablespace_name
+from DBA_IND_PARTITIONS
+where INDEX_owner = 'PPCS'
+GROUP BY TABLESPACE_NAME
+)
+and owner = 'PPCS'
+group by segment_name,segment_type,owner
+order by 1,2
+
+------------ General v 3 ----------------------
+
+
+
+select segment_name objectname,
+       segment_type object_type,
+       TO_CHAR(sum(round(bytes/1024/1024,2)),'999,999,990.00') Mb 
+from   dba_segments a, dba_tables B
+Where  a.segment_name = b.table_name
+and b.owner = 'PPCS'
+AND B.TABLESPACE_NAME IS NOT NULL
+group by segment_name,segment_type
+UNION ALL
+select B.TABLE_NAME objectname,
+       segment_type object_type,
+       TO_CHAR(sum(round(bytes/1024/1024,2)),'999,999,990.00') Mb 
+from   dba_segments a, dba_INDEXES B
+Where  a.segment_name = b.INDEX_name
+and b.TABLE_owner = 'PPCS'
+AND B.TABLESPACE_NAME IS NOT NULL
+group by B.TABLE_NAME,segment_type
+UNION ALL
+
+select B.TABLE_NAME objectname,
+       segment_type object_type,
+       TO_CHAR(sum(round(bytes/1024/1024,2)),'999,999,990.00') Mb 
+from   dba_segments a, dba_INDEXES B, DBA_IND_PARTITIONS C
+Where  a.segment_name = B.INDEX_NAME
+and b.TABLE_owner = 'PPCS'
+AND B.INDEX_NAME = C.INDEX_NAME
+AND B.OWNER = C.INDEX_OWNER
+group by B.TABLE_NAME,segment_type
+UNION ALL
+select B.TABLE_NAME objectname,
+       segment_type object_type,
+       TO_CHAR(sum(round(bytes/1024/1024,2)),'999,999,990.00') Mb 
+from   dba_segments a, dba_TABLES B, DBA_TAB_PARTITIONS C
+Where  a.segment_name = B.TABLE_NAME
+and b.owner = 'PPCS'
+AND B.TABLE_NAME = C.TABLE_NAME
+AND B.OWNER = C.TABLE_OWNER
+group by B.TABLE_NAME,segment_type
+order by 1,2
+
+
+---------------- otras versiones
+
+select B.TABLE_NAME objectname,
+       segment_type object_type,
+       TO_CHAR((round(bytes/1024/1024,2)),'999,999,990.00') Mb 
+from   dba_segments a, dba_INDEXES B, DBA_IND_PARTITIONS C
+Where  a.segment_name = B.INDEX_NAME
+and b.TABLE_owner = 'PPCS'
+AND B.INDEX_NAME = C.INDEX_NAME
+AND B.OWNER = C.INDEX_OWNER
+UNION ALL
+select B.TABLE_NAME objectname,
+       segment_type object_type,
+       TO_CHAR(sum(round(bytes/1024/1024,2)),'999,999,990.00') Mb 
+from   dba_segments a, dba_TABLES B, DBA_TAB_PARTITIONS C
+Where  a.segment_name = B.TABLE_NAME
+and b.owner = 'PPCS'
+AND B.TABLE_NAME = C.TABLE_NAME
+AND B.OWNER = C.TABLE_OWNER
+group by B.TABLE_NAME,segment_type
+order by 1,2 desc
+
+
+--- desgloce particiones y su espacio por tablespace.
+select B.TABLE_NAME objectname,
+       segment_type object_type,
+       a.tablespace_name, count(1) n_Part,
+       TO_CHAR(sum(round(bytes/1024/1024,2)),'999,999,990.00') Mb,
+       to_char(avg(round(bytes/1024/1024,2)),'999,999,990.00') avg_part_mb
+from   dba_segments a, dba_TABLES B, DBA_TAB_PARTITIONS C
+Where  a.segment_name = B.TABLE_NAME
+and b.owner = 'PPCS'
+AND B.TABLE_NAME = C.TABLE_NAME
+AND B.OWNER = C.TABLE_OWNER
+group by B.TABLE_NAME,segment_type, a.tablespace_name
+
+select a.segment_name||'-'||c.partition_name objectname,
+       segment_type object_type,
+       a.tablespace_name,
+       TO_CHAR(sum(round(bytes/1024/1024,2)),'999,999,990.00') Mb
+from   dba_segments a, dba_TABLES B, DBA_TAB_PARTITIONS C
+Where  a.segment_name = B.TABLE_NAME
+and b.owner = 'PPCS'
+---and a.tablespace_name = 'SALDO_4096K_DAT'
+AND B.TABLE_NAME = C.TABLE_NAME
+AND B.OWNER = C.TABLE_OWNER
+group by a.segment_name||'-'||c.partition_name,segment_type, a.tablespace_name
+ordery by to_number(substr(c.partition_name,instr(c.partition_name,'_',-1)+1,4))

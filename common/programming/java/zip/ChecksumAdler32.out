@@ -1,0 +1,18 @@
+--------------------------
+Compile Program
+--------------------------
+javac ChecksumAdler32.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ChecksumAdler32 example1.txt
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+749351180 165 example1.txt

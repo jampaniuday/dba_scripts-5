@@ -1,0 +1,14 @@
+# Borrado diario de directorio /recovery_area/SDPPA01/archivelog/ en pansl1dbebd14 y pansl1dbebd24
+00 20 * * * /bin/ksh -c ". $HOME/.env_oracle_SDPPA01.sh; /export/oracle/procesos/PAN/borrar_rman.sh >> /export/oracle/procesos/PAN/borrar_rman.log 2>&1"
+
+
+borrar_rman.sh
+
+
+rman nocatalog <<EOF
+connect target /
+#borra los archives
+DELETE FORCE NOPROMPT ARCHIVELOG UNTIL TIME 'SYSDATE-1/2';
+CROSSCHECK ARCHIVELOG ALL;
+exit
+EOF

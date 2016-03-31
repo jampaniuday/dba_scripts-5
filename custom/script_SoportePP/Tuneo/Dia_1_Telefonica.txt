@@ -1,0 +1,182 @@
+-- Usuarios con indices
+
+select   owner OWNER, count(*) "Index_and_Partition_Count"
+from     dba_objects
+where    object_type in ('INDEX', 'INDEX PARTITION', 'INDEX SUBPARTITION')
+group by owner
+order by 1
+
+
+--- ubicacion de los indices
+
+select s.owner, s.segment_name, s.partition_name, s.segment_type, s.bytes, s.extents
+from dba_segments s
+where s.segment_type like 'INDEX%'
+and s.owner in ('OE')
+and s.segment_name not like 'SYS_IOT_TOP_%'
+and s.segment_name not like 'SYS_IL%$$'
+
+---- listado de los indices 
+
+select owner, index_name, table_owner, table_name,  null partition_name, null subpartition_name, tablespace_name, pct_increase, initial_extent, next_extent, max_extents, logging, degree, instances, status
+from   dba_indexes
+where  owner in ('OE')
+and tablespace_name is not null
+and    index_name not like 'SYS_IOT_TOP_%'
+and    index_name not like 'SYS_IL%$$'
+union all
+select p.index_owner, p.index_name, i.table_owner, i.table_name, p.partition_name, null subpartition_name, p.tablespace_name, p.pct_increase, p.initial_extent, p.next_extent, p.max_extent, p.logging, 'n/a' degree, 'n/a' instances, p.status
+from   dba_ind_partitions p, dba_indexes i
+where  p.index_owner = i.owner
+and    p.index_name = i.index_name
+and    i.partitioned = 'YES'
+and    p.index_owner in ('OE')
+and    i.index_name not like 'SYS_IOT_TOP_%'
+and    i.index_name not like 'SYS_IL%$$'
+and   p.subpartition_count = 0
+union all
+select p.index_owner, p.index_name, i.table_owner, i.table_name, p.partition_name, p.subpartition_name, p.tablespace_name, p.pct_increase, p.initial_extent, p.next_extent, p.max_extent, p.logging, 'n/a' degree, 'n/a' instances, p.status
+from   dba_ind_subpartitions p, dba_indexes i
+where  p.index_owner = i.owner
+and    p.index_name = i.index_name
+and    i.partitioned = 'YES'
+and    p.index_owner in ('OE')
+and    i.index_name not like 'SYS_IOT_TOP_%'
+and    i.index_name not like 'SYS_IL%$$'
+order by 1,2
+
+
+--- analize del indice
+
+
+Analyze Index OE.ORD_SALES_REP_IX validate structure
+
+
+--- rescata los datos de uso
+
+select HEIGHT, LF_ROWS_LEN, DEL_LF_ROWS_LEN,PCT_USED from index_stats
+
+
+-- reconstruye el indice
+
+Alter index OE.ORD_CUSTOMER_IX rebuild TABLESPACE EXAMPLE;
+
+
+--- analisis con particion
+
+Analyze Index SH.SALES_TIME_BIX partition (SALES_Q4_2002) validate structure
+
+--- reconstruye el indice
+
+Alter index SH.SALES_TIME_BIX rebuild partition SALES_Q4_2000 TABLESPACE EXAMPLE;
+
+
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+
+-- tablas por propietario
+
+select   owner OWNER, count(*) "Table_and_Partition_Count"
+from     sys.dba_objects
+where    object_type like 'TABLE%'
+group by owner
+order by 1
+
+
+--- tablas de un usuario
+
+select owner, segment_name, partition_name, segment_type, bytes, extents
+from dba_segments
+where segment_type like 'TABLE%'
+and owner in ('SH')
+and segment_name not like 'SYS_IOT_TOP_%'
+and segment_name not like 'SYS_IL%$$'
+
+--- detalles de las tablas de un usuario
+
+select owner, table_name, null partition_name, null subpartition_name, tablespace_name, pct_increase, initial_extent, next_extent, max_extents, logging, degree, instances, iot_type
+from   DBA_TABLES
+Where partitioned = 'NO'
+and   cluster_name is null
+and   tablespace_name is not null
+and   table_name not like 'SYS_IOT%'
+and  not (((pct_free is not null) and (PCT_FREE = 0))
+         and ((pct_used is not null) and (PCT_USED = 0))
+         and CLUSTER_NAME IS NULL
+         and IOT_TYPE IS NULL)
+and    owner in ('SH')
+union all
+select table_owner owner, table_name, partition_name, null subpartition_name, tablespace_name, pct_increase, initial_extent, next_extent, max_extent max_extents, logging, 'n/a' degree, 'n/a' instances, null
+from   DBA_TAB_PARTITIONS p
+where   table_owner in ('SH')
+and    table_name not like 'SYS_IOT%'
+and   subpartition_count = 0
+union all
+select table_owner, table_name, partition_name, subpartition_name, tablespace_name, pct_increase, initial_extent, next_extent, max_extent, logging, 'n/a' degree, 'n/a' instances, null
+from   DBA_TAB_SUBPARTITIONS p
+where   table_owner in ('SH')
+and    table_name not like 'SYS_IOT%'
+order by 1,2
+
+
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+
+
+--- tablespaces
+
+select  a.tablespace_name,
+       round(a.bytes_alloc / 1024 / 1024) megs_alloc,
+       round(nvl(b.bytes_free, 0) / 1024 / 1024) megs_free,
+       round((a.bytes_alloc - nvl(b.bytes_free, 0)) / 1024 / 1024) megs_used,
+       round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_Free,
+       100 - round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_used,
+       round(maxbytes/1048576) Max
+from  ( select  f.tablespace_name,
+               sum(f.bytes) bytes_alloc,
+               sum(decode(f.autoextensible, 'YES',f.maxbytes,'NO', f.bytes)) maxbytes
+        from dba_data_files f
+        group by tablespace_name) a,
+      ( select  f.tablespace_name,
+               sum(f.bytes)  bytes_free
+        from dba_free_space f
+        group by tablespace_name) b
+where a.tablespace_name = b.tablespace_name (+)
+union all
+select h.tablespace_name,
+       round(sum(h.bytes_free + h.bytes_used) / 1048576) megs_alloc,
+       round(sum((h.bytes_free + h.bytes_used) - nvl(p.bytes_used, 0)) / 1048576) megs_free,
+       round(sum(nvl(p.bytes_used, 0))/ 1048576) megs_used,
+       round((sum((h.bytes_free + h.bytes_used) - nvl(p.bytes_used, 0)) / sum(h.bytes_used + h.bytes_free)) * 100) Pct_Free,
+       100 - round((sum((h.bytes_free + h.bytes_used) - nvl(p.bytes_used, 0)) / sum(h.bytes_used + h.bytes_free)) * 100) pct_used,
+       round(sum(f.maxbytes) / 1048576) max
+from   sys.v_$TEMP_SPACE_HEADER h, sys.v_$Temp_extent_pool p, dba_temp_files f
+where  p.file_id(+) = h.file_id
+and    p.tablespace_name(+) = h.tablespace_name
+and    f.file_id = h.file_id
+and    f.tablespace_name = h.tablespace_name
+group by h.tablespace_name
+ORDER BY 1
+
+---- los datos de un datafile dado un tablespace
+
+select tablespace_name, file_name
+from dba_data_files
+where tablespace_name = 'USERS'
+order by 1
+
+
+--- agrega otro datafile
+
+ALTER TABLESPACE USERS ADD DATAFILE 'C:\ORACLE\PRODUCT\10.2.0\ORADATA\MUNI\USERS02.DBF' SIZE 1024M AUTOEXTEND OFF;
+
+
+--- agrega otro datafile con autoextend
+ALTER TABLESPACE USERS ADD DATAFILE 'C:\ORACLE\PRODUCT\10.2.0\ORADATA\MUNI\USERS02.DBF' SIZE 5M AUTOEXTEND ON NEXT 1280K MAXSIZE UNLIMITED;
+
+
+
+
+

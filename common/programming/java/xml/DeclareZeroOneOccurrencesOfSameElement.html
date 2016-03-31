@@ -1,0 +1,89 @@
+<html>
+<head>
+
+    <style type="text/css">
+        A.noLink        { text-decoration: none; }
+        A.noLinkYellow  { color:yellow;  text-decoration: none; }
+        A.noLinkBlue    { color:blue;  text-decoration: none; }
+        A.noLinkOrange  { color:orange;  text-decoration: none; }
+        A.noLinkCyan    { color:cyan;  text-decoration: none; }
+        A.noLinkGreen   { color:cream;  text-decoration: none; }
+        A.noLinkRed     { color:red;  text-decoration: none; }
+    </style>
+
+    <title>Declaring Zero or One Occurrences of the Same Element</title>
+
+    <script language="JavaScript" type="text/javascript">
+
+        function cancelForm() {
+            location = "./MAIN_home.shtml";
+        }
+
+    </script>
+
+</head>
+
+<body bgcolor="#FFFFFF" 
+      link="0000ff" 
+      vlink="0000ff" 
+      alink="0000ff">
+
+    <img src="../../../../gifs/header_programming.gif" alt="">
+    <p>
+
+    <i><b><font color="#ff0000"><u>Declaring Zero or One Occurrences of the Same Element</u></font></b></i>
+    <br>
+
+    <p>
+    <a  class="noLinkBlue"
+        onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+        href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no" alt=""></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+    <hr noshade>
+
+
+    <!--
+     | ********************************************
+     |   Examples
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b>Examples</b></font>
+    <p>
+
+    <blockquote>
+
+        <table cellspacing="1" cellpadding="1" border="1">
+            <tr>
+            <td>
+                <pre>&lt;!ELEMENT element-name (child-name?)&gt;
+example
+&lt;!ELEMENT note (message?)&gt;
+
+example
+
+&lt;!ELEMENT note (to+,from,header,message*,#PCDATA)&gt;</pre>
+            </td>
+            </tr>
+            <tr>
+                <td>
+                <ul>
+                    <li> The ? sign in the example above declares that the 
+                         child element message can occur <b>zero or one</b> times 
+                         inside the note element.
+                    <li> The + sign declares <b>at least one</b> "to" child element.
+                    <li> With no sign declaration, <b>exactly one</b> "from" child element.
+                    <li> With no sign declaration, <b>exactly one</b> "header" child element.
+                    <li> The * sign declares <b>zero or more</b> "message" child elements,
+                    <li> The #PCDATA declaration, indicates some other parsed character data.
+
+
+                </ul>
+                </td>
+            </tr>
+        </table>
+
+
+    </blockquote>
+
+</body>
+</html>

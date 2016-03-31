@@ -1,0 +1,48 @@
+rebuild.sql
+alter index adm_pa.FK_ADM_SUBSCRIPTIONS_PROMO_ID rebuild;
+alter index adm_pa.ADM_SUBSCRIPTIONS_IX00 rebuild;
+alter index adm_pa.ADM_SUBSCRIPTIONS_IX01 rebuild;
+alter index adm_pa.SYS_C005680 rebuild;
+alter index adm_pa.ADM_SUBSCRIPTIONS_IX03 rebuild;
+alter index adm_pa.ADM_SUBSCRIPTIONS_IX02 rebuild;
+alter index adm_pa.ADM_SUBSCRIPTIONS_IX06 rebuild;
+exec dbms_stats.gather_table_stats('ADM_PA', 'ADM_SUBSCRIPTIONS', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+
+
+SQL> @rebuild.sql
+
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.  
+Procedimiento PL/SQL terminado correctamente.
+
+
+rebuild2.sql
+ALTER INDEX ADM_PA.ADM_REQUESTS_PK REBUILD;
+ALTER INDEX ADM_PA.ADM_REQUESTS_CONVERSATION_ID REBUILD;
+ALTER INDEX ADM_PA.ADM_REQUESTS_IX00 REBUILD;
+ALTER INDEX ADM_PA.ADM_REQUESTS_IX02 REBUILD PARTITION REQUESTS_OLD;
+ALTER INDEX ADM_PA.ADM_REQUESTS_IX02 REBUILD PARTITION SYS_P101;
+ALTER INDEX ADM_PA.ADM_REQUESTS_IX02 REBUILD PARTITION SYS_P141;
+ALTER INDEX ADM_PA.ADM_REQUESTS_IX02 REBUILD PARTITION SYS_P181;
+ALTER INDEX ADM_PA.ADM_REQUESTS_IX02 REBUILD PARTITION SYS_P41;
+ALTER INDEX ADM_PA.ADM_REQUESTS_IX02 REBUILD PARTITION SYS_P81;
+exec dbms_stats.gather_table_stats('ADM_PA', 'ADM_REQUESTS', CASCADE => TRUE, ESTIMATE_PERCENT => 10,degree => 4);
+
+                
+SQL> @rebuild2.sql
+  
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.
+Índice modificado.    
+Procedimiento PL/SQL terminado correctamente.

@@ -1,0 +1,32 @@
+col object_name format a30
+col owner format a20
+col object_type format a20
+
+select owner,object_name,object_type, created,last_ddl_time, timestamp, status from dba_objects where object_name like 'PPCS_ABONADOS%'
+union all
+select owner,object_name,object_type, created,last_ddl_time, timestamp, status from dba_objects where object_name like 'PPCS_MULSALABO%'
+order by owner,object_name
+
+
+OWNER                OBJECT_NAME                    OBJECT_TYPE          CREATED  LAST_DDL TIMESTAMP           STATUS
+-------------------- ------------------------------ -------------------- -------- -------- ------------------- -------
+CPPCS                PPCS_ABONADOS                  SYNONYM              06/05/12 06/05/12 2012-05-06:02:57:44 VALID
+CPPCS                PPCS_ABONADOS_PENDIENTES       SYNONYM              06/05/12 06/05/12 2012-05-06:02:57:44 VALID
+CPPCS                PPCS_MULSALABO                 SYNONYM              06/05/12 06/05/12 2012-05-06:02:57:44 VALID
+CPPCS                PPCS_MULSALABO_PENDIENTES      SYNONYM              06/05/12 06/05/12 2012-05-06:02:57:44 VALID
+EPPCS                PPCS_ABONADOS                  SYNONYM              06/05/12 06/05/12 2012-05-06:02:57:59 VALID
+EPPCS                PPCS_ABONADOS_PENDIENTES       SYNONYM              06/05/12 06/05/12 2012-05-06:02:57:59 VALID
+EPPCS                PPCS_MULSALABO                 SYNONYM              06/05/12 06/05/12 2012-05-06:02:57:58 VALID
+EPPCS                PPCS_MULSALABO_PENDIENTES      SYNONYM              06/05/12 06/05/12 2012-05-06:02:57:59 VALID
+PPCS                 PPCS_ABONADOS                  TABLE                20/09/07 06/05/12 2007-09-20:20:20:50 VALID
+PPCS                 PPCS_ABONADOS_PENDIENTES       TABLE                04/12/08 06/05/12 2008-12-04:04:01:42 VALID
+PPCS                 PPCS_ABONADOS_PENDIENTES_I01   INDEX                04/12/08 04/12/08 2008-12-04:04:01:42 VALID
+PPCS                 PPCS_ABONADOS_PENDIENTES_I02   INDEX                04/12/08 04/12/08 2008-12-04:04:01:42 VALID
+PPCS                 PPCS_ABONADOS_PENDIENTES_I03   INDEX                04/12/08 04/12/08 2008-12-04:04:01:42 VALID
+PPCS                 PPCS_MULSALABO                 TABLE                20/09/07 06/05/12 2007-09-20:20:20:51 VALID
+PPCS                 PPCS_MULSALABO_PENDIENTES      TABLE                04/12/08 06/05/12 2008-12-04:04:01:42 VALID
+PPCS                 PPCS_MULSALABO_PENDIENTES_I01  INDEX                04/12/08 04/12/08 2008-12-04:04:01:42 VALID
+PPCS                 PPCS_MULSALABO_PENDIENTES_I02  INDEX                04/12/08 04/12/08 2008-12-04:04:01:42 VALID
+PPCS                 PPCS_MULSALABO_PENDIENTES_I03  INDEX                04/12/08 04/12/08 2008-12-04:04:01:42 VALID
+
+18 rows selected.

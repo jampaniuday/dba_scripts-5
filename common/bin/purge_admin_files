@@ -1,0 +1,381 @@
+#!/bin/ksh
+
+# +----------------------------------------------------------------------------+
+# |                          Jeffrey M. Hunter                                 |
+# |                      jhunter@idevelopment.info                             |
+# |                         www.idevelopment.info                              |
+# |----------------------------------------------------------------------------|
+# |      Copyright (c) 1998-2011 Jeffrey M. Hunter. All rights reserved.       |
+# |----------------------------------------------------------------------------|
+# | DATABASE : Oracle                                                          |
+# | FILE     : purge_admin_files                                               |
+# | CLASS    : UNIX Shell Scripts                                              |
+# | PURPOSE  : This KSH script takes no parameters. During normal operation,   |
+# |            the Oracle instance will write log and trace files to its admin |
+# |            directories. These admin directories are defined by the         |
+# |            instance parameters audit_file_dest, background_dump_dest,      |
+# |            core_dump_dest, user_dump_dest. This script is responsible for  |
+# |            purging old log and trace files from these admin directories    |
+# |            for each Oracle instance running on the node.                   |
+# |                                                                            |
+# |            An environment variable is defined in this script named         |
+# |            $DAYS_TO_KEEP that controls the number of files to keep on the  |
+# |            system while purging files. This value is set to 7 days by      |
+# |            default.                                                        |
+# |                                                                            |
+# |            This script is also responsible for archiving the current       |
+# |            alert.log file for all Oracle instances configured on the node. |
+# |                                                                            |
+# |            This script uses the Oracle configuration file "oratab" to      |
+# |            determine all instances that are configured for the node. A     |
+# |            function named getOSName() is used to determine the UNIX        |
+# |            operating environment and then attempts to locate the "oratab"  |
+# |            file within its default location. If the script cannot locate   |
+# |            your "oratab" file, you can modify the environment variable     |
+# |            $ORATAB_FILE located in this script.                            |
+# | NOTE     : As with any code, ensure to test this script in a development   |
+# |            environment before attempting to run it in production.          |
+# +----------------------------------------------------------------------------+
+
+# +----------------------------------------------------------------------------+
+# | ************************************************************************** |
+# | *                     DEFINE ALL GLOBAL VARIABLES                        * |
+# | ************************************************************************** |
+# +----------------------------------------------------------------------------+
+
+VERSION="1.1"
+SCRIPT_NAME_FULL=$0
+SCRIPT_NAME=${SCRIPT_NAME_FULL##*/}
+START_DATE=`date`
+DATE_LOG=`date +%Y%m%d_%H%M`
+HOSTNAME=`hostname`
+HOSTNAME_UPPER=`hostname | tr -s '[:lower:]' '[:upper:]'`
+DAYS_TO_KEEP=7
+
+
+# +----------------------------------------------------------------------------+
+# | ************************************************************************** |
+# | *                     DEFINE ALL GLOBAL FUNCTIONS                        * |
+# | ************************************************************************** |
+# +----------------------------------------------------------------------------+
+
+showUsage() {
+
+    echo "USAGE:"
+    echo "purge_admin_files.ksh"
+    echo " "
+}
+
+showSignonBanner() {
+
+    echo " "
+    echo "$SCRIPT_NAME - Version $VERSION"
+    echo "Copyright (c) 1998-2011 Jeffrey M. Hunter. All rights reserved."
+    echo " "
+
+}
+
+switch_oracle_env() {
+
+    DB_ENTRY_HOME="$1"
+
+    # +---------------------------------------------------------+
+    # | Ensure that "OLDHOME" is non-null. The following is a   |
+    # | portable way of saying, if oracle_home is not set, then |
+    # | return a zero. this will then set OLDHOME to the $PATH  |
+    # | variable. If ORACLE_HOME is set, then set OLDHOME to    |
+    # | that of the old $ORACLE_HOME. Another way to perform    |
+    # | this check is using a less portable statement:          |
+    # |       if [ ${ORACLE_HOME:-0} = 0 ]; then                |
+    # +---------------------------------------------------------+
+    if [ ${ORACLE_HOME=0} = 0 ]; then
+      OLDHOME=$PATH
+    else
+      OLDHOME=$ORACLE_HOME
+    fi
+
+    # +--------------------------------------------------------+
+    # | Now that we backed up the old $ORACLE_HOME, lets set   |
+    # | the environment with the new $ORACLE_HOME.             |
+    # +--------------------------------------------------------+
+    ORACLE_HOME=$DB_ENTRY_HOME
+    export ORACLE_HOME
+
+    # +------------------------------------------+
+    # | Set $PATH                                |
+    # +------------------------------------------+
+    case "$PATH" in
+      *$OLDHOME/bin*)  PATH=`echo $PATH | sed "s;$OLDHOME/bin;$DB_ENTRY_HOME/bin;g"` ;;
+      *$DB_ENTRY_HOME/bin*)  ;;
+      *:)              PATH=${PATH}$DB_ENTRY_HOME/bin: ;;
+      "")              PATH=$DB_ENTRY_HOME/bin ;;
+      *)               PATH=$PATH:$DB_ENTRY_HOME/bin ;;
+    esac
+    export PATH 
+
+    # +------------------------------------------+
+    # | Set $LD_LIBRARY_PATH                     |
+    # +------------------------------------------+
+    case "$LD_LIBRARY_PATH" in
+      *$OLDHOME/lib*)    LD_LIBRARY_PATH=`echo $LD_LIBRARY_PATH | sed "s;$OLDHOME/lib;$DB_ENTRY_HOME/lib;g"` ;;
+      *$DB_ENTRY_HOME/lib*) ;;
+      *:)                LD_LIBRARY_PATH=${LD_LIBRARY_PATH}$DB_ENTRY_HOME/lib: ;;
+      "")                LD_LIBRARY_PATH=$DB_ENTRY_HOME/lib ;;
+      *)                 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$DB_ENTRY_HOME/lib ;;
+    esac
+    export LD_LIBRARY_PATH
+
+    ORACLE_DOC=$DB_ENTRY_HOME/doc
+    export ORACLE_DOC 
+
+    ORACLE_PATH=$DB_ENTRY_HOME/rdbms/admin:$DB_ENTRY_HOME/sqlplus/admin:$HOME/common/bin
+    export ORACLE_PATH
+
+    ORA_NLS33=$DB_ENTRY_HOME/ocommon/nls/admin/data
+    export ORA_NLS33
+
+    TNS_ADMIN=$DB_ENTRY_HOME/network/admin
+    export TNS_ADMIN
+}
+
+getOSName() {
+
+    case `uname -s` in
+        *BSD)
+            UNIX_TYPE="bsd" ;;
+        SunOS)
+            case `uname -r` in
+                5.*) UNIX_TYPE="solaris" ;;
+                  *) UNIX_TYPE"sunos" ;;
+            esac
+            ;;
+        Linux)
+            UNIX_TYPE="linux" ;;
+        HP-UX)
+            UNIX_TYPE="hpux" ;;
+        AIX)
+            UNIX_TYPE="aix" ;;
+        *) UNIX_TYPE="unknown" ;;
+    esac
+
+}
+
+
+# +----------------------------------------------------------------------------+
+# | ************************************************************************** |
+# | *                          SCRIPT STARTS HERE                            * |
+# | ************************************************************************** |
+# +----------------------------------------------------------------------------+
+
+showSignonBanner
+
+getOSName
+
+if [[ $UNIX_TYPE = "linux" ]]; then
+    ORATAB_FILE="/etc/oratab"
+elif [[ $UNIX_TYPE = "solaris" ]];then
+    ORATAB_FILE="/var/opt/oracle/oratab"
+else
+    ORATAB_FILE="/etc/oratab"
+fi
+
+
+START_DATE=`date`
+echo "======================================================"
+echo "SCRIPT       : $SCRIPT_NAME"
+echo "VERSION      : $VERSION"
+echo "START TIME   : $START_DATE"
+echo "HOST         : $HOSTNAME"
+echo "UNIX TYPE    : $UNIX_TYPE"
+echo "DAYS_TO_KEEP : $DAYS_TO_KEEP"
+echo "======================================================"
+echo " "
+
+for DB_ENTRY in `cat ${ORATAB_FILE} | grep -v '^\#' | grep -v '^\*' | cut -d":" -f1,2`
+do
+
+    ORACLE_SID=`echo $DB_ENTRY | cut -d":" -f1`
+    export ORACLE_SID
+
+    NEW_ORACLE_HOME=`echo $DB_ENTRY | cut -d":" -f2`
+    export NEW_ORACLE_HOME
+
+    switch_oracle_env $NEW_ORACLE_HOME
+
+    echo "  - Working on : ${ORACLE_SID}  (${NEW_ORACLE_HOME})"
+
+
+    # +---------------------------------------------+
+    # | Work on "audit_file_dest" directory.        |
+    # +---------------------------------------------+
+
+    ENTRY_FAILURE=false
+
+    audit_file_dest=`sqlplus -silent "/ as sysdba" <<END
+set pagesize 0 feedback off verify off heading off echo off
+select value from v\\\$parameter where name = 'audit_file_dest';
+exit;
+END`
+
+    case "$audit_file_dest" in
+      *ORA-01034*)  echo "    ERROR      : (audit_file_dest) - ORACLE not available. Skipping ${ORACLE_SID}"
+                    ENTRY_FAILURE=true;;
+      *ORA-*)       echo "    ERROR      : (audit_file_dest) - Error with Skipping ${ORACLE_SID}."
+                    echo "    $audit_file_dest"
+                    ENTRY_FAILURE=true;;
+      "")           echo "    ERROR      : (audit_file_dest) - No rows returned. Skipping ${ORACLE_SID}"
+                    ENTRY_FAILURE=true;;
+    esac
+
+    if [[ $ENTRY_FAILURE == "false" ]]; then
+
+        audit_file_dest=`echo $audit_file_dest | sed s#\?#${ORACLE_HOME}#g`
+
+        echo "    Found      : ${audit_file_dest}"
+        cd ${audit_file_dest}
+
+        if (( $? == 0 )); then
+          echo "    Purging    : ${audit_file_dest} - ($DAYS_TO_KEEP days)"
+          find . -type f -mtime +$DAYS_TO_KEEP -name \*.aud -print -exec rm {} \;
+        fi 
+
+    fi
+
+
+    # +---------------------------------------------+
+    # | Work on "background_dump_dest" directory.   |
+    # +---------------------------------------------+
+
+    ENTRY_FAILURE=false
+
+    background_dump_dest=`sqlplus -silent "/ as sysdba" <<END
+set pagesize 0 feedback off verify off heading off echo off
+select value from v\\\$parameter where name = 'background_dump_dest';
+exit;
+END`
+
+    case "$background_dump_dest" in
+      *ORA-01034*)  echo "    ERROR      : (background_dump_dest) - ORACLE not available. Skipping ${ORACLE_SID}"
+                    ENTRY_FAILURE=true;;
+      *ORA-*)       echo "    ERROR      : (background_dump_dest) - Error with Skipping ${ORACLE_SID}."
+                    echo "    $background_dump_dest"
+                    ENTRY_FAILURE=true;;
+      "")           echo "    ERROR      : (background_dump_dest) - No rows returned. Skipping ${ORACLE_SID}"
+                    ENTRY_FAILURE=true;;
+    esac
+
+
+    if [[ $ENTRY_FAILURE == "false" ]]; then
+
+        background_dump_dest=`echo $background_dump_dest | sed s#\?#${ORACLE_HOME}#g`
+
+        echo "    Found      : ${background_dump_dest}"
+        cd ${background_dump_dest}
+
+        if (( $? == 0 )); then
+          echo "    Purging    : ${background_dump_dest} - ($DAYS_TO_KEEP days)"
+          find . -type f -mtime +$DAYS_TO_KEEP -name \*.trc -print -exec rm {} \;
+          find . -type f -mtime +$DAYS_TO_KEEP -name alert_\* -print -exec rm {} \;
+        fi 
+
+        for filename in * ; do
+            if [ -f $filename ] && [ $filename = alert_+([0-9a-zA-Z_]).log ]
+            then
+                newfilename="alert_${ORACLE_SID}.log.${DATE_LOG}"
+                echo "    Moving     : $filename TO $newfilename"
+                mv $filename $newfilename
+           fi       
+        done
+
+    fi
+
+
+    # +---------------------------------------------+
+    # | Work on "core_dump_dest" directory.         |
+    # +---------------------------------------------+
+
+    ENTRY_FAILURE=false
+
+    core_dump_dest=`sqlplus -silent "/ as sysdba" <<END
+set pagesize 0 feedback off verify off heading off echo off
+select value from v\\\$parameter where name = 'core_dump_dest';
+exit;
+END`
+
+    case "$core_dump_dest" in
+      *ORA-01034*)  echo "    ERROR      : (core_dump_dest) - ORACLE not available. Skipping ${ORACLE_SID}"
+                    ENTRY_FAILURE=true;;
+      *ORA-*)       echo "    ERROR      : (core_dump_dest) - Error with Skipping ${ORACLE_SID}."
+                    echo "    $core_dump_dest"
+                    ENTRY_FAILURE=true;;
+      "")           echo "    ERROR      : (core_dump_dest) - No rows returned. Skipping ${ORACLE_SID}"
+                    ENTRY_FAILURE=true;;
+    esac
+
+    if [[ $ENTRY_FAILURE == "false" ]]; then
+
+        core_dump_dest=`echo $core_dump_dest | sed s#\?#${ORACLE_HOME}#g`
+
+        echo "    Found      : ${core_dump_dest}"
+        cd ${core_dump_dest}
+
+        if (( $? == 0 )); then
+          echo "    Purging    : ${core_dump_dest} - ($DAYS_TO_KEEP days)"
+          find . -type f -mtime +$DAYS_TO_KEEP -name core\* -print -exec rm -r {} \;
+          find . -type d -mtime +$DAYS_TO_KEEP -name core\* -print -exec rm -r {} \;
+        fi 
+
+    fi
+
+
+    # +---------------------------------------------+
+    # | Work on "user_dump_dest" directory.         |
+    # +---------------------------------------------+
+
+    ENTRY_FAILURE=false
+
+    user_dump_dest=`sqlplus -silent "/ as sysdba" <<END
+set pagesize 0 feedback off verify off heading off echo off
+select value from v\\\$parameter where name = 'user_dump_dest';
+exit;
+END`
+
+    case "$user_dump_dest" in
+      *ORA-01034*)  echo "    ERROR      : (user_dump_dest) - ORACLE not available. Skipping ${ORACLE_SID}"
+                    ENTRY_FAILURE=true;;
+      *ORA-*)       echo "    ERROR      : (user_dump_dest) - Error with Skipping ${ORACLE_SID}."
+                    echo "    $user_dump_dest"
+                    ENTRY_FAILURE=true;;
+      "")           echo "    ERROR      : (user_dump_dest) - No rows returned. Skipping ${ORACLE_SID}"
+                    ENTRY_FAILURE=true;;
+    esac
+
+    if [[ $ENTRY_FAILURE == "false" ]]; then
+
+        user_dump_dest=`echo $user_dump_dest | sed s#\?#${ORACLE_HOME}#g`
+
+        echo "    Found      : ${user_dump_dest}"
+        cd ${user_dump_dest}
+
+        if (( $? == 0 )); then
+          echo "    Purging    : ${user_dump_dest} - ($DAYS_TO_KEEP days)"
+          find . -type f -mtime +$DAYS_TO_KEEP -name \*.trc -print -exec rm {} \;
+        fi 
+
+    fi
+
+
+    # +---------------------------------------------+
+    # | Finished with this SID entry.               |
+    # +---------------------------------------------+
+
+    echo " "
+
+done
+
+END_DATE=`date`
+echo "======================================================"
+echo "FINISH TIME : $END_DATE"
+echo "======================================================"
+
+exit

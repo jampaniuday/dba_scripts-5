@@ -1,0 +1,22 @@
+<ToolbarXML>
+    <![CDATA[
+    <Toolbar>
+        <CreateFolder/>
+        <NewGroup/>
+        <DesignQuery/>
+        <NewSweep/>
+        <CreateTopology/>
+
+        <Save separator="y"/>
+        <DeleteTab/>
+        <Refresh/>
+    <GoHome/>
+        <Print/>
+
+        <Cut separator="y"/>
+        <Copy/>
+        <Paste/>
+
+    </Toolbar>
+    ]]>
+</ToolbarXML>

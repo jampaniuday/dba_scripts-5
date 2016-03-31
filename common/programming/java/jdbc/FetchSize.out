@@ -1,0 +1,237 @@
+--------------------------
+Compile Program
+--------------------------
+javac FetchSize.java
+
+
+--------------------------
+Run Program
+--------------------------
+java FetchSize
+
+
+--------------------------
+Program Output
+--------------------------
+
++-------------------------------+
+| SETUP CONNECTION              |
++-------------------------------+
+Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+Connecting to        -> jdbc:oracle:thin:@linux1:1521:orcl1
+Connected as         -> scott
+Turning Off AutoCommit...
++-------------------------------+
+| EXECUTE GENERIC QUERY         |
++-------------------------------+
+Executing Generic (SYSDATE) Query...
+Creating Statement...
+Get Default Fetch Size:10
+Manually Set Default Fetch Size to 50
+Get New Fetch Size:50
+Opening ResultsSet...
+  RESULTS            -> OL$
+  RESULTS            -> OL$HINTS
+  RESULTS            -> OL$NODES
+  RESULTS            -> ACCESS$
+  RESULTS            -> ARGUMENT$
+  RESULTS            -> ASSOCIATION$
+  RESULTS            -> ATEMPTAB$
+  RESULTS            -> ATTRCOL$
+  RESULTS            -> ATTRIBUTE$
+  RESULTS            -> AUDIT$
+  RESULTS            -> BOOTSTRAP$
+  RESULTS            -> CCOL$
+  RESULTS            -> CDC_CHANGE_SOURCES$
+  RESULTS            -> CDC_SYSTEM$
+  RESULTS            -> CDEF$
+  RESULTS            -> CLU$
+  RESULTS            -> COL$
+  RESULTS            -> COLLECTION$
+  RESULTS            -> COLTYPE$
+  RESULTS            -> COL_USAGE$
+  RESULTS            -> COM$
+  RESULTS            -> CON$
+  RESULTS            -> CONTEXT$
+  RESULTS            -> DEFROLE$
+  RESULTS            -> DEFSUBPART$
+  RESULTS            -> DEFSUBPARTLOB$
+  RESULTS            -> DEPENDENCY$
+  RESULTS            -> DIM$
+  RESULTS            -> DIMATTR$
+  RESULTS            -> DIMJOINKEY$
+  RESULTS            -> DIMLEVEL$
+  RESULTS            -> DIMLEVELKEY$
+  RESULTS            -> DIR$
+  RESULTS            -> DUAL
+  RESULTS            -> DUC$
+  RESULTS            -> ERROR$
+  RESULTS            -> EXPACT$
+  RESULTS            -> EXPDEPACT$
+  RESULTS            -> EXPDEPOBJ$
+  RESULTS            -> EXPPKGACT$
+  RESULTS            -> EXPPKGOBJ$
+  RESULTS            -> EXTERNAL_LOCATION$
+  RESULTS            -> EXTERNAL_TAB$
+  RESULTS            -> FET$
+  RESULTS            -> FILE$
+  RESULTS            -> HIER$
+  RESULTS            -> HIERLEVEL$
+  RESULTS            -> HISTGRM$
+  RESULTS            -> HIST_HEAD$
+  RESULTS            -> ICOL$
+  RESULTS            -> ICOLDEP$
+  RESULTS            -> IDL_CHAR$
+  RESULTS            -> IDL_SB4$
+  RESULTS            -> IDL_UB1$
+  RESULTS            -> IDL_UB2$
+  RESULTS            -> ID_GENS$
+  RESULTS            -> INCEXP
+  RESULTS            -> INCFIL
+  RESULTS            -> INCVID
+  RESULTS            -> IND$
+  RESULTS            -> INDARRAYTYPE$
+  RESULTS            -> INDCOMPART$
+  RESULTS            -> INDOP$
+  RESULTS            -> INDPART$
+  RESULTS            -> INDPART_PARAM$
+  RESULTS            -> INDSUBPART$
+  RESULTS            -> INDTYPES$
+  RESULTS            -> JAVAOBJ$
+  RESULTS            -> JAVASNM$
+  RESULTS            -> JOB$
+  RESULTS            -> KOPM$
+  RESULTS            -> LIBRARY$
+  RESULTS            -> LINK$
+  RESULTS            -> LOB$
+  RESULTS            -> LOBCOMPPART$
+  RESULTS            -> LOBFRAG$
+  RESULTS            -> METAFILTER$
+  RESULTS            -> METANAMETRANS$
+  RESULTS            -> METAPATHMAP$
+  RESULTS            -> METASCRIPT$
+  RESULTS            -> METASCRIPTFILTER$
+  RESULTS            -> METASTYLESHEET
+  RESULTS            -> METAVIEW$
+  RESULTS            -> METAXSL$
+  RESULTS            -> METAXSLPARAM$
+  RESULTS            -> METHOD$
+  RESULTS            -> MIGRATE$
+  RESULTS            -> MLOG$
+  RESULTS            -> MLOG_REFCOL$
+  RESULTS            -> MON_MODS$
+  RESULTS            -> MON_MODS_ALL$
+  RESULTS            -> NOEXP$
+  RESULTS            -> NTAB$
+  RESULTS            -> OBJ$
+  RESULTS            -> OBJAUTH$
+  RESULTS            -> OBJPRIV$
+  RESULTS            -> OID$
+  RESULTS            -> OPANCILLARY$
+  RESULTS            -> OPARG$
+  RESULTS            -> OPBINDING$
+  RESULTS            -> OPERATOR$
+  RESULTS            -> OPQTYPE$
+  RESULTS            -> PARAMETER$
+  RESULTS            -> PARTCOL$
+  RESULTS            -> PARTLOB$
+  RESULTS            -> PARTOBJ$
+  RESULTS            -> PENDING_SESSIONS$
+  RESULTS            -> PENDING_SUB_SESSIONS$
+  RESULTS            -> PENDING_TRANS$
+  RESULTS            -> PROCEDURE$
+  RESULTS            -> PROCEDUREC$
+  RESULTS            -> PROCEDUREINFO$
+  RESULTS            -> PROCEDUREJAVA$
+  RESULTS            -> PROCEDUREPLSQL$
+  RESULTS            -> PROFILE$
+  RESULTS            -> PROFNAME$
+  RESULTS            -> PROPS$
+  RESULTS            -> PROXY_DATA$
+  RESULTS            -> PROXY_ROLE_DATA$
+  RESULTS            -> REFCON$
+  RESULTS            -> REG_SNAP$
+  RESULTS            -> RESOURCE_COST$
+  RESULTS            -> RESOURCE_MAP
+  RESULTS            -> RESULT$
+  RESULTS            -> RGCHILD$
+  RESULTS            -> RGROUP$
+  RESULTS            -> RLS$
+  RESULTS            -> RLS_CTX$
+  RESULTS            -> RLS_GRP$
+  RESULTS            -> RLS_SC$
+  RESULTS            -> RULESET$
+  RESULTS            -> SECOBJ$
+  RESULTS            -> SEG$
+  RESULTS            -> SEQ$
+  RESULTS            -> SETTINGS$
+  RESULTS            -> SLOG$
+  RESULTS            -> SNAP$
+  RESULTS            -> SNAP_COLMAP$
+  RESULTS            -> SNAP_LOADERTIME$
+  RESULTS            -> SNAP_LOGDEP$
+  RESULTS            -> SNAP_OBJCOL$
+  RESULTS            -> SNAP_REFOP$
+  RESULTS            -> SNAP_REFTIME$
+  RESULTS            -> SNAP_SITE$
+  RESULTS            -> SOURCE$
+  RESULTS            -> SQL$
+  RESULTS            -> SQL$TEXT
+  RESULTS            -> SQLPROF$
+  RESULTS            -> SQLPROF$ATTR
+  RESULTS            -> SQLPROF$DESC
+  RESULTS            -> SQL_VERSION$
+  RESULTS            -> STMT_AUDIT_OPTION_MAP
+  RESULTS            -> SUBCOLTYPE$
+  RESULTS            -> SUBPARTCOL$
+  RESULTS            -> SUM$
+  RESULTS            -> SUMAGG$
+  RESULTS            -> SUMDELTA$
+  RESULTS            -> SUMDEP$
+  RESULTS            -> SUMDETAIL$
+  RESULTS            -> SUMINLINE$
+  RESULTS            -> SUMJOIN$
+  RESULTS            -> SUMKEY$
+  RESULTS            -> SUMPARTLOG$
+  RESULTS            -> SUMPRED$
+  RESULTS            -> SUMQB$
+  RESULTS            -> SUPEROBJ$
+  RESULTS            -> SYN$
+  RESULTS            -> SYSAUTH$
+  RESULTS            -> SYSTEM_PRIVILEGE_MAP
+  RESULTS            -> TAB$
+  RESULTS            -> TABCOMPART$
+  RESULTS            -> TABLE_PRIVILEGE_MAP
+  RESULTS            -> TABPART$
+  RESULTS            -> TABSUBPART$
+  RESULTS            -> TRIGGER$
+  RESULTS            -> TRIGGERCOL$
+  RESULTS            -> TRIGGERJAVAC$
+  RESULTS            -> TRIGGERJAVAF$
+  RESULTS            -> TRIGGERJAVAM$
+  RESULTS            -> TRIGGERJAVAS$
+  RESULTS            -> TRUSTED_LIST$
+  RESULTS            -> TS$
+  RESULTS            -> TSQ$
+  RESULTS            -> TYPE$
+  RESULTS            -> TYPED_VIEW$
+  RESULTS            -> TYPEHIERARCHY$
+  RESULTS            -> TYPE_MISC$
+  RESULTS            -> UET$
+  RESULTS            -> UGROUP$
+  RESULTS            -> UNDO$
+  RESULTS            -> USER$
+  RESULTS            -> USER_ASTATUS_MAP
+  RESULTS            -> USER_HISTORY$
+  RESULTS            -> USTATS$
+  RESULTS            -> VIEW$
+  RESULTS            -> VIEWCON$
+  RESULTS            -> VIEWTRCOL$
+  RESULTS            -> VTABLE$
+  RESULTS            -> _default_auditing_options_
+Closing ResultSet...
+Closing Statement...
++-------------------------------+
+| CLOSE DOWN ALL CONNECTIONS    |
++-------------------------------+
+Closing down all connections...

@@ -1,0 +1,6 @@
+df -i
+
+find /var/spool/mqueue -size -8k
+
+find /var/spool/clientmqueue -size -8k -exec rm -f {} \;
+

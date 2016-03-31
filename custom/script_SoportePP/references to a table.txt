@@ -1,0 +1,30 @@
+select table_name, constraint_name, status, owner from all_constraints 
+where r_owner = 'ADM_SV' and constraint_type = 'R' and 
+r_constraint_name in  (    select constraint_name from all_constraints    where constraint_type in ('P', 'U')
+and table_name = 'ADM_LOG' and owner = 'ADM_SV'  ) order by table_name, constraint_name 
+
+
+SELECT c.constraint_name, c.constraint_type, c2.constraint_name, c2.constraint_type, c2.table_name   
+FROM dba_constraints c JOIN dba_constraints c2 ON (c.r_constraint_name = c2.constraint_name)  
+WHERE c.table_name = 'ADM_LOG'    AND c.constraint_TYPE = 'R'; 
+
+select * 
+from
+    all_constraints 
+where
+    r_constraint_name in
+    (select       constraint_name
+    from
+       all_constraints
+    where
+       table_name='ADM_LOG') 
+;   
+
+
+select owner,constraint_name,constraint_type,r_constraint_name from all_constraints where table_name='ADM_LOG'
+
+alter table  APPSUD_GUA.BKP_SUD_RECARGAB DISABLE constraint  FK_CATA_CANAL_RECARGA_1;
+
+alter table  APPSUD_GUA.BKP_SUD_RECARGAB DISABLE constraint  FK_CATA_ERROR_RECARGA_1;
+
+alter table APPSUD_GUA.BKP_SUD_RECARGAB DISABLE constraint  FK_SUD_USUARIO_RECARGA_1;

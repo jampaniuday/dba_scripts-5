@@ -1,0 +1,109 @@
+<html>
+<head>
+
+    <style  type="text/css">
+        A.noLink        { text-decoration: none; }
+        A.noLinkYellow  { color:yellow;  text-decoration: none; }
+        A.noLinkBlue    { color:blue;  text-decoration: none; }
+        A.noLinkOrange  { color:orange;  text-decoration: none; }
+        A.noLinkCyan    { color:cyan;  text-decoration: none; }
+        A.noLinkGreen   { color:cream;  text-decoration: none; }
+        A.noLinkRed     { color:red;  text-decoration: none; }
+    </style>
+
+    <title>Running External OS Commands from within Java</title>
+
+    <script labguage="JavaScript" type="text/javascript">
+
+        function cancelForm() {
+            location = "./MAIN_home.shtml";
+        }
+
+    </script>
+
+</head>
+
+<body bgcolor = "#FFFFFF" 
+      link    = "0000ff" 
+      vlink   = "0000ff" 
+      alink   = "0000ff">
+
+    <img src="../../../../gifs/header_programming.gif" alt="">
+    <p>
+
+    <i><b><font color="#ff0000"><u>Running External OS Commands from within Java</u></font></b></i>
+    <br>
+
+    <p>
+    <a class="noLinkBlue"
+       onMouseOver="window.parent.status='Return to Programming Corner'; return true;"
+       href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no" alt=""></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+    <hr noshade>
+
+
+    <!--
+     | **********************************************
+     |   Introduction
+     | **********************************************
+     +-->
+   
+    <p>
+    <font color="#990000"><b>Introduction</b></font>
+    <p>
+
+    <blockquote>
+
+        After seeing an example of how to run an external OS command from within
+        a Java application is the easiest way to explain how to accomplish this 
+        task. It involves the use of two Java classes, the 
+        <code><b>Runtime</b></code> class and the <code><b>Process</b></code> 
+        class. In short, you use the <code><b>exec()</b></code> method of the 
+        <code>Runtime</code> class to run the command as a separate process. 
+        This returns a <code>Process</code> object for managing the subprocess.
+        <p>
+        You then use the <code><b>getInputStream()</b></code> 
+        and <code><b>getErrorStream()</b></code> methods of the 
+        <code>Process</code> object to read the normal output of the command, 
+        and the error output of the command. What you do with the output of the 
+        command executed is entirely up to you and the application you're 
+        creating. 
+
+    </blockquote>
+
+
+    <!--
+     | **********************************************
+     |   Java Primitive Types
+     | **********************************************
+     +-->
+   
+    <p>
+    <font color="#990000"><b>How it all works</b></font>
+    <p>
+
+    <blockquote>
+  
+        The first task is to specify the OS command you want to run by supplying 
+        this command as a String to the <code>Runtime</code> class. Since you 
+        cannot create your own instance of the <code>Runtime</code> class, you 
+        need to use the <code><b>getRuntime()</b></code> method to access the 
+        current runtime environment and then invoke its <code>exec()</code> 
+        method. This will return a <code>Process</code> object. 
+        <p>
+        From here, everything else you do involves invoking methods of the 
+        <code>Process</code> object. For simple cases, like when running the
+        "ps -ef" command in UNIX, you only need to read the output of the 
+        command. You also have the option of reading from standard error, but 
+        in most cases this isn't necessary but does provide for good 
+        programming practice. 
+        <p>
+        Many example will require you to convert the input streams with the 
+        <code><b>InputStreamReader</b></code> and 
+        <code><b>BufferedReader</b></code> so you can use the 
+        <code><b>readLine()</b></code> method of the BufferedReader class. 
+
+    </blockquote>
+
+
+</body>
+</html>

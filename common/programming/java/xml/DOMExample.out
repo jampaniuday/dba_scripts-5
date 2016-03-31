@@ -1,0 +1,40 @@
+--------------------------
+Compile Program
+--------------------------
+javac -classpath $JAVALIB/xmlparserv2.jar DOMExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java -classpath $JAVALIB/xmlparserv2.jar:. DOMExample Tablespaces.xml
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+The elements are: Tablespaces Tablespace Datafile Datafile Autoextend ExtentMgt AllocMethod Tablespace Datafile Datafile
+ Autoextend ExtentMgt AllocMethod Tablespace Datafile Autoextend ExtentMgt AllocMethod
+The attributes of each element are:
+Tablespaces:
+Tablespace:
+Datafile:
+Datafile:
+Autoextend:
+ExtentMgt:
+AllocMethod:
+Tablespace:
+Datafile:
+Datafile:
+Autoextend:
+ExtentMgt:
+AllocMethod:
+Tablespace:
+Datafile:
+Autoextend:
+ExtentMgt:
+AllocMethod:
+ method = UNIFORM
+ size = 1M

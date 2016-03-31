@@ -1,0 +1,37 @@
+SELECT INDEX_NAME,PARTITION_NAME,STATUS FROM DBA_IND_PARTITIONS where indeX_NAME LIKE '%ADQUISICIONES%';
+
+select * from all_synonyms where synonym_name like '%ADQUISICIONES%';
+
+select *
+  from all_synonyms s
+  left outer join all_tables t
+    on s.table_owner = t.owner
+   and s.table_name = t.table_name
+ where s.owner = 'PPGA'
+
+
+select *
+  from all_synonyms s
+  join all_objects o
+    on s.owner = o.owner
+   and s.synonym_name = o.object_name
+ where o.object_type = 'SYNONYM'
+   and s.owner = 'PPGA'
+   and o.status <> 'VALID'
+
+select *
+  from all_synonyms s
+  join all_objects o
+    on s.table_owner = o.owner
+   and s.table_name = o.object_name
+ where s.owner = 'PPGA'
+
+
+select *
+  from all_synonyms s
+  join all_objects o
+    on s.owner = o.owner
+   and s.synonym_name = o.object_name
+ where o.object_type = 'SYNONYM'
+   and s.owner = 'PPGA'
+   and o.status = 'VALID'

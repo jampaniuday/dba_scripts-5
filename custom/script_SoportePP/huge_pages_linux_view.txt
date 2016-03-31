@@ -1,0 +1,22 @@
+HugePages
+Fortunately, we can use HugePages in this version of Linux. There are couple of important benefits of HugePages:
+
+1.Page size is set 2MB instead of 4KB
+2.Memory used by HugePages is locked and cannot be paged out.
+With a pagesize of 2MB, 10GB SGA will have only 5000 pages compared to 2.6 million pages without HugePages. This will drastically reduce the page table size. Also, HugeTable memory is locked and so SGA can’t be swapped out. The working set of buffers for the paging/swapping daemon will be smaller.
+
+To setup HugePages, the following changes must be completed:
+
+1.Set the vm.nr_hugepages kernel parameter to a suitable value. In this case, we decided to use 12GB and set the parameter to 6144 (6144*2M=12GB). You can run: 
+echo 6144 > /proc/sys/vm/nr_hugepagesor
+
+sysctl -w vm.nr_hugepages=6144Of course, you must make sure this set across reboots too.
+
+2.The oracle userid needs to be able to lock a greater amount of memory. So, /etc/securities/limits.conf must be updated to increase soft and hard memlock values for oracle userid. 
+oracle          soft    memlock        12582912
+oracle          hard   memlock        12582912After setting this up, we need to make sure that SGA is indeed using HugePages. The value, (HugePages_Total- HugePages_Free)*2MB will be the approximate size of SGA (or it will equal the shared memory segment shown in the output of ipcs -ma).
+
+cat /proc/meminfo |grep HugePages
+HugePages_Total:  6144
+HugePages_Free:   1655 <-- Free pages are less than total pages.
+Hugepagesize:     2048 kB

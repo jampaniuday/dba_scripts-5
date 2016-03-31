@@ -1,0 +1,23 @@
+--------------------------
+Compile Program
+--------------------------
+javac ReverseNameResolution.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ReverseNameResolution <IP Address>
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+% java ReverseNameResolution 65.40.131.96
+
+InetAddress object 65.40.131.96
+Host name of 65.40.131.96 is user96.net446.oh.sprint-hsd.net
+canonical host name of 65.40.131.96 is user96.net446.oh.sprint-hsd.net

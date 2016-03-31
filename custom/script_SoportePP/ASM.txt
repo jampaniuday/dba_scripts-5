@@ -1,0 +1,25 @@
+----------------------------------
+
+SELECT i.instance_name db_instance, a.instance_name asm_instance
+FROM   v$instance i, v$asm_client a
+
+----------------------------------
+
+SELECT GROUP_NUMBER, NAME, SECTOR_SIZE, BLOCK_SIZE,
+   ALLOCATION_UNIT_SIZE, STATE, TYPE, TOTAL_MB, FREE_MB
+   ,REQUIRED_MIRROR_FREE_MB, USABLE_FILE_MB, OFFLINE_DISKS
+   ,COMPATIBILITY, DATABASE_COMPATIBILITY
+FROM V$ASM_DISKGROUP
+ORDER BY 1
+
+
+--- entrar a linea de comandos
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_SID=+ASM1
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/asm
+asmcmd
+
+
+
+--- espacio 
+select name, total_mb, free_mb from v$asm_diskgroup;

@@ -1,0 +1,96 @@
+<html>
+
+<head>
+  <title>Java Design Patterns</title>
+  <link rel="stylesheet" type="text/css" href="/includes/idevelopment_web.css" />
+</head>
+
+<body>
+
+  <p>
+    <img src="/gifs/header_programming_1.png">
+  <p>
+
+  <p>
+    <a class="noLinkBlue"
+       href="javascript:window.history.back()"><img src="/gifs/back_button.gif" border="no"></a>
+      &nbsp;&nbsp;
+      <a class="noLinkBlue"
+         href="http://www.idevelopment.info" target="_blank"><img src="/gifs/home_button.gif" border="no"></a>
+  </p>
+
+  <p>
+    <hr size="3" "noshade">
+  </p>
+
+  <p>
+    <span class="fontArticleTitle">
+      Java Design Patterns
+    </span>
+  </p>
+  <p>
+    by Jeff Hunter, Sr. Database Administrator
+  </p>
+
+
+  <p align="center">
+    <table class="cellGradationTable" width="80%">
+
+      <caption>
+        Common Java Design Patterns
+      </caption>
+
+      <thead>
+        <tr>
+          <th>Pattern Name</th>
+          <th>Meaning</th>
+          <th>Examples in Java API</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+            <td align="left"><b><font color="#000099">Factory</font></b></td>
+            <td>One class that makes up instances for you, controlled by subclasses</td>
+            <td "nowrap">
+              <tt>getInstance(in Calendar, Format, Local...);<br>
+              socket constructor;<br>
+              RMI InitialContext</tt>
+            </td>
+        </tr>
+        <tr>
+            <td align="left"><b><font color="#000099">Iterator</font></b></td>
+            <td>Loop over all elements in a collection (or container), visiting each element only once.</td>
+            <td "nowrap">
+              <tt>Iterator;<br>(or Enumeration for pre Java 2)</tt>
+            </td>
+        </tr>
+        <tr>
+            <td align="left"><b><font color="#000099">Singleton</font></b></td>
+            <td>Only one instance may exist for a given class.</td>
+            <td "nowrap">
+              <tt>java.awt.Toolkit</tt>
+            </td>
+        </tr>
+        <tr>
+            <td align="left"><b><font color="#000099">Memento</font></b></td>
+            <td>Capture and externalize an object's state for later reconstruction.</td>
+            <td "nowrap">Serializing an object</td>
+        </tr>
+        <tr>
+            <td align="left"><b><font color="#000099">Command</font></b></td>
+            <td>Encapsulate requests, allowing queues of requests, undoable operations, etc.</td>
+            <td "nowrap"><tt>java.awt.Command</tt></td>
+        </tr>
+        <tr>
+            <td align="left"><b><font color="#000099">Model-View-Controller</font></b></td>
+            <td>Model represents data; View is what user user sees; Controller responds to user request.</td>
+            <td "nowrap"><tt>Observer/Observable;</tt></td>
+        </tr>
+      </tbody>
+
+    </table>
+  </p>
+
+</body>
+</html>

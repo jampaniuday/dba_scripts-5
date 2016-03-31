@@ -1,0 +1,60 @@
+OWNER                          DIRECTORY_NAME                 DIRECTORY_PATH
+------------------------------ ------------------------------ --------------------------------------------------
+SYS                            DPUMP_DIR1                     /export/ppgagua
+SYS                            DP_DIR_PPGA_ACTABOPRE          /ora178/ppgagua/pm_PPGA_ACTABOPRE/
+SYS                            DP_DIR_PPGA_ACTRELAC           /ora158/ppgagua/pm_PPGA_ACTRELAC/
+SYS                            DP_DIR_PPGA_ADQUISICIONES      /flash_recovery/ppgagua/pm_PPGA_ADQUISICIONES/
+SYS                            DP_DIR_PPGA_AJUSTES            /ora154/ppgagua/pm_PPGA_AJUSTES/
+SYS                            DP_DIR_PPGA_AJUSTESSOS         /ora185/ppgagua/pm_PPGA_AJUSTESSOS/
+SYS                            DP_DIR_PPGA_BONOSAGOTADOS      /ora136/ppgagua/pm_PPGA_BONOSAGOTADOS/
+SYS                            DP_DIR_PPGA_CAMBEST            /ora180/ppgagua/pm_PPGA_CAMBEST/
+SYS                            DP_DIR_PPGA_CAMBSALDOS         /ora183/ppgagua/pm_PPGA_CAMBSALDOS/
+SYS                            DP_DIR_PPGA_RECARGAS           /ora162/ppgagua/pm_PPGA_RECARGAS/
+[12:31:45 p.m.] jjhijon340: vete purgando los ficheros dmp
+[12:31:50 p.m.] jjhijon340: que crearon ahi los de ericsson
+[12:31:51 p.m.] jjhijon340: esta noche
+[12:32:18 p.m. | Editado 12:33:19 p.m.] jjhijon340: DESCRIPTION.- This MOP show how delete all de objects created after purge.
+.
+
+
+1. GETTING STARTED: 
+
+a. Connect to the database and execute: (BACKEND)
+
+sqlplus ppga/temporal:
+
+select tname from tab where tname like ‘%_BCK’;
+
+select table_name from all_tables where table_name like '%_BCK';
+
+The results should look similar to the following examples.
+
+TNAME                      
+
+
+drop table PPGA_ADQUISICIONES_BCK;
+drop table PPGA_ACTRELAC_BCK;
+drop table PPGA_ACTABOPRE_BCK;
+drop table PPGA_RECARGAS_BCK;
+drop table PPGA_CAMBEST_BCK;
+drop table PPGA_AJUSTES_BCK;
+drop table PPGA_CAMBSALDOS_BCK;
+drop table PPGA_AJUSTESSOS_BCK;
+drop table PPGA_BONOSAGOTADOS_BCK;
+drop table PPGA_BONOPRE_BCK;
+             
+Then:
+
+drop table TABLE_BCK;
+
+
+C.  Purge recyclebin;
+
+Connect as sysdba.
+
+>sqlplus / as sysdba
+> purge recyclebin
+
+ESTIMATED TIME: 1 hour
+[12:33:58 p.m.] jjhijon340: despues purga las tablas %BCK
+[12:34:09 p.m.] jjhijon340: y luego limpiar la reciclebyn

@@ -1,0 +1,37 @@
+select * from dba_profiles where profile in ('APLICACION','USUARIO','USER_DBA') ORDER BY PROFILE, RESOURCE_NAME;
+
+
+PPGA
+PROFILE                        RESOURCE_NAME                    RESOURCE LIMIT
+------------------------------ -------------------------------- -------- ----------------------------------------
+USUARIO                        COMPOSITE_LIMIT                  KERNEL   DEFAULT
+USUARIO                        CONNECT_TIME                     KERNEL   DEFAULT
+USUARIO                        CPU_PER_CALL                     KERNEL   UNLIMITED
+USUARIO                        CPU_PER_SESSION                  KERNEL   DEFAULT
+USUARIO                        FAILED_LOGIN_ATTEMPTS            PASSWORD 4
+USUARIO                        IDLE_TIME                        KERNEL   10
+USUARIO                        LOGICAL_READS_PER_CALL           KERNEL   UNLIMITED
+USUARIO                        LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USUARIO                        PASSWORD_GRACE_TIME              PASSWORD 3
+USUARIO                        PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_REUSE_MAX               PASSWORD 13
+USUARIO                        PASSWORD_REUSE_TIME              PASSWORD 30
+USUARIO                        PASSWORD_VERIFY_FUNCTION         PASSWORD NULL
+USUARIO                        PRIVATE_SGA                      KERNEL   DEFAULT
+USUARIO                        SESSIONS_PER_USER                KERNEL   750
+
+
+OPGE
+
+default?
+
+PPCS
+
+default?
+
+
+RASC
+
+default?
+

@@ -1,0 +1,51 @@
+-- tablas
+select a.tablespace_name,a.owner, a.table_name,a.num_rows, a.last_analyzed,ceil(sum(b.bytes)/(1024*1024)) table_meg
+from dba_tables a,    dba_segments b
+where a.tablespace_name in
+(
+'SERVICIO_DET_256K_IND',
+'SERVICIO_DET_1024K_DAT',
+'SERVICIO_256K_IND',
+'SERVICIO_1024K_DAT'
+)
+and a.owner = b.owner
+and a.table_name = b.segment_name
+group by a.tablespace_name,a.owner, a.table_name,a.num_rows, a.last_analyzed;
+
+
+--- indices
+select a.tablespace_name,a.owner, a.table_name,a.num_rows, a.last_analyzed,ceil(sum(b.bytes)/(1024*1024)) table_meg
+from dba_indexes a,    dba_segments b
+where a.tablespace_name in
+(
+'SERVICIO_DET_256K_IND',
+'SERVICIO_DET_1024K_DAT',
+'SERVICIO_256K_IND',
+'SERVICIO_1024K_DAT'
+)
+and a.owner = b.owner
+and a.table_name = b.segment_name
+group by a.tablespace_name,a.owner, a.table_name,a.num_rows, a.last_analyzed;
+
+
+-- todas
+
+select a.tablespace_name,a.owner, a.table_name,a.num_rows, a.last_analyzed,ceil(sum(b.bytes)/(1024*1024)) table_meg
+from dba_tables a,    dba_segments b
+where a.partitioned ='NO'
+and a.owner not in ('SYS','SYSTEM','SYSAUX','SYSMAN','WKSYS')
+and a.owner = b.owner
+and a.table_name = b.segment_name
+group by a.tablespace_name,a.owner, a.table_name,a.num_rows, a.last_analyzed;
+
+-- prueba
+select * from dba_tab_partitions
+where tablespace_name in
+(
+'SERVICIO_DET_256K_IND',
+'SERVICIO_DET_1024K_DAT',
+'SERVICIO_256K_IND',
+'SERVICIO_1024K_DAT'
+)
+
+

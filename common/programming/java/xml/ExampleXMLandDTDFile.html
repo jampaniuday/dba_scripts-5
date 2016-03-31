@@ -1,0 +1,295 @@
+<html>
+<head>
+
+    <style type="text/css">
+        A.noLink        { text-decoration: none; }
+        A.noLinkYellow  { color:yellow;  text-decoration: none; }
+        A.noLinkBlue    { color:blue;  text-decoration: none; }
+        A.noLinkOrange  { color:orange;  text-decoration: none; }
+        A.noLinkCyan    { color:cyan;  text-decoration: none; }
+        A.noLinkGreen   { color:cream;  text-decoration: none; }
+        A.noLinkRed     { color:red;  text-decoration: none; }
+    </style>
+
+    <title>Example XML and DTD Files</title>
+
+    <script language="JavaScript" type="text/javascript">
+
+        function cancelForm() {
+            location = "./MAIN_home.shtml";
+        }
+
+    </script>
+
+</head>
+
+<body   bgcolor="#FFFFFF" 
+        link="0000ff" 
+        vlink="0000ff" 
+        alink="0000ff">
+
+    <img src="../../../../gifs/header_programming.gif" alt="">
+    <p>
+
+    <i><b><font color="#ff0000"><u>Example XML and DTD Files</u></font></b></i>
+    <br>
+
+    <p>
+    <a  class="noLinkBlue"
+        onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+        href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no" alt=""></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+    <hr noshade>
+
+    <!--
+     | ********************************************
+     |   INTRODUCTION
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b>Introduction</b></font>
+    <p>
+
+    <blockquote>
+
+        All of the examples in the Java XML section uses the test files 
+        <i>DatabaseInventory.xml</i> / <i>DatabaseInventory.dtd</i> and 
+        <i>Tablespaces.xml</i>.
+        <p>
+        You can download any of these files by clicking on the <img src="../../../../gifs/mini_xmlspy_xml.gif" alt=""> 
+        and <img src="../../../../gifs/mini_xmlspy_dtd.gif" alt=""> icons.
+        <p>
+        I also provide the contents of these files below.
+        <p>
+
+        <b><font color="#990000">NOTE:</font></b>
+        The <tt>DatabaseInventory.dtd</tt> file is an external DTD, existing in a separate file from the 
+        XML file (<tt>DatabaseInventory.xml</tt>) referencing it. The DTD file is meant to be referenced 
+        from the header of the XML file. Not every browser will display the DTD file directly. 
+        For example, if you are using Internet Explorer in Windows, you will see this error message:
+        <pre><b>Cannot have a DTD declaration outside of a DTD. Line 2, Position 11 </b>
+
+        <font color="#0000FF">&lt;!ELEMENT DatabaseInventory (DatabaseName+)&gt;
+        ----------^</font></pre>
+
+        The reason is that IE does not expect to be interpreting a DTD. It expects to be interpreting 
+        an XML file. Just click on View Source to see the DTD file directly.
+
+    </blockquote>
+
+
+    <!--
+     | ********************************************
+     |   DatabaseInventory.xml
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b>DatabaseInventory.xml</b></font>
+    <p>
+
+    <blockquote>
+        <table border="2" cellspacing="1" cellpadding="1">
+        <tr>
+            <td>
+      <pre>&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE DatabaseInventory SYSTEM "DatabaseInventory.dtd"&gt;
+
+&lt;DatabaseInventory&gt;
+
+  &lt;DatabaseName&gt;
+    &lt;GlobalDatabaseName&gt;production.iDevelopment.info&lt;/GlobalDatabaseName&gt;
+    &lt;OracleSID&gt;production&lt;/OracleSID&gt;
+    &lt;DatabaseDomain&gt;iDevelopment.info&lt;/DatabaseDomain&gt;
+    &lt;Administrator EmailAlias="jhunter" Extension="6007"&gt;Jeffrey Hunter&lt;/Administrator&gt;
+    &lt;DatabaseAttributes Type="Production" Version="9i"/&gt;
+    &lt;Comments&gt;
+      The following database should be considered the most stable for
+      up-to-date data. The backup strategy includes running the database
+      in Archive Log Mode and performing nightly backups. All new accounts
+      need to be approved by the DBA Group before being created.
+    &lt;/Comments&gt;
+  &lt;/DatabaseName&gt;
+
+  &lt;DatabaseName&gt;
+    &lt;GlobalDatabaseName&gt;development.iDevelopment.info&lt;/GlobalDatabaseName&gt;
+    &lt;OracleSID&gt;development&lt;/OracleSID&gt;
+    &lt;DatabaseDomain&gt;iDevelopment.info&lt;/DatabaseDomain&gt;
+    &lt;Administrator EmailAlias="jhunter" Extension="6007"&gt;Jeffrey Hunter&lt;/Administrator&gt;
+    &lt;Administrator EmailAlias="mhunter" Extension="6008"&gt;Melody Hunter&lt;/Administrator&gt;
+    &lt;DatabaseAttributes Type="Development" Version="9i"/&gt;
+    &lt;Comments&gt;
+      The following database should contain all hosted applications. Production
+      data will be exported on a weekly basis to ensure all development environments
+      have stable and current data.
+    &lt;/Comments&gt;
+  &lt;/DatabaseName&gt;
+
+  &lt;DatabaseName&gt;
+    &lt;GlobalDatabaseName&gt;testing.iDevelopment.info&lt;/GlobalDatabaseName&gt;
+    &lt;OracleSID&gt;testing&lt;/OracleSID&gt;
+    &lt;DatabaseDomain&gt;iDevelopment.info&lt;/DatabaseDomain&gt;
+    &lt;Administrator EmailAlias="jhunter" Extension="6007"&gt;Jeffrey Hunter&lt;/Administrator&gt;
+    &lt;Administrator EmailAlias="mhunter" Extension="6008"&gt;Melody Hunter&lt;/Administrator&gt;
+    &lt;Administrator EmailAlias="ahunter"&gt;Alex Hunter&lt;/Administrator&gt;
+    &lt;DatabaseAttributes Type="Testing" Version="9i"/&gt;
+    &lt;Comments&gt;
+      The following database will host more than half of the testing
+      for our hosting environment.
+    &lt;/Comments&gt;
+  &lt;/DatabaseName&gt;
+
+&lt;/DatabaseInventory&gt;</pre>
+        </td>
+    </tr>
+
+    </table>
+    </blockquote>
+
+
+    <!--
+     | ********************************************
+     |   DatabaseInventory.dtd
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b>DatabaseInventory.dtd</b></font>
+    <p>
+
+    <blockquote>
+        <table border="2" cellspacing="1" cellpadding="1">
+        <tr>
+            <td>
+            <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!ELEMENT DatabaseInventory (DatabaseName+)&gt;
+&lt;!ELEMENT DatabaseName (   GlobalDatabaseName
+                         , OracleSID
+                         , DatabaseDomain
+                         , Administrator+
+                         , DatabaseAttributes
+                         , Comments)
+&gt;
+&lt;!ELEMENT GlobalDatabaseName (#PCDATA)&gt;
+&lt;!ELEMENT OracleSID          (#PCDATA)&gt;
+&lt;!ELEMENT DatabaseDomain     (#PCDATA)&gt;
+&lt;!ELEMENT Administrator      (#PCDATA)&gt;
+&lt;!ELEMENT DatabaseAttributes EMPTY&gt;
+&lt;!ELEMENT Comments           (#PCDATA)&gt;
+
+&lt;!ATTLIST Administrator       EmailAlias CDATA #REQUIRED&gt;
+&lt;!ATTLIST Administrator       Extension  CDATA #IMPLIED&gt;
+&lt;!ATTLIST DatabaseAttributes  Type       (Production|Development|Testing) #REQUIRED&gt;
+&lt;!ATTLIST DatabaseAttributes  Version    (7|8|8i|9i) "9i"&gt;
+
+&lt;!ENTITY AUTHOR "Jeffrey Hunter"&gt;
+&lt;!ENTITY WEB    "www.iDevelopment.info"&gt;
+&lt;!ENTITY EMAIL  "jhunter@iDevelopment.info"&gt;</pre>
+        </td>
+    </tr>
+
+    </table>
+    </blockquote>
+
+
+  <!--
+   | ********************************************
+   |   Tablespaces.xml
+   | ********************************************
+   +-->
+  <p>
+  <font color="#990000"><b>Tablespaces.xml</b></font>
+  <p>
+
+  <blockquote>
+    <table border="2" cellspacing="1" cellpadding="1">
+    <tr>
+      <td>
+      <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;!DOCTYPE Tablespaces [
+
+  &lt;!--
+   | Used to create all required tablespaces in the database to be used by the 
+   | application.
+   +--&gt;
+  &lt;!ELEMENT Tablespaces (Tablespace+)&gt;
+
+    &lt;!--
+     | Any tablespace requires at least one Datafile and an optional (only one)
+     | Extent Management clause.
+     +--&gt;
+    &lt;!ELEMENT Tablespace (Datafile+, ExtentMgt?)&gt;
+    &lt;!ATTLIST Tablespace  name     CDATA                  #REQUIRED
+                          type     (permanent|temporary)  "permanent"
+                          logging  (true|false)           "true"&gt;
+
+      &lt;!--
+       | The Datafile element requires a file name attribute and can define an 
+       | optional "Auto Extend" clause.
+       +--&gt;
+      &lt;!ELEMENT Datafile (Autoextend?)&gt;
+      &lt;!ATTLIST Datafile  name       CDATA         #REQUIRED
+                          size       CDATA         "500M"
+                          reusefile  (true|false)  "true"
+                          autoextend (on|off)      "off"&gt;
+
+        &lt;!ELEMENT Autoextend EMPTY&gt;
+        &lt;!ATTLIST Autoextend  next  CDATA  "500M"
+                              max   CDATA  "unlimited"&gt;
+
+      &lt;!--
+       | An optional Extent Management clause to declare for each tablespace.
+       +--&gt;
+      &lt;!ELEMENT ExtentMgt (AllocMethod?)&gt;
+      &lt;!ATTLIST ExtentMgt method (local|dictionary) "local"&gt;
+
+        &lt;!ELEMENT AllocMethod EMPTY&gt;
+        &lt;!ATTLIST AllocMethod  method  (AUTOALLOCATE|UNIFORM) "AUTOALLOCATE"
+                               size    CDATA                  "1M"&gt;
+
+  ]&gt;
+
+
+&lt;Tablespaces&gt;
+
+  &lt;Tablespace name="APP_DATA" type="permanent" logging="true"&gt;
+    &lt;Datafile name="/u10/app/oradata/ERPDB/app_data01.dbf" size="250M" reusefile="true" autoextend="off"&gt;
+    &lt;/Datafile&gt;
+    &lt;Datafile name="/u10/app/oradata/ERPDB/app_data02.dbf" size="250M" reusefile="true" autoextend="on"&gt;
+      &lt;Autoextend next="500M" max="unlimited"/&gt;
+    &lt;/Datafile&gt;
+    &lt;ExtentMgt method="local"&gt;
+      &lt;AllocMethod method="AUTOALLOCATE"/&gt;
+    &lt;/ExtentMgt&gt;
+  &lt;/Tablespace&gt;
+
+
+  &lt;Tablespace name="APP_INDEX" type="permanent" logging="true"&gt;
+    &lt;Datafile name="/u09/app/oradata/ERPDB/app_index01.dbf" size="250M" reusefile="true" autoextend="off"&gt;
+    &lt;/Datafile&gt;
+    &lt;Datafile name="/u09/app/oradata/ERPDB/app_index02.dbf" size="250M" reusefile="true" autoextend="on"&gt;
+      &lt;Autoextend next="500M" max="unlimited"/&gt;
+    &lt;/Datafile&gt;
+    &lt;ExtentMgt method="local"&gt;
+      &lt;AllocMethod method="AUTOALLOCATE"/&gt;
+    &lt;/ExtentMgt&gt;
+  &lt;/Tablespace&gt;
+
+
+  &lt;Tablespace name="APP_TEMP" type="temporary" logging="false"&gt;
+    &lt;Datafile name="/u07/app/oradata/ERPDB/app_temp01.dbf" size="500M" reusefile="true" autoextend="on"&gt;
+      &lt;Autoextend next="500M" max="unlimited"/&gt;
+    &lt;/Datafile&gt;
+    &lt;ExtentMgt method="local"&gt;
+      &lt;AllocMethod method="UNIFORM" size="1M"/&gt;
+    &lt;/ExtentMgt&gt;
+  &lt;/Tablespace&gt;
+
+&lt;/Tablespaces&gt;</pre>
+      </td>
+    </tr>
+
+    </table>
+    </blockquote>
+
+
+</body>
+</html>

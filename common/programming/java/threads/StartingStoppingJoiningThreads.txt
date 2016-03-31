@@ -1,0 +1,115 @@
+Starting, Stopping and Joinging Threads
+=======================================
+
+Restarting a Thread
+-------------------
+
+    In short, an instance of a Thread cannot be restarted. An instance of a
+    thread object should be used only once. What happens when you try to 
+    restart a thread? The answer is that it actually depends on when you
+    restart it. When the stop() method is called on a thread (or the thread
+    exists its run() method), it actually takes time for the thread to stop.
+    Hence, what happens when the start() method is called depends on a
+    "race condition".
+
+    If the start() method is called before the stopping thread actually stops,
+    an error condition exists, and an exception will be thrown. The same is
+    true if you call start() on a thread that has not been stopped.
+
+    If the start() method is called after the stopping thread is actually
+    stopped, nothing happens: the thread object is in a state were it cannot
+    be restarted.
+
+
+Trying to stop an already stopped thread
+----------------------------------------
+
+    Can an already stopped thread be stopped? At first glance, this may seem
+    an off question. But the answer is yes, and the reason is that it avoids
+    a race condition that would occur otherwise. We know there are two ways
+    a thread can be stopped, so you could stop a thread that has already
+    exited because its run() method terminated normally. If the Thread class
+    did not allow the stop() method to be called on a stopped thread, this would
+    require us to check if teh thread was still running before we stopped it,
+    and we would have to avoid a race condition in which the run() method
+    could terminate in between the time when we checked if the thread was
+    alive and when we called the stop() method. This would be a big burden on
+    the developer, so, instead, the stop() method can be called on a thread
+    that has already stopped.
+
+
+The Stopping Thread and the Garbage Collector
+---------------------------------------------
+
+    The thread object, like any other object, if a candidate for garbage
+    collection when it gets dereferenced. As developers, we should just note
+    that the garbage collector behaves correctly with the threading system
+    and not worry about the exact details. However, for those of us who
+    are detail-oriented, here is how the garbage collector behaves with the
+    theading system.
+
+    In all of the examples in this section, the garbage collector cannot 
+    collect the thread object even when the thread has completed or stopped.
+    This is because we still have a reference to the Thread object after
+    we signal it to stop. To be complete, we should manually dereference the
+    thread object. However, this is necessary only to free the memory that
+    stores the thread object. The threading system automatically releases
+    any thread-specific resources (including those tied to the operating 
+    system) after the thread has completed or stopped whether or not we
+    dereference the object.
+
+    Dereferencing a thread object for a running thread is also not a problem.
+    The threading system keeps references to all threads that are running 
+    in the system. This is needed in order to support the currentThread()
+    and enumerate() methods of the Thread class. The garbage collector will not
+    be abel to collect the thread object until the threading system also 
+    dereferences the object, which won't happen until the thread is no longer
+    alive.
+
+Joining to a Stopped Thread
+---------------------------
+
+    What happens when you call the join() method for a thread that was stopped
+    a long time ago? In the examples on this site, we assumed the usage of the
+    join() method was to wait for a thread to complete or to stop. But this 
+    assumption is not necessary; if the thread is already stopped, it will
+    return immediately. This may seem obvious, but it should be noted that
+    a race condition would have resulted if the join() method had required
+    that the thread be alive wheen the method was first called.
+
+Joining to More Than One Thread
+-------------------------------
+
+    Consider a class that starts 30 CalcThread objects. For the purpose of this
+    explanation, think of the CalcThread class as being nothing more than
+    a class that is used to calculate part of a large mathematical algorithm.
+    In the code's startCalc() method, execute a loop to start the 30 CalcThread
+    threads. In the classes stopCalc() method, we execute a loop waiting for all
+    the started threads to be finished. Is this the best way to wait for more
+    than one thread? Since it is possible to join() with an already stopped
+    thread, it is perfectly okey to join() with a group of threads in a loop,
+    even if the threads finish in an order different than the order in which
+    they were started. No matter how we might have coded the join() loop, the
+    time to complete the join() will be the time for the last thread to 
+    finish.
+
+    public class demoCalc {
+
+        Thread[] t = new Thread[30];
+
+        public void startCalc() {
+            for (int i=0; i<30; i++){
+                t[i] = new CalcThread(i);
+                t[i].start;
+            }
+        }
+
+        public void stopCalc() {
+            for (int i=0; i<30; i++) {
+                try {
+                    t[i].join();
+                } catch (InterruptedException e) {}
+            }
+        }
+
+    }

@@ -1,0 +1,144 @@
+<HTML>
+<HEAD>
+
+  <Style>
+    A.noLink        { text-decoration: none; }
+    A.noLinkYellow  { color:yellow;  text-decoration: none; }
+    A.noLinkBlue    { color:blue;  text-decoration: none; }
+    A.noLinkOrange  { color:orange;  text-decoration: none; }
+    A.noLinkCyan    { color:cyan;  text-decoration: none; }
+    A.noLinkGreen   { color:cream;  text-decoration: none; }
+    A.noLinkRed     { color:red;  text-decoration: none; }
+  </Style>
+
+  <TITLE>Using serialver</TITLE>
+
+  <SCRIPT LANGUAGE="JavaScript">
+
+    function cancelForm() {
+      location = "./MAIN_home.shtml";
+    }
+
+  </SCRIPT>
+
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" 
+      LINK="0000ff" 
+      VLINK="0000ff" 
+      ALINK="0000ff">
+
+  <IMG SRC="../../../../gifs/header_programming.gif">
+  <P>
+
+  <I><B><FONT COLOR="#ff0000"><U>Using serialver</U></FONT></B></I>
+  <BR>
+
+  <P>
+  <A CLASS="noLinkBlue"
+     onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+     HREF="../PROGRAMMING_Java_Programming.shtml"><IMG SRC="../../../../gifs/back_button.gif" BORDER="no"></A> &nbsp;&nbsp;Return to the Java Programming Corner.
+  <HR NOSHADE>
+
+
+  <!--
+    -- --------------------------------------------
+    -- Contents
+    -- --------------------------------------------
+    -->
+  <P>
+  <FONT COLOR="#990000"><B><U>Contents</U></B></FONT>
+  <P>
+
+  <UL>
+    <LI> <A CLASS="noLinkBlue" HREF="#Introduction">Introduction</A>
+    <LI> <A CLASS="noLinkBlue" HREF="#"></A>
+    <LI> <A CLASS="noLinkBlue" HREF="#"></A>
+    <LI> <A CLASS="noLinkBlue" HREF="#"></A>
+    <LI> <A CLASS="noLinkBlue" HREF="#"></A>
+  </UL>
+
+
+
+  
+  <!--
+    -- --------------------------------------------
+    -- Introduction
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME="Introduction"></A>
+  <FONT COLOR="#990000"><B><U>Introduction</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+Version Control
+With our second gotcha, imagine you create a class, instantiate it, and write it out to an object stream. That flattened object sits in the file system for some time. Meanwhile, you update the class file, perhaps adding a new field. What happens when you try to read in the flattened object? 
+
+Well, the bad news is that an exception will be thrown -- specifically, the java.io.InvalidClassException -- because all persistent-capable classes are automatically given a unique identifier. If the identifier of the class does not equal the identifier of the flattened object, the exception will be thrown. However, if you really think about it, why should it be thrown just because I added a field? Couldn't the field just be set to its default value and then written out next time? 
+
+Yes, but it takes a little code manipulation. The identifier that is part of all classes is maintained in a field called serialVersionUID. If you wish to control versioning, you simply have to provide the serialVersionUID field manually and ensure it is always the same, no matter what changes you make to the classfile. You can use a utility that comes with the JDK distribution called serialver to see what that code would be by default (it is just the hash code of the object by default). 
+
+Here is an example of using serialver with a class called Baz: 
+
+> serialver Baz
+> Baz: static final long serialVersionUID = 10275539472837495L;
+
+
+Simply copy the returned line with the version ID and paste it into your code. (On a Windows box, you can run that utility with the - show option to simplify the copy and paste procedure.) Now, if you make any changes to the Baz class file, just ensure that same version ID is specified and all will be well. 
+
+The version control works great as long as the changes are compatible. Compatible changes include adding or removing a method or a field. Incompatible changes include changing an object's hierarchy or removing the implementation of the Serializable interface. A complete list of compatible and incompatible changes is given in the Java Serialization Specification. 
+
+
+  </BLOCKQUOTE>
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- Java 2 Collections Framework Overview
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME=""></A>
+  <FONT COLOR="#990000"><B><U>...</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  </BLOCKQUOTE>
+  
+
+
+  <!--
+    -- --------------------------------------------
+    -- Java 2 Collections Framework Overview
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME=""></A>
+  <FONT COLOR="#990000"><B><U>...</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  </BLOCKQUOTE>
+
+
+
+
+  <!--
+    -- --------------------------------------------
+    -- Java 2 Collections Framework Overview
+    -- --------------------------------------------
+    -->
+  <P>
+  <A NAME=""></A>
+  <FONT COLOR="#990000"><B><U>...</U></B></FONT>
+  <P>
+
+  <BLOCKQUOTE>
+  </BLOCKQUOTE>
+
+
+
+</BODY>
+</HTML>

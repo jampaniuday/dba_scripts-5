@@ -1,0 +1,153 @@
+--------------------------
+Compile Program
+--------------------------
+javac SystemProperties.java
+
+
+--------------------------
+Run Program
+--------------------------
+java SystemProperties
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
++-------------------------+
+| SET SYSTEM PROPERTIES   |
++-------------------------+
+
+  -----------------------
+  Setting System Property
+  -----------------------
+
+  ----------------------------
+  Retrieving System Properties
+  ----------------------------
+
+  {test.value1} = This is test #1
+  {test.value2} = This is test #2
+
++-------------------------+
+| QUERY SYSTEM PROPERTIES |
++-------------------------+
+
+  ------------------------------------------------
+  Use list() method to list all property values...
+  ------------------------------------------------
+
+-- listing properties --
+java.runtime.name=Java(TM) 2 Runtime Environment, Stand...
+sun.boot.library.path=c:\j2sdk1.4.1\jre\bin
+java.vm.version=1.4.1-b21
+java.vm.vendor=Sun Microsystems Inc.
+java.vendor.url=http://java.sun.com/
+path.separator=;
+java.vm.name=Java HotSpot(TM) Client VM
+file.encoding.pkg=sun.io
+user.country=US
+sun.os.patch.level=Service Pack 2
+java.vm.specification.name=Java Virtual Machine Specification
+user.dir=c:\export\home\jeffreyh\JDeveloper\Is...
+java.runtime.version=1.4.1-b21
+java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment
+java.endorsed.dirs=c:\j2sdk1.4.1\jre\lib\endorsed
+os.arch=x86
+java.io.tmpdir=c:\DOCUME~1\jeffreyh\LOCALS~1\Temp\
+line.separator=
+
+java.vm.specification.vendor=Sun Microsystems Inc.
+user.variant=
+os.name=Windows 2000
+sun.java2d.fontpath=
+java.library.path=c:\j2sdk1.4.1\bin;.;C:\WINNT\System32...
+test.value2=This is test #2
+test.value1=This is test #1
+java.specification.name=Java Platform API Specification
+java.class.version=48.0
+java.util.prefs.PreferencesFactory=java.util.prefs.WindowsPreferencesFac...
+os.version=5.0
+user.home=C:\Documents and Settings\jeffreyh
+user.timezone=
+java.awt.printerjob=sun.awt.windows.WPrinterJob
+file.encoding=Cp1252
+java.specification.version=1.4
+user.name=JeffreyH
+java.class.path=.;C:\export\home\jeffreyh\java-lib\oj...
+java.vm.specification.version=1.0
+sun.arch.data.model=32
+java.home=c:\j2sdk1.4.1\jre
+java.specification.vendor=Sun Microsystems Inc.
+user.language=en
+awt.toolkit=sun.awt.windows.WToolkit
+java.vm.info=mixed mode
+java.version=1.4.1
+java.ext.dirs=c:\j2sdk1.4.1\jre\lib\ext
+sun.boot.class.path=c:\j2sdk1.4.1\jre\lib\rt.jar;c:\j2sdk...
+java.vendor=Sun Microsystems Inc.
+file.separator=\
+java.vendor.url.bug=http://java.sun.com/cgi-bin/bugreport...
+sun.cpu.endian=little
+sun.io.unicode.encoding=UnicodeLittle
+sun.cpu.isalist=pentium i486 i386
+
+  ------------------------------------------------
+  Get Property Names and Enumerate through them...
+  ------------------------------------------------
+
+  java.runtime.name  ->  Java(TM) 2 Runtime Environment, Standard Edition
+  sun.boot.library.path  ->  c:\j2sdk1.4.1\jre\bin
+  java.vm.version  ->  1.4.1-b21
+  java.vm.vendor  ->  Sun Microsystems Inc.
+  java.vendor.url  ->  http://java.sun.com/
+  path.separator  ->  ;
+  java.vm.name  ->  Java HotSpot(TM) Client VM
+  file.encoding.pkg  ->  sun.io
+  user.country  ->  US
+  sun.os.patch.level  ->  Service Pack 2
+  java.vm.specification.name  ->  Java Virtual Machine Specification
+  user.dir  ->  c:\export\home\jeffreyh\JDeveloper\IsrvWorkspace\JavaProgramming\src\properties
+  java.runtime.version  ->  1.4.1-b21
+  java.awt.graphicsenv  ->  sun.awt.Win32GraphicsEnvironment
+  java.endorsed.dirs  ->  c:\j2sdk1.4.1\jre\lib\endorsed
+  os.arch  ->  x86
+  java.io.tmpdir  ->  c:\DOCUME~1\jeffreyh\LOCALS~1\Temp\
+  line.separator  ->  
+
+  java.vm.specification.vendor  ->  Sun Microsystems Inc.
+  user.variant  ->  
+  os.name  ->  Windows 2000
+  sun.java2d.fontpath  ->  
+  java.library.path  ->  c:\j2sdk1.4.1\bin;.;C:\WINNT\System32;C:\WINNT;C:\cygwin\usr\local\bin;C:\cygwin\bin;C:\cygwin\bin;c:\oracle\ora92\bin;c:\oracle\ora81\bin;c:\oracle\common\applications\TrueSourceDatabase\bin;c:\j2sdk1.4.1\bin;c:\Program Files\Oracle\jre\1.3.1\bin;c:\Program Files\Oracle\jre\1.1.8\bin;c:\Program Files\Oracle\jre\1.1.7\bin;c:\Perl\bin\;c:\WINNT\system32;c:\WINNT;c:\WINNT\System32\Wbem;c:\Program Files\Resource Pro Kit\;c:\Macros;c:\Program Files\Hummingbird\Connectivity\7.11\Accessories;c:\emacs\emacs-20.7\bin;c:\Program Files\Internet Explorer;c:\Program Files\Continuus\ccm51\bin;c:\ccm_wa\ismdb\Source~jeffreyh\Source\debug;c:\ccm_wa\ismdb\Source~jeffreyh\Source\debug\com\comanage\dbutil\bin;c:\ccm_wa\ismdb\Source~jeffreyh\Source\tools\buildtools;C:\cygwin\bin;c:\jakarta-ant-1.5\bin;c:\CDR_Tools;c:\Program Files\Windows NT\Accessories;c:\PROGRA~1\F-Secure\Ssh;c:\Program Files\Microsoft SQL Server\80\Tools\BINN;c:\Program Files\SSH Communications Security\SSH Secure Shell;C:\cygwin\usr\X11R6\bin;.
+  test.value2  ->  This is test #2
+  test.value1  ->  This is test #1
+  java.specification.name  ->  Java Platform API Specification
+  java.class.version  ->  48.0
+  java.util.prefs.PreferencesFactory  ->  java.util.prefs.WindowsPreferencesFactory
+  os.version  ->  5.0
+  user.home  ->  C:\Documents and Settings\jeffreyh
+  user.timezone  ->  
+  java.awt.printerjob  ->  sun.awt.windows.WPrinterJob
+  file.encoding  ->  Cp1252
+  java.specification.version  ->  1.4
+  user.name  ->  JeffreyH
+  java.class.path  ->  .;C:\export\home\jeffreyh\java-lib\ojdbc14.jar;c:\export\home\jeffreyh\Building_Parsers_with_Java\classes
+  java.vm.specification.version  ->  1.0
+  sun.arch.data.model  ->  32
+  java.home  ->  c:\j2sdk1.4.1\jre
+  java.specification.vendor  ->  Sun Microsystems Inc.
+  user.language  ->  en
+  awt.toolkit  ->  sun.awt.windows.WToolkit
+  java.vm.info  ->  mixed mode
+  java.version  ->  1.4.1
+  java.ext.dirs  ->  c:\j2sdk1.4.1\jre\lib\ext
+  sun.boot.class.path  ->  c:\j2sdk1.4.1\jre\lib\rt.jar;c:\j2sdk1.4.1\jre\lib\i18n.jar;c:\j2sdk1.4.1\jre\lib\sunrsasign.jar;c:\j2sdk1.4.1\jre\lib\jsse.jar;c:\j2sdk1.4.1\jre\lib\jce.jar;c:\j2sdk1.4.1\jre\lib\charsets.jar;c:\j2sdk1.4.1\jre\classes
+  java.vendor  ->  Sun Microsystems Inc.
+  file.separator  ->  \
+  java.vendor.url.bug  ->  http://java.sun.com/cgi-bin/bugreport.cgi
+  sun.cpu.endian  ->  little
+  sun.io.unicode.encoding  ->  UnicodeLittle
+  sun.cpu.isalist  ->  pentium i486 i386

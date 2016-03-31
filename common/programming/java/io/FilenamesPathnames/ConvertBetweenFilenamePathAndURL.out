@@ -1,0 +1,27 @@
+--------------------------
+Compile Program
+--------------------------
+javac ConvertBetweenFilenamePathAndURL.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ConvertBetweenFilenamePathAndURL
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+Converted fileName to URL
+-------------------------
+  fileName = README_InputFile.txt
+  URL      = file:/c:/export/home/jeffreyh/JDeveloper/IsrvWorkspace/JavaProgramming/src/io/FilenamesPathnames/README_InputFile.txt
+
+Converted URL to fileName
+-------------------------
+  URL      = file:/c:/export/home/jeffreyh/JDeveloper/IsrvWorkspace/JavaProgramming/src/io/FilenamesPathnames/README_InputFile.txt
+  fileName = c:\export\home\jeffreyh\JDeveloper\IsrvWorkspace\JavaProgramming\src\io\FilenamesPathnames\README_InputFile.txt

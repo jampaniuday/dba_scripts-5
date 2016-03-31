@@ -1,0 +1,18 @@
+ALTER DATABASE DATAFILE '/ora105/ppcsnic/oradata/datafiles/mecoorig_256k_dat014.dbf'  RESIZE 1700M;
+
+ALTER DATABASE DATAFILE '/ora105/ppcsnic/oradata/datafiles/mecoorig_256k_dat02.dbf'  RESIZE 2000M;
+
+
+ALTER DATABASE DATAFILE '/ora168/ppcsnic/oradata/datafiles/eventprom64k_dat31.dbf'  RESIZE 16G;
+
+
+ALTER DATABASE DATAFILE '/ora105/ppcsnic/oradata/datafiles/diameter_64k_dat01.dbf'  RESIZE 512M;
+
+ALTER TABLESPACE DIAMETER_64K_IND ADD DATAFILE '/ora181/ppcsnic/oradata/indexfiles/diameter_64K_ind02.dbf' SIZE 1024M;
+
+ALTER TABLESPACE DIAMETER_64K_DAT ADD DATAFILE '/ora180/ppcsnic/oradata/datafiles/diameter_64K_dat02.dbf' SIZE 2048M;
+
+
+ALTER DATABASE DATAFILE '/ora168/ppcsnic/oradata/datafiles/eventprom64k_dat31.dbf'  RESIZE 16G;
+
+ALTER DATABASE DATAFILE '/ora137/ppcsnic/oradata/datafiles/saldo_4096k_dat15.dbf'  RESIZE 3000M;

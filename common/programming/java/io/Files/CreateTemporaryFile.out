@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac CreateTemporaryFile.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CreateTemporaryFile
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Created temporary file: c:\DOCUME~1\jeffreyh\LOCALS~1\Temp\mail17062temp
+

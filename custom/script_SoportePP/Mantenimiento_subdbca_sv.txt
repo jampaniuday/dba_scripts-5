@@ -1,0 +1,155 @@
+##################################################################
+#
+#
+# Archivo:  Reconstruye_indices_SAL.sh
+#
+# Proposito: Reconstruir los indices necesarios en linea como tarea de mantenimiento preventivo
+#
+#
+# Historia:  19/Jul/2011  --> Creacion
+#
+#  Parametros obligatorios:  1.ORACLE_SID  (base a la que apunta)
+#                            2.DIRPROC     (directorio donde estan los scripts *.sh *.sql
+#                            3.ORACLE_HOME (directorio donde esta instalado ORACLE)
+#
+##################################################################
+
+#############
+# PATH'S FIJOS
+#############
+
+OPENW=/usr/openwin
+export OPENW
+
+ORACLE_BASE=/export/home/oracle/app/product
+export ORACLE_BASE
+ORACLE_HOME=/export/home/oracle/app/product/9.2.0
+export ORACLE_HOME
+
+
+LD_LIBRARY_PATH=$ORACLE_HOME/lib:/usr/dt/lib:/usr/openwin/lib:/usr/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+
+
+#ORACLE_TERM=sun5
+#export ORACLE_TERM
+
+PATH=/usr/local/bin:/usr/openwin/bin:/opt/SUNWspro/SC4.2/bin:$ORACLE_HOME/bin:$PATH
+export PATH
+
+LD_LIBRARY_PATH=/opt/encina/lib:$ORACLE_HOME/lib:/usr/dt/lib:/usr/openwin/lib:/usr/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+
+FECHA=`date "+%Y%m%d"`
+export FECHA
+
+#Variables de la instancia donde se ejecuta
+ORACLE_SID=REPSUDCA
+
+#directorio donde se encuentran los shell
+DIRPROC=/export/home/oracle/shells/mantenimientos/SAL
+export DIRPROC
+
+sqlplus  "/ as sysdba" << EOF
+set serveroutput on size 1000000
+set lines 120
+set echo off
+set verify off
+set term off
+set feedback off
+set trimspool off
+SET heading OFF;
+set time on
+set timing on
+
+
+spool $DIRPROC/rebuild_REPSUDCA_GUA.log
+
+
+--prompt " Dropea Tabla estadisticas "
+--exec dbms_stats.drop_stat_table('SYSTEM','HISTORIAL_SAL');
+
+prompt " Crea tabla para exportar  estadisticas de las tablas involucradas en el mantenimiento"
+exec dbms_stats.create_stat_table('SYSTEM','HISTORIAL_SAL');
+
+prompt " Exporta Estadisticas  de las tablas involucradas en el mantenimiento"
+
+exec DBMS_STATS.EXPORT_TABLE_STATS ( 'APPSUD_SAL','SUD_MONEDERO_USUARIOS',NULL,'HISTORIAL_SAL','SUD_MONEDERO_USUARIOS',TRUE,'SYSTEM');
+exec DBMS_STATS.EXPORT_TABLE_STATS ( 'APPSUD_SAL','SUD_RECARGA',NULL,'HISTORIAL_SAL','SUD_RECARGA',TRUE,'SYSTEM');
+exec DBMS_STATS.EXPORT_TABLE_STATS ( 'APPSUD_SAL','SUD_USUARIO',NULL,'HISTORIAL_SAL','SUD_USUARIO',TRUE,'SYSTEM');
+
+prompt " Exporta Estadisticas  de los indices involucrados en el mantenimiento" 
+
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_MONED_USUARIOS_01',NULL,'HISTORIAL_SAL','IDX_SUD_MONED_USUARIOS_01','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_MONED_USUARIOS_02',NULL,'HISTORIAL_SAL','IDX_SUD_MONED_USUARIOS_02','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_MONED_USUARIOS_03',NULL,'HISTORIAL_SAL','IDX_SUD_MONED_USUARIOS_03','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','SYS_C0018589',NULL,'HISTORIAL_SAL','SYS_C0018589','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_MONED_USUARIOS_04',NULL,'HISTORIAL_SAL','IDX_SUD_MONED_USUARIOS_04','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_RECARGA_01',NULL,'HISTORIAL_SAL','IDX_SUD_RECARGA_01','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_RECARGA_05',NULL,'HISTORIAL_SAL','IDX_SUD_RECARGA_05','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_RECARGA_X01',NULL,'HISTORIAL_SAL','IDX_SUD_RECARGA_X01','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','SYS_C0022620',NULL,'HISTORIAL_SAL','SYS_C0022620','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_USUARIO_01',NULL,'HISTORIAL_SAL','IDX_SUD_USUARIO_01','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_USUARIO_02',NULL,'HISTORIAL_SAL','IDX_SUD_USUARIO_02','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','SYS_C0018653',NULL,'HISTORIAL_SAL','SYS_C0018653','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_USUARIO_03',NULL,'HISTORIAL_SAL','IDX_SUD_USUARIO_03','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_USUARIO_04',NULL,'HISTORIAL_SAL','IDX_SUD_USUARIO_04','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_USUARIO_06',NULL,'HISTORIAL_SAL','IDX_SUD_USUARIO_06','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_USUARIO_07',NULL,'HISTORIAL_SAL','IDX_SUD_USUARIO_07','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_USUARIO_08',NULL,'HISTORIAL_SAL','IDX_SUD_USUARIO_08','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_USUARIO_09',NULL,'HISTORIAL_SAL','IDX_SUD_USUARIO_09','SYSTEM');
+exec DBMS_STATS.EXPORT_INDEX_STATS ( 'APPSUD_SAL','IDX_SUD_USUARIO_10',NULL,'HISTORIAL_SAL','IDX_SUD_USUARIO_10','SYSTEM');
+
+
+
+
+
+prompt " Realiza la reconstruccion de indices" 
+
+
+alter table APPSUD_SAL.SUD_USUARIO move;
+alter index APPSUD_SAL.IDX_SUD_USUARIO_01 rebuild;
+alter index APPSUD_SAL.IDX_SUD_USUARIO_02 rebuild;
+alter index APPSUD_SAL.IDX_SUD_USUARIO_03 rebuild;
+alter index APPSUD_SAL.IDX_SUD_USUARIO_04 rebuild;
+alter index APPSUD_SAL.IDX_SUD_USUARIO_06 rebuild;
+alter index APPSUD_SAL.IDX_SUD_USUARIO_07 rebuild;
+alter index APPSUD_SAL.IDX_SUD_USUARIO_08 rebuild;
+alter index APPSUD_SAL.IDX_SUD_USUARIO_09 rebuild;
+alter index APPSUD_SAL.IDX_SUD_USUARIO_10 rebuild;
+alter index APPSUD_SAL.SYS_C0018653 rebuild;
+
+alter table APPSUD_SAL.SUD_RECARGA move;
+alter index APPSUD_SAL.IDX_SUD_RECARGA_01 rebuild;
+alter index APPSUD_SAL.IDX_SUD_RECARGA_05 rebuild;
+alter index APPSUD_SAL.IDX_SUD_RECARGA_X01 rebuild;
+alter index APPSUD_SAL.SYS_C0023327 rebuild;
+
+alter table APPSUD_SAL.SUD_MONEDERO_USUARIOS move;
+alter index APPSUD_SAL.IDX_SUD_MONED_USUARIOS_01 rebuild;
+alter index APPSUD_SAL.IDX_SUD_MONED_USUARIOS_02 rebuild;
+alter index APPSUD_SAL.IDX_SUD_MONED_USUARIOS_03 rebuild;
+alter index APPSUD_SAL.IDX_SUD_MONED_USUARIOS_04 rebuild;
+alter index APPSUD_SAL.SYS_C0018589 rebuild;
+
+
+prompt " Corre las nuevas estadisticas" 
+
+exec DBMS_STATS.GATHER_TABLE_STATS (OWNNAME => 'APPSUD_SAL' ,CASCADE=>TRUE,ESTIMATE_PERCENT=>100,TABNAME =>'SUD_USUARIO');
+exec DBMS_STATS.GATHER_TABLE_STATS (OWNNAME => 'APPSUD_SAL' ,CASCADE=>TRUE,ESTIMATE_PERCENT=>100,TABNAME =>'SUD_MONEDERO_USUARIOS');
+exec DBMS_STATS.GATHER_TABLE_STATS (OWNNAME => 'APPSUD_SAL' ,CASCADE=>TRUE,ESTIMATE_PERCENT=>100,TABNAME =>'SUD_RECARGA');
+
+spool off;
+exit;
+EOF
+
+#grep -i ORA- $DIRPROC/rebuild_REPSUDCA_NIC.log
+#if [ $? -eq 0 ]; then
+#echo TELEFONOS:5512683183 5512683904 5512683704 5516341453 5520610638 >$DIRPROC/notifica_${ORACLE_SID}_rebuild.msj
+#echo MENSAJE: fallo rebuild_OPGE.sh >>$DIRPROC/notifica_${ORACLE_SID}_rebuild.msj
+#sh $DIRPROC/ftpalarma.sh $DIRPROC
+#/usr/local/bin/mpack -s "Error en rebuild_OPGE.sh favor de revisar" $DIRPROC/rebuild_OPGE.log oracle3@telefonicamoviles.com.mx
+#fi
+#return 0
+#exit
+

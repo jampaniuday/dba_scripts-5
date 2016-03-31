@@ -1,0 +1,28 @@
+--------------------------
+Compile Program
+--------------------------
+javac GenerateSymmetricKeys.java
+
+
+--------------------------
+Run Program
+--------------------------
+java GenerateSymmetricKeys
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Generating symmetric key using DES algorithm
+  The number of bytes in the key = 8.
+  Are both symmetric keys equal? true
+
+Generating symmetric key using Blowfish algorithm
+  The number of bytes in the key = 7.
+  Are both symmetric keys equal? true
+
+Generating symmetric key using DESede algorithm
+  The number of bytes in the key = 24.
+  Are both symmetric keys equal? true

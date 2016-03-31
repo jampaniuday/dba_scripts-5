@@ -1,0 +1,46 @@
+select sw.sid, sw.EVENT,s.program, sw.SECONDS_IN_WAIT from v$session_wait sw, v$session s where sw.sid=s.sid and s.program like '%diametar%';
+[12:53:29 p.m.] Pedro Garcia: tiras eso
+[12:53:35 p.m.] Pedro Garcia: y te van a salir los eventos q hay
+[12:53:46 p.m.] Pedro Garcia: ahi vas a sacar si hay  bloqueos por alto tiempo
+[12:53:54 p.m.] Pedro Garcia: con eso sacas los SID
+[12:54:11 p.m.] Pedro Garcia: y con esta otra select
+[12:54:12 p.m.] Pedro Garcia: select a.sid, a.serial#, a.username usuario,
+      a.program programa ,
+      a.machine||'.'||process||'->'||p.SPID proceso
+ from v$session a, v$process p
+ where a.PADDR = p.ADDR
+   and a.username <> 'SYS'    
+   and a.sid in (1730,1807)
+ order by a.program, p.SPID;
+[12:54:22 p.m.] Pedro Garcia: sacas que procesos son, que pid tienen
+[12:54:27 p.m.] Pedro Garcia: en esta select de ejemlo
+[12:54:36 p.m.] Pedro Garcia: los sid eran 1730 y 1807 como ves
+[12:54:53 p.m.] Pedro Garcia: te saldra algo asi
+[12:54:54 p.m.] Pedro Garcia:  SID  SERIAL# USUARIO   PROGRAMA      PROCESO
+----- ---------- ------------------------------ ------------------------------------------------ -------------------------------------------------------------------------------------------
+ 1730     1015 EPREPAGO   diametar.bin@zapbesdp3 (TNS V1-V3)   zapbesdp3.23978->23199
+ 1807    29729 EPREPAGO   diametar.bin@zapbesdp5 (TNS V1-V3)   zapbesdp5.29457->19273
+[12:55:10 p.m.] Pedro Garcia: ahi ya sabes q son lso diametar pid 23978 del be3
+[12:55:21 p.m.] Pedro Garcia: y diametar pid 29457 del be5
+[12:55:29 p.m.] Pedro Garcia: un kill -9 a cada uno y listo
+[12:55:30 p.m.] Pedro Garcia: ok?
+
+
+
+select sw.sid, sw.EVENT,s.program, sw.SECONDS_IN_WAIT from v$session_wait sw, v$session s where sw.sid=s.sid and s.program like '%diametar%';
+
+select a.sid, a.serial#, a.username usuario,
+      a.program programa ,
+      a.machine||'.'||process||'->'||p.SPID proceso
+ from v$session a, v$process p
+ where a.PADDR = p.ADDR
+   and a.username <> 'SYS'    
+   and a.sid in (1730,1807)
+ order by a.program, p.SPID;
+
+SID  SERIAL# USUARIO   PROGRAMA      PROCESO
+----- ---------- ------------------------------ ------------------------------------------------ -------------------------------------------------------------------------------------------
+ 1730     1015 EPREPAGO   diametar.bin@zapbesdp3 (TNS V1-V3)   zapbesdp3.23978->23199
+ 1807    29729 EPREPAGO   diametar.bin@zapbesdp5 (TNS V1-V3)   zapbesdp5.29457->19273
+
+

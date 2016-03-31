@@ -1,0 +1,52 @@
+/app1/softw/grid/11.2.0/bin/
+
+
+/app1/softw/grid/11.2.0/bin/crsctl -help
+
+-- estatus
+/app1/softw/grid/11.2.0/bin/crsctl stat res -t
+
+
+-- resumen del estatus
+/app1/softw/grid/11.2.0/bin/crsctl check cluster -all
+
+srvctl stop database -d pmni
+
+srvctl stop instance -d pmni -i pmni1
+
+srvctl stop instance -d pmni -i pmni2
+
+srvctl stop asm -n pmdbsni1
+
+srvctl stop asm -n pmdbsni2
+
+srvctl stop nodeapps -n pmdbsni1
+
+srvctl stop nodeapps -n pmdbsni2
+
+--- root dos nodos
+/app1/softw/grid/11.2.0/bin/crsctl stop crs
+
+
+---------------
+srvctl stop listener -n pmdbsni1
+srvctl stop listener -n pmdbsni2
+-------------
+
+--- root dos nodos
+/app1/softw/grid/11.2.0/bin/crsctl stop crs
+
+
+srvctl start nodeapps -n pmdbsni1
+
+srvctl start nodeapps -n pmdbsni2
+
+srvctl start asm -n pmdbsni1
+
+srvctl start asm -n pmdbsni2
+
+srvctl start instance -d pmni -i pmni1
+
+srvctl start instance -d pmni -i pmni2
+
+srvctl start database -d pmni

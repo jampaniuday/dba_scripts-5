@@ -1,0 +1,93 @@
+PACKAGE      particiones
+IS
+
+/*-----------------------------------------------------------------------
+ Fichero: particiones.pks
+ Version: 2.0.1
+ Autor : Grupo de desarrollo
+ Fecha de creacion: 21/06/2006
+ Fecha Modificacin: 15-Jun-2007
+-------------------------------------------------------------------------
+ Descripcion:
+   Este paquete implementa los procedimientos necesarios para realizar el
+   mantenimiento de las particiones de las tablas del sistema Altamira.
+
+-------------------------------------------------------------------------
+ Restricciones: Ninguna
+-------------------------------------------------------------------------
+ Copyright: Telefonica Investigacion y Desarrollo
+-------------------------------------------------------------------------*/
+   -- Nivel de traza del paquete (0 = Sin trazas).
+   nivel_trazas           INTEGER := 0;
+
+/*-----------------------------------------------------------------------
+Procedimiento: Inicia
+Descripcion: Crea particiones iniciales para el dma actual y tantos
+  d¿as hacia atras y hacia adelante como est¿ configurad en la tabla PPCS_TABLAS.
+
+Parametros de entrada: ninguno
+Parametros de salida: ninguno
+Observaciones: ninguna
+-------------------------------------------------------------------------*/
+   PROCEDURE inicia;
+
+/*-----------------------------------------------------------------------
+Procedimiento: Purga_Tabla
+Descripcion: Una vez ejecutado este procedimiento se asegura que existan
+  particiones para tantos dmas hacia adelante y no mas dmas de particiones
+  hacia atras que los que se indican en los argumentos.
+Parametros de entrada:
+  in_nom_tabla: nombre de la tabla.
+  in_dias_crear: dias a crear para la tabla.
+Parametros de salida:
+  out_partAtrasPurgadas:   nzmero de particiones eliminadas.
+  out_partCreadas: nzmero de particiones aqadidas.
+Observaciones: La fecha que se considera como origen es la fecha del
+  sistema (obtenida con sysdate).
+-------------------------------------------------------------------------*/
+   PROCEDURE purga_tabla (
+      in_nom_tabla            IN       VARCHAR2,
+      in_dias_crear           IN       NUMBER,
+      out_partcreadas         OUT      NUMBER,
+      out_partatraspurgadas   OUT      NUMBER
+   );
+
+/*-----------------------------------------------------------------------
+Procedimiento: Purga_Tablas
+Descripcion: Una vez ejecutado este procedimiento se asegura que existan
+  particiones para tantos dmas hacia adelante y no mas dmas de particiones
+  hacia atras para todas las tablas que aparecen en la tabla PPCS_TABLAS
+Parametros de entrada:
+  in_dias_crear: dias a crear para la tabla.
+Parametros de salida:
+  out_partAtrasPurgadas:   nzmero de particiones eliminadas.
+  out_partCreadas: nzmero de particiones aqadidas.
+Observaciones: La fecha que se considera como origen es la fecha del
+  sistema (obtenida con sysdate).
+-------------------------------------------------------------------------*/
+   PROCEDURE purga_tablas (
+      in_dias_crear           IN       NUMBER default 31,
+      out_partcreadas         OUT      NUMBER,
+      out_partatraspurgadas   OUT      NUMBER
+   );
+
+/*-----------------------------------------------------------------------
+Procedimiento: Actualizar_Tabla_Particiones
+Descripcion: Verifica los datos en la tabla PPCS_PARTICIONES con las particiones
+              que existen realmente para la tabla.
+
+Parametros de entrada: ninguno
+Parametros de salida: ninguno
+Observaciones: ninguna
+-------------------------------------------------------------------------*/
+   PROCEDURE Actualizar_Tabla_Particiones;
+
+--
+/*
+  Bugs Actuales (no solucionados): 01/06/2007
+  - No se puede activar las trazas sin dar un problema de "Buffer Overflow" a menos que sea muy grande
+    el buffer ( Ejemplo dbms_output.enable(1.000.000) )
+
+*/
+
+END particiones;

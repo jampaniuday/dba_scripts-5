@@ -1,0 +1,32 @@
+* +--------------------------------------------------------------+
+* | SHARED MEMORY                                                |
+* | ------------------------------------------------------------ |
+* | shmmax - Maximum size, in bytes, of a single shared memory   |
+* |          segment. Should be set large enough for the largest |
+* |          SGA size.                                           |
+* | shmmin - The minimum size, in bytes, of a single shared      |
+* |          memory segment.                                     |
+* | shmseg - The maximum number of share memory segments that    |
+* |          can be attached (ie used) by a single process.      |
+* | shmmni - This determines how many shared memory segments can |
+* |          be on the system.                                   |
+* +--------------------------------------------------------------+
+set shmsys:shminfo_shmmax=4294967295
+set shmsys:shminfo_shmmin=1
+set shmsys:shminfo_shmseg=10
+set shmsys:shminfo_shmmni=100
+
+* +------------------------------------------------------------+
+* | SEMAPHORES                                                 |
+* | ---------------------------------------------------------- |
+* | semmni - Maximum number of semaphore sets on the system    |
+* | semmsl - Maximum number of semaphores per set              |
+* | semmns - Maximum number of semaphores available systemwide |
+* |                                                            |
+* |          NOTE: The maximum number of available semaphores  |
+* |                on the system is the lesser of SEMMNS and   |
+* |                the product (SEMMNI*SEMMSL).                |
+* +------------------------------------------------------------+
+set semsys:seminfo_semmni=500
+set semsys:seminfo_semmsl=250
+set semsys:seminfo_semmns=125000

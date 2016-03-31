@@ -1,0 +1,54 @@
+--------------------------
+Compile Program
+--------------------------
+javac CLOBFileExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CLOBFileExample /u01/app/oracle/testing/DatabaseInventoryBig.xml
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Input File         : /u01/app/oracle/testing/DatabaseInventoryBig.xml
+Output File (1)    : /u01/app/oracle/testing/DatabaseInventoryBig.xml.getChars.out
+Output File (2)    : /u01/app/oracle/testing/DatabaseInventoryBig.xml.Streams.out
+Database User      : SCOTT
+
+Connected.
+
+==========================================================
+  PUT METHOD
+==========================================================
+Wrote file DatabaseInventoryBig.xml to CLOB column.
+41114 characters read.
+41114 characters written.
+
+==========================================================
+  GET METHOD
+==========================================================
+Wrote CLOB column data to file DatabaseInventoryBig.xml.getChars.out.
+41114 characters read.
+41114 characters written.
+
+==========================================================
+  OUTPUT STREAMS METHOD
+==========================================================
+Wrote file DatabaseInventoryBig.xml to CLOB column.
+41114 bytes read.
+41114 bytes written.
+
+==========================================================
+  INPUT STREAMS METHOD
+==========================================================
+Wrote CLOB column data to file DatabaseInventoryBig.xml.Streams.out.
+41114 characters read.
+41114 characters written.
+
+Disconnected.
+

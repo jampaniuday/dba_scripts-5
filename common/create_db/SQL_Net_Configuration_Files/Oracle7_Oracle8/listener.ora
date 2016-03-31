@@ -1,0 +1,43 @@
+################
+# Filername.....: listener.ora
+# Date..........: 22-MAR-01 13:14:36
+################
+listener=
+  (ADDRESS_LIST=
+      (ADDRESS=
+        (PROTOCOL=IPC)
+        (KEY= ORANT817.world)
+      )
+      (ADDRESS=
+        (PROTOCOL=IPC)
+        (KEY= ORANT817)
+      )
+      (ADDRESS_LIST =
+        (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC))
+      )
+      (ADDRESS=
+        (COMMUNITY=TCP.world)
+        (PROTOCOL=TCP)
+        (HOST=jhunter-pc.pit.comms.marconi.com)
+        (PORT=1521)
+      )
+  )
+
+STARTUP_WAIT_TIME_LISTENER = 0
+CONNECT_TIMEOUT_LISTENER = 10
+TRACE_LEVEL_listener = OFF
+TRACE_DIRECTORY_listener = D:\oracle\ora817\network\log
+TRACE_FILE_listener = listener
+
+SID_LIST_listener=
+(SID_LIST=
+  (SID_DESC =
+    (SID_NAME = PLSExtProc)
+    (ORACLE_HOME = D:\oracle\ora817)
+    (PROGRAM = extproc)
+  )
+  (SID_DESC=
+    (SID_NAME=ORANT817)
+    (ORACLE_HOME=D:\oracle\ora817)
+  )
+)

@@ -1,0 +1,188 @@
+<html>
+<head>
+
+  <style>
+    A.noLink        { text-decoration: none; }
+    A.noLinkYellow  { color:yellow;  text-decoration: none; }
+    A.noLinkBlue    { color:blue;  text-decoration: none; }
+    A.noLinkOrange  { color:orange;  text-decoration: none; }
+    A.noLinkCyan    { color:cyan;  text-decoration: none; }
+    A.noLinkGreen   { color:cream;  text-decoration: none; }
+    A.noLinkRed     { color:red;  text-decoration: none; }
+  </style>
+
+  <title>Java Primitive Types</title>
+
+  <script language="JavaScript">
+
+    function cancelForm() {
+      location = "./MAIN_home.shtml";
+    }
+
+  </script>
+
+</head>
+<body bgcolor="#ffffff" 
+      link="0000ff" 
+      vlink="0000ff" 
+      alink="0000ff">
+
+  <img src="../../../../gifs/header_programming.gif">
+  <p>
+
+  <i><b><font color="#ff0000"><u>Java Primitive Types</u></font></b></i>
+  <br>
+
+  <p>
+  <a class="noLinkBlue"
+     onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+     href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no"></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+  <hr noshade>
+
+
+  <!--
+   | *****************************************
+   | *********    Introduction    ************
+   | *****************************************
+   +-->
+
+  <p>
+  <font color="#990000"><b>Introduction</b></font>
+  <p>
+
+  <blockquote>
+
+    Not everything in Java is an object. There is a special group of data types (also known as primitive types)
+    that will be used quite often in your programming. For performance reasons, the designers of the Java language
+    decided to include these primitive types.
+    <p>
+    Creating an object using <b>new</b> isn't very efficient because
+    <b>new</b> will place objects on the heap. This approach would be very costly for small and simple 
+    variables. Instead of create variables using <b>new</b>, Java can use primitive types to create
+    <i>automatic</i> variables that are not references. The variables hold the value, and it's place
+    on the stack so its much more efficient.
+    <p>
+    Java determines the size of each primitive type. These sizes do not change from one machine
+    architecture to another (as do in most other languages). This is one of the key features of the
+    language that makes Java so portable.
+    <p>
+    Take note that all numeric types are signed. (No unsigned types).
+    <p>
+    Finally, notice that each primitive data type also has a "wrapper" class defined for it. This
+    means that you can create a "nonprimitive object" (using the wrapper class) 
+    on the heap (just like any other object) to
+    represent the particular primitive type.
+
+
+    <blockquote>
+    For example:
+
+    <pre>int i = 5;
+Integer I = new Integer(i);</pre>
+
+    OR
+
+    <pre>Integer I = new Integer(5);</pre>
+
+    </blockquote>
+
+  </blockquote>
+
+
+  <!--
+   | *****************************************
+   | *****    Java Primitive Types    ********
+   | *****************************************
+   +-->
+
+  <p>
+  <font color="#990000"><b>Data Types and Data Structures</b></font>
+  <p>
+
+  <blockquote>
+
+    <table cellspacing="1" bgcolor="#c0c0c0" border="1" cellpadding="3">
+    <tr>
+      <td nowrap><font color="#000099"><b>Primitive Type</b></font></td>
+      <td nowrap><font color="#000099"><b>Size</b></font></td>
+      <td nowrap><font color="#000099"><b>Minimum Value</b></font></td>
+      <td nowrap><font color="#000099"><b>Maximum Value</b></font></td>
+      <td nowrap><font color="#000099"><b>Wrapper Type</b></font></td>
+    </tr>
+
+    <tr  bgcolor="#e0e0e0">
+      <td nowrap><b>char</b></td>
+      <td nowrap> &nbsp; 16-bit &nbsp; </td>
+      <td nowrap> &nbsp; Unicode 0</td>
+      <td nowrap> &nbsp; Unicode 2<sup>16</sup>-1</td>
+      <td nowrap> &nbsp; Character</td>
+    </tr>
+
+    <tr  bgcolor="#e0e0e0">
+      <td nowrap><b>byte</b></td>
+      <td nowrap> &nbsp; 8-bit &nbsp; </td>
+      <td nowrap> &nbsp; -128</td>
+      <td nowrap> &nbsp; +127</td>
+      <td nowrap> &nbsp; Byte</td>
+    </tr>
+
+    <tr  bgcolor="#e0e0e0">
+      <td nowrap><b>short</b></td>
+      <td nowrap> &nbsp; 16-bit &nbsp; </td>
+      <td nowrap> &nbsp; -2<sup>15</sup><br><i>(-32,768)</i></td>
+      <td nowrap> &nbsp; +2<sup>15</sup>-1<br><i>(32,767)</i></td>
+      <td nowrap> &nbsp; Short</td>
+    </tr>
+
+    <tr bgcolor="#e0e0e0">
+      <td nowrap><b>int</b></td>
+      <td nowrap> &nbsp; 32-bit &nbsp; </td>
+      <td nowrap> &nbsp; -2<sup>31</sup><br><i>(-2,147,483,648)</i></td>
+      <td nowrap> &nbsp; +2<sup>31</sup>-1<br><i>(2,147,483,647)</i></td>
+      <td nowrap> &nbsp; Integer</td>
+    </tr>
+
+    <tr bgcolor="#e0e0e0">
+      <td nowrap><b>long</b></td>
+      <td nowrap> &nbsp; 64-bit &nbsp; </td>
+      <td nowrap> &nbsp; -2<sup>63</sup><br><i>(-9,223,372,036,854,775,808)</i></td>
+      <td nowrap> &nbsp; +2<sup>63</sup>-1<br><i>(9,223,372,036,854,775,807)</i></td>
+      <td nowrap> &nbsp; Long</td>
+    </tr>
+
+    <tr bgcolor="#e0e0e0">
+      <td nowrap><b>float</b></td>
+      <td nowrap> &nbsp; 32-bit &nbsp; </td>
+      <td nowrap colspan="2"> &nbsp; 32-bit IEEE 754 floating-point numbers</td>
+      <td nowrap> &nbsp; Float</td>
+    </tr>
+
+    <tr bgcolor="#e0e0e0">
+      <td nowrap><b>double</b></td>
+      <td nowrap> &nbsp; 64-bit &nbsp; </td>
+      <td nowrap colspan="2"> &nbsp; 64-bit IEEE 754 floating-point numbers</td>
+      <td nowrap> &nbsp; Double</td>
+    </tr>
+
+    <tr bgcolor="#e0e0e0">
+      <td nowrap><b>boolean</b></td>
+      <td nowrap> &nbsp; 1-bit &nbsp; </td>
+      <td nowrap colspan="2"> &nbsp; <tt>true</tt> or <tt>false</tt></td>
+      <td nowrap> &nbsp; Boolean</td>
+    </tr>
+
+    <tr bgcolor="#e0e0e0">
+      <td nowrap><b>void</b></td>
+      <td nowrap> &nbsp; ----- &nbsp; </td>
+      <td nowrap> &nbsp; ----- &nbsp; </td>
+      <td nowrap> &nbsp; ----- &nbsp; </td>
+      <td nowrap> &nbsp; Void</td>
+    </TR>
+
+    </table>
+
+  </blockquote>
+
+
+</body>
+</html>

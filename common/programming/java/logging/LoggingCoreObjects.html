@@ -1,0 +1,153 @@
+<html>
+<head>
+
+    <style type="text/css">
+        A.noLink        { text-decoration: none; }
+        A.noLinkYellow  { color:yellow;  text-decoration: none; }
+        A.noLinkBlue    { color:blue;  text-decoration: none; }
+        A.noLinkOrange  { color:orange;  text-decoration: none; }
+        A.noLinkCyan    { color:cyan;  text-decoration: none; }
+        A.noLinkGreen   { color:cream;  text-decoration: none; }
+        A.noLinkRed     { color:red;  text-decoration: none; }
+    </style>
+
+    <title>Java SDK 1.4 Logging API - Core Objects</title>
+
+    <script language="JavaScript" type="text/javascript">
+
+        function cancelForm() {
+            location = "./MAIN_home.shtml";
+        }
+
+    </script>
+
+</head>
+
+<body bgcolor="#FFFFFF" 
+      link="0000ff" 
+      vlink="0000ff" 
+      alink="0000ff">
+
+    <img src="../../../../gifs/header_programming.gif" alt="">
+    <p>
+
+    <i><b><font color="#ff0000"><u>Java SDK 1.4 Logging API - Core Objects</u></font></b></i>
+    <br>
+
+    <p>
+    <a  class="noLinkBlue"
+        onMouseOver="window.parent.status='Return to Java Programming Corner'; return true;"
+        href="../PROGRAMMING_Java_Programming.shtml"><img src="../../../../gifs/back_button.gif" border="no" alt=""></a> &nbsp;&nbsp;Return to the Java Programming Corner.
+    <hr noshade>
+
+    <p>
+    The Java 1.4 Logging API consistes of several classes that are responsible
+    for capturing logging information, process and publish the intended logging
+    information to any preferred destination. The following is a list of the 
+    core classes that make up the logging API:
+
+    <!--
+     | ********************************************
+     |   LogManager
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>LogManager</u></b></font>
+    <p>
+
+    <blockquote>
+    The <code>java.util.logging.LogManager</code> class is a singleton that is
+    responsible for managing the <i>logger</i> namespace hierarchy. This class
+    reads a system-wide configuration file to set the initial properties for the
+    logging framework. Remember that a singleton is a class that is available
+    only once per Java Virtual Manager (JVM) instance of an application.
+    </blockquote>
+
+
+    <!--
+     | ********************************************
+     |   Logger
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>Logger</u></b></font>
+    <p>
+
+
+    <blockquote>
+    The <code>java.util.logging.Logger</code> class is responsible for carrying
+    out the logging activity. This class provides several logging methods to 
+    publish logging information.
+    </blockquote>
+
+    
+    <!--
+     | ********************************************
+     |   LogRecord
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>LogRecord</u></b></font>
+    <p>
+
+    <blockquote>
+    The <code>java.util.logging.LogRecord</code> class encapsulates all the
+    logging information. Typically, it contains header information for the
+    message like: the date and timestamp of the
+    logging message, the origin of the logging activity, and the
+    granularity and priority level of the logging message.
+    </blockquote>
+
+
+    <!--
+     | ********************************************
+     |   Handler
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>Handler</u></b></font>
+    <p>
+
+    <blockquote>
+    The <code>java.util.logging.Handler</code> class is responsible for
+    publishing logging information to various destinations - a file,
+    console, memory buffers, etc.
+    </blockquote>
+
+    <!--
+     | ********************************************
+     |   Filter
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>Filter</u></b></font>
+    <p>
+
+    <blockquote>
+    The <code>java.util.logging.Filter</code> class is used by 
+    <code>Logger</code> objects to decide whether logging information should
+    be passed to a <code>Handler</code> to deal with it or simply be ignored.
+    <code>Handler</code> objects can also use <code>Filter</code> objects to 
+    perform more checks on a logging request before publishing them to the
+    final destination.
+    </blockquote>
+
+    <!--
+     | ********************************************
+     |   Formatter
+     | ********************************************
+     +-->
+    <p>
+    <font color="#990000"><b><u>Formatter</u></b></font>
+    <p>
+
+    <blockquote>
+    The <code>java.util.logging.Formatter</code> class is responsible for
+    providing required structure to the logging information being published.
+    Formatters also perform the localization of logging information, if 
+    configured to do so.
+    </blockquote>
+
+
+</body>
+</html>

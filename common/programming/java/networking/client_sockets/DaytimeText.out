@@ -1,0 +1,25 @@
+--------------------------
+Compile Program
+--------------------------
+javac DaytimeText.java
+
+
+--------------------------
+Run Program
+--------------------------
+java DaytimeText <host name>
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+% java DaytimeText cartman
+
+Time on 192.168.1.100 is 11 MAR 2003 21:08:16 EST
+
+% java DaytimeText sundev5
+
+Time on sundev5.comanage.net is Tue Mar 11 20:54:33 2003

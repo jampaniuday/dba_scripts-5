@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac ToStringObjectExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ToStringObjectExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Class without toString() method : ToStringClassWithout@1a16869
+Class with toString() method    : Doe, Jane

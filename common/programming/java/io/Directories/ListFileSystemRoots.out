@@ -1,0 +1,23 @@
+--------------------------
+Compile Program
+--------------------------
+javac ListFileSystemRoots.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ListFileSystemRoots
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Root[0] = C:\
+Root[1] = D:\
+Root[2] = E:\
+Root[3] = G:\
+Root[4] = H:\
+Root[5] = J:\

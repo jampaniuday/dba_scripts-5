@@ -1,0 +1,26 @@
+--------------------------
+Compile Program
+--------------------------
+javac JNDIFileSystemDemo1.java
+
+
+--------------------------
+Run Program
+--------------------------
+java -classpath "$JAVALIB/fscontext.jar:$JAVALIB/providerutil.jar:." JNDIFileSystemDemo1 /temp
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Running JNDI File System Demo #1
+File / Directory : /temp
+==================================
+
+  - Creating the environment Hashtable
+  - Creating the initial context
+  - Look up an object
+  - Print it
+  - /temp is bound to: com.sun.jndi.fscontext.RefFSContext@13c5982

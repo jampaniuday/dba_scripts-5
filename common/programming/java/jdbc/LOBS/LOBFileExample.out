@@ -1,0 +1,37 @@
+--------------------------
+Compile Program
+--------------------------
+javac LOBFileExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java LOBFileExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+one oracle.sql.BFILE@f73c1
+Dumping file file1
+File exists: true
+File open: false
+Opening File:
+File open: true
+File length: 15
+Read 10 bytes: 84 104 105 115 32 105 115 32 102 105
+Read 5 bytes: 108 101 49 46 10
+two oracle.sql.BFILE@789144
+Dumping file file2
+File exists: true
+File open: false
+Opening File:
+File open: true
+File length: 37
+Read 10 bytes: 84 104 105 115 32 105 115 32 102 105
+Read 10 bytes: 108 101 50 46 10 84 104 105 115 32
+Read 10 bytes: 97 32 116 119 111 32 108 105 110 101
+Read 7 bytes: 32 102 105 108 101 46 10

@@ -1,0 +1,34 @@
+/app1/softw/grid/11.2.0/bin/crsctl stat res -t
+
+
+srvctl stop database -d pmgt
+
+srvctl stop database -d pmsv
+
+srvctl stop database -d pmni
+
+srvctl stop database -d pmcr
+
+srvctl stop database -d pmpa
+
+
+/app1/softw/grid/11.2.0/bin/crsctl stop crs
+
+
+shutdown now
+
+
+/app1/softw/grid/11.2.0/bin/crsctl start crs
+
+
+srvctl start database -d pmpa
+
+srvctl start database -d pmcr
+
+srvctl start database -d pmni
+
+srvctl start database -d pmsv
+
+srvctl start database -d pmgt
+
+

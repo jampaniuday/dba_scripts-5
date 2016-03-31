@@ -1,0 +1,24 @@
+--------------------------
+Compile Program
+--------------------------
+javac CreateFile.java
+
+
+--------------------------
+Run Program
+--------------------------
+
+% java CreateFile
+
+  File did not exist and was created.
+
+
+% ls -l NewFile.txt
+
+  -rw-r--r--  1 Administ None   0 Feb 26 14:48 NewFile.txt
+
+
+% java CreateFile
+
+  File already exists.
+

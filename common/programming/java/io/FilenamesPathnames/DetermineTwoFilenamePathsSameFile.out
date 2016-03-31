@@ -1,0 +1,30 @@
+--------------------------
+Compile Program
+--------------------------
+javac DetermineTwoFilenamePathsSameFile.java
+
+
+--------------------------
+Run Program
+--------------------------
+java DetermineTwoFilenamePathsSameFile
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+Original Filename1 = .\README_InputFile.txt
+
+Original Filename2 = README_InputFile.txt
+
+Check to determine if the two filename paths are equal: (false)
+
+Normalized Path for Filename1 = C:\export\home\jeffreyh\JDeveloper\IsrvWorkspace\JavaProgramming\src\io\FilenamesPathnames\README_InputFile.txt
+
+Normalized Path for Filename2 = C:\export\home\jeffreyh\JDeveloper\IsrvWorkspace\JavaProgramming\src\io\FilenamesPathnames\README_InputFile.txt
+
+Check to determine if the two filename paths are equal: (true)
+

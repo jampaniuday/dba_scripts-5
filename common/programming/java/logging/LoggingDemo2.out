@@ -1,0 +1,23 @@
+--------------------------
+Compile Program
+--------------------------
+javac LoggingDemo2.java
+
+
+--------------------------
+Run Program
+--------------------------
+java LoggingDemo2
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+Jun 23, 2003 11:21:09 AM LoggingDemo2 logMessage
+INFO: I am logging a test message...
+Jun 23, 2003 11:21:09 AM LoggingDemo2 logMessage
+INFO: I am logging a test message...
+

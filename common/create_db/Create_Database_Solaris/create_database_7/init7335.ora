@@ -1,0 +1,214 @@
+# +-------------------------------------------------------------------+
+# | FILE          : init7335.ora                                      |
+# | CREATION DATE : 17-JUL-1998                                       |
+# | SERVER        : dbaprod.comanage.net                              |
+# | INSTANCE NAME : ORA733                                            |
+# | DATABASE NAME : ORA733                                            |
+# |                                                                   |
+# |  --------                                                         |
+# | |HISTORY |                                                        |
+# |  ---------------------------------------------------------------- |
+# | NAME DATE      DESCRIPTION (including old/new values)             |
+# | ---- --------- -------------------------------------------------- |
+# | JMH  17-JUL-98 Created original file.                             |
+# +-------------------------------------------------------------------+
+
+# +-------------------+
+# | HIDDEN PARAMETERS |
+# +-------------------+
+_trace_files_public                          = TRUE
+
+# +---------------------+
+# | DATABASE PARAMETERS |
+# +---------------------+
+# always_anti_join                           = NESTED_LOOPS
+# async_read                                 = TRUE
+# async_write                                = TRUE
+audit_file_dest                      = /u01/app/oracle/admin/ORA733/adump
+# audit_trail                                = true
+# b_tree_bitmap_plans                        = FALSE
+# background_core_dump                       = full
+background_dump_dest                 = /u01/app/oracle/admin/ORA733/bdump
+# bitmap_merge_area_size                     = 1048576
+# blank_trimming                             = FALSE
+# cache_size_threshold                       = 850
+# ccf_io_size                                = 131072
+checkpoint_process                           = TRUE
+# cleanup_rollback_entries                   = 20
+# close_cached_open_cursors                  = FALSE
+# commit_point_strength                      = 1
+compatible                                   = 7.3.3.5
+# compatible_no_recovery                     = 
+control_files                        = (/u03/app/oradata/ORA733/control01.ctl, 
+                                        /u04/app/oradata/ORA733/control02.ctl,
+                                        /u05/app/oradata/ORA733/control03.ctl)
+core_dump_dest                       = /u01/app/oracle/admin/ORA733/cdump
+# cpu_count                                  = 1
+# create_bitmap_area_size                    = 8388608
+# cursor_space_for_time                      = FALSE 
+db_block_buffers                             = 15000
+# db_block_checkpoint_batch                  = 8
+# db_block_checksum                          = FALSE
+# db_block_lru_extended_statistics           = 0
+# db_block_lru_latches                       = 1
+# db_block_lru_statistics                    = FALSE
+db_block_size                                = 8192
+# db_domain                                  = WORLD
+db_file_multiblock_read_count                = 32
+# db_file_simultaneous_writes                = 4
+# db_file_standby_name_convert               =
+db_files                                     = 500
+db_name                                      = ORA733
+# db_writers                                 = 1
+# dblink_encrypt_login                       = FALSE
+# delayed_logging_block_cleanouts            = TRUE
+# discrete_transactions_enabled              = FALSE
+# distributed_lock_timeout                   = 60
+# distributed_recovery_connection_hold_time  = 200
+# distributed_transactions                   = 198
+# dml_locks                                  = 3000
+# enqueue_resources                          = 5000
+# event                                      =
+# fixed_date                                 =
+# gc_db_locks                                = 100
+# gc_files_to_locks                          =
+# gc_freelist_groups                         = 50
+# gc_lck_procs                               = 1
+# gc_releasable_locks                        = 8500
+# gc_rollback_locks                          = 20
+# gc_rollback_segments                       = 20
+# gc_save_rollback_locks                     = 20
+# gc_segments                                = 10
+# gc_tablespaces                             = 5
+global_names                                 = FALSE
+# hash_area_size                             = 0
+# hash_join_enabled                          = TRUE
+# hash_multiblock_io_count                   = 16
+# ifile                                      =
+# instance_number                            = 0
+job_queue_interval                           = 60
+job_queue_keep_connections                   = TRUE
+job_queue_processes                          = 2
+# license_max_sessions                       = 0
+# license_max_users                          = 0
+# license_sessions_warning                   = 0
+# log_archive_buffer_size                    = 64
+# log_archive_buffers                        = 4
+log_archive_dest                     = /u07/app/oradata/ORA733/archive
+log_archive_format                           = "arch_t%t_s%s.dbf"
+log_archive_start                            = TRUE
+# log_block_checksum                         = FALSE
+log_buffer                                   = 2621440
+log_checkpoint_interval                      = 12500000
+log_checkpoint_timeout                       = 21600
+log_checkpoints_to_alert                     = TRUE
+# log_file_standby_name_convert              =
+# log_files                                  = 255
+log_simultaneous_copies                      = 6
+log_small_entry_max_size                     = 40
+# max_commit_propagation_delay               = 90000
+max_dump_file_size                           = 20480
+max_enabled_roles                            = 145
+# max_rollback_segments                      = 30
+# max_transaction_branches                   = 8
+# mts_dispatchers                            =
+# mts_listener_address                       = (address=(protocol=ipc)(key=%s))
+# mts_max_dispatchers                        = 0
+# mts_max_servers                            = 0
+# mts_multiple_listeners                     = FALSE
+# mts_servers                                = 0
+# mts_service                                = RESDB
+# nls_currency                               =
+nls_date_format                              = DD-MON-RR
+# nls_date_language                          =
+# nls_iso_currency                           =
+# nls_language                               = AMERICAN
+# nls_numeric_characters                     = ".,"
+# nls_sort                                   = binary
+# nls_territory                              = AMERICA
+open_cursors                                 = 255
+# open_links                                 = 4
+optimizer_mode                               = RULE
+# optimizer_parallel_pass                    = TRUE
+# optimizer_percent_parallel                 = 0
+# optimizer_search_limit                     = 5
+# oracle_trace_collection_name               = oracle7
+# oracle_trace_collection_path               = ?/rdbms/log
+# oracle_trace_collection_size               = 5242880
+# oracle_trace_enable                        = FALSE
+# oracle_trace_facility_name                 = oracle7
+# oracle_trace_facility_path                 = ?/rdbms/admin
+# os_authent_prefix                          = ops$
+# os_roles                                   = FALSE
+# parallel_default_max_instances             = 0
+# parallel_max_servers                       = 5
+# parallel_min_percent                       = 0
+# parallel_min_servers                       = 0
+# parallel_server_idle_time                  = 5
+# partition_view_enabled                     = FALSE
+# post_wait_device                           = /devices/pseudo/pw@0:pw
+pre_page_sga                                 = TRUE
+processes                                    = 200
+# recovery_parallelism                       = 0
+# reduce_alarm                               = FALSE
+# remote_dependencies_mode                   = timestamp
+remote_login_passwordfile                    = EXCLUSIVE
+# remote_os_authent                          = FALSE
+# remote_os_roles                            = FALSE
+# resource_limit                             = FALSE
+rollback_segments                            = (rbs1, 
+                                                rbs2, 
+                                                rbs3, 
+                                                rbs4, 
+                                                rbs5, 
+                                                rbs6, 
+                                                rbs7, 
+                                                rbs8, 
+                                                rbs9, 
+                                                rbs10, 
+                                                rbs11, 
+                                                rbs12, 
+                                                rbs13, 
+                                                rbs14, 
+                                                rbs15, 
+                                                rbs16, 
+                                                rbs17, 
+                                                rbs18, 
+                                                rbsbig)
+# row_cache_cursors                          = 10
+# row_locking                                = always
+# serializable                               = FALSE
+# session_cached_cursors                     = 0
+sequence_cache_entries                       = 100
+sequence_cache_hash_buckets                  = 89
+# sessions                                   = 720
+# shadow_core_dump                           = full
+# shared_pool_reserved_min_alloc             = 5000
+# shared_pool_reserved_size                  = 0
+shared_pool_size                             = 358400000
+# snapshot_refresh_interval                  = 60
+# snapshot_refresh_keep_connections          = FALSE
+# snapshot_refresh_processes                 = 0
+sort_area_retained_size                      = 256000
+sort_area_size                               = 256000
+# sort_direct_writes                         = AUTO
+# sort_read_fac                              = 5
+# sort_spacemap_size                         = 512
+# sort_write_buffer_size                     = 32768
+# sort_write_buffers                         = 2
+# spin_count                                 = 2000
+# sql92_security                             = FALSE
+# sql_trace                                  = FALSE
+# temporary_table_locks                      = 720
+# text_enable                                = FALSE
+# thread                                     = 0
+timed_statistics                             = TRUE
+# transactions                               = 792
+# transactions_per_rollback_segment          = 71
+# unlimited_rollback_segments                = FALSE
+use_ism                                      = TRUE
+# use_post_wait_driver                       = FALSE
+use_readv                                    = TRUE
+user_dump_dest                       = /u01/app/oracle/admin/ORA733/udump
+# utl_file_dir                               =
+# v733_plans_enabled                         = FALSE

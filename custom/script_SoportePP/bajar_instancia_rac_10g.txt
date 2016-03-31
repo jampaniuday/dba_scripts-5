@@ -1,0 +1,253 @@
+COLUMN username FORMAT A10
+COLUMN owner    FORMAT A10
+COLUMN obj_name FORMAT A10
+COLUMN extended_timestamp FORMAT A35
+
+select * from
+(
+SELECT username,
+       extended_timestamp,
+       owner,
+       obj_name,
+       action_name
+FROM   dba_audit_trail
+ORDER BY timestamp)
+WHERE  rownum < 100
+
+
+select * from V$DATABASE;
+
+select sys_context('USERENV','DB_NAME') as Instance from dual;
+
+
+------------------------------
+PPGANIC
+
+srvctl stop database -d PPGANIC
+
+--srvctl stop instance -d PPGANIC -i PPGANIC1
+
+srvctl stop instance -d PPCSPAN -i PPCSPAN2
+
+srvctl stop asm -n node
+
+srvctl stop nodeapps -n anicsga01
+
+srvctl stop nodeapps -n anicsga02
+
+
+/softw/app/oracle/product/10.2.0/crs/bin/crsctl stop crs
+
+/softw/app/oracle/product/10.2.0/crs/bin/crsctl enable crs*
+
+------------------------------
+PPGAGUA
+
+-- srvctl stop database -d PPCSGUA
+
+srvctl stop instance -d SDPSV01 -i SDPSV01_I2
+srvctl stop instance -d SDPSV01 -i SDPSV01_I3
+srvctl stop instance -d SDPSV01 -i SDPSV01_I4
+
+srvctl stop instance -d PPCSGUA -i PPCSGUA2
+
+srvctl stop asm -n node
+
+srvctl stop nodeapps -n agtppcs01
+srvctl stop nodeapps -n agtppcs02
+
+
+/softw/app/oracle/product/10.2.0/crs/bin/crsctl start crs
+
+/export/oracle/app/oracle/product/10.2.0/crs/bin/crsctl start crs
+
+
+srvctl status service -d OPGEGUA
+
+Service PPGAGUATUX_UP00 is running on instance(s) PPGAGUA1
+Service PPGAGUATUX_UP01 is running on instance(s) PPGAGUA1
+Service PPGAGUA_UP00 is running on instance(s) PPGAGUA1
+Service PPGAGUA_UP01 is running on instance(s) PPGAGUA1
+
+-- se ejecuta desde el servidor origen
+
+$ORACLE_HOME/bin/srvctl relocate service -d "$DATABASE" -s "$service" -i "$CURRENT" -t "$INSTANCE"
+
+srvctl relocate service -d PPCSPAN -s PPCSPAN_PRIMARIO -i PPCSPAN2 -t PPCSPAN1
+srvctl relocate service -d PPCSPAN -s PPCSPAN_TUX -i PPCSPAN2 -t PPCSPAN1
+
+srvctl relocate service -d PPGAGUA -s PPGAGUA_UP00 -i PPGAGUA2 -t PPGAGUA1
+srvctl relocate service -d PPGAGUA -s PPGAGUA_UP01 -i PPGAGUA2 -t PPGAGUA1
+
+
+
+
+
+------------------------------
+
+PPGAPAN
+
+srvctl stop database -d db_name
+
+srvctl stop instance -d PPGAPAN -i PPGAPAN1
+
+srvctl stop asm -n node
+
+srvctl stop nodeapps -n apappga01
+
+/softw/app/oracle/product/10.2.0/crs/bin/crsctl stop crs
+
+
+srvctl start listener -n agtppcs01
+
+------------------------------------
+
+ppcsnic
+
+srvctl stop database -d PPCSNIC
+
+srvctl stop instance -d PPCSNIC -i PPCSNIC1
+
+srvctl stop instance -d PPCSNIC -i PPCSNIC2
+
+srvctl stop nodeapps -n anippcs01
+
+srvctl stop nodeapps -n anippcs02
+
+/softw/app/oracle/product/10.2.0/crs/bin/crsctl start crs
+
+
+srvctl start listener -n agtppcs02
+
+--------------------------------------
+
+ppgaslv
+
+srvctl stop database -d PPGASLV
+
+srvctl stop instance -d PPGASLV -i PPGASLV1
+
+srvctl stop nodeapps -n asvcsga01
+
+srvctl stop nodeapps -n asvcsga02
+
+/softw/app/oracle/product/10.2.0/crs/bin/crsctl stop crs
+
+
+srvctl start service -d PPGANIC -s PPGANICTUX_UP00
+srvctl start service -d PPGANIC -s PPGANICTUX_UP01
+srvctl start service -d PPGANIC -s PPGANIC_UP00
+srvctl start service -d PPGANIC -s PPGANIC_UP01
+
+srvctl start service -d OPGEPAN -s OPGEPAN_PRIMARIO
+srvctl start service -d OPGEPAN -s OPGEPAN_TUX
+
+srvctl start service -d RASCPAN -s RASCPAN_PRIMARIO
+srvctl start service -d RASCPAN -s RASCPAN_TUX
+
+srvctl status service -d PPGAPAN
+
+$ORACLE_HOME/bin/srvctl relocate service -d "$DATABASE" -s "$service" -i "$CURRENT" -t "$INSTANCE"
+
+Service PPGAPANTUX_UP00 is running on instance(s) PPGAPAN2
+Service PPGAPANTUX_UP01 is running on instance(s) PPGAPAN2
+Service PPGAPAN_UP00 is running on instance(s) PPGAPAN2
+Service PPGAPAN_UP01 is running on instance(s) PPGAPAN2
+
+-- se ejecuta desde el servidor origen
+
+srvctl relocate service -d PPGAPAN -s PPGAPANTUX_UP00 -i PPGAPAN2 -t PPGAPAN1
+srvctl relocate service -d PPGAPAN -s PPGAPANTUX_UP01 -i PPGAPAN2 -t PPGAPAN1
+srvctl relocate service -d PPGAPAN -s PPGAPAN_UP00 -i PPGAPAN2 -t PPGAPAN1
+srvctl relocate service -d PPGAPAN -s PPGAPAN_UP01 -i PPGAPAN2 -t PPGAPAN1
+
+
+srvctl stop listener -n asvcsga02
+
+-------------------
+ppgapa
+
+srvctl stop database -d PPGAPAN
+
+srvctl stop instance -d PPGAPAN -i PPGAPAN1
+
+srvctl stop instance -d PPGAPAN -i PPGAPAN2
+
+srvctl stop nodeapps -n apappga01
+
+srvctl stop nodeapps -n apappga02
+
+/softw/app/oracle/product/10.2.0/crs/bin/crsctl stop crs
+
+
+srvctl status service -d PPGAPAN
+
+$ORACLE_HOME/bin/srvctl relocate service -d "$DATABASE" -s "$service" -i "$CURRENT" -t "$INSTANCE"
+
+Service PPGAPANTUX_UP00 is running on instance(s) PPGAPAN2
+Service PPGAPANTUX_UP01 is running on instance(s) PPGAPAN2
+Service PPGAPAN_UP00 is running on instance(s) PPGAPAN2
+Service PPGAPAN_UP01 is running on instance(s) PPGAPAN2
+
+-- se ejecuta desde el servidor origen
+
+srvctl relocate service -d PPGAPAN -s PPGAPANTUX_UP00 -i PPGAPAN2 -t PPGAPAN1
+srvctl relocate service -d PPGAPAN -s PPGAPANTUX_UP01 -i PPGAPAN2 -t PPGAPAN1
+srvctl relocate service -d PPGAPAN -s PPGAPAN_UP00 -i PPGAPAN2 -t PPGAPAN1
+srvctl relocate service -d PPGAPAN -s PPGAPAN_UP01 -i PPGAPAN2 -t PPGAPAN1
+
+
+
+PPGAPAN2:/export/home/oracle>crs_stat -t
+Name           Type           Target    State     Host        
+------------------------------------------------------------
+ora....N1.inst application    ONLINE    ONLINE    apappga01   
+ora....N2.inst application    ONLINE    ONLINE    apappga02   
+ora....AN1.srv application    ONLINE    ONLINE    apappga01   
+ora....UP00.cs application    ONLINE    ONLINE    apappga01   
+ora....AN1.srv application    ONLINE    ONLINE    apappga01   
+ora....UP01.cs application    ONLINE    ONLINE    apappga01   
+ora....AN1.srv application    ONLINE    ONLINE    apappga01   
+ora....UP00.cs application    ONLINE    ONLINE    apappga01   
+ora....AN1.srv application    ONLINE    ONLINE    apappga01   
+ora....UP01.cs application    ONLINE    ONLINE    apappga01   
+ora.PPGAPAN.db application    ONLINE    ONLINE    apappga02   
+ora....01.lsnr application    ONLINE    ONLINE    apappga01   
+ora....a01.gsd application    ONLINE    ONLINE    apappga01   
+ora....a01.ons application    ONLINE    ONLINE    apappga01   
+ora....a01.vip application    ONLINE    ONLINE    apappga01   
+ora....02.lsnr application    ONLINE    ONLINE    apappga02   
+ora....a02.gsd application    ONLINE    ONLINE    apappga02   
+ora....a02.ons application    ONLINE    ONLINE    apappga02   
+ora....a02.vip application    ONLINE    ONLINE    apappga02   
+
+
+
+
+
+-----------------
+
+
+XIUS ni
+
+srvctl stop database -d pmni
+
+srvctl start instance -d pmni -i pmni1
+
+srvctl start instance -d pmni -i pmni2
+
+
+
+--- como se valida el estatus del nodo a nivel de crs
+
+root@rac1# cat /etc/oracle/scls_scr/rac1/root/crsstart
+enable
+
+
+root@rac1# cd CRS_HOME/bin
+
+
+root@rac1# ./crsctl disable crs
+root@rac1# cat /etc/oracle/scls_scr/rac1/root/crsstart
+disable
+

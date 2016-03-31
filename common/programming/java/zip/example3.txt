@@ -1,0 +1,9 @@
+------------
+example3.txt
+------------
+
+This is a sample file 3.
+This is a sample file 3.
+This is a sample file 3.
+This is a sample file 3.
+This is a sample file 3.

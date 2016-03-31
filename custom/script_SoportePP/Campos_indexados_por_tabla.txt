@@ -1,0 +1,20 @@
+            select b.cod_origreca, count(*),to_number(round(sum(imp_recarga)/1000,0)) as importe
+                from ppga_actabopre a, ppga_recargas b
+                    where b.fec_instalac >= sysdate -1/288
+                        and b.sec_actuacion = a.sec_actuacion
+                        and a.COD_ACTUACIO='RC' and a.FEC_ACTUACION >= sysdate -1/288
+                        and a.cod_estarec='EJ'
+                                                and a.sec_anulacion is null
+                                                and b.imp_recarga > 0
+                        and a.cod_sbactuacion=20
+            group by b.cod_origreca;
+
+
+select * from all_indexes where table_name in ('PPGA_ACTABOPRE','PPGA_RECARGAS');
+
+col column_name format a30
+
+select index_name , table_name , column_name from user_ind_columns where table_name in ('PPGA_ACTABOPRE','PPGA_RECARGAS')order by table_name, index_name asc; 
+
+
+select index_name , table_name , column_name from user_ind_columns where table_name in ('PPCS_LLAMADAS')order by table_name, index_name asc; 

@@ -1,0 +1,46 @@
+Conectado a pansl1degc1 [Elemento de Gestion] Fecha: 2012-08-13 16:03 ........
+
+Last login: Mon Aug 13 01:55:55 2012 from 10.231.194.199
+-bash-3.00$ sudo su - oracle
+successful login (10.231.194.199) Mon Aug 13 17:01:14 EST 2012
+Seleccione el entorno adecuado:
+
+1. Nicaragua
+2. Panama
+        3. Costa Rica
+
+ Introduzca su eleccion (1-7) [3]: 3
+oracle@pansl1degc1: oracle > 
+oracle@pansl1degc1: oracle > 
+oracle@pansl1degc1: oracle > 
+oracle@pansl1degc1: oracle > 
+oracle@pansl1degc1: oracle > 
+oracle@pansl1degc1: oracle > rsh pansl1dbebd16
+Last login: Thu Aug  9 02:54:30 from pansl1dbebd15
+oracle@pansl1dbebd16: oracle > 
+oracle@pansl1dbebd16: oracle > 
+oracle@pansl1dbebd16: oracle > 
+oracle@pansl1dbebd16: oracle > 
+oracle@pansl1dbebd16: oracle > 
+oracle@pansl1dbebd16: oracle > ps -fea  | grep pmon
+oracle    5781  5625  0 17:01 pts/0    00:00:00 grep pmon
+oracle   11780     1  0 Jul16 ?        00:02:41 ora_pmon_SDPCR01_I2
+oracle@pansl1dbebd16: oracle > sqlplus / as sysdba
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Lun Ago 13 17:01:56 2012
+
+Copyright (coffee) 1982, 2007, Oracle.  All Rights Reserved.
+
+
+Connected to:
+Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - 64bit Production
+With the Partitioning, Real Application Clusters, OLAP, Data Mining
+and Real Application Testing options
+
+SQL>
+[04:07:27 p.m.] Jose Jesus Hijon (Gerente Regional): 
+ Introduzca su eleccion (1-7) [1]: 5
+pansl1dbebd11:oracle > ps -fea | grep pmon
+oracle    3892     1  0 Jul16 ?        00:04:05 ora_pmon_SDPNI01_I1
+oracle   25460     1  0 Jul16 ?        00:04:09 ora_pmon_SDPPA01_I1
+pansl1dbebd11:oracle >

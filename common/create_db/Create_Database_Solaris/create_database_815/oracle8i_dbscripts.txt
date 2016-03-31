@@ -1,0 +1,151 @@
+http://metalink.oracle.com/metalink/plsql/ml2_documents.showDocument?p_database_id=NOT&p_id=69085.1
+
+
+    
+Doc ID:        Note:69085.1
+Subject:       DBASSIST Script Overview
+Type:          BULLETIN
+Status:        PUBLISHED
+Content Type:  TEXT/PLAIN
+Creation Date: 16-MAR-1999
+Last Revision Date:  27-SEP-1999
+Language:      USAENG
+
+
+
+  PURPOSE
+   
+   The purpose of this note is to provide an overview of the scripts
+   created by DBASSIST.
+
+
+  SCOPE & APPLICATION
+   
+   This is to be used as a quick reference overview of scripts created by 
+   DBASSIST for troubleshooting database creation or modification.
+   
+
+  RELATED DOCUMENTS
+   
+   Oracle 8i Installation and Configuration Guide
+
+
+  OVERVIEW
+
+   Previous versions of Oracle had template files that could be used
+   to make scripts to create a database. With Oracle8i, these scripts
+   are no longer provided. A new wizard is provided for creating 
+   databases, and one of the options provided is to create scripts
+   that can be manually run and can be modified and subsequently
+   reused as required.
+
+   Here is a listing of the scripts created that would be run in order
+   by dbassist to create a database if all options were selected.
+   The first three scripts create a database, and the remaining ones
+   configure a database for use with additional options and/or cartridges.
+
+   A script to install the user/tables etc. for a particular option
+   could be generated and applied to an existing database. For example,
+   if a user migrated a database without Intermedia installed, and
+   wanted to configure the database for use with Intermedia, he could 
+   use DBASSIST to create the "ordinst.sh" and "SIDmedia.sh" and run
+   these against the database.
+
+   The default location where these scripts are placed is 
+   "$ORACLE_HOME/install", the same place where DBASSIST puts
+   log files when it creates a database.
+
+   
+  SCRIPTS
+
+  DBASSIST makes a master shell script called "sqlSID.sh" that will run
+  the following shell scripts in order to create a database.
+
+
+  1) Basic DB install
+     
+     a)SID8151.sh - spools to "crdb1.log"
+                    create system tablespace
+
+     b)SID8151.sh - spools to "crdb2.log"
+                    run catalog.sql
+                    build other tablespaces
+                    create rollback segments and bring online
+
+     c)SID8151.sh - spools to "crdb3.log"
+                    run catproc.sql
+                    run caths.sql(catalog for heterogeneous services)
+                    run pupbld.sql
+
+
+  2) Configure Advanced Replication
+     
+     a)SIDreplicate.sh - spools to "spoolrep.log"
+                         run catrep.sql for replication
+
+  3) Configure ORD (required for all cartidges) - not selected from
+     dbassist as an option, this shell gets generated when one of
+     the cartidges selected requires it.
+     
+     a)SIDordinst.sh   - spools to "ordinst.log"
+
+                         runs ordinst.sql which in turn runs...
+
+                         "ordisys.sql"   - create user ordisys and grant privs
+                         "ordiords.sql"  - which runs
+
+                           "ordpkg.sql" - create ordsys tables, views
+
+  4) Configure Intermedia
+     
+     a)SIDMedia.sh     - "ORDINST.SH" MUST BE RUN FIRST!
+                         spools to "iMediainst.log"
+                         runs "iminst.sql"
+                         assumes ordinst already run
+                         installs intermedia
+
+  5) Create Intermedia Text(Context) - does not require "ORDINST.SH"
+     
+     a)SIDdrsys.sh     - spools to "ctxtbls.log"
+                         create drsys tablespace for context
+
+     b)SIDcontext.sh   - spools to "spoolctx.log"
+                         create ctxsys user
+                         install context objects
+
+  7) Install JServer
+     
+     a)SIDjava.sh      - spools to "jvminst.log"
+                         installs java virtual machine, java classes into the DB,
+                         initialize sqlj, ORB initialization
+
+  8) Install Spacial
+     
+     a)SIDspacial1.sh  - "ORDINST.SQL" MUST BE RUN FIRST!
+                         spools to "mdinst.log"
+
+  9) Install Timeseries
+     
+     a)SIDtimeseries.sh- "ORDINST.SQL" MUST BE RUN FIRST!
+                         spools to "tsinst.log"
+                         install types, packages, tables for timeseries
+
+  10)Install visual Information Retrieval
+
+     a)SIDvirage.sh    - "ORDINST.SQL" MUST BE RUN FIRST!
+                         dependent on iMedia being install (enforced
+                         by dbassist)
+                         spools to "virage.log"
+                         install visual information retrieval
+
+  11)Install SQL*Plus help files
+     
+     a)SIDsqlplus.sh
+
+     b)SIDsqlplus1.sh
+
+     c)SIDsqlplus2.sh
+
+
+
+  SCRIPTS CREATED

@@ -1,0 +1,85 @@
+--------------------------
+Compile Program
+--------------------------
+javac ConnectionExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ConnectionExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
++-------------------------------+
+| USING Class.forName()         |
++-------------------------------+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@jeffreyh3:1521:CUSTDB
+  Connected as         -> scott
+  Creating Statement...
+  Opening ResultsSet...
+  Results...
+      User             -> SCOTT
+      Sysdate          -> 28-MAY-2003 21:40:00
+  Closing ResultSet...
+  Closing Statement...
+  Closing down all connections...
+
+
++-------------------------------+
+| USING jdbc.drivers PROPERTY   |
++-------------------------------+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@jeffreyh3:1521:CUSTDB
+  Connected as         -> scott
+  Creating Statement...
+  Opening ResultsSet...
+  Results...
+      User             -> SCOTT
+      Sysdate          -> 28-MAY-2003 21:40:05
+  Closing ResultSet...
+  Closing Statement...
+  Closing down all connections...
+
+
++-------------------------------+
+| USING DriverManager CLASS     |
++-------------------------------+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@jeffreyh3:1521:CUSTDB
+  Connected as         -> scott
+  Creating Statement...
+  Opening ResultsSet...
+  Results...
+      User             -> SCOTT
+      Sysdate          -> 28-MAY-2003 21:40:10
+  Closing ResultSet...
+  Closing Statement...
+  Closing down all connections...
+
+
++-------------------------------+
+| USING OCI Driver              |
++-------------------------------+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:oci8:@CUSTDB_JEFFREYH3
+  Connected as         -> scott
+  Creating Statement...
+  Opening ResultsSet...
+  Results...
+      User             -> SCOTT
+      Sysdate          -> 28-MAY-2003 21:40:16
+  Closing ResultSet...
+  Closing Statement...
+  Closing down all connections...
+  

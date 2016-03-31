@@ -1,0 +1,14 @@
+configure snapshot controlfile name to '/tmp/it.f';
+crosscheck controlfilecopy "/oracle/product/11.2.0.2/dbs/snapcf_P10AC.f";
+delete expired controlfilecopy "/oracle/product/11.2.0.2/dbs/snapcf_P10AC.f";
+delete noprompt obsolete;
+configure snapshot controlfile name to '/oracle/product/11.2.0.2/dbs/snapcf_P10AC.f';
+
+
+configure snapshot controlfile name to '/tmp/it.f';
+crosscheck controlfilecopy "/opt/drutt/msdpdb/app/msdp/product/11.2.0/db_1/dbs/snapcf_msdp.f";
+delete expired controlfilecopy "/opt/drutt/msdpdb/app/msdp/product/11.2.0/db_1/dbs/snapcf_msdp.f";
+delete noprompt obsolete;
+configure snapshot controlfile name to '/opt/drutt/msdpdb/app/msdp/product/11.2.0/db_1/dbs/snapcf_msdp.f';
+
+

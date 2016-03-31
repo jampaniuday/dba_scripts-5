@@ -1,0 +1,50 @@
+select a.tablespace_name,b.table_name,a.index_name,a.partition_name,a.num_rows,a.last_analyzed from 
+dba_ind_partitions a, dba_indexes b
+where a.tablespace_name like '&tbs' 
+and a.index_name=  b.index_name
+and a.index_owner = b.owner
+group by a.tablespace_name,b.table_name,a.index_name,a.partition_name,a.num_rows,a.last_analyzed
+order by 1,2;
+
+select a.tablespace_name,b.table_name,a.index_name,a.partition_name,a.num_rows,a.last_analyzed from 
+dba_ind_partitions a, dba_indexes b
+where a.tablespace_name like 'TAREAS_IND%' 
+and a.index_name=  b.index_name
+and a.index_owner = b.owner
+and a.num_rows > 0
+group by a.tablespace_name,b.table_name,a.index_name,a.partition_name,a.num_rows,a.last_analyzed
+order by 1,2;
+
+
+PROMPT 
+PROMPT +------------------------------------------------------------------------+
+PROMPT | Tablespace      : &tbs                                                 |
+PROMPT +------------------------------------------------------------------------+
+
+select OWNER SCHEMA,SEGMENT_NAME OBJECTS_NAME,SEGMENT_TYPE TIPO from dba_segments
+where TABLESPACE_NAME = '&TBS'
+GROUP BY SEGMENT_NAME,SEGMENT_TYPE,OWNER
+ORDER BY SEGMENT_TYPE,SEGMENT_NAME;
+
+
+select distinct 
+	a.owner,
+	a.segment_name,
+	a.segment_type,
+	b.file_name
+--	a.tablespace_name 
+from dba_extents a,dba_data_files b 
+where 
+	a.file_id=b.file_id
+AND	a.tablespace_name ='&tbs'
+order by a.owner,a.segment_type,a.segment_name;
+
+select distinct 
+	a.segment_name,
+	a.segment_type,
+	b.file_name
+from dba_extents a,dba_data_files b 
+where 
+	a.file_id=b.file_id
+AND	a.tablespace_name ='&tbs'
+order by a.segment_type,a.segment_name;

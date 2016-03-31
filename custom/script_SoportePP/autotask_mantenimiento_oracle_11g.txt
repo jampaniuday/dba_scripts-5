@@ -1,0 +1,23 @@
+select * from dba_autotask_schedule order by start_time;
+select * from dba_autotask_job_history order by job_start_time;
+
+
+•DBA_AUTOTASK_CLIENT
+•DBA_AUTOTASK_CLIENT_HISTORY
+•DBA_AUTOTASK_CLIENT_JOB
+•DBA_AUTOTASK_JOB_HISTORY
+•DBA_AUTOTASK_OPERATION
+•DBA_AUTOTASK_SCHEDULE
+•DBA_AUTOTASK_TASK
+•DBA_AUTOTASK_WINDOW_CLIENTS
+•DBA_AUTOTASK_WINDOW_HISTORY
+
+
+
+ALTER DATABASE DATAFILE '/altamira_bd/CRPPCS/dat_001/PPCS_mecoorig_256k_dat_02.dbf' RESIZE 28000M; 2 
+ALTER DATABASE DATAFILE '/altamira_bd/CRPPCS/dat_001/PPCS_mecoorig_256k_dat_03.dbf' RESIZE 26000M; 4
+ 
+ALTER DATABASE DATAFILE '/altamira_bd/CRPPCS/dat_001/PPCS_mulsaldet_4096k_dat_02.dbf' RESIZE 3072M; 6
+
+ALTER DATABASE DATAFILE '/altamira_bd/CRPPCS/dat_001/PPCS_mulsaldet_4096k_dat_01.dbf' RESIZE 3072M; 6
+

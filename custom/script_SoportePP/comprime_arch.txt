@@ -1,0 +1,16 @@
+set -x
+DIR=/altamira_bd/CRPATCH/arch
+export DIR
+filesarch=`ls -ltr $DIR/*.log |wc -l`
+if [ $filesarch -le 1 ] ;
+ then
+   echo "No hay que depurar"
+   exit
+fi
+xarch=`expr $filesarch - 1`
+ls -ltr $DIR/*.log |head -$xarch |awk '{print "gzip -1  "$9}'|sh
+ls -ltr $DIR/*.log |awk '{print $9}' > /tmp
+
+
+
+ksh /altamira_bd/CRPATCH/arch/comprime.sh > /altamira_bd/CRPATCH/arch/comprime.lst

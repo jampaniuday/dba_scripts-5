@@ -1,0 +1,172 @@
+﻿/u01/app/11.2.0.3/grid/bin/crsctl stat res -t
+
+/u01/app/11.2.0.3/grid/bin/srvctl status service -d adm
+
+[oracle@bat1bebdadm2 ~]$ /u01/app/11.2.0.3/grid/bin/srvctl status service -d adm
+El servicio cr se está ejecutando en las instancias ADM1
+El servicio ni se está ejecutando en las instancias ADM2
+El servicio pa se está ejecutando en las instancias ADM1
+
+/u01/app/11.2.0.3/grid/bin/srvctl relocate service -d adm -s ni -i ADM1 -t ADM2
+
+/u01/app/11.2.0.3/grid/bin/srvctl relocate service -d adm -s gt -i ADM1 -t ADM2
+
+/u01/app/11.2.0.3/grid/bin/srvctl relocate service -d adm -s cr -i ADM2 -t ADM1
+/u01/app/11.2.0.3/grid/bin/srvctl relocate service -d adm -s pa -i ADM2 -t ADM1
+
+/u01/app/11.2.0.3/grid/bin/crsctl check crs
+
+/u01/app/11.2.0.3/grid/bin/crsctl stop crs
+/u01/app/11.2.0.3/grid/bin/crsctl disable crs
+
+srvctl config scan
+
+lsnrctl service
+
+
+/u01/app/oracle/diag/rdbms/adm/ADM2/trace
+
+ps -eaf|grep crs 
+
+
+/app1/softw/grid/11.2.0/bin/crsctl check crs
+
+/app1/softw/grid/11.2.0/bin/crsctl stat res -t
+
+--------------------------------------------------------------------------------
+NAME           TARGET  STATE        SERVER                   STATE_DETAILS       
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.DATA.dg
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.DGADM01.dg
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.DGADM02.dg
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.DGADM03.dg
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.FRA.dg
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.VOTOCRNI.dg
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.asm
+               ONLINE  ONLINE       pmdbsni1                 Started             
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.gsd
+               OFFLINE OFFLINE      pmdbsni1                                     
+               OFFLINE OFFLINE      pmdbsni2                                     
+ora.net1.network
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.ons
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+ora.registry.acfs
+               ONLINE  ONLINE       pmdbsni1                                     
+               ONLINE  ONLINE       pmdbsni2                                     
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.LISTENER_SCAN1.lsnr
+      1        OFFLINE OFFLINE                                                   
+ora.cvu
+      1        ONLINE  ONLINE       pmdbsni1                                     
+ora.oc4j
+      1        ONLINE  ONLINE       pmdbsni1                                     
+ora.pmdbsni1.vip
+      1        ONLINE  ONLINE       pmdbsni1                                     
+ora.pmdbsni2.vip
+      1        ONLINE  ONLINE       pmdbsni2                                     
+ora.pmni.db
+      1        ONLINE  ONLINE       pmdbsni1                 Open                
+      2        ONLINE  ONLINE       pmdbsni2                 Open                
+ora.scan1.vip
+      1        OFFLINE OFFLINE                                                  
+
+-----------------
+
+srvctl stop database -d pmni
+
+srvctl start instance -d ADM -i ADM2
+
+srvctl stop instance -d pmni -i pmni2
+
+srvctl stop asm -n pmdbsni1
+
+srvctl stop asm -n pmdbsni2
+
+srvctl stop nodeapps -n pmdbsni1
+
+srvctl stop nodeapps -n pmdbsni2
+
+--- root dos nodos
+/app1/softw/grid/11.2.0/bin/crsctl stop crs
+
+
+---------------
+srvctl start listener -n pmdbsni1
+srvctl start listener -n pmdbsni2
+-------------
+
+--- root dos nodos
+/app1/softw/grid/11.2.0/bin/crsctl stop crs
+
+
+srvctl start nodeapps -n pmdbsni1
+
+srvctl start nodeapps -n pmdbsni2
+
+srvctl start asm -n pmdbsni1
+
+srvctl start asm -n pmdbsni2
+
+srvctl start instance -d pmni -i pmni1
+
+srvctl start instance -d pmni -i pmni2
+
+srvctl start database -d pmni
+
+
+/app2/diag/rdbms/pmpa/PMPA2/trace
+
+/app2/diag/rdbms/pmpa/PMPA1/trace
+
+
+/app2/diag/rdbms/pmcr/PMCR2/trace
+
+/app2/diag/rdbms/pmcr/PMCR1/trace
+
+
+/app2/diag/rdbms/pmni/PMNI1/trace
+
+/app2/diag/rdbms/pmni/PMNI2/trace
+
+
+/app2/diag/rdbms/pmsv/PMSV1/trace
+
+/app2/diag/rdbms/pmsv/PMSV2/trace
+
+
+
+/app2/diag/rdbms/pmgt/PMGT1/trace
+
+/app2/diag/rdbms/pmgt/PMGT2/trace
+
+--- alert del cluster
+
+/app1/softw/grid/11.2.0/log/pmdbssv1/crsd
+
+
+
+
+select name, type, total_mb, free_mb, required_mirror_free_mb, usable_file_mb FROM V$ASM_DISKGROUP;

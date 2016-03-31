@@ -1,0 +1,36 @@
+--------------------------
+Compile Program
+--------------------------
+javac GetServiceByName.java
+
+
+--------------------------
+Run Program
+--------------------------
+java GetServiceByName [tcpipService tcpipClass]
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+% java GetServiceByName syslog udp
+
++------------------------------------------+
+| Internal testing of GetServiceByName !!! |
++------------------------------------------+
+
+USER TEST (optional)
+--------------------
+getServiceByName("syslog", "udp")  returned port 514
+
+TEST #1 (test should pass)
+--------------------------
+getServiceByName("ntp", "udp") PASSED
+
+TEST #2 (test should fail)
+--------------------------
+getServiceByName() error test  PASSED
+
+

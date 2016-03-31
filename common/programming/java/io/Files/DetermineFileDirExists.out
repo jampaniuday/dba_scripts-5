@@ -1,0 +1,23 @@
+--------------------------
+Compile Program
+--------------------------
+javac DetermineFileDirExists.java
+
+
+--------------------------
+Run Program
+--------------------------
+java DetermineFileDirExists
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+Does File/Dir README_InputFile.txt exist? (true)
+
+
+Does File/Dir BlaBlaBla.txt exist? (false)
+

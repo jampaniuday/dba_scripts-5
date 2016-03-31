@@ -1,0 +1,44 @@
+OWNER                          INDEX_NAME                     STATUS   LAST_DDL_TIME
+------------------------------ ------------------------------ -------- -------------------
+PPGA                           PK_HACTABOPRE                  VALID    25/02/2012 23:17:09
+PPGA                           PPGA_HACTABOPRE_I01            VALID    25/02/2012 23:17:53
+
+OWNER                          INDEX_NAME                     STATUS   LAST_DDL_TIME
+------------------------------ ------------------------------ -------- -------------------
+PPGA                           PPGA_HRECARGAS_I01             VALID    25/02/2012 23:18:10
+PPGA                           PK_HRECARGAS                   VALID    11/05/2012 00:21:53
+
+
+OWNER                          INDEX_NAME                     STATUS
+------------------------------ ------------------------------ --------
+LAST_DDL_TIME
+-------------------
+PPGA                           PPGA_HRECARGAS_I01             VALID
+21/08/2013 17:07:10
+
+PPGA                           PK_HRECARGAS                   VALID
+21/08/2013 17:10:26
+
+OWNER                          INDEX_NAME                     STATUS
+------------------------------ ------------------------------ --------
+LAST_DDL_TIME
+-------------------
+PPGA                           PK_HACTABOPRE                  VALID
+21/08/2013 16:46:09
+
+PPGA                           PPGA_HACTABOPRE_I01            VALID
+21/08/2013 16:55:43
+
+
+
+
+alter index ppga.PK_HACTABOPRE rebuild online;
+alter index ppga.PPGA_HACTABOPRE_I01 rebuild online;
+alter index ppga.PPGA_HRECARGAS_I01 rebuild online;
+alter index ppga.PK_HRECARGAS rebuild online;
+
+exec dbms_stats.gather_table_stats('PPGA', 'PPGA_HACTABOPRE', CASCADE => TRUE, ESTIMATE_PERCENT => 10,degree => 4);
+exec dbms_stats.gather_table_stats('PPGA', 'PPGA_HRECARGAS', CASCADE => TRUE, ESTIMATE_PERCENT => 10,degree => 4);
+exec dbms_stats.gather_table_stats('PPGA', 'PPGA_HISTORIFACT', CASCADE => TRUE, ESTIMATE_PERCENT => 100,degree => 4);
+
+

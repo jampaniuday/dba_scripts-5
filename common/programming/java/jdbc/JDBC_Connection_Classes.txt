@@ -1,0 +1,39 @@
+The JDBC Classes for Creating a Connection
+==========================================
+
+JDBC uses on class (java.sql.DriverManager) and two interfaces 
+(java.sql.Driver and java.sql.Connection) for connecting to a database. The 
+following note provides a brief introduction to these three java 
+interface/classes:
+
+
+java.sql.Driver
+---------------
+
+    Unless you are writing your own custom JDBC implementation, you should 
+    never have to deal with this class from you application. It simply gives
+    JDBC a launching point for database connectivity by responding to
+    DriverManager connection requests and providing information about the
+    implementation in question.
+
+
+java.sql.DriverManager
+----------------------
+
+    Unlike most other parts of JDBC, DriverManager is a class instead of an
+    interface. Its main responsibility is to maintain a list of Driver
+    implementations and present an application with one that matches a
+    requested URL. The DriverManager provides registerDriver() and
+    deregisterDriver() methods, which allow a Driver implementation to
+    register itself with the DriverManager or remove itself from the list. You
+    can get an enumeration of registered drivers through the getDrivers()
+    method.
+
+
+java.sql.Connection
+-------------------
+
+    The Connection class represents a single logical database connection. In
+    other words, you use the Connection class for sending a series of SQL
+    statements to the database and managing the commiting or aborting (rollback)
+    of those statements.

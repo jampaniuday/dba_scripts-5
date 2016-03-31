@@ -1,0 +1,143 @@
+
+
+-----------------------------------------
+----------------------------------------
+--------------------- 4k --------------------------
+-----------------------------------
+select tablespace_name, file_name,
+ceil( (nvl(hwm,1)*4096)/1024/1024 ) smallest,
+ceil( blocks*4096/1024/1024) currsize,
+ceil( blocks*4096/1024/1024) -
+ceil( (nvl(hwm,1)*4096)/1024/1024 ) savings
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b
+where a.file_id = b.file_id(+)
+order by 1;
+
+
+-- con un libre del 30%
+
+select file_name,tablespace_name, 
+ceil( (nvl(hwm,1)*4096)/1024/1024 ) smallest,
+ceil( blocks*4096/1024/1024) currsize,
+ceil( blocks*4096/1024/1024) -
+ceil( (nvl(hwm,1)*4096)/1024/1024 ) savings,
+ceil(ceil( (nvl(hwm,1)*4096)/1024/1024 ) * 1.3) safe_small_30,
+case when ceil( blocks*4096/1024/1024) < ceil(ceil( (nvl(hwm,1)*4096)/1024/1024 ) * 1.3) then '+' else'-' end sube_baja
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b
+where a.file_id = b.file_id(+)
+and a.tablespace_name not in ('TEMP','UNDO','SYSTEM','SYSAUX','UNDOTBS1','UNDOTBS2')
+order by 5;
+
+
+select file_name,tablespace_name, ceil( (nvl(hwm,1)*4096)/1024/1024 ) smallest, ceil( blocks*4096/1024/1024) currsize, ceil( blocks*4096/1024/1024) -ceil( (nvl(hwm,1)*4096)/1024/1024 ) savings, ceil(ceil( (nvl(hwm,1)*4096)/1024/1024 ) * 1.3) safe_small_30, case when ceil( blocks*4096/1024/1024) < ceil(ceil( (nvl(hwm,1)*4096)/1024/1024 ) * 1.3) then '+' else'-' end sube_baja from dba_data_files a, ( select file_id, max(block_id+blocks-1) hwm from dba_extents group by file_id ) b where a.file_id = b.file_id(+) and a.tablespace_name not in ('TEMP','UNDO','SYSTEM','SYSAUX') order by 5;
+
+
+-----------------------------------------
+----------------------------------------
+--------------------- 8k --------------------------
+-----------------------------------
+
+select tablespace_name, 
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) smallest,
+ceil( blocks*8192/1024/1024) currsize,
+ceil( blocks*8192/1024/1024) -
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) savings,file_name
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b
+where a.file_id = b.file_id(+) 
+order by 1;
+
+
+-- con un libre del 30%
+
+select file_name,tablespace_name, 
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) smallest,
+ceil( blocks*8192/1024/1024) currsize,
+ceil( blocks*8192/1024/1024) -
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) savings,
+ceil(ceil( (nvl(hwm,1)*8192)/1024/1024 ) * 1.3) safe_small_30,
+case when ceil( blocks*8192/1024/1024) < ceil(ceil( (nvl(hwm,1)*8192)/1024/1024 ) * 1.3) then '+' else'-' end sube_baja
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b
+where a.file_id = b.file_id(+)
+and a.tablespace_name not in ('TEMP','UNDO','SYSTEM','SYSAUX','UNDOTBS1','UNDOTBS2')
+order by 5
+
+
+--- validando que el tablespace total no sea menor del 30 %
+
+col file_name format a65
+col tablespace_name format a23
+
+
+select file_name,a.tablespace_name, 
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) smallest,
+ceil( blocks*8192/1024/1024) currsize,
+ceil( blocks*8192/1024/1024) -
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) savings,
+ceil(ceil( (nvl(hwm,1)*8192)/1024/1024 ) * 1.3) safe_small_30,
+case when ceil( blocks*8192/1024/1024) < ceil(ceil( (nvl(hwm,1)*8192)/1024/1024 ) * 1.3) then '+' else'-' end sube_baja
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b,
+(select  a.tablespace_name,
+       round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_Free
+from  ( select  f.tablespace_name,
+               sum(f.bytes) bytes_alloc,
+               sum(decode(f.autoextensible, 'YES',f.maxbytes,'NO', f.bytes)) maxbytes
+        from dba_data_files f
+        group by tablespace_name) a,
+      ( select  f.tablespace_name,
+               sum(f.bytes)  bytes_free
+        from dba_free_space f
+        group by tablespace_name) b
+where a.tablespace_name = b.tablespace_name (+)
+and round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) > 30
+) c
+where a.file_id = b.file_id(+)
+and a.tablespace_name not in ('TEMP','UNDO','SYSTEM','SYSAUX','UNDOTBS1','UNDOTBS2')
+and a.tablespace_name = c.tablespace_name 
+order by 5
+
+
+
+
+
+select table_name, tablespace_name
+from dba_tables where tablespace_name in ('ACTABOPRE_DAT01','ACTABOPRE_DAT05','ACTABOPRE_DAT07','CONTROL_64K_DAT','DETACT_64K_DAT','RECARGAS_DAT05','RECARGAS_DAT15','TAREAS_64K_DAT','TAREAS_64K_DAT','TAREAS_IND16','TAREAS_IND17','TAREAS_IND18','TAREAS_IND19','USERS')
+union all
+select index_name, tablespace_name
+from dba_indexes where tablespace_name in ('ACTABOPRE_DAT01','ACTABOPRE_DAT05','ACTABOPRE_DAT07','CONTROL_64K_DAT','DETACT_64K_DAT','RECARGAS_DAT05','RECARGAS_DAT15','TAREAS_64K_DAT','TAREAS_64K_DAT','TAREAS_IND16','TAREAS_IND17','TAREAS_IND18','TAREAS_IND19','USERS')
+union all 
+select table_name, tablespace_name
+from dba_tab_partitions where tablespace_name in ('ACTABOPRE_DAT01','ACTABOPRE_DAT05','ACTABOPRE_DAT07','CONTROL_64K_DAT','DETACT_64K_DAT','RECARGAS_DAT05','RECARGAS_DAT15','TAREAS_64K_DAT','TAREAS_64K_DAT','TAREAS_IND16','TAREAS_IND17','TAREAS_IND18','TAREAS_IND19','USERS')
+group by table_name,tablespace_name
+union all
+select index_name,tablespace_name
+from dba_ind_partitions  where tablespace_name in ('ACTABOPRE_DAT01','ACTABOPRE_DAT05','ACTABOPRE_DAT07','CONTROL_64K_DAT','DETACT_64K_DAT','RECARGAS_DAT05','RECARGAS_DAT15','TAREAS_64K_DAT','TAREAS_64K_DAT','TAREAS_IND16','TAREAS_IND17','TAREAS_IND18','TAREAS_IND19','USERS')
+group by index_name, tablespace_name
+order by 2,1
+
+-------------- E/
+
+SELECT  FILE_NAME , TABLESPACE_NAME, STATUS, SUM(BYTES/1024/1024) AS TAM_INICIAL, CEIL((NVL(HWM,1)*&&BLKSIZE)/1024/1024)  || 'M;' AS TAM_FINAL
+FROM DBA_DATA_FILES A,
+( SELECT FILE_ID, MAX(BLOCK_ID+BLOCKS-1) HWM
+FROM DBA_EXTENTS
+GROUP BY FILE_ID ) B
+WHERE A.FILE_ID = B.FILE_ID(+) and A.TABLESPACE_NAME NOT IN ('SYS','SYSTEM','SYSAUX') 
+and A.TABLESPACE_NAME NOT LIKE 'UNDO%' 
+AND CEIL( BLOCKS*&&BLKSIZE/1024/1024) - CEIL((NVL(HWM,1)*&&BLKSIZE)/1024/1024) > 0
+GROUP BY FILE_NAME , TABLESPACE_NAME, STATUS, CEIL((NVL(HWM,1)*&&BLKSIZE)/1024/1024);
+

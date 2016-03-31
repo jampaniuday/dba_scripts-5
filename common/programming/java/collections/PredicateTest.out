@@ -1,0 +1,20 @@
+--------------------------
+Compile Program
+--------------------------
+javac PredicateTest.java
+
+
+--------------------------
+Run Program
+--------------------------
+java PredicateTest
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Hunter, Alex
+Hunter, Melody
+Hunter, Jeff

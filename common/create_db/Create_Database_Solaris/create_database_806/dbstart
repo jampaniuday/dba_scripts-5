@@ -1,0 +1,175 @@
+:
+#
+# $Header: dbstart.sh.pp 1.1 95/02/22 14:37:29 rdhoopar Osd<unix> $ dbstart.sh.pp Copyr (c) 1991 Oracle
+#
+
+###################################
+# 
+# usage: dbstart
+#
+# This script is used to start ORACLE from /etc/rc(.local).
+# It should ONLY be executed as part of the system boot procedure.
+#
+#####################################
+
+ORATAB=/var/opt/oracle/oratab
+
+trap 'exit' 1 2 3
+case $ORACLE_TRACE in
+    T)	set -x ;;
+esac
+    
+# Set path if path not set (if called from /etc/rc)
+case $PATH in
+    "")	PATH=/bin:/usr/bin:/etc
+	export PATH ;;
+esac
+
+#
+# Loop for every entry in oratab file and and try to start
+# that ORACLE
+#
+
+cat $ORATAB | while read LINE
+do
+    case $LINE in
+	\#*)		;;	#comment-line in oratab
+	*)
+#       Proceed only if third field is 'Y'.
+        if [ "`echo $LINE | awk -F: '{print $3}' -`" = "Y" ] ; then
+            ORACLE_SID=`echo $LINE | awk -F: '{print $1}' -`
+	    if [ "$ORACLE_SID" = '*' ] ; then
+		ORACLE_SID=""
+	    fi
+#           Called programs use same database ID
+            export ORACLE_SID
+            ORACLE_HOME=`echo $LINE | awk -F: '{print $2}' -`
+#           Called scripts use same home directory
+            export ORACLE_HOME
+#           Put $ORACLE_HOME/bin into PATH and export.
+            PATH=$ORACLE_HOME/bin:/bin:/usr/bin:/etc ; export PATH
+
+            PFILE=${ORACLE_HOME}/dbs/init${ORACLE_SID}.ora
+
+#	Figure out if this is a V5, V6, or V7 database. Do we really need V5?
+	    if [ -f $ORACLE_HOME/bin/sqldba ] ; then
+		VERSION=`$ORACLE_HOME/bin/sqldba command=exit | awk '
+	                /SQL\*DBA: (Release|Version)/ {split($3, V, ".") ;
+			print V[1]}'`
+	    else
+		if test -f $ORACLE_HOME/bin/svrmgrl; then
+			VERSION="7.3"  
+
+	    	else
+			VERSION="5"
+	    	fi
+	    fi
+
+	    if test  -f $ORACLE_HOME/dbs/sgadef${ORACLE_SID}.dbf  -o \
+		     -f $ORACLE_HOME/dbs/sgadef${ORACLE_SID}.ora
+	    then
+		STATUS="-1"
+	    else
+		STATUS=1
+	    fi
+	    case $STATUS in
+                1)  if [ -f $PFILE ] ; then
+			case $VERSION in
+			    5)  ior w pfile=$PFILE
+				;;
+
+			    6)  sqldba command=startup
+				;;
+
+			    7)  sqldba <<EOF
+connect internal
+startup
+EOF
+				;;
+
+			   7.3)	svrmgrl <<EOF
+connect internal
+startup
+EOF
+				;;
+			esac
+
+                        if test $? -eq 0 ; then
+			    echo ""
+		            echo "Database \"${ORACLE_SID}\" warm started."
+			else
+			    echo ""
+                            echo "Database \"${ORACLE_SID}\" NOT started."
+		        fi
+                    else
+			echo ""
+                        echo "Can't find init file for Database \"${ORACLE_SID}\"."
+                        echo "Database \"${ORACLE_SID}\" NOT started."
+		    fi
+                    ;;
+
+		-1) echo ""
+		    echo "Database \"${ORACLE_SID}\" possibly left running when system went down (system crash?)."
+                    echo "Notify Database Administrator."
+		    case $VERSION in
+			5)  ior c
+			    ;;
+
+			6)  sqldba "command=shutdown abort"
+			    ;;
+
+			7)  sqldba <<EOF
+connect internal
+shutdown abort
+EOF
+			    ;;
+
+		      7.3)  svrmgrl <<EOF
+connect internal
+shutdown abort
+EOF
+			    ;;
+		    esac
+
+                    if test $? -eq 0 ; then
+			if [ -f $PFILE ] ; then
+			    case $VERSION in
+				5)  ior w pfile=$PFILE
+				    ;;
+
+				6)  sqldba command=startup
+				    ;;
+
+				7)  sqldba <<EOF
+connect internal
+startup
+EOF
+				    ;;
+			      7.3)  svrmgrl <<EOF
+connect internal
+startup
+EOF
+				    ;;
+			    esac
+                            if test $? -eq 0 ; then
+				echo ""
+				echo "Database \"${ORACLE_SID}\" warm started."
+			    else
+				echo ""
+				echo "Database \"${ORACLE_SID}\" NOT started."
+			    fi
+			else
+			    echo ""
+			    echo "Can't find init file for Database \"${ORACLE_SID}\"."
+			    echo "Database \"${ORACLE_SID}\" NOT started."
+			fi
+		    else
+			echo "Database \"${ORACLE_SID}\" NOT started."
+		    fi
+		    ;;
+            esac
+        fi
+	;;
+    esac
+done
+

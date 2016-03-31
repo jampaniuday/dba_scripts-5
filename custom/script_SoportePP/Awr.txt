@@ -1,0 +1,56 @@
+SET linesize 32767;
+SET pagesize 15000;
+
+Select *
+from table(dbms_workload_repository.awr_report_html(
+         3237785178,
+         1,
+         23091,
+         23092,
+         0))
+
+
+17
+23089
+23090
+23091
+23092
+
+18
+
+23113
+23114
+23115
+23116
+
+19
+
+23137
+23138
+23139
+23140
+
+
+
+
+
+
+
+
+
+
+
+base
+instancia
+inicio
+fin
+
+
+SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+TO_CHAR(TO_DATE(last_call_et, 'SSSSSSS'), 'HH24:MI:SS') TIEMPO,
+SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, STATUS, OSUSER, MACHINE, v$session.PROGRAM, MODULE 
+FROM v$session, v$process 
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'ACTIVE')) 
+AND v$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and v$session.USERNAME <> 'SYS'
+ORDER BY last_call_et ASC;

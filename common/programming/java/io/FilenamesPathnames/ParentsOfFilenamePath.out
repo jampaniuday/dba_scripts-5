@@ -1,0 +1,41 @@
+--------------------------
+Compile Program
+--------------------------
+javac ParentsOfFilenamePath.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ParentsOfFilenamePath
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+Original Filename   = README_InputFile.txt
+Parent Path         = null
+Parent Directory    = null
+
+Original Filename   = \u01\app\oracle\README_InputFile.txt
+Parent Path         = \u01\app\oracle
+Parent Directory    = \u01\app\oracle
+
+Original Filename   = \u01\app\oracle
+Parent Path         = \u01\app
+Parent Directory    = \u01\app
+
+Original Filename   = \u01\app
+Parent Path         = \u01
+Parent Directory    = \u01
+
+Original Filename   = \u01
+Parent Path         = \
+Parent Directory    = \
+
+Original Filename   = \
+Parent Path         = null
+Parent Directory    = null

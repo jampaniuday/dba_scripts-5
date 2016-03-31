@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac StringReverseWord.java
+
+
+--------------------------
+Run Program
+--------------------------
+java StringReverseWord
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Original string: Alex Michael Hunter
+Reverse word string: Hunter Michael Alex

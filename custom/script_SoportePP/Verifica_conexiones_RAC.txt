@@ -1,0 +1,263 @@
+select username,machine,status, inst_id,count(1) from gv$session where type != 'BACKGROUND' group by username,machine,status,inst_id order by 1;
+
+select username,machine,program,module, count(1) from gv$session where type != 'BACKGROUND' group by username,machine,program,module order by 1;
+
+select username,machine,status,inst_id,service_name,program, count(1) from gv$session where type != 'BACKGROUND' group by username,machine,status,inst_id, service_name,program order by 6,4,5;
+
+select machine,osuser, count(1) from gv$session group by machine,osuser order by 1,2;
+
+select username,count(1) from gv$session where type != 'BACKGROUND' group by username order by 1
+
+select program, count(1) from gv$session group by program order by 1;
+
+select inst_id,sid,status,last_call_et, machine,program from gv$session where machine ='telcasv2.me.inet' order by 3,4
+
+select 'alter system kill session '''||sid||','||serial#||''' immediate;' from v$session where osuser='xymon';
+
+-- Tiempo de una sesion, conectado e inactividad.
+
+SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+TO_CHAR(TO_DATE(last_call_et, 'SSSSSSS'), 'HH24:MI:SS') TIEMPO,
+SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, STATUS, OSUSER, MACHINE, v$session.PROGRAM, MODULE 
+FROM v$session, v$process 
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'ACTIVE')) 
+AND v$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and v$session.USERNAME <> 'SYS'
+ORDER BY last_call_et ASC;
+
+
+--- timpo y actividad por spid
+
+SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+TO_CHAR(TO_DATE(last_call_et, 'SSSSSSS'), 'HH24:MI:SS') TIEMPO,
+SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, STATUS, OSUSER, MACHINE, v$session.PROGRAM, MODULE 
+FROM v$session, v$process 
+WHERE ((v$session.paddr = v$process.addr) AND (v$process.spid = &a)) 
+ORDER BY last_call_et ASC;
+
+
+--- con query
+SELECT DECODE(TRUNC(SYSDATE - v$session.LOGON_TIME), 0, NULL, TRUNC(SYSDATE - v$session.LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-v$session.LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+TO_CHAR(TO_DATE(v$session.last_call_et, 'SSSSSSS'), 'HH24:MI:SS') TIEMPO,
+v$session.SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, v$session.STATUS, v$session.OSUSER, v$session.MACHINE, v$session.PROGRAM, v$session.MODULE ,
+sq.sql_text
+FROM v$session, v$process ,V$SQL SQ
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'ACTIVE')) 
+AND v$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and v$session.USERNAME <> 'SYS'
+and v$session.SQL_ADDRESS=sq.ADDRESS
+ORDER BY v$session.last_call_et ASC;
+
+--- con query por spid
+
+
+SELECT DECODE(TRUNC(SYSDATE - v$session.LOGON_TIME), 0, NULL, TRUNC(SYSDATE - v$session.LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-v$session.LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+TO_CHAR(TO_DATE(v$session.last_call_et, 'SSSSSSS'), 'HH24:MI:SS') TIEMPO,
+v$session.SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, v$session.STATUS, v$session.OSUSER, v$session.MACHINE, v$session.PROGRAM, v$session.MODULE ,
+sq.sql_text
+FROM v$session, v$process ,V$SQL SQ
+WHERE ((v$session.paddr = v$process.addr) AND (v$process.spid = &a)) 
+and v$session.SQL_ADDRESS=sq.ADDRESS
+ORDER BY v$session.last_call_et ASC;
+
+
+--- con query para explain.
+
+SELECT 
+v$session.SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, v$session.STATUS, v$session.OSUSER, v$session.MACHINE, v$session.PROGRAM, v$session.MODULE ,
+sq.sql_text, sq.address, sq.hash_value,sq.child_number
+FROM v$session, v$process ,V$SQL SQ
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'ACTIVE')) 
+AND v$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and v$session.USERNAME <> 'SYS'
+and v$session.SQL_ADDRESS=sq.ADDRESS
+ORDER BY v$session.last_call_et ASC;
+
+
+--- con query rapido
+SELECT 
+v$session.SID, v$session.SERIAL#,  v$session.USERNAME, v$session.STATUS, v$session.OSUSER, v$session.MACHINE, v$session.PROGRAM, v$session.MODULE ,
+sq.sql_text,sql_address
+FROM v$session, V$SQL SQ
+WHERE v$session.sid =2098
+and v$session.serial#=50543
+and v$session.SQL_ADDRESS=sq.ADDRESS(+)
+
+
+alter user cima account lock;
+
+alter user prepago account lock;
+
+alter user app_tsaldo account lock; (ppga)
+
+alter user app_vantive account lock;
+
+
+select * from gv$session where upper(program) like '%TELCAS%'
+
+select * from gv$session where upper(username) = 'SCPSMS'
+
+SELECT UTL_INADDR.get_host_address('sun25k106') FROM dual;
+
+select sid,program, logon_time, username,audsid
+from v$session 
+where sid=(select sid from v$mystat where rownum=1)  
+and audsid = (select userenv ('sessionid') from dual)
+
+select sid,program, logon_time, username
+   into v_sid,  v_program , v_logon_timestamp,v_username
+   from v$session 
+   where sid=(select sid from v$mystat where rownum=1)  
+   and audsid = (select userenv ('sessionid') from dual);
+
+
+select program,module,username,count(1) from gv$session group by program,module, username order by 3;
+
+
+select * from dba_users;
+
+
+SELECT s.inst_id,
+       s.sid,
+       s.serial#,
+       p.spid,
+       s.username,
+       s.program
+FROM   gv$session s
+       JOIN gv$process p ON p.addr = s.paddr AND p.inst_id = s.inst_id
+WHERE  s.type != 'BACKGROUND';
+
+---select usuarios iddle 
+select username,machine,osuser, sid, serial#  FROM V$SESSION
+where status = 'INACTIVE' AND USERNAME IS NOT NULL AND type != 'BACKGROUND' AND USERNAME not in ('SYS','APP_ABOPREP')
+and machine like 'telcas%'
+ORDER BY 1,2
+
+--- select usuarios iddle tiempo
+
+SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') LOGON, SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, STATUS, OSUSER, MACHINE, v$session.PROGRAM, MODULE FROM v$session, v$process 
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'INACTIVE')) 
+ORDER BY logon_time ASC;
+
+---select mata usuarios iddle
+SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') LOGON, SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, STATUS, OSUSER, MACHINE, v$session.PROGRAM, MODULE, 'alter system kill session ' || '''' || SID || ', ' || v$session.serial# || '''' || ' immediate;' kill_sql FROM v$session, v$process 
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'SNIPED')) 
+ORDER BY logon_time ASC;
+
+--- select usuarios iddle tiempo para el kill
+
+SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') LOGON, 
+TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400) segundos,SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, STATUS, OSUSER, MACHINE, v$session.PROGRAM, MODULE 
+FROM v$session, v$process 
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'INACTIVE')) 
+AND v$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+---AND v$session.USERNAME = 'EPPGA' and machine = 'lnxni002.tcn.com.ni'
+ORDER BY logon_time ASC;
+
+---------------------
+Select final
+---------------------
+
+SELECT last_call_et,SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, STATUS, OSUSER, MACHINE, v$session.PROGRAM, MODULE 
+FROM v$session, v$process 
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'INACTIVE')) 
+AND v$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and machine like 'telca%' and last_call_et > 10800
+ORDER BY last_call_et ASC;
+
+and machine not like 'asv%' and machine not like 'cam%' and machine not like 'sud%' and v$session.username='EPPGA' and last_call_et > 10800
+SET SERVEROUTPUT ON SIZE 1000000
+
+declare
+cursor c1 is
+SELECT SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, STATUS, OSUSER, MACHINE, v$session.PROGRAM, MODULE 
+FROM v$session, v$process 
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'INACTIVE')) 
+AND v$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and machine like 'telca%' and last_call_et > 10800
+ORDER BY last_call_et ASC;
+begin
+	for tmp in c1 loop
+		begin
+		--DBMS_OUTPUT.put_line('ALTER SYSTEM KILL SESSION ''' ||tmp.sid||','||tmp.serial#||''' immediate');
+		EXECUTE IMMEDIATE 'ALTER SYSTEM KILL SESSION ''' ||tmp.sid||','||tmp.serial#||''' immediate';
+		exception when others then
+			null;
+		end;
+	end loop;
+end;
+/
+
+ALTER SYSTEM KILL SESSION '2152,183' immediate;
+
+ALTER DATABASE DATAFILE '/oraundo01/opgenic/oradata/undo/undotbs102.dbf'  RESIZE 3100M;
+
+
+select * from dba_data_files where TABLESPACE_NAME = 'UNDOTBS1';
+
+select * from dba_data_files where TABLESPACE_NAME = 'MULSALDET_4096K_DAT';
+
+select * from dba_data_files where TABLESPACE_NAME = 'MULSALDET_256K_IND';
+
+
+/ora193/ppcsnic
+
+
+ALTER TABLESPACE MULSALDET_4096K_DAT ADD DATAFILE '/ora193/ppcsnic/oradata/datafiles/mulsaldet_4096K_dat042.dbf' size 1200M;
+
+
+ALTER TABLESPACE MULSALDET_256K_IND ADD DATAFILE '/ora193/ppcsnic/oradata/indexfiles/mulsaldet_256k_ind32.dbf' size 1100M;
+
+
+
+--- agrega otro datafile con autoextend
+ALTER TABLESPACE UNDOTBS1 ADD DATAFILE '/ora142/ppcspan/oradata/undo/undotbs106.dbf' size 4000M;
+
+ALTER DATABASE DATAFILE '/ora196/ppcsnic/oradata/undo/undotbs103.dbf'  RESIZE 4500M;
+
+ALTER TABLESPACE UNDOTBS1 ADD DATAFILE '/ora197/ppcsnic/oradata/undo/undotbs104.dbf' size 2000M;
+
+ALTER DATABASE DATAFILE '/ora197/ppcsnic/oradata/undo/undotbs104.dbf'  RESIZE 2500M;
+
+ALTER TABLESPACE UNDOTBS1 ADD DATAFILE '/ora195/ppcsnic/oradata/undo/undotbs105.dbf' size 3500M;
+
+ALTER DATABASE DATAFILE '/ora140/ppcspan/oradata/datafiles/XMLDB_DAT01.dbf'  RESIZE 100M;
+
+
+--- revision sentencias perdidas por mas de 60 minutos
+SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+last_call_et TIEMPO_SEG,
+SID, v$session.SERIAL#, v$process.SPID UNIX_PROCESS, v$session.USERNAME, STATUS, OSUSER, MACHINE, v$session.PROGRAM, MODULE 
+FROM v$session, v$process 
+WHERE ((v$session.paddr = v$process.addr) AND (status = 'ACTIVE')) 
+AND v$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and v$session.USERNAME <> 'SYS'
+ORDER BY last_call_et ASC;
+
+
+SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+trunc(last_call_et/3600) TIEMPO_H, trunc(mod(last_call_et,3600)/60) TIEMPO_M,
+SID, gv$session.SERIAL#, gv$process.SPID UNIX_PROCESS, gv$session.USERNAME, STATUS, OSUSER, MACHINE, gv$session.PROGRAM, MODULE , gv$session.INST_ID
+FROM gv$session, gv$process 
+WHERE (gv$session.paddr = gv$process.addr)
+AND (gv$session.inst_id = gv$process.inst_id)
+AND (gv$session.status = 'ACTIVE') 
+AND gv$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and gv$session.USERNAME <> 'SYS'
+and gv$session.last_call_et > 3600
+ORDER BY last_call_et ASC;
+
+SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+trunc(last_call_et/3600) TIEMPO_H, trunc(mod(last_call_et,3600)/60) TIEMPO_M,
+SID, gv$session.SERIAL#, gv$process.SPID UNIX_PROCESS, gv$session.USERNAME, STATUS, OSUSER, MACHINE, gv$session.PROGRAM, MODULE , gv$session.INST_ID, gv$session.SQL_ADDRESS ---, gv$session.PREV_SQL_ADDR
+FROM gv$session, gv$process 
+WHERE ((gv$session.paddr = gv$process.addr) AND (status = 'INACTIVE')) 
+AND gv$session.USERNAME IS NOT NULL AND type != 'BACKGROUND' 
+and gv$session.USERNAME <> 'SYS'
+and gv$session.last_call_et > 86400
+and machine like 'telcasv2%'
+ORDER BY last_call_et ASC;
+
+
+select trunc(last_call_et/3600) horas, trunc(mod(last_call_et,3600)/60) minutos  from dual
+

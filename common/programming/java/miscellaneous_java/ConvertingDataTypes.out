@@ -1,0 +1,124 @@
+--------------------------
+Compile Program
+--------------------------
+javac ConvertingDataTypes.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ConvertingDataTypes
+
+
+--------------------------
+Program Output
+--------------------------
+
+
++------------------------------------------+
+| Declare Global Variables                 |
++------------------------------------------+
+
+
++------------------------------------------+
+| integer to String                        |
++------------------------------------------+
+Converted integer 1994 to String "1994"
+Converted integer 1994 to String "1994"
+
++------------------------------------------+
+| long to String                           |
++------------------------------------------+
+Converted long 5823523441948 to String "5823523441948"
+
++------------------------------------------+
+| float to String                           |
++------------------------------------------+
+Converted float 1948.35 to String "1948.35"
+
++------------------------------------------+
+| double to String                         |
++------------------------------------------+
+Converted double 1.948817749102719E13 to String "1.948817749102719E13"
+
+
++------------------------------------------+
+| String to integer                        |
++------------------------------------------+
+Converted String "1994" to integer 1994
+Converted String "1994" to integer 1994
+
++------------------------------------------+
+| String to long                           |
++------------------------------------------+
+Converted String "5823523441948" to long 5823523441948
+Converted String "5823523441948" to long 5823523441948
+
++------------------------------------------+
+| String to float                          |
++------------------------------------------+
+Converted String "1948.35" to float 1948.35
+
++------------------------------------------+
+| String to double                         |
++------------------------------------------+
+Converted String "19488177491027.19" to double 1.948817749102719E13
+
+
++------------------------------------------+
+| decimal to Binary String                 |
++------------------------------------------+
+Converted decimal 1994 to Binary String "11111001010"
+
++------------------------------------------+
+| decimal to hexadecimal                   |
++------------------------------------------+
+Converted decimal 1994 to hexadecimal "7ca"
+Converted decimal 1994 to hexadecimal "7ca"
+Converted decimal 1994 to hexadecimal "07CA"
+
++------------------------------------------+
+| hexadecimal (String) to integer          |
++------------------------------------------+
+Converted hexadecimal (String) "B8DA3" to integer 757155
+Converted hexadecimal (String) "B8DA3" to integer 757155
+
++------------------------------------------+
+| ASCII code to String                     |
++------------------------------------------+
+Converted ASCII code 65 to String "A"
+
++------------------------------------------+
+| integer to ASCII code (byte)             |
++------------------------------------------+
+Converted integer A to ASCII code (byte) 65
+
++------------------------------------------+
+| To extract Ascii codes from a String     |
++------------------------------------------+
+65
+66
+67
+68
+
+
++------------------------------------------+
+| integer to boolean                       |
++------------------------------------------+
+Converted integer -1 to boolean true
+Converted integer 0 to boolean false
+Converted integer 1 to boolean true
+
++------------------------------------------+
+| boolean to integer                       |
++------------------------------------------+
+Converted boolean false to integer 0
+Converted boolean true to integer 1
+
+
++--------------------------------------------------------------+
+| Catch illegal number conversion, use the try/catch mechanism |
++--------------------------------------------------------------+
+Converted character "1994" to integer 1994
+Number Format Exception
+

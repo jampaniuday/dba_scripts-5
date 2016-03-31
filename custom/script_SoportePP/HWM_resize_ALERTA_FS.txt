@@ -1,0 +1,87 @@
+select file_name,a.tablespace_name, 
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) smallest,
+ceil( blocks*8192/1024/1024) currsize,
+ceil( blocks*8192/1024/1024) -
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) savings,
+ceil(ceil( (nvl(hwm,1)*8192)/1024/1024 ) * 1.3) safe_small_30,
+case when ceil( blocks*8192/1024/1024) < ceil(ceil( (nvl(hwm,1)*8192)/1024/1024 ) * 1.3) then '+' else'-' end sube_baja
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b,
+(select  a.tablespace_name,
+       round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_Free
+from  ( select  f.tablespace_name,
+               sum(f.bytes) bytes_alloc,
+               sum(decode(f.autoextensible, 'YES',f.maxbytes,'NO', f.bytes)) maxbytes
+        from dba_data_files f
+        group by tablespace_name) a,
+      ( select  f.tablespace_name,
+               sum(f.bytes)  bytes_free
+        from dba_free_space f
+        group by tablespace_name) b
+where a.tablespace_name = b.tablespace_name (+)
+and round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) > 30
+) c
+where a.file_id = b.file_id(+)
+and a.tablespace_name not in ('TEMP','UNDO','SYSTEM','SYSAUX','UNDOTBS1','UNDOTBS2')
+and a.tablespace_name = c.tablespace_name 
+and a.file_name like '%/ora181/ppgagua%'
+order by 5
+
+
+ALTER DATABASE DATAFILE '/ora139/ppgagua/oradata/datafiles/RECARGAS_NEW_DAT_2_15.dbf' RESIZE 4920M;
+
+ALTER DATABASE DATAFILE '/ora167/ppgagua/oradata/datafiles/actuaciones_new01_dat20.dbf' RESIZE 4900M;
+
+ALTER DATABASE DATAFILE '/ora179/ppgagua/oradata/datafiles/detact_64k_dat14.dbf' RESIZE 8693M;
+
+ALTER DATABASE DATAFILE '/ora181/ppgagua/oradata/datafiles/ACTABOPRE_DAT09_02.dbf' RESIZE 1800M;
+
+ALTER DATABASE DATAFILE '/ora168/ppgagua/oradata/datafiles/ACTABOPRE_DAT20_01.dbf' RESIZE 3484M;
+
+ALTER DATABASE DATAFILE '/ora168/ppgagua/oradata/datafiles/ACTABOPRE_DAT18_01.dbf' RESIZE 3484M;
+
+
+
+
+
+
+--- cuando no cuadra se baja el porcentaje de lleno.
+
+select file_name,a.tablespace_name, 
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) smallest,
+ceil( blocks*8192/1024/1024) currsize,
+ceil( blocks*8192/1024/1024) -
+ceil( (nvl(hwm,1)*8192)/1024/1024 ) savings,
+ceil(ceil( (nvl(hwm,1)*8192)/1024/1024 ) * 1.3) safe_small_30,
+case when ceil( blocks*8192/1024/1024) < ceil(ceil( (nvl(hwm,1)*8192)/1024/1024 ) * 1.3) then '+' else'-' end sube_baja
+from dba_data_files a,
+( select file_id, max(block_id+blocks-1) hwm
+from dba_extents
+group by file_id ) b,
+(select  a.tablespace_name,
+       round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_Free
+from  ( select  f.tablespace_name,
+               sum(f.bytes) bytes_alloc,
+               sum(decode(f.autoextensible, 'YES',f.maxbytes,'NO', f.bytes)) maxbytes
+        from dba_data_files f
+        group by tablespace_name) a,
+      ( select  f.tablespace_name,
+               sum(f.bytes)  bytes_free
+        from dba_free_space f
+        group by tablespace_name) b
+where a.tablespace_name = b.tablespace_name (+)
+and round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) > 10
+) c
+where a.file_id = b.file_id(+)
+and a.tablespace_name not in ('TEMP','UNDO','SYSTEM','SYSAUX','UNDOTBS1','UNDOTBS2')
+and a.tablespace_name = c.tablespace_name 
+and a.file_name like '%/ora168/ppgagua%'
+order by 5
+
+
+
+
+
+

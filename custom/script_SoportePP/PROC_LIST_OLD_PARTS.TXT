@@ -1,0 +1,118 @@
+procedure      list_old_parts
+is
+    lacu_pe      number := 0;
+    lctd_pe      number;
+    cursor CTP is
+      SELECT NOM_TABLA
+      FROM PPCS_TABLAS, USER_TABLES
+      WHERE TABLE_NAME = NOM_TABLA;
+  begin
+
+    for RTP in CTP loop
+      dbms_output.put_line('-> Listando particiones antiguas de la tabla: ' || RTP.NOM_TABLA);
+      list_old_parts_tab ( RTP.NOM_TABLA);
+      lacu_pe := lacu_pe + lctd_pe;
+    end loop;
+
+  end;
+procedure      list_old_parts_tab(
+    pe_nbr_tabla in  PPCS_TABLAS.NOM_TABLA%type
+  ) is
+
+    lfec_segura  date:= add_months(trunc( SYSDATE, 'MM' ), -1);
+    lctd_pe      number := 0;
+    lreg_ctp     PPCS_TABLAS%rowtype;
+    lfec_partida date;
+    lint         number;
+    ltxt_sql     varchar2( 32767 );
+
+    cursor CPT ( pec_cod_tabla PPCS_PARTICIONES.COD_TABLA%type ) is
+      SELECT COD_PARTICION , COD_TABLA , NOM_PARTICION , FEH_MAX
+      FROM PPCS_PARTICIONES
+      WHERE COD_TABLA = pec_cod_tabla;
+
+    lreg_part     CPT%rowtype;
+
+    e_unica_part  exception;
+
+    deadlock_detected EXCEPTION;
+    PRAGMA EXCEPTION_INIT(deadlock_detected, -60);
+
+  begin
+
+    SELECT * INTO lreg_ctp
+    FROM PPCS_TABLAS
+    WHERE NOM_TABLA = pe_nbr_tabla;
+
+    lfec_partida := trunc(sysdate) - lreg_ctp.NUM_VIGENCIA;
+
+    lfec_partida := least( lfec_segura , lfec_partida );
+
+    if lreg_ctp.COD_TIPO = 1 or lreg_ctp.COD_TIPO = 2 then
+      lint := ceil( months_between( last_day(trunc(sysdate,'MM')) , lfec_partida ) );
+      lfec_partida := add_months ( last_day(trunc(sysdate,'MM')) , -(lint) ) + 1;
+    end if;
+
+    lctd_pe := 0;
+    for RPT in CPT ( lreg_ctp.COD_TABLA ) loop
+
+      IF lreg_ctp.COD_TIPO = 1 THEN
+
+        SELECT COUNT( TABLE_NAME ) INTO lint
+        FROM USER_TAB_PARTITIONS
+        WHERE TABLE_NAME = lreg_ctp.NOM_TABLA
+        AND ROWNUM <= 11;
+
+        if lint <= 10 then
+          raise e_unica_part;
+        end if;
+
+      ELSE
+
+        SELECT COUNT( TABLE_NAME ) INTO lint
+        FROM USER_TAB_PARTITIONS
+        WHERE TABLE_NAME = lreg_ctp.NOM_TABLA
+        AND ROWNUM <= 3;
+
+        if lint <= 1 then
+          raise e_unica_part;
+        end if;
+
+      END IF;
+
+      lreg_part := RPT;
+
+      if lreg_part.FEH_MAX < lfec_partida then
+        -- traza (1, '-> Eliminando particion: ' || lreg_part.NOM_PARTICION );
+        begin
+          ltxt_sql := 'TABLA_PARTICION|' || lreg_ctp.NOM_TABLA || ':' || lreg_part.NOM_PARTICION;
+          dbms_output.put_line( ltxt_sql );
+          lctd_pe := lctd_pe + 1;
+        exception
+          when others then
+            dbms_output.put_line( 'Error eliminando particn: ' || lreg_part.NOM_PARTICION
+              || ' de la tabla ' || lreg_ctp.NOM_TABLA );
+            dbms_output.put_line( sqlerrm );
+            raise;
+        end;
+      end if;
+
+    end loop;
+
+--    ps_pe := lctd_pe;
+
+  exception
+    when deadlock_detected then
+      dbms_output.put_line( 'La tabla ' || pe_nbr_tabla || ' est¿ bloqueada por otra sesn' );
+      raise;
+    when no_data_found then
+      dbms_output.put_line( 'La tabla ' || pe_nbr_tabla || ' no existe ' );
+      raise;
+    when e_unica_part then
+--      ps_pe := lctd_pe;
+      dbms_output.put_line( 'A la tabla ' || pe_nbr_tabla || ' le queda una particn o un mes.' );
+    when others then
+--      ps_pe := lctd_pe;
+      dbms_output.put_line( 'Error procesando: ' || pe_nbr_tabla );
+      dbms_output.put_line( sqlerrm );
+  end;

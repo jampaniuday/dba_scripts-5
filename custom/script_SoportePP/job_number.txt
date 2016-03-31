@@ -1,0 +1,4 @@
+1.Kill cjq0 process from OS
+2.alter system set job_queue_process=0;
+3.alter system set job_queue_process=10;
+4.Should fork new cjq0 process and all J00 process for running jobs.

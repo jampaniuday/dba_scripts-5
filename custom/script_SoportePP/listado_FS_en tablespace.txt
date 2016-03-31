@@ -1,0 +1,101 @@
+select substr(file_name,1,7) FS,count(1) total
+from dba_data_files group by substr(file_name,1,7)
+order by 1
+
+FS                        TOTAL
+-------------------- ----------
+/ora100                       7
+/ora101                      27
+/ora102                      24
+/ora103                      25
+/ora104                      30
+/ora105                      28
+/ora106                      23
+/ora107                      19
+/ora108                      18
+/ora109                      20
+/ora110                      24
+/ora111                      18
+/ora112                      19
+/ora113                      16
+/ora114                      18
+/ora115                      27
+/ora116                      27
+/ora117                      16
+/ora118                      19
+
+/ora120                      15
+/ora121                      16
+/ora122                      16
+/ora123                      20
+/ora124                      19
+/ora125                      15
+/ora126                       6
+/ora127                      15
+/ora128                      14
+
+/ora136                      12
+/ora137                      10
+/ora138                      12
+/ora139                       8
+/ora140                      10
+/ora141                      11
+/ora142                       8
+/ora143                       9
+/ora144                       6
+/ora145                       9
+/ora146                       4
+/ora147                      12
+/ora148                       8
+/ora149                       9
+/ora150                       8
+/ora151                      10
+/ora152                       5
+/ora153                       8
+/ora154                       6
+/ora155                      11
+/ora156                       9
+/ora157                       6
+/ora158                       4
+/ora159                       6
+/ora160                       6
+/ora161                      11
+/ora162                       8
+/ora163                      10
+/ora164                       3
+/ora165                       6
+/ora166                       3
+/ora167                       8
+/ora168                       9
+/ora169                       6
+/ora170                       5
+/ora171                       7
+/ora172                       8
+/ora173                       6
+/ora174                       6
+/ora175                      14
+/ora176                       8
+/ora177                      10
+/ora178                       7
+/ora179                       8
+/ora180                       8
+/ora181                       7
+/ora182                      10
+/ora183                       7
+/ora184                       4
+/ora185                       4
+/ora186                      13
+/ora187                       8
+/ora188                       8
+/ora189                       7
+/ora190                       9
+/ora191                       9
+/ora192                      10
+/ora193                      11
+/ora194                       9
+/ora195                      13
+/ora196                       7
+/ora197                       8
+
+
+90 rows selected.

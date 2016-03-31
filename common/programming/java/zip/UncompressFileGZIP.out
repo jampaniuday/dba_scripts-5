@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac UncompressFileGZIP.java
+
+
+--------------------------
+Run Program
+--------------------------
+java UncompressFileGZIP example1.txt.gz
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Opening the compressed file.
+Open the output file.
+Transfering bytes from compressed file to the output file.
+Closing the file and stream

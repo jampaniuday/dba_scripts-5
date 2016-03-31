@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac rot13.java
+
+
+--------------------------
+Run Program
+--------------------------
+java rot13
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Initial password           = ThisIsMyPassphrase
+Convert initial password   = GuvfVfZlCnffcuenfr
+Perform another conversion = ThisIsMyPassphrase
+

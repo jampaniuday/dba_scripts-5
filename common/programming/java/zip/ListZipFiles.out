@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac ListZipFiles.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ListZipFiles example.zip
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Opening zip file example.zip
+Entry 1 : example1.txt
+Entry 2 : example2.txt
+Entry 3 : example3.txt

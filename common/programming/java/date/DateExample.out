@@ -1,0 +1,77 @@
+--------------------------
+Compile Program
+--------------------------
+javac DateExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java DateExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+CURRENT DATE/TIME
+=======================================================
+  new Date()                   : Wed May 06 04:37:51 EDT 2009
+
+CURRENT DATE/TIME (FORMATTED OUTPUT)
+=======================================================
+  new Date() Formatted         : 04/06/2009 04:37:51
+
+DATE OBJECT FOR SPECIFIC TIME
+=======================================================
+  new Date(24L*60L*60L*1000L) : Thu Jan 01 19:00:00 EST 1970
+  new Date(0L)                : Wed Dec 31 19:00:00 EST 1969
+
+USE getTime() TO RETURN MILLISECONDS
+=======================================================
+  Start Time : Wed May 06 04:37:51 EDT 2009
+  ....................................................................................................
+  End Time  : Wed May 06 04:46:12 EDT 2009
+  That took 500848 milliseconds
+
+USE RESULTS FROM elapsed_time ABOVE TO FORMAT OUTPUT
+=======================================================
+Formatted output             : 00 hours 08 minutes 20 minutes
+
+USE gsetTime() TO CHANGE A DATE OBJECT
+=======================================================
+  new Date()                 : Wed May 06 04:46:12 EDT 2009
+  setTime(24L*60L*60L*1000L) : Thu Jan 01 19:00:00 EST 1970
+
+COMPARE DATES USING: before(), after(), equals()
+=======================================================
+  Compare (Equals):
+    - Wed May 06 04:46:12 EDT 2009
+    - Wed May 06 04:46:12 EDT 2009
+    - The two dates are equal.
+
+  Compare (Equals):
+    - Wed May 06 04:46:12 EDT 2009
+    - Thu Jan 01 19:00:00 EST 1970
+    - The two dates are NOT equal.
+
+  Compare (Before):
+    - Wed May 06 04:46:12 EDT 2009
+    - Thu Jan 01 19:00:00 EST 1970
+    - Wed May 06 04:46:12 EDT 2009 DOES NOT come before Thu Jan 01 19:00:00 EST 1970.
+
+  Compare (After):
+    - Wed May 06 04:46:12 EDT 2009
+    - Thu Jan 01 19:00:00 EST 1970
+    - Wed May 06 04:46:12 EDT 2009 comes after Thu Jan 01 19:00:00 EST 1970.
+
+RETRIEVE MILLISECONDS
+=======================================================
+  Number of milliseconds since 1/1/1970 (GMT) : 86400000
+  Hash code for object                        : 86400000
+  String  representation of date              : Thu Jan 01 19:00:00 EST 1970
+
+PARSE STRING TO DATE
+=================================================================
+  1994-02-14 parses as Mon Feb 14 00:00:00 EST 1994.

@@ -1,0 +1,17 @@
+ select a.index_name,b.PARTITION_NAME,b.status,
+  (select LAST_DDL_TIME from dba_objects c 
+   where c.object_name = b.INDEX_NAME and c.SUBOBJECT_NAME=b.PARTITION_NAME) as LAST_DDL_TIME
+  from dba_indexes a,
+   dba_ind_partitions b
+  where a.table_name = 'POGE_CAMBESTBOLSAS'
+   and a.INDEX_NAME = b.INDEX_NAME
+   and a.owner ='OPGE'
+order by 4
+
+
+ select a.owner,a.index_name,a.status,
+  (select LAST_DDL_TIME from dba_objects c 
+   where c.object_name = a.INDEX_NAME ) as LAST_DDL_TIME
+  from dba_indexes a
+  where a.table_name in ('POGE_RECARGAS') AND STATUS <> 'N/A'
+order by 4

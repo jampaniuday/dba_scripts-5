@@ -1,0 +1,44 @@
+CREATE OR REPLACE TRIGGER SYS.LOGON_VALID_TRG
+AFTER LOGON
+ON DATABASE
+DECLARE
+   v_sid     number;
+   v_program varchar2(48) :=NULL;
+   v_logon_timestamp date:=NULL;
+   v_username varchar2(30):=NULL;
+   v_module varchar2(48) :=NULL;
+   v_osuser varchar2(30) :=NULL;
+
+BEGIN
+   select sid,program, logon_time, username,module,osuser
+   into v_sid,  v_program , v_logon_timestamp,v_username, v_module,v_osuser
+   from v$session 
+   where sid=(select sid from v$mystat where rownum=1)  
+   and audsid = (select userenv ('sessionid') from dual);
+
+-- se valida el usuario conectado por osuser
+IF UPPER(v_osuser) LIKE 'MEN%' or UPPER(v_osuser) LIKE 'MET%' or UPPER(v_osuser) LIKE 'MGN%' or UPPER(v_osuser) LIKE 'MGT%'
+THEN
+  -- validacion adicional  Fidelizacion 2 y RAO 4
+  IF UPPER(v_osuser) not in ('MEN01672','MET02582','MET02520','MET00039','MGN02207','MGN03371') THEN
+  	RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde este usuario'||' Direccion '|| sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_osuser);
+  END IF;
+END IF;
+
+-- se valida por program en la vista
+IF UPPER(v_program) LIKE '%TOAD%' OR UPPER(v_program) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_program) LIKE '%SQLNAV%' OR     -- SQL Navigator QUEST
+     UPPER(v_program) = 'SQL DEVELOPER'        -- SQL Developer ORACLE
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion'||' Direccion '|| sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username);
+END IF;
+
+-- se valida por module en la vista por si renombraron el ejecutable para pasar la anterior validacion
+IF UPPER(v_module) like '%TOAD%' OR UPPER(v_module) LIKE '%T.O.A.D%' OR -- Toad QUEST
+     UPPER(v_module) LIKE '%SQLNAV%' OR     -- SQL Navigator QUEST
+     UPPER(v_module) = 'SQL DEVELOPER'        -- SQL Developer ORACLE
+THEN
+  RAISE_APPLICATION_ERROR (-20002,'El acceso no esta permitido desde esta aplicacion'||' Direccion '|| sys_context('USERENV','IP_ADDRESS')||' Usuario: '||v_username);
+END IF;
+END;
+/

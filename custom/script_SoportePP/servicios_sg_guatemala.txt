@@ -1,0 +1,23 @@
+srvctl status service -d PPGAGUA
+
+Service GUPPGA_UP00 is running on instance(s) PPGAGUA1
+Service GUPPGA_UP01 is running on instance(s) PPGAGUA2
+Service GUPPGATUX_UP00 is running on instance(s) PPGAGUA1
+Service GUPPGATUX_UP01 is running on instance(s) PPGAGUA1
+
+
+srvctl status service -d PPCSGUA
+
+Service GUPPCS_PRIMARIO is running on instance(s) PPCSGUA1
+Service GUPPCS_TUX is running on instance(s) PPCSGUA1
+
+
+srvctl status service -d OPGEGUA
+
+Service GUOPGE_PRIMARIO is running on instance(s) OPGEGUA1
+Service GUOPGE_TUX is running on instance(s) OPGEGUA1
+
+srvctl status service -d RASCGUA
+
+Service GURASC_PRIMARIO is running on instance(s) RASCGUA1
+Service GURASC_TUX is running on instance(s) RASCGUA1

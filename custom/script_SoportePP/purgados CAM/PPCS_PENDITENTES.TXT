@@ -1,0 +1,33 @@
+create or replace procedure purgado_pendiente_abonado as
+    hayregistros number:=1;
+begin
+  -- Borra los registros del pendiente menores al 2012
+  while hayregistros != 0
+  loop
+      delete from ppcs.ppcs_abonados_pendientes
+      where FEH_ULTLLA < (sysdate - 7)
+      and rownum < 10001;
+      hayreguistros := sql%rowcount;
+      commit;
+  end loop;
+end;
+
+
+create or replace procedure purgado_pendiente_abonado as
+    hayregistros number:=1;
+begin
+  -- Borra los registros del pendiente menores al 2012
+  while hayregistros != 0
+  loop
+      delete from ppcs.ppcs_abonados_pendientes
+      where FEH_ULTLLA < (sysdate - 7)
+      and rownum < 10001;
+      hayreguistros := sql%rowcount;
+      commit;
+  end loop;
+end;
+
+rebuild_secondary_indexes('adm_log');
+compute_stadistics('adm_log');
+
+

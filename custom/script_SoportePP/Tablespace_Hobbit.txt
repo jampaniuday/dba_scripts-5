@@ -1,0 +1,56 @@
+select  a.tablespace_name,
+       round(a.bytes_alloc / 1024 / 1024) megs_alloc,
+       round(nvl(b.bytes_free, 0) / 1024 / 1024) megs_free,
+       round((a.bytes_alloc - nvl(b.bytes_free, 0)) / 1024 / 1024) megs_used,
+       round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_Free,
+       100 - round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) Pct_used,
+       round(maxbytes/1048576) Max
+from  ( select  f.tablespace_name,
+               sum(f.bytes) bytes_alloc,
+               sum(decode(f.autoextensible, 'YES',f.maxbytes,'NO', f.bytes)) maxbytes
+        from dba_data_files f
+        group by tablespace_name) a,
+      ( select  f.tablespace_name,
+               sum(f.bytes)  bytes_free
+        from dba_free_space f
+        group by tablespace_name) b
+where a.tablespace_name = b.tablespace_name (+)
+and round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100) < 40
+order by 6 
+
+--- nuevo hobbit
+select 'C:' id, a.tablespace_name nombre_tablespace,
+       to_char(round(a.maxbytes/1048576), '999G999D99') "TOTAL (MB)",
+       to_char(round((nvl(b.bytes_free, 0) + ( nvl(a.maxbytes,0)-nvl(a.bytes_alloc,0) )) / 1024 / 1024), '999G999D99') "LIBRE (MB)",
+       to_char(round(( (nvl(b.bytes_free, 0) + ( nvl(a.maxbytes,0)-nvl(a.bytes_alloc,0) ))/ a.maxbytes) * 100),'00.00') LIBRE
+from  ( select  f.tablespace_name,
+               sum(f.bytes) bytes_alloc,
+               sum(decode(f.autoextensible, 'YES',f.maxbytes,'NO', f.bytes)) maxbytes
+        from dba_data_files f
+        group by tablespace_name) a,
+      ( select  f.tablespace_name,
+               sum(f.bytes)  bytes_free
+        from dba_free_space f
+        group by tablespace_name) b
+where a.tablespace_name = b.tablespace_name (+)
+and a.tablespace_name not in ('SYSTEM','UNDOTBS01','UNDOTBS02','UNDOTBS03','UNDOTBS04','UNDOTBS05','UNDOTBS06','UNDOTBS07')
+and round(( (nvl(b.bytes_free, 0) + ( nvl(a.maxbytes,0)-nvl(a.bytes_alloc,0) ))/ a.maxbytes) * 100) < 40
+order by 5
+
+
+--- original Hobbit
+select id, nombre_tablespace, "TOTAL (MB)", "LIBRE (MB)", to_char(libre,'00.00') as LIBRE
+from (select 'C:' as id,substr(d.tablespace_name, 1, 30) "NOMBRE_TABLESPACE", to_char(d.megas, '999G999D99') "TOTAL (MB)",
+       to_char(nvl(f.megas, 0), '999G999D99') "LIBRE (MB)",
+       to_char(nvl(f.megas/d.megas*100, 0), '999D99') as  LIBRE
+  from (select tablespace_name, sum(bytes)/1024/1024 "MEGAS"
+          from dba_data_files
+    where autoextensible not in ('YES')
+         group by tablespace_name) d,
+       (select tablespace_name, sum(bytes)/1024/1024 "MEGAS"
+          from dba_free_space
+         group by tablespace_name) f
+ where d.tablespace_name = f.tablespace_name(+))
+where libre < 40
+and nombre_tablespace not in ('SYSTEM','UNDOTBS01','UNDOTBS02','UNDOTBS03','UNDOTBS04','UNDOTBS05','UNDOTBS06','UNDOTBS07')
+order by LIBRE asc;

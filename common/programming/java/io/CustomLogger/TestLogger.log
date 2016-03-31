@@ -1,0 +1,14 @@
+# --------------------------------------------
+# LOG FILE     : TestLogger.log
+# START TIME   : Wed Feb 26 14:04:39 EST 2003
+# --------------------------------------------
+
+main : < Starting with counter at 0
+main : > Ending main with counter at 9
+
+# --------------------------------------------
+#           << END OF LOGFILE >>              
+# --------------------------------------------
+# STOP TIME    : Wed Feb 26 14:04:43 EST 2003
+# ELAPSED TIME : 4 seconds.
+# --------------------------------------------

@@ -1,0 +1,69 @@
+--------------------------
+Compile Program
+--------------------------
+javac ThreadIsAlive.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ThreadIsAlive
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+<< MAIN METHOD (Begin) >>
+
+Thread constructor...
+
+  - Thread ( Current Countdown = 5 )
+Thread is still alive. Count = 1
+Thread is still alive. Count = 2
+Thread is still alive. Count = 3
+Thread is still alive. Count = 4
+Thread is still alive. Count = 5
+Thread is still alive. Count = 6
+  - Thread ( Current Countdown = 4 )
+Thread is still alive. Count = 7
+Thread is still alive. Count = 8
+Thread is still alive. Count = 9
+Thread is still alive. Count = 10
+Thread is still alive. Count = 11
+Thread is still alive. Count = 12
+Thread is still alive. Count = 13
+  - Thread ( Current Countdown = 3 )
+Thread is still alive. Count = 14
+Thread is still alive. Count = 15
+Thread is still alive. Count = 16
+Thread is still alive. Count = 17
+Thread is still alive. Count = 18
+Thread is still alive. Count = 19
+Thread is still alive. Count = 20
+  - Thread ( Current Countdown = 2 )
+Thread is still alive. Count = 21
+Thread is still alive. Count = 22
+Thread is still alive. Count = 23
+Thread is still alive. Count = 24
+Thread is still alive. Count = 25
+Thread is still alive. Count = 26
+  - Thread ( Current Countdown = 1 )
+Thread is still alive. Count = 27
+Thread is still alive. Count = 28
+Thread is still alive. Count = 29
+Thread is still alive. Count = 30
+Thread is still alive. Count = 31
+Thread is still alive. Count = 32
+Thread is still alive. Count = 33
+
+Ending thread...
+
+Thread is still alive. Count = 34
+
+<< Finished running and checking thread!!! >>
+
+<< MAIN METHOD (End) >>
+

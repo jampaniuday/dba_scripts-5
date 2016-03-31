@@ -1,0 +1,69 @@
+Solution:
+The Fast Recovery Area (FRA) is full with old archive log files so we need to clean this up by removing old archive logs.
+If you have production environment, back these up to tape or storage for recovery and archival purposes.
+
+Login to RMAN and run the following commands:
+
+RMAN> CONNECT target /
+
+connected TO target DATABASE: INSTANT (DBID=1234567890)
+
+RMAN> crosscheck archivelog ALL;
+
+Note: You can schedule this command once a week.
+The crosscheck command does NOT DELETE the information about the logs that it
+could NOT find ON disk, it just updates their STATUS IN the repository AS 'EXPIRED'.
+TO obtain a list OF logs marked AS 'EXPIRED' USE the following command:
+
+RMAN> list expired archivelog ALL;
+
+IF it IS NOT necessary TO keep the information about these
+logs IN the repository, DELETE them WITH command:
+
+RMAN> DELETE expired archivelog ALL;
+
+
+RMAN> delete archivelog all completed before 'SYSDATE-1';
+
+The above RMAN command will delete old archive logs past 24 hours.
+
+Now you should be able to connect to the database.
+
+
+Below are some useful queries to check on FRA available space:
+
+SQL> SELECT name, free_mb, total_mb, free_mb/total_mb*100 "%" FROM v$asm_diskgroup;
+
+NAME FREE_MB TOTAL_MB %
+------------------------------ ---------- ---------- ----------
+DATA 823641 1044450 78.8588252
+FRA 207743 511992 40.5754387
+LOG 306958 307191 99.9241514
+
+
+SQL>
+
+set lines 100
+col name format a60
+select name
+, floor(space_limit / 1024 / 1024) "Size MB"
+, ceil(space_used / 1024 / 1024) "Used MB"
+from v$recovery_file_dest
+order by name
+/
+
+
+NAME Size MB Used MB
+------------------------------------------------------------ ---------- ----------
++FRA 102400 302965
+
+
+If you want to change the default size for the FRA you can issue the following command from SQL*PLUS:
+
+SQL> alter system set db_recovery_file_dest_size=600G;
+
+System altered.
+
+Then you should archive logs:
+SQL> archive log all;
+3 logs archived. 

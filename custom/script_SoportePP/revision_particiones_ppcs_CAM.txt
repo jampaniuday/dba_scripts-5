@@ -1,0 +1,25 @@
+select partition_name from dbA_tab_partitions where table_owner = 'PPCS' order by table_name,partition_name;
+
+
+guate 
+1916
+
+sv
+
+1500
+
+
+ni
+
+1866
+
+pa
+
+1866
+
+
+
+
+cr
+ 
+1866

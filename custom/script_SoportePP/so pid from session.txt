@@ -1,0 +1,41 @@
+select * from v$session where status ='KILLED';
+
+SELECT	p.program, p.spid, s.saddr, s.sid, s.serial#, s.username,
+	s.osuser, s.machine, s.program, s.logon_time, s.status 
+FROM v$session s, v$process p
+WHERE s.paddr = p.addr
+AND s.sid IN (1501,259)
+
+SELECT	p.program, p.spid, s.saddr, s.sid, s.serial#, s.username,
+	s.osuser, s.machine, s.program, s.logon_time, s.status 
+FROM v$session s, v$process p
+WHERE s.paddr = p.addr
+AND p.spid IN (21997)
+
+
+PROGRAM                                          SPID         SADDR                   SID    SERIAL# USERNAME
+------------------------------------------------ ------------ ---------------- ---------- ---------- ------------------------------
+OSUSER                         MACHINE
+------------------------------ ----------------------------------------------------------------
+PROGRAM                                          LOGON_TIME          STATUS
+------------------------------------------------ ------------------- --------
+oracle@asvcsga01                                 20138        000000015EC0B928        259       6877 EPPGA
+vantive                        telcasv2.me.inet
+oracle@telcasv2.me.inet (TNS V1-V3)              21/02/2013 08:37:18 KILLED
+
+oracle@asvcsga01                                 1371         000000015D355E28       1501      52560 EPPGA
+vantive                        telcasv2.me.inet
+oracle@telcasv2.me.inet (TNS V1-V3)              22/02/2013 07:21:38 KILLED
+
+
+
+ps -ef | egrep '20138|1371'
+
+oracle    1371     1  0 Feb22 ?        00:00:10 oraclePPGASLV1 (LOCAL=NO)
+oracle   20138     1  0 Feb21 ?        00:00:00 oraclePPGASLV1 (LOCAL=NO)
+
+
+
+
+
+

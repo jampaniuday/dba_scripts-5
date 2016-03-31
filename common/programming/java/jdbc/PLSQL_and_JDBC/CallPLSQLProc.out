@@ -1,0 +1,30 @@
+--------------------------
+Compile Program
+--------------------------
+javac CallPLSQLProc.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CallPLSQLProc
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@localhost:1521:CUSTDB
+  Connected as         -> scott
+
+  Name           : Jeff Hunter
+  Monthly Salary : $8700.0
+
+  Lets give this employee a 20% raise.
+
+  Name           : Jeff Hunter
+  Monthly Salary : $10440.0
+
+  Closing Connection...

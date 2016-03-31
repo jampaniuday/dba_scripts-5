@@ -1,0 +1,89 @@
+:
+#
+# $Header: dbshut.sh.pp 1.1 95/02/22 14:37:26 rdhoopar Osd<unix> $ dbshut.sh.pp Copyr (c) 1991 Oracle
+#
+
+###################################
+# 
+# usage: dbshut
+#
+# This script is used to shutdown ORACLE from /etc/rc(.local).
+# It should ONLY be executed as part of the system boot procedure.
+#
+#####################################
+
+ORATAB=/var/opt/oracle/oratab
+
+trap 'exit' 1 2 3
+case $ORACLE_TRACE in
+    T)	set -x ;;
+esac
+    
+# Set path if path not set (if called from /etc/rc)
+case $PATH in
+    "")	PATH=/bin:/usr/bin:/etc
+	export PATH ;;
+esac
+
+#
+# Loop for every entry in oratab file and and try to start
+# that ORACLE
+#
+
+cat $ORATAB | while read LINE
+do
+    case $LINE in
+	\#*)		;;	#comment-line in oratab
+	*)
+#       Proceed only if third field is 'Y'.
+        if [ "`echo $LINE | awk -F: '{print $3}' -`" = "Y" ] ; then
+            ORACLE_SID=`echo $LINE | awk -F: '{print $1}' -`
+	    if [ "$ORACLE_SID" = '*' ] ; then
+		ORACLE_SID=""
+	    fi
+#           Called programs use same database ID
+            export ORACLE_SID
+            ORACLE_HOME=`echo $LINE | awk -F: '{print $2}' -`
+#           Called scripts use same home directory
+            export ORACLE_HOME
+#           Put $ORACLE_HOME/bin into PATH and export.
+            PATH=$ORACLE_HOME/bin:/bin:/usr/bin:/etc ; export PATH
+
+            PFILE=${ORACLE_HOME}/dbs/init${ORACLE_SID}.ora
+
+#	    See if it is a V6 or V7 database
+            if test -f $ORACLE_HOME/bin/svrmgrl; then
+               svrmgrl << EOF
+connect internal
+shutdown immediate
+EOF
+            else
+              if test -f $ORACLE_HOME/bin/sqldba; then
+	      VERSION=`$ORACLE_HOME/bin/sqldba command=exit | awk '
+		  /SQL\*DBA: (Release|Version)/ {split($3, V, ".") ;
+		  print V[1]}'`
+
+	      case $VERSION in
+		  6)  sqldba command=shutdown
+		      ;;
+  
+		  7)  sqldba <<EOF
+connect internal
+shutdown immediate
+EOF
+		    ;;
+	      esac
+              else
+                echo "No SQL*DBA or svrmgrl found in $ORACLE_HOME"
+              fi
+            fi
+
+	    if test $? -eq 0 ; then
+		echo "Database \"${ORACLE_SID}\" shut down."
+	    else
+		echo "Database \"${ORACLE_SID}\" not shut down."
+	    fi
+        fi
+	;;
+    esac
+done

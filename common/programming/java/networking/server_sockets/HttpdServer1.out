@@ -1,0 +1,26 @@
+--------------------------
+Compile Program
+--------------------------
+javac HttpdServer1.java
+
+
+--------------------------
+Run Program
+--------------------------
+java HttpdServer1 80
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Starting Httpd Server Version 1.0 on port 80...
+New connection
+Request: GET / HTTP/1.1
+New connection
+Request: GET /check_green.gif HTTP/1.1
+New connection
+Request: GET / HTTP/1.1
+New connection
+Request: GET /check_green.gif HTTP/1.1

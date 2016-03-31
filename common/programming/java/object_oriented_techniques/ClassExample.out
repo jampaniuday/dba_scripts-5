@@ -1,0 +1,30 @@
+--------------------------
+Compile Program
+--------------------------
+javac ClassExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ClassExample
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+[STRING  - name]: Alex Hunter
+[CLASS   - c1  ]: class java.lang.String
+
+[CLASS   - c2  ]: class java.lang.String
+
+[STRING  - s1  ]: java.lang.String
+[CLASS   - c3  ]: class java.lang.String
+
+
+Original Instance    - ce  : Hunter, Alex
+Created New Instance - ce2 : Hunter, Alex
+Create New Instance  - s2  :
+Class.forName        - ce4 : Hunter, Alex

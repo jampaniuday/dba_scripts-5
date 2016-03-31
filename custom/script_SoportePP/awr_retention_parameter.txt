@@ -1,0 +1,27 @@
+execute dbms_workload_repository.modify_snapshot_settings (
+   interval => 60, 
+   retention => 1576800);
+
+
+
+select
+       extract( day from snap_interval) *24*60+
+       extract( hour from snap_interval) *60+
+       extract( minute from snap_interval ) "Snapshot Interval",
+       extract( day from retention) *24*60+
+       extract( hour from retention) *60+
+       extract( minute from retention ) "Retention Interval"
+from dba_hist_wr_control;
+
+
+Snapshot Interval Retention Interval
+----------------- ------------------
+               60              10080
+
+---------------
+---------------
+---------------
+
+
+execute dbms_workload_repository.modify_snapshot_settings (
+   retention => 20160);

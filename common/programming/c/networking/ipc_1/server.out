@@ -1,0 +1,8 @@
+$ server
+
+SERVER: Port number is 39409
+
+SERVER: Socket used for this client is 4
+SERVER: Message length was 14
+SERVER: Message was: This is a test
+

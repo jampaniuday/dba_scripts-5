@@ -1,0 +1,38 @@
+
+----------------------------------
+
+Select bytes, file_id, bytes / blocks
+from dba_data_files
+where file_name = :fname
+:fname(VARCHAR[49],IN/OUT)='C:\ORACLE\PRODUCT\10.2.0\ORADATA\MUNI\USERS01.DBF'
+
+----------------------------------
+
+Select  sum(bytes)/1024/1024
+from  dba_free_space
+where tablespace_name = 'ADM_CR_BIG_INDEX'
+and   file_id = 32
+and   block_id >=  nvl((Select (block_id + (bytes/8192))
+                    from dba_extents
+                    where block_id = (Select max(block_id)
+                                      from   dba_extents
+                                      where  file_id = 32
+                                      and    tablespace_name = 'ADM_CR_BIG_INDEX')
+                    and file_id = 32
+                    and tablespace_name = 'ADM_CR_BIG_INDEX'), 0)
+:tsn(VARCHAR[5],IN/OUT)='USERS' 
+:fid(INTEGER,IN/OUT)=4
+
+------------------
+
+select 
+      decode(partition_name, null, segment_name, segment_name || ':' || partition_name) objectname,
+       segment_type object_type,
+       round(bytes/1024/1024,2) Mb ,
+       initial_extent initial_ex,
+       next_extent next_ex ,
+       extents ,
+       bytes ttlsize, Owner, max_extents 
+from   dba_segments
+Where  tablespace_name='ADM_CR_BIG_INDEX';
+

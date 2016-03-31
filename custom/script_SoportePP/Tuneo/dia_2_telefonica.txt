@@ -1,0 +1,14 @@
+http://docs.oracle.com/cd/B19306_01/server.102/b14239/concepts.htm
+
+
+broker
+
+http://docs.oracle.com/cd/B19306_01/server.102/b14230/toc.htm
+
+
+epecs
+http://www.orafaq.com/wiki/Data_Guard
+
+oracle doc
+http://www.oracle.com/technetwork/database/features/availability/dataguardoverview-083155.html
+

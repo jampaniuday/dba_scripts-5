@@ -1,0 +1,44 @@
+--------------------------
+Compile Program
+--------------------------
+javac -classpath "$JAVALIB/ldapjdk.jar:." SearchCompareExample.java
+
+
+
+================================================================================
+FIRST RUN...
+================================================================================
+
+--------------------------
+Run Program
+--------------------------
+java -classpath "$JAVALIB/ldapjdk.jar:." SearchCompareExample ldap.idevelopment.info 389 "" "" "uid=ahunter, ou=People, o=airius.com" "Sunnyvale"
+
+--------------------------
+Program Output
+--------------------------
+
+Search DN       = [uid=ahunter, ou=People, o=airius.com]
+Search location = [Sunnyvale]
+---------------------------------------------------
+Values matched!
+
+
+
+================================================================================
+ANOTHER RUN...
+================================================================================
+
+--------------------------
+Run Program
+--------------------------
+java -classpath "$JAVALIB/ldapjdk.jar:." SearchCompareExample ldap.idevelopment.info 389 "" "" "uid=ahunter, ou=People, o=airius.com" "Butler"
+
+--------------------------
+Program Output
+--------------------------
+
+Search DN       = [uid=ahunter, ou=People, o=airius.com]
+Search location = [Butler]
+---------------------------------------------------
+No match!

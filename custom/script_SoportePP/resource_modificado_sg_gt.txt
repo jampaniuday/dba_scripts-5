@@ -1,0 +1,222 @@
+select * from dba_profiles where profile in ('APLICACION','USUARIO','USER_DBA') ORDER BY PROFILE, RESOURCE_NAME;
+
+ppga
+
+
+PROFILE                        RESOURCE_NAME                    RESOURCE LIMIT
+------------------------------ -------------------------------- -------- ----------------------------------------
+APLICACION                     COMPOSITE_LIMIT                  KERNEL   DEFAULT
+APLICACION                     CONNECT_TIME                     KERNEL   DEFAULT
+APLICACION                     CPU_PER_CALL                     KERNEL   DEFAULT
+APLICACION                     CPU_PER_SESSION                  KERNEL   DEFAULT
+APLICACION                     FAILED_LOGIN_ATTEMPTS            PASSWORD DEFAULT
+APLICACION                     IDLE_TIME                        KERNEL   DEFAULT
+APLICACION                     LOGICAL_READS_PER_CALL           KERNEL   DEFAULT
+APLICACION                     LOGICAL_READS_PER_SESSION        KERNEL   DEFAULT
+APLICACION                     PASSWORD_GRACE_TIME              PASSWORD DEFAULT
+APLICACION                     PASSWORD_LIFE_TIME               PASSWORD DEFAULT
+APLICACION                     PASSWORD_LOCK_TIME               PASSWORD DEFAULT
+APLICACION                     PASSWORD_REUSE_MAX               PASSWORD DEFAULT
+APLICACION                     PASSWORD_REUSE_TIME              PASSWORD DEFAULT
+APLICACION                     PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+APLICACION                     PRIVATE_SGA                      KERNEL   DEFAULT
+APLICACION                     SESSIONS_PER_USER                KERNEL   2000
+USER_DBA                       COMPOSITE_LIMIT                  KERNEL   UNLIMITED
+USER_DBA                       CONNECT_TIME                     KERNEL   UNLIMITED
+USER_DBA                       CPU_PER_CALL                     KERNEL   UNLIMITED
+USER_DBA                       CPU_PER_SESSION                  KERNEL   UNLIMITED
+USER_DBA                       FAILED_LOGIN_ATTEMPTS            PASSWORD 6
+USER_DBA                       IDLE_TIME                        KERNEL   60
+USER_DBA                       LOGICAL_READS_PER_CALL           KERNEL   UNLIMITED
+USER_DBA                       LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USER_DBA                       PASSWORD_GRACE_TIME              PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_REUSE_MAX               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_REUSE_TIME              PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+USER_DBA                       PRIVATE_SGA                      KERNEL   UNLIMITED
+USER_DBA                       SESSIONS_PER_USER                KERNEL   45
+USUARIO                        COMPOSITE_LIMIT                  KERNEL   DEFAULT
+USUARIO                        CONNECT_TIME                     KERNEL   DEFAULT
+USUARIO                        CPU_PER_CALL                     KERNEL   UNLIMITED
+USUARIO                        CPU_PER_SESSION                  KERNEL   DEFAULT
+USUARIO                        FAILED_LOGIN_ATTEMPTS            PASSWORD UNLIMITED
+USUARIO                        IDLE_TIME                        KERNEL   UNLIMITED
+USUARIO                        LOGICAL_READS_PER_CALL           KERNEL   819200
+USUARIO                        LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USUARIO                        PASSWORD_GRACE_TIME              PASSWORD 3
+USUARIO                        PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_REUSE_MAX               PASSWORD 13
+USUARIO                        PASSWORD_REUSE_TIME              PASSWORD 30
+USUARIO                        PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+USUARIO                        PRIVATE_SGA                      KERNEL   DEFAULT
+USUARIO                        SESSIONS_PER_USER                KERNEL   750
+
+OPGE
+
+PROFILE                        RESOURCE_NAME                    RESOURCE LIMIT
+------------------------------ -------------------------------- -------- ----------------------------------------
+APLICACION                     COMPOSITE_LIMIT                  KERNEL   DEFAULT
+APLICACION                     CONNECT_TIME                     KERNEL   DEFAULT
+APLICACION                     CPU_PER_CALL                     KERNEL   DEFAULT
+APLICACION                     CPU_PER_SESSION                  KERNEL   DEFAULT
+APLICACION                     FAILED_LOGIN_ATTEMPTS            PASSWORD DEFAULT
+APLICACION                     IDLE_TIME                        KERNEL   DEFAULT
+APLICACION                     LOGICAL_READS_PER_CALL           KERNEL   DEFAULT
+APLICACION                     LOGICAL_READS_PER_SESSION        KERNEL   DEFAULT
+APLICACION                     PASSWORD_GRACE_TIME              PASSWORD DEFAULT
+APLICACION                     PASSWORD_LIFE_TIME               PASSWORD DEFAULT
+APLICACION                     PASSWORD_LOCK_TIME               PASSWORD DEFAULT
+APLICACION                     PASSWORD_REUSE_MAX               PASSWORD DEFAULT
+APLICACION                     PASSWORD_REUSE_TIME              PASSWORD DEFAULT
+APLICACION                     PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+APLICACION                     PRIVATE_SGA                      KERNEL   DEFAULT
+APLICACION                     SESSIONS_PER_USER                KERNEL   2000
+USER_DBA                       COMPOSITE_LIMIT                  KERNEL   UNLIMITED
+USER_DBA                       CONNECT_TIME                     KERNEL   UNLIMITED
+USER_DBA                       CPU_PER_CALL                     KERNEL   UNLIMITED
+USER_DBA                       CPU_PER_SESSION                  KERNEL   UNLIMITED
+USER_DBA                       FAILED_LOGIN_ATTEMPTS            PASSWORD 6
+USER_DBA                       IDLE_TIME                        KERNEL   60
+USER_DBA                       LOGICAL_READS_PER_CALL           KERNEL   UNLIMITED
+USER_DBA                       LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USER_DBA                       PASSWORD_GRACE_TIME              PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_REUSE_MAX               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_REUSE_TIME              PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+USER_DBA                       PRIVATE_SGA                      KERNEL   UNLIMITED
+USER_DBA                       SESSIONS_PER_USER                KERNEL   45
+USUARIO                        COMPOSITE_LIMIT                  KERNEL   DEFAULT
+USUARIO                        CONNECT_TIME                     KERNEL   DEFAULT
+USUARIO                        CPU_PER_CALL                     KERNEL   UNLIMITED
+USUARIO                        CPU_PER_SESSION                  KERNEL   DEFAULT
+USUARIO                        FAILED_LOGIN_ATTEMPTS            PASSWORD 4
+USUARIO                        IDLE_TIME                        KERNEL   UNLIMITED
+USUARIO                        LOGICAL_READS_PER_CALL           KERNEL   819200
+USUARIO                        LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USUARIO                        PASSWORD_GRACE_TIME              PASSWORD 3
+USUARIO                        PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_REUSE_MAX               PASSWORD 13
+USUARIO                        PASSWORD_REUSE_TIME              PASSWORD 30
+USUARIO                        PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+USUARIO                        PRIVATE_SGA                      KERNEL   DEFAULT
+USUARIO                        SESSIONS_PER_USER                KERNEL   100
+
+
+PPCS
+
+PROFILE                        RESOURCE_NAME                    RESOURCE LIMIT
+------------------------------ -------------------------------- -------- ----------------------------------------
+APLICACION                     COMPOSITE_LIMIT                  KERNEL   DEFAULT
+APLICACION                     CONNECT_TIME                     KERNEL   DEFAULT
+APLICACION                     CPU_PER_CALL                     KERNEL   DEFAULT
+APLICACION                     CPU_PER_SESSION                  KERNEL   DEFAULT
+APLICACION                     FAILED_LOGIN_ATTEMPTS            PASSWORD DEFAULT
+APLICACION                     IDLE_TIME                        KERNEL   DEFAULT
+APLICACION                     LOGICAL_READS_PER_CALL           KERNEL   DEFAULT
+APLICACION                     LOGICAL_READS_PER_SESSION        KERNEL   DEFAULT
+APLICACION                     PASSWORD_GRACE_TIME              PASSWORD DEFAULT
+APLICACION                     PASSWORD_LIFE_TIME               PASSWORD DEFAULT
+APLICACION                     PASSWORD_LOCK_TIME               PASSWORD DEFAULT
+APLICACION                     PASSWORD_REUSE_MAX               PASSWORD DEFAULT
+APLICACION                     PASSWORD_REUSE_TIME              PASSWORD DEFAULT
+APLICACION                     PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+APLICACION                     PRIVATE_SGA                      KERNEL   DEFAULT
+APLICACION                     SESSIONS_PER_USER                KERNEL   2000
+USER_DBA                       COMPOSITE_LIMIT                  KERNEL   UNLIMITED
+USER_DBA                       CONNECT_TIME                     KERNEL   UNLIMITED
+USER_DBA                       CPU_PER_CALL                     KERNEL   UNLIMITED
+USER_DBA                       CPU_PER_SESSION                  KERNEL   UNLIMITED
+USER_DBA                       FAILED_LOGIN_ATTEMPTS            PASSWORD 6
+USER_DBA                       IDLE_TIME                        KERNEL   60
+USER_DBA                       LOGICAL_READS_PER_CALL           KERNEL   UNLIMITED
+USER_DBA                       LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USER_DBA                       PASSWORD_GRACE_TIME              PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_REUSE_MAX               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_REUSE_TIME              PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+USER_DBA                       PRIVATE_SGA                      KERNEL   UNLIMITED
+USER_DBA                       SESSIONS_PER_USER                KERNEL   45
+USUARIO                        COMPOSITE_LIMIT                  KERNEL   DEFAULT
+USUARIO                        CONNECT_TIME                     KERNEL   DEFAULT
+USUARIO                        CPU_PER_CALL                     KERNEL   UNLIMITED
+USUARIO                        CPU_PER_SESSION                  KERNEL   DEFAULT
+USUARIO                        FAILED_LOGIN_ATTEMPTS            PASSWORD 4
+USUARIO                        IDLE_TIME                        KERNEL   UNLIMITED
+USUARIO                        LOGICAL_READS_PER_CALL           KERNEL   UNLIMITED
+USUARIO                        LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USUARIO                        PASSWORD_GRACE_TIME              PASSWORD 3
+USUARIO                        PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_REUSE_MAX               PASSWORD 13
+USUARIO                        PASSWORD_REUSE_TIME              PASSWORD 30
+USUARIO                        PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+USUARIO                        PRIVATE_SGA                      KERNEL   DEFAULT
+USUARIO                        SESSIONS_PER_USER                KERNEL   650
+
+
+
+
+RASC
+
+PROFILE                        RESOURCE_NAME                    RESOURCE LIMIT
+------------------------------ -------------------------------- -------- ----------------------------------------
+APLICACION                     COMPOSITE_LIMIT                  KERNEL   DEFAULT
+APLICACION                     CONNECT_TIME                     KERNEL   DEFAULT
+APLICACION                     CPU_PER_CALL                     KERNEL   DEFAULT
+APLICACION                     CPU_PER_SESSION                  KERNEL   DEFAULT
+APLICACION                     FAILED_LOGIN_ATTEMPTS            PASSWORD DEFAULT
+APLICACION                     IDLE_TIME                        KERNEL   DEFAULT
+APLICACION                     LOGICAL_READS_PER_CALL           KERNEL   DEFAULT
+APLICACION                     LOGICAL_READS_PER_SESSION        KERNEL   DEFAULT
+APLICACION                     PASSWORD_GRACE_TIME              PASSWORD DEFAULT
+APLICACION                     PASSWORD_LIFE_TIME               PASSWORD DEFAULT
+APLICACION                     PASSWORD_LOCK_TIME               PASSWORD DEFAULT
+APLICACION                     PASSWORD_REUSE_MAX               PASSWORD DEFAULT
+APLICACION                     PASSWORD_REUSE_TIME              PASSWORD DEFAULT
+APLICACION                     PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+APLICACION                     PRIVATE_SGA                      KERNEL   DEFAULT
+APLICACION                     SESSIONS_PER_USER                KERNEL   2000
+USER_DBA                       COMPOSITE_LIMIT                  KERNEL   UNLIMITED
+USER_DBA                       CONNECT_TIME                     KERNEL   UNLIMITED
+USER_DBA                       CPU_PER_CALL                     KERNEL   UNLIMITED
+USER_DBA                       CPU_PER_SESSION                  KERNEL   UNLIMITED
+USER_DBA                       FAILED_LOGIN_ATTEMPTS            PASSWORD 6
+USER_DBA                       IDLE_TIME                        KERNEL   60
+USER_DBA                       LOGICAL_READS_PER_CALL           KERNEL   UNLIMITED
+USER_DBA                       LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USER_DBA                       PASSWORD_GRACE_TIME              PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_REUSE_MAX               PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_REUSE_TIME              PASSWORD UNLIMITED
+USER_DBA                       PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+USER_DBA                       PRIVATE_SGA                      KERNEL   UNLIMITED
+USER_DBA                       SESSIONS_PER_USER                KERNEL   45
+USUARIO                        COMPOSITE_LIMIT                  KERNEL   DEFAULT
+USUARIO                        CONNECT_TIME                     KERNEL   DEFAULT
+USUARIO                        CPU_PER_CALL                     KERNEL   UNLIMITED
+USUARIO                        CPU_PER_SESSION                  KERNEL   DEFAULT
+USUARIO                        FAILED_LOGIN_ATTEMPTS            PASSWORD 4
+USUARIO                        IDLE_TIME                        KERNEL   UNLIMITED
+USUARIO                        LOGICAL_READS_PER_CALL           KERNEL   819200
+USUARIO                        LOGICAL_READS_PER_SESSION        KERNEL   UNLIMITED
+USUARIO                        PASSWORD_GRACE_TIME              PASSWORD 3
+USUARIO                        PASSWORD_LIFE_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_LOCK_TIME               PASSWORD UNLIMITED
+USUARIO                        PASSWORD_REUSE_MAX               PASSWORD 13
+USUARIO                        PASSWORD_REUSE_TIME              PASSWORD 30
+USUARIO                        PASSWORD_VERIFY_FUNCTION         PASSWORD VERIFY_FUNCTION
+USUARIO                        PRIVATE_SGA                      KERNEL   DEFAULT
+USUARIO                        SESSIONS_PER_USER                KERNEL   100
+
+
+
+

@@ -1,0 +1,22 @@
+--------------------------
+Compile Program
+--------------------------
+javac PlaySoundFile.java
+
+
+--------------------------
+Run Program
+--------------------------
+java PlaySoundFile
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Playing sound file: file:///WINNT/Media/Windows Logon Sound.wav
+Completed sound file: file:///WINNT/Media/Windows Logon Sound.wav
+
+Playing sound file: file:///WINNT/Media/Windows Logoff Sound.wav
+Completed sound file: file:///WINNT/Media/Windows Logoff Sound.wav

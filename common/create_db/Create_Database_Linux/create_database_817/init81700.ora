@@ -1,0 +1,263 @@
+# +-------------------------------------------------------------------+
+# | FILE          : initORA817.ora                                    |
+# | CREATION DATE : 19-MAY-2002                                       |
+# | SERVER        : JeffreyH2.comanage.net                            |
+# | SERVER TYPE   : UNIX / Linux                                      |
+# | DATABASE NAME : "ORA817"                                          |
+# | INSTANCE NAME : ORA817                                            |
+# | GLOBAL NAME   : ORA817_JEFFREYH2.COMANAGE.NET                     |
+# |                                                                   |
+# |  --------                                                         |
+# | |HISTORY |                                                        |
+# |  ---------------------------------------------------------------- |
+# | NAME DATE      DESCRIPTION (including old/new values)             |
+# | ---- --------- -------------------------------------------------- |
+# | JMH  19-MAY-02 Created original file.                             |
+# +-------------------------------------------------------------------+
+
+# +-------------------+
+# | HIDDEN PARAMETERS |
+# +-------------------+
+_trace_files_public       = TRUE
+_complex_view_merging     = TRUE
+_push_join_predicate      = TRUE
+
+# +---------------------+
+# | DATABASE PARAMETERS |
+# +---------------------+
+O7_DICTIONARY_ACCESSIBILITY                   = TRUE
+# active_instance_count                       =
+# always_anti_join                            = NESTED_LOOPS
+# always_semi_join                            = standard
+aq_tm_processes                               = 1
+audit_file_dest                   = /u01/app/oracle/admin/ORA817/adump
+audit_trail                                   = NONE
+# background_core_dump                        = partial
+background_dump_dest              = /u01/app/oracle/admin/ORA817/bdump
+# backup_tape_io_slaves                       = FALSE
+# bitmap_merge_area_size                      = 1048576
+# blank_trimming                              = FALSE
+# buffer_pool_keep                            =
+# buffer_pool_recycle                         =
+# commit_point_strength                       = 1
+compatible                                    = 8.1.7
+control_file_record_keep_time                 = 7
+control_files                     = ( /u03/app/oradata/ORA817/control01.ctl
+                                    , /u04/app/oradata/ORA817/control02.ctl
+                                    , /u05/app/oradata/ORA817/control03.ctl)
+core_dump_dest                    = /u01/app/oracle/admin/ORA817/cdump
+# cpu_count                                   = 2
+# create_bitmap_area_size                     = 8388608
+cursor_sharing                                = EXACT
+cursor_space_for_time                         = FALSE
+db_block_buffers                              = 1000
+db_block_checking                             = FALSE
+db_block_checksum                             = FALSE
+# db_block_lru_latches                        = 1
+# db_block_max_dirty_target                   = 500
+db_block_size                                 = 8192
+db_domain                                     = COMANAGE.NET
+# db_file_direct_io_count                     = 64
+db_file_multiblock_read_count                 = 32
+# db_file_name_convert                        =
+db_files                                      = 600
+db_name                                       = "ORA817"
+# db_writer_processes                         = 1
+# dblink_encrypt_login                        = FALSE
+# dbwr_io_slaves                              = 0
+# disk_asynch_io                              = TRUE
+# distributed_transactions                    = 16
+# dml_locks                                   = 3000
+# enqueue_resources                           = 5000
+# event                                       =
+# fast_start_io_target                        = 500
+# fast_start_parallel_rollback                = LOW
+# fixed_date                                  =
+# gc_defer_time                               = 10
+# gc_files_to_locks                           =
+# gc_releasable_locks                         = 0
+# gc_rollback_locks                           = 0-128=32!8REACH
+global_names                                  = FALSE
+# hash_area_size                              = 512000
+# hash_join_enabled                           = TRUE
+# hash_multiblock_io_count                    = 0
+# hi_shared_memory_address                    = 0
+# hs_autoregister                             = TRUE
+# ifile                                       =
+# instance_groups                             =
+instance_name                                 = ORA817
+# instance_number                             = 0
+# java_max_sessionspace_size                  = 0
+java_pool_size                                = 30000000
+# java_soft_sessionspace_limit                = 0
+job_queue_interval                            = 60
+job_queue_processes                           = 2
+large_pool_size                               = 20000000
+# license_max_sessions                        = 50
+# license_max_users                           = 100
+# license_sessions_warning                    = 45
+# lm_locks                                    = 12000
+# lm_ress                                     = 6000
+# local_listener                              =
+# lock_name_space                             =
+# lock_sga                                    = FALSE
+# log_archive_dest                            = 
+log_archive_dest_1                = "location=/u07/app/oradata/ORA817/archive MANDATORY"
+log_archive_dest_2                = "service=ORA817_STBY OPTIONAL REOPEN=30"
+# log_archive_dest_3                          =
+# log_archive_dest_4                          =
+# log_archive_dest_5                          =
+log_archive_dest_state_1                      = enable
+log_archive_dest_state_2                      = defer
+# log_archive_dest_state_3                    = enable
+# log_archive_dest_state_4                    = enable
+# log_archive_dest_state_5                    = enable
+# log_archive_duplex_dest                     =
+log_archive_format                            = "arch_t%t_s%s.dbf"
+# log_archive_max_processes                   = 1
+# log_archive_min_succeed_dest                = 1
+log_archive_start                             = TRUE
+# log_archive_trace                           = 0
+log_buffer                                    = 32768
+# log_checkpoint_interval                     = 12500000
+log_checkpoint_timeout                        = 21600
+log_checkpoints_to_alert                      = TRUE
+# log_file_name_convert                       =
+# max_commit_propagation_delay                = 700
+max_dump_file_size                            = unlimited
+max_enabled_roles                             = 145
+# max_rollback_segments                       = 30
+# mts_circuits                                = 0
+#
+# +--------------------------------------------------------------+
+# | For use with Oracle Servlet Engine (OSE)                     |
+# | For use with Oracle Enterprise Java Beans (EJB)              |
+# | - OSE and EJBs need the multi-threaded server configured.    |
+# +--------------------------------------------------------------+
+# mts_dispatchers="(PROTOCOL=TCP)(DISPATCHERS=4)(CONNECTIONS=250)"
+#
+# +--------------------------------------------------------------+
+# | For use with Oracle Enterprise Java Beans (EJB)              |
+# | - Configuring Indirect IIOP access (via a listener)          |
+# | - This also requires a DESCRIPTION of PRESENTATION=GIOP      |
+# |   on port 2481.                                              |
+# +--------------------------------------------------------------+
+# mts_dispatchers="(PROTOCOL=TCP)(PRE=oracle.aurora.server.SGiopServer)"
+#
+# +--------------------------------------------------------------+
+# | For use with Oracle Enterprise Java Beans (EJB)              |
+# | - Configuring Direct IIOP access (directly to a dispatcher)  |
+# | - This does not require additional settings in the listener  |
+# |   configuration file.                                        |
+# +--------------------------------------------------------------+
+# mts_dispatchers="(ADDRESS=(PROTOCOL=TCP)(PORT=2482))(DISPATCHERS=1)(PRESENTATION=oracle.aurora.server.SGiopServer)"
+#
+# mts_listener_address                        =
+# mts_max_dispatchers                         = 5
+# mts_max_servers                             = 20
+# mts_multiple_listeners                      = FALSE
+# mts_servers                                 = 0
+# mts_service                                 = ORA817
+# mts_sessions                                = 0
+# nls_calendar                                =
+# nls_comp                                    =
+# nls_currency                                =
+# nls_date_format                             = DD-MON-RR
+# nls_date_language                           =
+# nls_dual_currency                           =
+# nls_iso_currency                            =
+# nls_language                                = AMERICAN
+# nls_numeric_characters                      =
+# nls_sort                                    =
+# nls_territory                               = AMERICA
+# nls_time_format                             =
+# nls_time_tz_format                          =
+# nls_timestamp_format                        =
+# nls_timestamp_tz_format                     =
+# object_cache_max_size_percent               = 10
+# object_cache_optimal_size                   = 102400
+open_cursors                                  = 1000
+open_links                                    = 10
+# open_links_per_instance                     = 4
+# ops_interconnects                           =
+# optimizer_features_enable                   = 8.1.6
+# optimizer_index_caching                     = 0
+# optimizer_index_cost_adj                    = 100
+# optimizer_max_permutations                  = 80000
+optimizer_mode                                = CHOOSE
+# optimizer_percent_parallel                  = 0
+# oracle_trace_collection_name                =
+# oracle_trace_collection_path                = ?/otrace/admin/cdf
+# oracle_trace_collection_size                = 5242880
+# oracle_trace_enable                         = FALSE
+# oracle_trace_facility_name                  = oracled
+# oracle_trace_facility_path                  = ?/otrace/admin/fdf
+# os_authent_prefix                           = ops$
+# os_roles                                    = FALSE
+# parallel_adaptive_multi_user                = FALSE
+parallel_automatic_tuning                     = TRUE
+# parallel_broadcast_enabled                  = FALSE
+# parallel_execution_message_size             = 2148
+# parallel_instance_group                     =
+parallel_max_servers                          = 5
+# parallel_min_percent                        = 0
+# parallel_min_servers                        = 0
+# parallel_server                             = FALSE
+# parallel_server_instances                   = 1
+# parallel_threads_per_cpu                    = 2
+# partition_view_enabled                      = FALSE
+# plsql_v2_compatibility                      = FALSE
+pre_page_sga                                  = TRUE
+processes                                     = 250
+query_rewrite_enabled                         = TRUE
+query_rewrite_integrity                       = enforced
+# rdbms_server_dn                             =
+# read_only_open_delayed                      = FALSE
+# recovery_parallelism                        = 0
+# remote_dependencies_mode                    = TIMESTAMP
+remote_login_passwordfile                     = EXCLUSIVE
+# remote_os_authent                           = FALSE
+# remote_os_roles                             = FALSE
+# replication_dependency_tracking             = TRUE
+# resource_limit                              = FALSE
+# resource_manager_plan                       =
+rollback_segments                            = (rbs1,
+                                                rbs2,
+                                                rbs3,
+                                                rbs4,
+                                                rbs5,
+                                                rbs6,
+                                                rbs7,
+                                                rbs8)
+# row_locking                                 = always
+# serial_reuse                                = DISABLE
+# serializable                                = FALSE
+service_names                                 = ORA817_JEFFREYH2.COMANAGE.NET
+# session_cached_cursors                      = 0
+# session_max_open_files                      = 10
+# sessions                                    = 60
+# shadow_core_dump                            = partial
+# shared_memory_address                       = 0
+# shared_pool_reserved_size                   = 175000
+shared_pool_size                              = 50000000
+sort_area_retained_size                       = 256000
+sort_area_size                                = 256000
+# sort_multiblock_read_count                  = 2
+# sql92_security                              = FALSE
+# sql_trace                                   = FALSE
+# sql_version                                 = NATIVE
+# standby_archive_dest            = /u07/app/oradata/ORA817/archive
+# star_transformation_enabled                 = FALSE
+# tape_asynch_io                              = TRUE
+# text_enable                                 = FALSE
+# thread                                      = 0
+# timed_os_statistics                         = 0
+timed_statistics                              = TRUE
+# tracefile_identifier                        =
+# transaction_auditing                        = TRUE
+# transactions                                = 66
+# transactions_per_rollback_segment           = 5
+# use_indirect_data_buffers                   = FALSE
+user_dump_dest                    = /u01/app/oracle/admin/ORA817/udump
+utl_file_dir                      = /u01/app/oracle/common/out
+utl_file_dir                      = /u01/app/oracle/common/extproc

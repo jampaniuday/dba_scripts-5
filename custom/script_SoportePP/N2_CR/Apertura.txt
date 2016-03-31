@@ -1,0 +1,102 @@
+# Inicio script Abre BD
+#!/bin/bash
+# Script para abrir y cerrar bases n2, el script se alimenta del archivo nodosbs.txt
+# de alli tomara
+# APLI= valor del modulo de altamira a usar PPGA/PPCS/OPGE/RASC, se recibe como parametro
+# AP1= utilizado para el path en los nodos remotos. TNSNAMES base
+# NODO= equipo al que se conectara
+# ORSI= Oracle_SID
+
+# export LD_ASSUME_KERNEL=2.4.1
+export ORACLE_BASE=/softw/app/oracle
+export CRS_HOME=${ORACLE_BASE}/product/10.2.0/crs
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db;
+export ORACLE_DATA=${ORACLE_BASE}/oradata;
+export NLS_LANG=spanish_spain.WE8ISO8859P9;
+export NLS_SORT=BINARY;
+export ORACLE_OWNER=oracle;
+export ORACLE_TERM=xterm
+export PATH=${PATH}:${CRS_HOME}/bin:${ORACLE_HOME}/bin:${ORACLE_HOME}/OPatch:/usr/local/sbin:/usr/local/bin:.
+#export NLS_LANG=SPANISH;
+export ORA_NLS10=${ORACLE_HOME}/nls/data
+export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data;
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CRS_HOME}/lib:${ORACLE_HOME}/lib:/usr/local/lib:/lib:/usr/lib;
+RUTA=/home/oracle/n2
+APLI=$1
+
+# Conexion como SYS a las bases de N2
+conexion_sg_n2 ()
+{
+#USERBD=usuario
+#PASSBD=clave
+sqlplus -s / as sysdba
+}
+
+if [ `cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | wc -l` = 1 ]
+then
+        AP1=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[1]}'`
+        NODO=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[3]}'`
+        ORSI=`cat ${RUTA}/nodosbd.txt | grep -i ${APLI} | awk '{split ($1,b,"|"); print b[2]}'`
+        echo " dir "${AP1}
+        echo "nodo "$NODO
+        echo " Sid "$ORSI
+
+	export ORACLE_SID=${ORSI}
+
+        else
+                echo " Variable incorrecta"
+                exit
+fi
+
+# Verifico si la BD esta abierta o cerrada
+STATUS="select STATUS from v\$instance;"
+db_status=`conexion_sg_n2 <<EOF
+           set linesize 200
+           set newp none
+           set serveroutput on size 1000000
+           set feedback off
+           set heading off
+           $STATUS
+           exit
+
+EOF
+           ` > /dev/null
+if [[ "${db_status}" = "OPEN" ]]
+        then
+                echo " la base se encontraba abierta "
+                exit
+fi
+
+# Controlo que la base consultada sea primaria
+QUERY_ROLE="select DATABASE_ROLE from v\$database;"
+db_status_role=`conexion_sg_n2 <<EOF
+           set linesize 200
+           set newp none
+           set serveroutput on size 1000000
+           set feedback off
+           set heading off
+           $QUERY_ROLE
+           exit
+
+EOF
+           ` > /dev/null
+
+if [[ "${db_status_role}" = "PHYSICAL STANDBY" ]]
+        then
+                # Se inicia apertura
+                echo " Se inicia proceso de Apertura de BD"
+                echo `date`
+                echo " Abriendo BD "${ORSI}", en nodo "${NODO}
+                ssh oracle@${NODO} "/home/oracle/n2/./BajaFisica.ksh ${AP1} ${ORSI}"
+                echo " BD Abierta"
+                echo `date `
+        else
+                echo " BD consultada de N1, status "${db_status_role}
+fi
+
+
+# FIN script Abre BD
+
+
+
+

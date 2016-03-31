@@ -1,0 +1,176 @@
+# +------------------------------------------------------------+
+# | FILE          : .profile                                   |
+# | CREATION DATE : 12-MAY-2002                                |
+# | OS PLATFORM   : LINUX / KSH                                |
+# |                                                            |
+# |  --------                                                  |
+# | |HISTORY |                                                 |
+# |  --------------------------------------------------------- |
+# | NAME DATE      DESCRIPTION                                 |
+# | ---- --------- ------------------------------------------- |
+# | JMH  12-MAY-02 Created original file.                      |
+# +------------------------------------------------------------+
+
+# +------------------------------------------------------------+
+# | MISCELLANEOUS ENVIRONMENT SETTINGS                         |
+# +------------------------------------------------------------+
+
+umask 022
+EPC_DISABLED=TRUE;           export EPC_DISABLED
+EDITOR=vi;                   export EDITOR
+TERM=vt100;                  export TERM
+TMP=/tmp;                    export TMP
+TMPDIR=/tmp;                 export TMPDIR
+# DISPLAY=dbaprod:0;         export DISPLAY
+
+# +------------------------------------------------------------+
+# | SETUP ALL ALIASES                                          |
+# +------------------------------------------------------------+
+
+alias ls='ls -FA'
+alias h=history
+
+# +------------------------------------------------------------+
+# | JAVA / ANT / SERVLET SETTINGS                              |
+# +------------------------------------------------------------+
+
+APACHE_HOME=/u02/app/apache
+export APACHE_HOME
+
+CATALINA_HOME=/u02/app/tomcat
+export CATALINA_HOME
+
+ANT_HOME=/usr/local/ant
+export ANT_HOME
+
+JAVA_HOME=/usr/local/java
+export JAVA_HOME
+
+J2EE_HOME=/usr/local/j2ee
+export J2EE_HOME
+
+JAVACC_HOME=/usr/local/javacc
+export JAVACC_HOME
+
+ORA_JAVA_PATH=/u01/app/oracle/product/8.1.7
+export ORA_JAVA_PATH
+
+# +------------------------------------------------------------+
+# | CLASSPATH                                                  |
+# +------------------------------------------------------------+
+
+# ------------  [   Include Current Directory  ]   -------------
+CLASSPATH=.
+
+# ------------   [     Oracle JDBC Driver       ]   -------------
+CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/jdbc/lib/classes12.zip
+
+# ------------   [     Oracle EJB Server       ]   -------------
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/lib/aurora_client.jar
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/lib/translator.zip
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/lib/vbjorb.jar
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/lib/vbjapp.jar
+
+# ------------  [    Oracle Servlet Engine     ]   -------------
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/jis/lib/servlet.jar
+# CLASSPATH=$CLASSPATH:$ORA_JAVA_PATH/sqlj/lib/translator.zip
+
+# ------------  [        Tomcat Servlet        ]   -------------
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/common/lib/servlet.jar
+
+# ------------  [     TrueSource Servlets      ]   -------------
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/ldapfilt.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/ldapjdk.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/xmlparserv2.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/fscontext.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/jndi.jar
+# CLASSPATH=$CLASSPATH:$CATALINA_HOME/webapps/comanage/WEB-INF/lib/providerutil.jar
+
+# ------------  [   Export CLASSPATH variable  ]   -------------
+export CLASSPATH
+
+
+# +------------------------------------------------------------+
+# | PATH                                                       |
+# |                                                            |
+# | NOTE: Setting the PATH environment variable needs to come  |
+# |       before the call to oraenv. If not, the call to       |
+# |       dbhome will fail.                                    |
+# | NOTE: Keep in mind that $ORACLE_HOME/bin will get appended |
+# |       to the end of $PATH after the call to oraenv.        |
+# +------------------------------------------------------------+
+
+PATH=/usr/local/bin:$JAVA_HOME/bin:$J2EE_HOME/bin:$JAVACC_HOME/bin:$ANT_HOME/bin:$CATALINA_HOME/bin:$HOME/common/bin:/opt/bin:/bin:/usr/bin:/usr/sbin:/usr/X11R6/bin:.
+export PATH
+
+# +------------------------------------------------------------+
+# | ORACLE BUGS                                                |
+# |                                                            |
+# | NOTE: The following calls should be made for installing    |
+# |       Oracle 8i (8.1.7) on both Redhat 7.1 and 7.2.        |
+# | NOTE: When installing on RedHat 8.0, ONLY set the          |
+# |       LD_ASSUME_KERNEL environment variable.               |
+# +------------------------------------------------------------+
+
+LD_ASSUME_KERNEL=2.2.5
+export LD_ASSUME_KERNEL
+
+. /usr/i386-glibc21-linux/bin/i386-glibc21-linux-env.sh
+
+
+# +------------------------------------------------------------+
+# | ORACLE ENVIRONMENT                                         |
+# |                                                            |
+# | NOTE: There is no need to set the $ORACLE_HOME environment |
+# |       variable. This will be set when the oraenv script    |
+# |       is run. The value of $ORACLE_HOME will be set using  |
+# |       values from /var/opt/oracle/oratab.                  |
+# +------------------------------------------------------------+
+
+ORACLE_BASE=/u01/app/oracle
+export ORACLE_BASE
+
+ORACLE_SID=ORA817
+export ORACLE_SID
+
+ORAENV_ASK=NO
+export ORAENV_ASK
+
+. /opt/bin/oraenv
+
+ORAENV_ASK=YES
+export ORAENV_ASK
+
+ORACLE_TERM=vt100
+export ORACLE_TERM
+
+ORA_CSM_MODE=line
+export ORA_CSM_MODE
+
+NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1
+# NLS_LANG=AMERICAN_AMERICA.UTF8
+# NLS_LANG=AMERICAN_AMERICA.US7ASCII
+export NLS_LANG
+
+ORACLE_OWNER=oracle
+export ORACLE_OWNER
+
+# +------------------------------------------------------------+
+# | SETUP LIBRARY                                              |
+# |                                                            |
+# | NOTE: Keep in mind that $ORACLE_HOME/lib will be inserted  |
+# |       to the begining of LD_LIBRYARY_PATH by ORAENV at the |
+# |       top of this script.                                  |
+# +------------------------------------------------------------+
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lib:/usr/lib:/usr/local/lib
+export LD_LIBRARY_PATH
+
+# +---------------------------+
+# | SETUP A FANCY UNIX PROMPT |
+# +---------------------------+
+PS1="\$ORACLE_SID on `hostname`: "
+
+# +-----------------------+
+# | FINISH OFF THE SCRIPT |
+# +-----------------------+
+echo ".profile executed"

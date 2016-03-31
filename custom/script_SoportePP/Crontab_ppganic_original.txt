@@ -1,0 +1,114 @@
+# Para evitar que envie correo cada vez que se ejecuta un cron: 15-oct-2009 arr
+MAILTO=""
+#0,05,10,15,20,25,30,35,40,45,50,55 * * * * ksh /archives/ppcsnic/comprime.sh > /archives/ppcsnic/comprime.lst
+#0,05,10,15,20,25,30,35,40,45,50,55 * * * * ksh /archives/ppganic/comprime.sh > /archives/ppganic/comprime.lst
+
+02,17,32,47 * * * * ksh /archives/ppganic/comprime.sh > /archives/ppganic/comprime.lst
+
+## Alarmas de filesystems y tablespaces PPGA
+#3,13,23,33,43,53 * * * * ksh /export/home/oracle/procesos/alarma.sh PPGANIC1 ppganic > /export/home/oracle/procesos/PPGANIC1/alarma.log
+## Alarmas de filesystems y tablespaces PPCS
+#3,13,23,33,43,53 * * * * ksh /export/home/oracle/procesos/alarma.sh PPCSNIC1 ppcsnic > /export/home/oracle/procesos/PPCSNIC1/alarma.log
+## Generacion de estadisticas de la base de datos
+#00 01 * * * ksh /export/home/oracle/procesos/analyzePPGA.sh > /export/home/oracle/procesos/analyzePPGA.log
+#0 22 * * * bash /export/home/oracle/procesos/analyzePPCS.sh > /export/home/oracle/procesos/analyzePPCS.log
+# Colecta estadisticas de indices para fragmentacion PPCSNIC
+#0 23 * * 6 bash /export/home/oracle/procesos/index_fragmentationPPCS.sh > /export/home/oracle/procesos/index_fragmentationPPCS.log
+# Colecta estadisticas de indices para fragmentacion PPGANIC
+# 0 1 * * * bash /export/home/oracle/procesos/index_fragmentationPPGA.sh > /export/home/oracle/procesos/index_fragmentationPPGA.log
+#
+# Monitoreo storage SO
+#57 23 * * *  ksh /export/home/oracle/dba/script_storage/monitoreo_so.sh ora PPCSNIC1  > /export/home/oracle/dba/script_storage/monitoreo_PPCSNIC.log 
+#59 6 * * *  ksh /export/home/oracle/dba/script_storage/monitoreo_so.sh ora PPCSNIC1  
+#50 6 * * *  ksh /export/home/oracle/dba/script_storage/monitoreo_so.sh2 ora PPGANIC1  
+# Reporte checklist de la base de datos PPCSNIC (Envia correo)
+# 0 7 * * * ksh /export/home/oracle/dba/run_checklist.sh PPCSNIC1
+#
+# Reporte checklist de la base de datos PPGANIC (Envia correo)
+
+0 7 * * * ksh /export/home/oracle/dba/run_checklist.sh PPGANIC1
+
+# Alarmas para la instancia PPGANIC1
+# 0,10,20,30,40,50 * * * * ksh /export/home/oracle/dba/run_alarma_checklist.sh PPGANIC1
+# Alarmas para la instancia PPCSNIC1
+# 2,12,22,32,42,52 * * * * ksh /export/home/oracle/dba/run_alarma_checklist.sh PPCSNIC1
+
+0,30 * * * * ksh /export/home/oracle/procesos/limpiaSP.sh>/export/home/oracle/procesos/limpiaSP.log
+
+# Alarmas Cliente: PPGANIC1
+#
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/colecta_host_file_system_data.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_alert_errors.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_archive_file_system_almost_full.sh PPGANIC1 2>&1>/dev/null
+#0,5,10,15,20,25,30,35,40,45,50,55 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_database_closed.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_database_file_system_almost_full.sh PPGANIC1 2>&1>/dev/null
+#0,5,10,15,20,25,30,35,40,45,50,55 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_host_alive.sh PPGANIC1 2>&1>/dev/null
+#0,5,10,15,20,25,30,35,40,45,50,55 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_instance_down.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_listener_errors.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_listener_up.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_oh_file_system_almost_full.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_os_file_system_almost_full.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_processes_limit.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_sessions_limit.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_tablespaces_almost_full.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_unusable_indexes.sh PPGANIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_unusable_part_indexes.sh PPGANIC1 2>&1>/dev/null
+##02:49 p.m. 19/09/2009
+
+# Alarmas Cliente: PPCSNIC1
+#
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/colecta_host_file_system_data.sh PPCSNIC1 # Este se comenta porque ya lo esta haciendo PPGANIC1
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_alert_errors.sh PPCSNIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_archive_file_system_almost_full.sh PPCSNIC1 2>&1>/dev/null
+#0,5,10,15,20,25,30,35,40,45,50,55 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_database_closed.sh PPCSNIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_database_file_system_almost_full.sh PPCSNIC1 2>&1>/dev/null
+##0,5,10,15,20,25,30,35,40,45,50,55 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_host_alive.sh PPCSNIC1 # Ya lo esta haciendo PPGANIC1
+#0,5,10,15,20,25,30,35,40,45,50,55 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_instance_down.sh PPCSNIC1 2>&1>/dev/null
+##0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_listener_errors.sh PPCSNIC1 # Ya lo esta haciendo PPGANIC1
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_listener_up.sh PPCSNIC1 # Ya lo esta haciendo PPGANIC1
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_oh_file_system_almost_full.sh PPCSNIC1 2>&1>/dev/null
+##0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_os_file_system_almost_full.sh PPCSNIC1 # Ya lo esta haciendo PPGANIC1
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_processes_limit.sh PPCSNIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_sessions_limit.sh PPCSNIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_tablespaces_almost_full.sh PPCSNIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_unusable_indexes.sh PPCSNIC1 2>&1>/dev/null
+#0,10,20,30,40,50 * * * * ksh /export/home/oracle/alarmas/alarma_cliente_unusable_part_indexes.sh PPCSNIC1 2>&1>/dev/null
+
+
+# Shell para sincronizar informacion de performance en el repositorio:
+#
+#10 * * * * ksh /export/home/oracle/performance/replicate_instance_statistics.sh PPGANIC1 > /export/home/oracle/performance/PPGANIC1/replicate_instance_statistics_PPGANIC1.log 2>&1
+#0 * * * * ksh /export/home/oracle/performance/cpu_sar.sh PPGANIC1
+#5 * * * * ksh /export/home/oracle/performance/replicate_cpu_statistics.sh PPGANIC1 > /export/home/oracle/performance/PPGANIC1/replicate_cpu_statistics_PPGANIC1.log 2>&1
+#10 * * * * ksh /export/home/oracle/performance/replicate_instance_statistics.sh PPCSNIC1 > /export/home/oracle/performance/PPCSNIC1/replicate_instance_statistics_PPCSNIC1.log 2>&1
+#0 * * * * ksh /export/home/oracle/performance/cpu_sar.sh PPCSNIC1
+#5 * * * * ksh /export/home/oracle/performance/replicate_cpu_statistics.sh PPCSNIC1 > /export/home/oracle/performance/PPCSNIC1/replicate_cpu_statistics_PPCSNIC1.log 2>&1
+
+## Depura SYS_AUD
+#0 1 * * * ksh /export/home/oracle/SOX/Depura_SYS_AUD.sh PPCSNIC1 > /export/home/oracle/SOX/Depura_SYS_AUD.lst
+
+0 1 * * * ksh /export/home/oracle/SOX/Depura_SYS_AUD.sh PPGANIC1 > /export/home/oracle/SOX/Depura_SYS_AUD.lst
+
+#
+#0 * * * * ksh /export/home/oracle/dba/monitor_undo.sh PPGANIC1
+#0 * * * * ksh /export/home/oracle/dba/monitor_undo.sh PPCSNIC1
+#
+
+00 1,3,5,7,9,11,13,15,17,19,21,23 * * * /export/home/oracle/util/erase_file.ksh /archives/ppganic *.log.gz 120
+
+# Borrado de trazas  PPGA                                                                                                           00 0 * * * find /softw/app/oracle/product/admin/PPGANIC/bdump/ -ctime +30  -exec rm -f {} \;
+00 0 * * * find /softw/app/oracle/product/admin/PPGANIC/adump/ -ctime +30  -exec rm -f {} \;
+00 0 * * * find /softw/app/oracle/product/admin/PPGANIC/udump/ -ctime +30  -exec rm -f {} \;
+00 0 * * * find /softw/app/oracle/product/admin/PPGANIC/cdump/ -ctime +30  -exec rm -f {} \;
+
+# Borrado de archivers  PPGA                                                                                                                 
+00 1,3,5,7,9,11,13,15,17,19,21,23 * * * find /archives/ppganic/ -ctime +1 \( -name "arc*.log" -o -name "arc*.log.gz" \) -exec rm -f {} \;
+
+# Borrado de trazas PPCS 
+#00 0 * * * find /softw/app/oracle/product/admin/PPCSNIC/bdump/ -ctime +30  -exec rm -f {} \;
+#00 0 * * * find /softw/app/oracle/product/admin/PPCSNIC/adump/ -ctime +30  -exec rm -f {} \;
+#00 0 * * * find /softw/app/oracle/product/admin/PPCSNIC/udump/ -ctime +30  -exec rm -f {} \;
+#00 0 * * * find /softw/app/oracle/product/admin/PPCSNIC/cdump/ -ctime +30  -exec rm -f {} \;
+
+# Borrado de archivers PPCS
+#00 1,3,5,7,9,11,13,15,17,19,21,23 * * * find /archives/ppcsnic/ -ctime +1 \( -name "arc*.log" -o -name "arc*.log.gz" \) -exec rm -f {} \;

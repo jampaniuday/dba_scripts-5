@@ -1,0 +1,79 @@
+Alta disponibilidad en Servidores PPGA de CAM
+
+Debido a las pruebas de alta disponibilidad en los servidores de PPGA de Centro America se a encontrado que en algunos casos al bajarse el servidor principal el Aplicativo ADM pierde comunicacion y no se reconecta al servidor secundario.
+
+Por lo que se solicita verificar la configuracion de la conexion del aplicativo para que ante una falla se reconecte al servidor que esta dando el servicio.
+
+Se adjunta la entrada de TNSNAMES que se utiliza en los otros aplicativos.
+
+
+GUPPGA =
+(DESCRIPTION=
+(ENABLE=BROKEN)
+  (ADDRESS_LIST=
+   (LOAD_BALANCE=on)
+   (FAILOVER=on)
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.127.143)(PORT = 1521))
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.127.144)(PORT = 1521))
+    )
+  (CONNECT_DATA =
+    (SERVICE_NAME = PPGAGUA)
+  )
+)
+
+SVPPGA =
+(DESCRIPTION=
+(ENABLE=BROKEN)
+  (ADDRESS_LIST=
+   (LOAD_BALANCE=on)
+   (FAILOVER=on)
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.127.201)(PORT = 1521))
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.127.202)(PORT = 1521))
+    )
+  (CONNECT_DATA =
+    (SERVICE_NAME = PPGASLV)
+  )
+)
+
+
+NIPPGA =
+(DESCRIPTION=
+(ENABLE=BROKEN)
+  (ADDRESS_LIST=
+   (LOAD_BALANCE=on)
+   (FAILOVER=on)
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.127.231)(PORT = 1521))
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.127.232)(PORT = 1521))
+    )
+  (CONNECT_DATA =
+    (SERVICE_NAME = PPGANIC)
+  )
+)
+
+CRPPGA =
+(DESCRIPTION=
+(ENABLE=BROKEN)
+  (ADDRESS_LIST=
+   (LOAD_BALANCE=on)
+   (FAILOVER=on)
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.28.191)(PORT = 1521))
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.28.192)(PORT = 1521))
+    )
+  (CONNECT_DATA =
+    (SERVICE_NAME = CRPPGA)
+  )
+)
+
+PAPPGA =
+(DESCRIPTION=
+(ENABLE=BROKEN)
+  (ADDRESS_LIST=
+   (LOAD_BALANCE=on)
+   (FAILOVER=on)
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.127.73)(PORT = 1521))
+     (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.127.74)(PORT = 1521))
+    )
+  (CONNECT_DATA =
+    (SERVICE_NAME = PPGAPAN)
+  )
+)

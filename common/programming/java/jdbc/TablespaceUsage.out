@@ -1,0 +1,112 @@
+--------------------------
+Compile Program
+--------------------------
+javac TablespaceUsage.java
+
+
+--------------------------
+Run Program
+--------------------------
+java TablespaceUsage sundev5 1521 truesrc system manager
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+  Loading JDBC Driver  -> oracle.jdbc.driver.OracleDriver
+  Connecting to        -> jdbc:oracle:thin:@sundev5:1521:truesrc
+  Connected as         -> system
+
+  Tablespace DRSYS
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> PERMANENT
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 52,428,800
+      Used                      -> 65,536
+      Pct. Used                 -> 0%
+
+  Tablespace PERFSTAT
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> PERMANENT
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 262,144,000
+      Used                      -> 65,536
+      Pct. Used                 -> 0%
+
+  Tablespace SYSTEM
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> PERMANENT
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 838,860,800
+      Used                      -> 189,988,864
+      Pct. Used                 -> 22%
+
+  Tablespace TRUESOURCE_DATA
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> PERMANENT
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 524,288,000
+      Used                      -> 131,072
+      Pct. Used                 -> 0%
+
+  Tablespace TRUESOURCE_INDEX
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> PERMANENT
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 524,288,000
+      Used                      -> 131,072
+      Pct. Used                 -> 0%
+
+  Tablespace TRUESOURCE_METASCHEMA_DATA
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> PERMANENT
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 262,144,000
+      Used                      -> 65,536
+      Pct. Used                 -> 0%
+
+  Tablespace TRUESOURCE_METASCHEMA_INDEX
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> PERMANENT
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 262,144,000
+      Used                      -> 65,536
+      Pct. Used                 -> 0%
+
+  Tablespace UNDOTBS
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> UNDO
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 419,430,400
+      Used                      -> 11,862,016
+      Pct. Used                 -> 2%
+
+  Tablespace USERS
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> PERMANENT
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 52,428,800
+      Used                      -> 131,072
+      Pct. Used                 -> 0%
+
+  Tablespace TEMP
+  ------------------------------------------
+      Status                    -> ONLINE
+      Type                      -> TEMPORARY
+      Extend Mgt.               -> LOCAL
+      TS Size                   -> 524,288,000
+      Used                      -> 1,048,576
+      Pct. Used                 -> 0%
+
+  Closing Connection...

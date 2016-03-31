@@ -1,0 +1,71 @@
+--------------------------
+Compile Program
+--------------------------
+javac -classpath "$JAVALIB/ldapjdk.jar:." LDAPSearchExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java -classpath "$JAVALIB/ldapjdk.jar:." LDAPSearchExample ldap.idevelopment.info 389 "" "" "o=airius.com" "(cn=*carter)"
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Search filter=(cn=*carter)
+---------------------------------------------
+DN: uid=scarter, ou=People, o=airius.com
+
+  Iterate through all attributes using hard-coded array
+    [cn: Sam Carter]
+    [mail: scarter@airius.com]
+    [telephonenumber: +1 408 555 4798]
+
+  Iterate through all attributes using getAttributes()
+  Found 3 attributes.
+    [cn: Sam Carter]
+    [mail: scarter@airius.com]
+    [telephonenumber: +1 408 555 4798]
+---------------------------------------------
+DN: uid=scarte2, ou=People, o=airius.com
+
+  Iterate through all attributes using hard-coded array
+    [cn: Stephen Carter]
+    [mail: scarte2@airius.com]
+    [telephonenumber: +1 408 555 6022]
+
+  Iterate through all attributes using getAttributes()
+  Found 3 attributes.
+    [cn: Stephen Carter]
+    [mail: scarte2@airius.com]
+    [telephonenumber: +1 408 555 6022]
+---------------------------------------------
+DN: uid=kcarter, ou=People, o=airius.com
+
+  Iterate through all attributes using hard-coded array
+    [cn: Karen Carter]
+    [mail: kcarter@airius.com]
+    [telephonenumber: +1 408 555 4675]
+
+  Iterate through all attributes using getAttributes()
+  Found 3 attributes.
+    [cn: Karen Carter]
+    [mail: kcarter@airius.com]
+    [telephonenumber: +1 408 555 4675]
+---------------------------------------------
+DN: uid=mcarter, ou=People, o=airius.com
+
+  Iterate through all attributes using hard-coded array
+    [cn: Mike Carter]
+    [mail: mcarter@airius.com]
+    [telephonenumber: +1 408 555 1846]
+
+  Iterate through all attributes using getAttributes()
+  Found 3 attributes.
+    [cn: Mike Carter]
+    [mail: mcarter@airius.com]
+    [telephonenumber: +1 408 555 1846]
+---------------------------------------------

@@ -1,0 +1,4 @@
+ARRASC|ARRASC4||<nombre_nodo>|RASC|
+AROPGE|AROPGE5||<nombre_nodo>|OPGE|
+ARPPGA|ARPPGA1|<nombre_nodo>|PPGA|
+ARPPCS|ARPPCS3||<nombre_nodo>|PPCS|

@@ -1,0 +1,102 @@
+--------------------------
+Compile Program
+--------------------------
+javac ReflectionDemo.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ReflectionDemo
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+====================
+Calendar Methods (1)
+====================
+  public int java.util.Calendar.hashCode()
+  public java.lang.Object java.util.Calendar.clone()
+  public boolean java.util.Calendar.equals(java.lang.Object)
+  public java.lang.String java.util.Calendar.toString()
+  public abstract void java.util.Calendar.add(int,int)
+  public int java.util.Calendar.get(int)
+  public final boolean java.util.Calendar.isSet(int)
+  public static java.util.Calendar java.util.Calendar.getInstance(java.util.Locale)
+  public static java.util.Calendar java.util.Calendar.getInstance(java.util.TimeZone,java.util.Locale)
+  public static java.util.Calendar java.util.Calendar.getInstance(java.util.TimeZone)
+  public static java.util.Calendar java.util.Calendar.getInstance()
+  public final void java.util.Calendar.clear(int)
+  public final void java.util.Calendar.clear()
+  public final void java.util.Calendar.set(int,int,int,int,int)
+  public final void java.util.Calendar.set(int,int,int,int,int,int)
+  public final void java.util.Calendar.set(int,int,int)
+  public void java.util.Calendar.set(int,int)
+  public static synchronized java.util.Locale[] java.util.Calendar.getAvailableLocales()
+  public final void java.util.Calendar.setTime(java.util.Date)
+  public final java.util.Date java.util.Calendar.getTime()
+  public java.util.TimeZone java.util.Calendar.getTimeZone()
+  public void java.util.Calendar.setTimeZone(java.util.TimeZone)
+  public long java.util.Calendar.getTimeInMillis()
+  public void java.util.Calendar.setTimeInMillis(long)
+  public boolean java.util.Calendar.before(java.lang.Object)
+  public boolean java.util.Calendar.after(java.lang.Object)
+  public void java.util.Calendar.roll(int,int)
+  public abstract void java.util.Calendar.roll(int,boolean)
+  public void java.util.Calendar.setLenient(boolean)
+  public boolean java.util.Calendar.isLenient()
+  public void java.util.Calendar.setFirstDayOfWeek(int)
+  public int java.util.Calendar.getFirstDayOfWeek()
+  public void java.util.Calendar.setMinimalDaysInFirstWeek(int)
+  public int java.util.Calendar.getMinimalDaysInFirstWeek()
+  public abstract int java.util.Calendar.getMinimum(int)
+  public abstract int java.util.Calendar.getMaximum(int)
+  public abstract int java.util.Calendar.getGreatestMinimum(int)
+  public abstract int java.util.Calendar.getLeastMaximum(int)
+  public int java.util.Calendar.getActualMinimum(int)
+  public int java.util.Calendar.getActualMaximum(int)
+  public final native java.lang.Class java.lang.Object.getClass()
+  public final void java.lang.Object.wait(long,int) throws java.lang.InterruptedException
+  public final native void java.lang.Object.wait(long) throws java.lang.InterruptedException
+  public final void java.lang.Object.wait() throws java.lang.InterruptedException
+  public final native void java.lang.Object.notify()
+  public final native void java.lang.Object.notifyAll()
+
+====================
+MyClass Methods (2)
+====================
+  public java.lang.String MyClass.toString()
+  public native int java.lang.Object.hashCode()
+  public final native java.lang.Class java.lang.Object.getClass()
+  public final void java.lang.Object.wait(long,int) throws java.lang.InterruptedException
+  public final native void java.lang.Object.wait(long) throws java.lang.InterruptedException
+  public final void java.lang.Object.wait() throws java.lang.InterruptedException
+  public boolean java.lang.Object.equals(java.lang.Object)
+  public final native void java.lang.Object.notify()
+  public final native void java.lang.Object.notifyAll()
+
+====================
+Calendar Methods (3)
+====================
+  Invoke static method : currentTimeMillis
+  of class             : java.lang.System
+  Results              : 1055633518748
+
+====================
+MyClass Fields (4)
+====================
+  Read idNumber          : 12345
+  Display new idNumber   : 42
+
+  Read firstName         : Alex
+  Display new firstName  : ALEX
+
+
+=======================
+Constructor Example (5)
+=======================
+  Date : Sun Jun 18 00:00:00 EDT 2000

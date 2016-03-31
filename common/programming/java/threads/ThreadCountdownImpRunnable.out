@@ -1,0 +1,79 @@
+--------------------------
+Compile Program
+--------------------------
+javac ThreadCountdownImpRunnable.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ThreadCountdownImpRunnable
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+<< MAIN METHOD (Begin) >>
+
+Starting thread number => 1
+
+  - Thread number 1 ( Current Countdown = 5 )
+
+Starting thread number => 2
+
+  - Thread number 2 ( Current Countdown = 5 )
+  - Thread number 1 ( Current Countdown = 4 )
+
+Starting thread number => 3
+
+  - Thread number 3 ( Current Countdown = 5 )
+
+Starting thread number => 4
+
+  - Thread number 4 ( Current Countdown = 5 )
+
+Starting thread number => 5
+
+
+<< All threads have now been started!!! >>
+
+<< MAIN METHOD (End) >>
+
+  - Thread number 5 ( Current Countdown = 5 )
+  - Thread number 2 ( Current Countdown = 4 )
+  - Thread number 1 ( Current Countdown = 3 )
+  - Thread number 3 ( Current Countdown = 4 )
+  - Thread number 4 ( Current Countdown = 4 )
+  - Thread number 5 ( Current Countdown = 4 )
+  - Thread number 1 ( Current Countdown = 2 )
+  - Thread number 2 ( Current Countdown = 3 )
+  - Thread number 3 ( Current Countdown = 3 )
+  - Thread number 4 ( Current Countdown = 3 )
+  - Thread number 5 ( Current Countdown = 3 )
+  - Thread number 1 ( Current Countdown = 1 )
+  - Thread number 2 ( Current Countdown = 2 )
+  - Thread number 3 ( Current Countdown = 2 )
+  - Thread number 4 ( Current Countdown = 2 )
+
+Ending thread number => 1
+
+  - Thread number 5 ( Current Countdown = 2 )
+  - Thread number 2 ( Current Countdown = 1 )
+  - Thread number 3 ( Current Countdown = 1 )
+  - Thread number 4 ( Current Countdown = 1 )
+  - Thread number 5 ( Current Countdown = 1 )
+
+Ending thread number => 2
+
+
+Ending thread number => 3
+
+
+Ending thread number => 4
+
+
+Ending thread number => 5
+

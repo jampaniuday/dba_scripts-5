@@ -1,0 +1,22 @@
+set heading off;
+set echo off;
+
+SET linesize 32767;
+SET pagesize 20000;
+col owner format a9
+col object_name format a40
+col object_type format a15
+alter session set nls_date_format='dd-mm-yyyy hh24:mi:ss'
+
+
+spool ddl_list_gt.txt
+
+select owner,OBJECT_NAME, OBJECT_TYPE, CREATED, LAST_DDL_TIME, TIMESTAMP,STATUS
+from dba_objects where owner in 
+(
+'CCALL','CCTROL','CCTROL_T2','CIMA','CONSUL','LLAMPER','OCC','OCCADAP','PREPAGO','SCPSMS','SCPSMST2','SDP'
+)
+ORDER BY owner,TIMESTAMP DESC
+
+
+spool off;

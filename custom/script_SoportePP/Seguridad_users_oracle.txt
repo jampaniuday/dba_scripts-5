@@ -1,0 +1,136 @@
+show parameter resource
+
+select username,account_status,profile from dba_users order by 3,2,1
+
+select * from dba_profiles
+
+350
+
+select * from dba_profiles where PROFILE ='DEFAULT';
+
+select * from dba_profiles where profile in ('APLICACION') order by 1,2
+
+select * from dba_profiles where profile in ('USER_DBA') order by 1,2
+
+select * from dba_profiles where profile in ('USU_E_IDLETIME') order by 1,2
+
+select * from dba_profiles where profile in ('DEFAULT') order by 1,2
+
+
+select * from dba_profiles where profile in ('APLICACION','USER_DBA','USUARIO','DEFAULT') order by 1,2
+
+
+
+SELECT INST_ID,SID,AUDSID,USER#,USERNAME,MACHINE,TERMINAL,MODULE,PROGRAM FROM GV$SESSION
+WHERE USERNAME = 'PREPAGO'
+
+
+ SELECT * FROM DBA_TAB_PRIVS WHERE OWNER ='EPREPAGO';
+
+SELECT * FROM DBA_ROLE_PRIVS  WHERE GRANTEE ='EPREPAGO';
+
+select * from dba_sys_privs where grantee = 'EPREPAGO';
+
+select username,tablespace_name,bytes/(1024*1024),max_bytes/(1024*1024) from dba_ts_quotas;
+
+
+
+
+GRANTEE                        PRIVILEGE                                ADM
+------------------------------ ---------------------------------------- ---
+PPCS                           CREATE TABLE                             NO
+PPCS                           ALTER ANY TABLE                          NO
+PPCS                           UNLIMITED TABLESPACE                     NO
+PPCS                           ALTER ANY INDEX                          NO
+
+
+SELECT * FROM DBA_TAB_PRIVS where GRANTEE in ('PPCS');
+SELECT * FROM DBA_ROLE_PRIVS  WHERE GRANTEE in ('PPCS');
+
+select * from dba_role_privs where granted_role = 'DBA';
+
+
+APPVANTIVE                     OPEN                             DEFAULT
+APP_TSALDO                     OPEN                             APLICACIONES
+
+TMPPPGA                        OPEN                             DEFAULT
+
+select * from dba_profiles where profile in ('USU_E_IDLETIME') order by 1,3,2
+
+
+alter profile APLICACION limit sessions_per_user 2000;
+
+alter profile user_dba limit sessions_per_user 45;
+
+alter profile usuario limit idle_time unlimited;
+
+alter profile usuario limit sessions_per_user 100;
+
+alter profile aplicacion limit PASSWORD_LIFE_TIME unlimited;
+
+alter profile usuario limit LOGICAL_READS_PER_CALL unlimited;
+
+alter profile usuario limit FAILED_LOGIN_ATTEMPTS unlimited;
+
+alter profile default limit PASSWORD_LIFE_TIME unlimited;
+
+
+ALTER PROFILE USU_E_IDLETIME limit idle_time 1440;
+
+ALTER PROFILE USU_E_IDLETIME limit idle_time 10;
+
+alter profile aplicacion limit PASSWORD_REUSE_TIME unlimited;
+alter profile aplicacion limit PASSWORD_REUSE_max unlimited;
+alter profile aplicacion limit PASSWORD_VERIFY_FUNCTION	NULL;
+
+alter user eppga identified by temporal;
+
+CREATE PROFILE USUARIO 
+LIMIT COMPOSITE_LIMIT   		DEFAULT
+      CONNECT_TIME			DEFAULT
+      CPU_PER_CALL			UNLIMITED
+      CPU_PER_SESSION			DEFAULT
+      IDLE_TIME				10
+      LOGICAL_READS_PER_CALL		819200
+      LOGICAL_READS_PER_SESSION		UNLIMITED
+      PRIVATE_SGA			DEFAULT
+      SESSIONS_PER_USER			650
+      FAILED_LOGIN_ATTEMPTS		4
+      PASSWORD_GRACE_TIME		3
+      PASSWORD_LIFE_TIME		UNLIMITED
+      PASSWORD_LOCK_TIME		UNLIMITED
+      PASSWORD_REUSE_MAX		13
+      PASSWORD_REUSE_TIME		30
+      PASSWORD_VERIFY_FUNCTION	NULL;
+
+
+ALTER USER TMPPPGA PROFILE USU_E_IDLETIME;
+
+ALTER USER TMPPPGA PROFILE DEFAULT;
+
+
+
+ALTER USER APPVANTIVE PROFILE DEFAULT;
+
+ALTER USER APP_TSALDO PROFILE APLICACIONES;
+
+
+ALTER USER myuser ACCOUNT LOCK;
+ALTER USER myuser ACCOUNT UNLOCK;
+ALTER USER myuser PASSWORD EXPIRE;
+
+
+ select 
+  resource_name, 
+  current_utilization, 
+  max_utilization, 
+  limit_value
+from 
+  v$resource_limit
+where 
+  resource_name in ( 'sessions', 'processes');
+
+
+
+ 
+ALTER TABLESPACE SYSTEM  ADD DATAFILE '/ora132/ppgapan/oradata/system/system04.dbf' SIZE 1024M;

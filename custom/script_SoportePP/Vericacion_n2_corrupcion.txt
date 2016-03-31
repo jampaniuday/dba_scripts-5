@@ -1,0 +1,3 @@
+select * from GV$BACKUP_CORRUPTION;
+
+select * from GV$DATABASE_BLOCK_CORRUPTION;

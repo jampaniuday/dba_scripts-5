@@ -1,0 +1,27 @@
+--------------------------
+Compile Program
+--------------------------
+javac GetSetModificationTime.java
+
+
+--------------------------
+Run Program
+--------------------------
+java GetSetModificationTime
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+The last modified time of file README_InputFile.txt
+---------------------------------------------------
+  - milliseconds since midnight, January 1, 1970, GMT = 104630339698
+  - date = Wed Feb 26 18:49:56 EST 2003
+
+Setting a new modified time for the file README_InputFile.txt
+---------------------------------------------------
+  - new milliseconds = 1046303428241
+  - date = Wed Feb 26 18:50:28 EST 2003

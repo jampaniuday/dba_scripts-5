@@ -1,0 +1,28 @@
+select rpad(conectado,15)||' '|| rpad(tiempo_h,9) ||rpad(tiempo_m,9)|| rpad(sid,8)|| rpad(serial#,8)|| rpad(unix_process,13)|| rpad(username,9)|| rpad(osuser,10)|| rpad(machine,25)|| rpad(program,40)
+from (SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+trunc(last_call_et/3600) TIEMPO_H, trunc(mod(last_call_et,3600)/60) TIEMPO_M, SID, gv\$session.SERIAL#, gv\$process.SPID UNIX_PROCESS, gv\$session.USERNAME, OSUSER, MACHINE, gv\$session.PROGRAM, MODULE
+FROM gv\$session, gv\$process
+WHERE ((gv\$session.paddr = gv\$process.addr) AND (status = 'ACTIVE'))
+AND gv\$session.USERNAME IS NOT NULL AND type != 'BACKGROUND'
+and gv\$session.USERNAME <> 'SYS'
+and gv\$session.last_call_et > CASE WHEN (sysdate > to_date (to_char(sysdate,'DDMMYYYY')||' 06:00','DDMMYYYY HH24:MI') )  then 3600 else 7200 END);
+
+
+
+select rpad(conectado,15)||' '|| rpad(tiempo_h,9) ||rpad(tiempo_m,9)|| rpad(sid,8)|| rpad(serial#,8)|| rpad(unix_process,13)|| rpad(username,9)|| rpad(osuser,10)|| rpad(machine,25)|| rpad(program,40)
+from (SELECT DECODE(TRUNC(SYSDATE - LOGON_TIME), 0, NULL, TRUNC(SYSDATE - LOGON_TIME) || ' Days' || ' + ') || TO_CHAR(TO_DATE(TRUNC(MOD(SYSDATE-LOGON_TIME,1) * 86400), 'SSSSS'), 'HH24:MI:SS') CONECTADO,
+trunc(last_call_et/3600) TIEMPO_H, trunc(mod(last_call_et,3600)/60) TIEMPO_M, SID, 
+gv$session.SERIAL#, gv$process.SPID UNIX_PROCESS, gv$session.USERNAME, OSUSER, MACHINE, gv$session.PROGRAM, MODULE
+FROM gv$session, gv$process
+WHERE ((gv$session.paddr = gv$process.addr) AND (status = 'ACTIVE'))
+AND gv$session.USERNAME IS NOT NULL AND type != 'BACKGROUND'
+and gv$session.USERNAME <> 'SYS'
+and gv$session.last_call_et > CASE WHEN (sysdate > to_date (to_char(sysdate,'DDMMYYYY')||' 06:00','DDMMYYYY HH24:MI') )  then 3600 else 7200 END);
+
+
+
+
+
+SELECT
+CASE WHEN (sysdate > to_date (to_char(sysdate,'DDMMYYYY')||' 06:00','DDMMYYYY HH24:MI') )  then 3600 else 7200 END
+FROM DUAL

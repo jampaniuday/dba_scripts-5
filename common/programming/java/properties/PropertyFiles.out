@@ -1,0 +1,82 @@
+--------------------------
+Compile Program
+--------------------------
+javac PropertyFiles.java
+
+
+--------------------------
+Run Program
+--------------------------
+java PropertyFiles
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+========================================
+Newly Created (Default) Properties
+========================================
++---------------------------------------+
+| Print Application Properties          |
++---------------------------------------+
+-- listing properties --
+listener_port=1521
+oracle_sid=TRUESRC
+truesource_guest_username=ts_guest
+truesourceAdminUsername=ts_admin
+company_domain=idevelopment.info
+fake_entry=000000000000
+global_database_name=TRUESRC_SUNDEV5.IDEVELOPMENT.INFO
+truesource_guest_password=ts_gu3st
+database_server=sundev5.idevelopment.info
+database_oid=99745190543
+truesource_admin_password=ts_adm1n
+company_name=iDevelopment, Inc.
+log_level=9
+
+
+========================================
+Loaded Properties
+========================================
++---------------------------------------+
+| Print Application Properties          |
++---------------------------------------+
+-- listing properties --
+listener_port=1521
+oracle_sid=TRUESRC
+truesource_guest_username=ts_guest
+truesourceAdminUsername=ts_admin
+company_domain=idevelopment.info
+fake_entry=000000000000
+global_database_name=TRUESRC_SUNDEV5.IDEVELOPMENT.INFO
+truesource_guest_password=ts_gu3st
+database_server=sundev5.idevelopment.info
+database_oid=99745190543
+truesource_admin_password=ts_adm1n
+log_level=9
+company_name=iDevelopment, Inc.
+
+
+========================================
+After Altering Properties
+========================================
++---------------------------------------+
+| Print Application Properties          |
++---------------------------------------+
+-- listing properties --
+listener_port=1521
+oracle_sid=TRUESRC
+truesource_guest_username=ts_guest
+truesourceAdminUsername=ts_admin
+company_domain=idevelopment.info
+global_database_name=TRUESRC_SUNDEV5.IDEVELOPMENT.INFO
+truesource_guest_password=ts_gu3st
+database_server=sundev5.idevelopment.info
+database_oid=99745190543
+truesource_admin_password=ts_adm1n
+company_name=iDevelopment, Inc.
+log_level=3
+

@@ -1,0 +1,13 @@
+% java ReadIntFromConsole
+Enter a valid Integer and hit <ENTER>: 02141994
+You entered a valid Integer: 2141994
+
+
+% java ReadIntFromConsole
+Enter a valid Integer and hit <ENTER>: 15.3
+You did not enter a valid Integer: 15.3
+
+
+% java ReadIntFromConsole
+Enter a valid Integer and hit <ENTER>: This is a String test.
+You did not enter a valid Integer: This is a String test.

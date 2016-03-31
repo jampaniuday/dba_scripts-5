@@ -1,0 +1,28 @@
+--------------------------
+Compile Program
+--------------------------
+javac ReadFromConsole.java
+
+
+--------------------------
+Run Program
+--------------------------
+java ReadFromConsole
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+% java ReadFromConsole
+
+prompt> Testing text line
+  processing... > Testing text line
+
+prompt> This is another line of text
+  processing... > This is another line of text
+
+prompt> exit
+  processing... > exit
+

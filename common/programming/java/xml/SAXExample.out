@@ -1,0 +1,129 @@
+--------------------------
+Compile Program
+--------------------------
+javac -classpath $JAVALIB/xmlparserv2.jar SAXExample.java
+
+
+--------------------------
+Run Program
+--------------------------
+java -classpath $JAVALIB/xmlparserv2.jar:. SAXExample Tablespaces.xml
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+SetDocumentLocator:
+StartDocument
+StartElement: Tablespaces
+ignorableWhitespace:
+StartElement: Tablespace
+    name(CDATA) = APP_DATA
+    type() = permanent
+    logging() = true
+ignorableWhitespace:
+StartElement: Datafile
+    name(CDATA) = /u10/app/oradata/ERPDB/app_data01.dbf
+    size(CDATA) = 250M
+    reusefile() = true
+    autoextend() = off
+ignorableWhitespace:
+EndElement:Datafile
+ignorableWhitespace:
+StartElement: Datafile
+    name(CDATA) = /u10/app/oradata/ERPDB/app_data02.dbf
+    size(CDATA) = 250M
+    reusefile() = true
+    autoextend() = on
+ignorableWhitespace:
+StartElement: Autoextend
+    next(CDATA) = 500M
+    max(CDATA) = unlimited
+EndElement:Autoextend
+ignorableWhitespace:
+EndElement:Datafile
+ignorableWhitespace:
+StartElement: ExtentMgt
+    method() = local
+ignorableWhitespace:
+StartElement: AllocMethod
+    method() = AUTOALLOCATE
+    size(CDATA) = 1M
+EndElement:AllocMethod
+ignorableWhitespace:
+EndElement:ExtentMgt
+ignorableWhitespace:
+EndElement:Tablespace
+ignorableWhitespace:
+StartElement: Tablespace
+    name(CDATA) = APP_INDEX
+    type() = permanent
+    logging() = true
+ignorableWhitespace:
+StartElement: Datafile
+    name(CDATA) = /u09/app/oradata/ERPDB/app_index01.dbf
+    size(CDATA) = 250M
+    reusefile() = true
+    autoextend() = off
+ignorableWhitespace:
+EndElement:Datafile
+ignorableWhitespace:
+StartElement: Datafile
+    name(CDATA) = /u09/app/oradata/ERPDB/app_index02.dbf
+    size(CDATA) = 250M
+    reusefile() = true
+    autoextend() = on
+ignorableWhitespace:
+StartElement: Autoextend
+    next(CDATA) = 500M
+    max(CDATA) = unlimited
+EndElement:Autoextend
+ignorableWhitespace:
+EndElement:Datafile
+ignorableWhitespace:
+StartElement: ExtentMgt
+    method() = local
+ignorableWhitespace:
+StartElement: AllocMethod
+    method() = AUTOALLOCATE
+    size(CDATA) = 1M
+EndElement:AllocMethod
+ignorableWhitespace:
+EndElement:ExtentMgt
+ignorableWhitespace:
+EndElement:Tablespace
+ignorableWhitespace:
+StartElement: Tablespace
+    name(CDATA) = APP_TEMP
+    type() = temporary
+    logging() = false
+ignorableWhitespace:
+StartElement: Datafile
+    name(CDATA) = /u07/app/oradata/ERPDB/app_temp01.dbf
+    size(CDATA) = 500M
+    reusefile() = true
+    autoextend() = on
+ignorableWhitespace:
+StartElement: Autoextend
+    next(CDATA) = 500M
+    max(CDATA) = unlimited
+EndElement:Autoextend
+ignorableWhitespace:
+EndElement:Datafile
+ignorableWhitespace:
+StartElement: ExtentMgt
+    method() = local
+ignorableWhitespace:
+StartElement: AllocMethod
+    method() = UNIFORM
+    size(CDATA) = 1M
+EndElement:AllocMethod
+ignorableWhitespace:
+EndElement:ExtentMgt
+ignorableWhitespace:
+EndElement:Tablespace
+ignorableWhitespace:
+EndElement:Tablespaces
+EndDocument

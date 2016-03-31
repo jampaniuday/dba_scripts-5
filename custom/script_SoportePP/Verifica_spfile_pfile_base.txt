@@ -1,0 +1,1 @@
+SELECT DECODE( hay ,0, 'init.ora','spfile.ora') "Arranque" FROM ( SELECT count(*) hay  FROM V$SPPARAMETER  WHERE ISSPECIFIED = 'TRUE');

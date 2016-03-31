@@ -1,0 +1,21 @@
+--------------------------
+Compile Program
+--------------------------
+javac DeletingFile.java
+
+
+--------------------------
+Run Program
+--------------------------
+java DeletingFile
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+
+File was successfully deleted.
+
+

@@ -1,0 +1,19 @@
+--------------------------
+Compile Program
+--------------------------
+javac CreateDirectory.java
+
+
+--------------------------
+Run Program
+--------------------------
+java CreateDirectory
+
+
+--------------------------
+Program Output
+--------------------------
+
+
+Successfully created directory: new_dir
+Successfully created directory: c:/export/home/jeffreyh/new_dir1/new_dir2/new_dir3

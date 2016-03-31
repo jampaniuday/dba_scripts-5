@@ -1,0 +1,88 @@
+select service_name,machine,count(1) from gv$session group by service_name,machine order by 1,2
+
+
+select PROGRAM , count(*) 
+from v$session 
+where program like '%pp_ga_confbono%' or 
+      program like '%pp_ga_solbono%'              
+group by PROGRAM;
+
+
+
+select owner,table_name,num_rows,degree,sample_size,last_analyzed 
+from dba_tables where table_name in 
+('PPGA_RECARGAS','PPGA_CONFPROMO','PPGA_ABOPREPCOM','PPGA_ABOPREPTAR')
+ORDER BY NUM_ROWS, LAST_ANALYZED;
+
+OWNER                          TABLE_NAME                       NUM_ROWS DEGREE     SAMPLE_SIZE LAST_ANALYZED
+------------------------------ ------------------------------ ---------- ---------- ----------- -------------------
+PROMO                          PPGA_CONFPROMO                        895          1         895 10/10/2013 22:03:15
+PPGA                           PPGA_ABOPREPTAR                   4037084          1      518893 10/10/2013 22:03:14
+PPGA                           PPGA_ABOPREPCOM                   4040209          1     4040209 10/10/2013 22:07:08
+PPGA                           PPGA_RECARGAS                   364404380          1    18220219 10/10/2013 23:02:10
+
+
+
+select owner,table_name,num_rows,degree,sample_size,last_analyzed 
+from dba_tables where table_name in 
+('PPGA_CONFPROMO','PPGA_PROMOTIPPREPA','PPGA_CONFRECPROMO','PPGA_CONFRECPROMOORIG','PPGA_CONFPROMOACTIVACION','PPGA_SBACTUACIONRECARGAS')
+ORDER BY NUM_ROWS, LAST_ANALYZED;
+
+
+OWNER                          TABLE_NAME                       NUM_ROWS DEGREE     SAMPLE_SIZE LAST_ANALYZED
+------------------------------ ------------------------------ ---------- ---------- ----------- -------------------
+PPGA                           PPGA_SBACTUACIONRECARGAS               71          1          71 30/08/2013 22:16:35
+PPGA                           PPGA_CONFRECPROMO                     814          1         814 08/10/2013 22:40:07
+PROMO                          PPGA_CONFPROMO                        895          1         895 14/10/2013 22:10:37
+PPGA                           PPGA_CONFRECPROMOORIG                2024          1        2024 25/04/2013 22:18:22
+PROMO                          PPGA_CONFPROMOACTIVACION             3283          1        3283 03/10/2013 22:09:07
+PROMO                          PPGA_PROMOTIPPREPA                  27128          1        5703 02/10/2013 22:22:52
+
+
+
+
+INDEX_NAME                     TABLE_NAME                     COLUMN_NAME
+------------------------------ ------------------------------ ------------------------------
+PK_RECARGAS                    PPGA_RECARGAS                  SEC_ACTUACION
+PK_RECARGAS                    PPGA_RECARGAS                  COD_PARTICION
+PPGA_RECARGAS_I01              PPGA_RECARGAS                  FEC_INSTALAC
+PPGA_RECARGAS_I01              PPGA_RECARGAS                  NUM_TELEFONO
+PPGA_RECARGAS_I03              PPGA_RECARGAS                  FEC_INSTALAC
+PPGA_RECARGAS_I04              PPGA_RECARGAS                  COD_ADMIN
+PPGA_RECARGAS_I05              PPGA_RECARGAS                  COD_REFERENCI
+
+
+INDEX_NAME                     TABLE_NAME                     COLUMN_NAME
+------------------------------ ------------------------------ ------------------------------
+PK_ABOPREPTAR                  PPGA_ABOPREPTAR                COD_PARTICION
+PK_ABOPREPTAR                  PPGA_ABOPREPTAR                NUM_TELEFONO
+PPGA_ABOPREPTAR_I01            PPGA_ABOPREPTAR                COD_TIPPREPA
+PPGA_ABOPREPTAR_I02            PPGA_ABOPREPTAR                COD_ZONAOPER
+PPGA_ABOPREPTAR_I03            PPGA_ABOPREPTAR                COD_SBCLATRJ
+PPGA_ABOPREPTAR_I03            PPGA_ABOPREPTAR                COD_CLASETRJ
+PPGA_ABOPREPTAR_I04            PPGA_ABOPREPTAR                NUM_ICC
+PPGA_ABOPREPTAR_I05            PPGA_ABOPREPTAR                COD_CATEGORIA
+
+
+SELECT NUM_TELEFONO, MAX(IMP_RECARGA) MONTO_RECARGA
+                 FROM ppga.PPGA_RECARGAS A WHERE COD_ORIGRECA IN ('3','O','D','F') 
+                 AND SEC_ACTUACION BETWEEN '%d1' AND '%d2' 
+                 GROUP BY NUM_TELEFONO ;
+
+SELECT A.NUM_TELEFONO 
+FROM ppga.PPGA_ABOPREPCOM A,
+ppga.PPGA_ABOPREPTAR B 
+WHERE A.NUM_TELEFONO = B.NUM_TELEFONO AND B.NUM_TELEFONO NOT IN 
+(SELECT NUM_TELEFONO FROM ppga.PPGA_ABOPERFILES);
+
+
+SELECT MIN(SEC_ACTUACION), MAX(SEC_ACTUACION)
+FROM ppga.PPGA_RECARGAS
+WHERE TRUNC(FEC_EJECUCIO)=TRUNC(SYSDATE-1)
+
+
+            SELECT /*+INDEX(A,PPGA_RECARGAS_I03)*/ ROUND(SUM(A.IMP_RECARGA/1000),0)
+                FROM ppga.PPGA_RECARGAS A
+                 WHERE A.FEC_INSTALAC BETWEEN trunc(sysdate) AND sysdate 
+                   AND A.COD_ORIGRECA IN ('3','O', 'PMX2','PMX3', 'PMX4', 'PMX5', 'RP1', 'D', 'F')     
+                   AND A.SEC_ANULACION  IS NULL;

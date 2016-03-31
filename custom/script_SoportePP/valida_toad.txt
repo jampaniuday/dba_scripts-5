@@ -1,0 +1,25 @@
+select program, count(1) from gv$session group by program;
+
+Select osuser,username, machine from gv$session where program like '%TOAD%' GROUP BY OSUSER,USERNAME,MACHINE;
+
+CR
+
+no toad
+
+
+NI
+
+no toad
+
+PA
+
+no toad
+
+GT
+
+no toad
+
+SV
+
+no toad
+

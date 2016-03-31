@@ -1,0 +1,45 @@
+:
+
+# +----------------------------------------------------------------------------+
+# |                          Jeffrey M. Hunter                                 |
+# |                      jhunter@idevelopment.info                             |
+# |                         www.idevelopment.info                              |
+# |----------------------------------------------------------------------------|
+# |      Copyright (c) 1998-2011 Jeffrey M. Hunter. All rights reserved.       |
+# |----------------------------------------------------------------------------|
+# | DATABASE : Oracle                                                          |
+# | FILE     : check_locks                                                     |
+# | CLASS    : UNIX Shell Scripts                                              |
+# | NOTE     : As with any code, ensure to test this script in a development   |
+# |            environment before attempting to run it in production.          |
+# +----------------------------------------------------------------------------+
+
+echo "
+
+set linesize 130
+
+column aa FORMAT 999,999       JUSTIFY r HEADING 'Max DML locks allowed'
+column bb FORMAT 999,999,999   JUSTIFY r HEADING 'Number of locks'
+column cc FORMAT a19           JUSTIFY r HEADING 'Percent utilization'
+
+set verify off
+
+SELECT
+    TO_NUMBER(a.value)                                aa
+  , TO_NUMBER(count(*))                               bb
+  , LPAD(ROUND((count(*)/a.value)*100,0) || '%', 19)  cc
+FROM 
+    v\$lock       b
+  , v\$parameter  a
+WHERE 
+    a.name = 'dml_locks'
+GROUP BY 
+    a.value
+/
+
+exit
+" > check_locks.sql
+
+sqlplus -s "/ as sysdba" @check_locks.sql
+
+rm check_locks.sql

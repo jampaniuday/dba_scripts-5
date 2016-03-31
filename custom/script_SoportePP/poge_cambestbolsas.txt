@@ -1,0 +1,45 @@
+select index_name,tablespace_name, num_rows,status,sample_size,last_analyzed from dba_indexes where table_name ='POGE_CAMBESTBOLSAS';
+
+
+CR
+
+INDEX_NAME                     TABLESPACE_NAME                  NUM_ROWS STATUS   SAMPLE_SIZE LAST_ANA
+------------------------------ ------------------------------ ---------- -------- ----------- --------
+POGE_CAMBESTBOLSAS_PK          CAMBEST_BOL_256K_IND             10,560,200 VALID         233662 19/01/13
+POGE_CAMBESTBOLSAS_I01         CAMBEST_BOL_256K_IND             10,957,413 VALID         242451 19/01/13
+POGE_CAMBESTBOLSAS_I02         CAMBEST_BOL_256K_IND             10,310,638 VALID         190678 19/01/13
+
+
+
+PA
+
+INDEX_NAME                     TABLESPACE_NAME                  NUM_ROWS STATUS   SAMPLE_SIZE LAST_ANALYZED
+------------------------------ ------------------------------ ---------- -------- ----------- -------------------
+POGE_CAMBESTBOLSAS_I02         CAMBEST_BOL_256K_IND             39,725,861 VALID         242236 20/07/2012 02:53:55
+POGE_CAMBESTBOLSAS_PK          CAMBEST_BOL_256K_IND             40,688,525 VALID         285251 20/07/2012 02:54:05
+POGE_CAMBESTBOLSAS_I01         CAMBEST_BOL_256K_IND             41,313,390 VALID         340416 20/07/2012 02:54:16
+
+NI
+
+INDEX_NAME                     TABLESPACE_NAME                  NUM_ROWS STATUS   SAMPLE_SIZE LAST_ANALYZED
+------------------------------ ------------------------------ ---------- -------- ----------- -------------------
+POGE_CAMBESTBOLSAS_I01         CAMBEST_BOL_256K_IND            347,684,545 VALID      347684545 21/01/2013 23:05:31
+POGE_CAMBESTBOLSAS_I02         CAMBEST_BOL_256K_IND            347,691,639 VALID      347691639 22/01/2013 00:04:02
+POGE_CAMBESTBOLSAS_PK          CAMBEST_BOL_256K_IND            347,692,495 VALID      347692495 22/01/2013 00:47:43
+
+SV
+
+INDEX_NAME                     TABLESPACE_NAME                  NUM_ROWS STATUS   SAMPLE_SIZE LAST_ANALYZED
+------------------------------ ------------------------------ ---------- -------- ----------- -------------------
+POGE_CAMBESTBOLSAS_I01         CAMBEST_BOL_256K_IND            187,800,770 VALID      187800770 21/01/2013 22:37:28
+POGE_CAMBESTBOLSAS_I02         CAMBEST_BOL_256K_IND            187,079,417 VALID      187079417 15/01/2013 04:22:03
+POGE_CAMBESTBOLSAS_PK          CAMBEST_BOL_256K_IND            187,079,784 VALID      187079784 15/01/2013 04:47:27
+
+GT
+
+
+INDEX_NAME                     TABLESPACE_NAME                  NUM_ROWS STATUS   SAMPLE_SIZE LAST_ANA
+------------------------------ ------------------------------ ---------- -------- ----------- --------
+POGE_CAMBESTBOLSAS_I01         CAMBESTBOLSAS_NEW_IND_2         217,805,241 VALID         289933 17/01/13
+POGE_CAMBESTBOLSAS_I02         CAMBEST_BOL_256K_IND            196,099,533 VALID         239799 17/01/13
+POGE_CAMBESTBOLSAS_PK          CAMBESTBOLSAS_NEW_IND_2         227,906,703 VALID         178819 17/01/13

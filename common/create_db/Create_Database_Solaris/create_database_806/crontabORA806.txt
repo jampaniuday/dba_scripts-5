@@ -1,0 +1,46 @@
+# +----------------------------------------------------------------------+
+# | RECORD FORMAT                                                        |
+# | -------------                                                        |
+# | minute(0-59) hour(0-23) day(1-31) month(1-12 weekday(0-6 0=Sunday)   |
+# +----------------------------------------------------------------------+
+#
+# +-------------------------------------------------------------------------+
+# | PURGE DUMP FILES                                                       |
+# +-------------------------------------------------------------------------+
+30 23 * * * /u01/app/oracle/common/scripts/purge_dump > /u01/app/oracle/common/log/purge_dump.log 2>&1
+#
+# +-------------------------------------------------------------------------+
+# | ARCHIVE alert.log FILES                                                 |
+# +-------------------------------------------------------------------------+
+55 23 * * * /u01/app/oracle/common/scripts/archive_alert_cron > /u01/app/oracle/common/log/archive_alert_cron.log 2>&1
+#
+# +--------------------------------------------------------------------------+
+# | CRDB                                                                     |
+# +--------------------------------------------------------------------------+
+#
+# 30 23 * * * /u01/app/oracle/common/scripts/crdb_cron ORA806 ORA806 > /u01/app/oracle/common/log/crdb_cron_ORA806.log 2>&1
+#
+# +-------------------------------------------------------------------------+
+# | EXPORT                                                                  |
+# +-------------------------------------------------------------------------+
+#
+# 00 19 * * * /u01/app/oracle/common/scripts/export_cron ORA806 ORA806 /u03/app/oradata/ORA806/export 1 > /u01/app/oracle/common/log/export_cron_ORA806.log 2>&1
+#
+# +--------------------------------------------------------------------------+
+# | ONLINE BACKUP                                                            |
+# +--------------------------------------------------------------------------+
+#
+# 55 23 * * 1-5 /u01/app/oracle/common/scripts/orabackup_cron ORA806 ORA806 ONLINE TAPE /dev/rmt/0 /u01/app/oracle/admin/ORA806/backups  > /u01/app/oracle/common/log/orabackup_cron_ORA806.log 2>&1
+#
+# +-------------------------------------------------------------------------+
+# | REDO_COMPRESS_CRON                                                      |
+# +-------------------------------------------------------------------------+
+#
+00 3 * * *  /u01/app/oracle/common/scripts/redo_compress_cron 2 /u07/app/oradata/ORA806/archive > /u01/app/oracle/common/log/redo_compress_cron_ORA806.log 2>&1
+#
+# +-------------------------------------------------------------------------+
+# | REDO_REMOVE_CRON                                                        |
+# +-------------------------------------------------------------------------+
+#
+00 4 * * * /u01/app/oracle/common/scripts/redo_remove_cron 5 /u07/app/oradata/ORA806/archive > /u01/app/oracle/common/log/redo_remove_cron_ORA806.log 2>&1
+#

@@ -20,7 +20,7 @@
 # Scheduling:  00 00 * * * /home/oracle/cleanlog.sh -d 31 > /home/oracle/cleanlog.log 2>&1
 #
 
-
+# Initialization of maintenance variables
 RM="rm -f"
 RMDIR="rm -rf"
 LS="ls -l"
@@ -30,7 +30,6 @@ TESTTOUCH="echo touch"
 TESTMV="echo mv"
 TESTRM=$LS
 TESTRMDIR=$LS
-
 INSTUSER=0
 TNSLUSER=0
 SUCCESS=0
@@ -42,6 +41,10 @@ TODAY=`date +%Y%m%d`
 ORIGPATH=/usr/local/bin:$PATH
 ORIGLD=$LD_LIBRARY_PATH
 export PATH=$ORIGPATH
+
+# ******************************
+# Declaration of functions
+# ******************************
 
 # Usage function.
 f_usage(){
@@ -63,11 +66,6 @@ f_usage(){
   echo "       -t = Optional test mode. Does not delete any files."
 }
 
-if [ $# -lt 1 ]; then
-  f_usage
-  exit $FAILURE
-fi
-
 # Function used to check the validity of days.
 f_checkdays(){
   if [ $1 -lt 1 ]; then
@@ -82,7 +80,6 @@ f_checkdays(){
 
 # Function used to cut log files.
 f_cutlog(){
-
   # Set name of log file.
   LOG_FILE=$1
   CUT_FILE=${LOG_FILE}.${TODAY}
@@ -100,16 +97,14 @@ f_cutlog(){
     echo "Cutting Log File: $LOG_FILE"
     $MV $LOG_FILE $CUT_FILE
     $TOUCH $LOG_FILE
-	gzip $CUT_FILE
+    gzip $CUT_FILE
   fi
 }
 
 # Function used to delete log files.
 f_deletelog(){
-
   # Set name of log file.
   CLEAN_LOG=$1
-
   # Set time limit and confirm it is valid.
   CLEAN_DAYS=$2
   f_checkdays $CLEAN_DAYS
@@ -118,29 +113,28 @@ f_deletelog(){
   find $CLEAN_LOG.[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].gz -type f -mtime +$CLEAN_DAYS -exec $RM {} \; 2>/dev/null
 }
 
-
+# Check Oracle instance number and number of listeners processes per user
 f_checkinst(){
-	#echo 'Checking number of Oracle instance by user $USER'
-	INSTUSER=`ps -fe| grep pmon|grep $USER | grep -v grep | wc -l`
-	TNSLUSER=`ps -fe | grep tnslsnr | grep $USER | grep -v grep | wc -l`
-	#echo 'Number Oracle Instance: $INST'
-	if [ $USER != 'root' ] && [ $INSTUSER == 0 ]; then
-		echo 'ERROR: User not valid for manteinance...'
-		exit $FAILURE
-	fi
+  # Checking number of Oracle instance by user
+  INSTUSER=`ps -fe| grep pmon|grep $USER | grep -v grep | wc -l`
+  # Checking the number of listener processes per user
+  TNSLUSER=`ps -fe | grep tnslsnr | grep $USER | grep -v grep | wc -l`
+  # If the user is not root and does not have associated database instances
+  if [ $USER != 'root' ] && [ $INSTUSER == 0 ]; then
+    echo 'ERROR: User not valid for manteinance...'
+    exit $FAILURE
+  fi
 }
 
-
-#Valida si debe ejecutarse la instruccion ADRCI Purge
-#Basado en la cantidad de instancias del usuario actual
-#Y si el es el dueño o no
+# Validate if the ADRCI Purge instruction is executed based on the number of instances 
+# of the current user and if is the owner home directory
 f_valadr(){
 AdrStat=0
 if [ ! -z  $(echo $1 | grep user_$USER ) ]; then
-	AdrStat=1
+  AdrStat=1
 fi
 if [ -z  $(echo $1 | grep user_ ) ] && [ $INSTUSER -gt 0 ]; then
-	AdrStat=1
+  AdrStat=1
 fi
 }
 
@@ -158,11 +152,11 @@ f_purgeadr(){
   adrci exec="show homes"|grep -v : | while read file_line
   do
      f_valadr $file_line
-	 if [ $AdrStat == 1  ]; then
+     if [ $AdrStat == 1  ]; then
        echo "INFO: adrci purging diagnostic destination" $file_line
        echo "INFO: purging $2 older than $CLEAN_DAYS days."
        adrci exec="set homepath $file_line;purge -age $minutes -type $2"
-	 fi
+     fi
   done
   echo ""
 }
@@ -191,6 +185,14 @@ f_getuniq(){
   echo $e
 }
 
+# ********************************
+# Script body start
+# ********************************
+if [ $# -lt 1 ]; then
+  f_usage
+  exit $FAILURE
+fi
+
 # Parse the command line options.
 while getopts a:b:c:d:e:f:g:i:j:k:l:m:n:th OPT; do
   case $OPT in
@@ -216,9 +218,9 @@ while getopts a:b:c:d:e:f:g:i:j:k:l:m:n:th OPT; do
        ;;
     l) LDAYS=$OPTARG
        ;;
-	m) MDAYS=$OPTARG
+    m) MDAYS=$OPTARG
        ;;
-	n) NDAYS=$OPTARG
+    n) NDAYS=$OPTARG
        ;;
     t) TEST=1
        ;;
@@ -254,13 +256,15 @@ then
 fi
 
 # Set the number of days to the default if not explicitly set.
+# Clean logs only if the current user has database instances
 if [ $INSTUSER -ne 0 ]; then
-ADAYS=${ADAYS:-$DDAYS}; echo "Keeping audit logs for $ADAYS days."; f_checkdays $ADAYS
-MDAYS=${MDAYS:-$DDAYS}; echo "Keeping user logs for $MDAYS days."; f_checkdays $MDAYS
-NDAYS=${NDAYS:-$DDAYS}; echo "Keeping clusterware logs for $NDAYS days."; f_checkdays $NDAYS
+  ADAYS=${ADAYS:-$DDAYS}; echo "Keeping audit logs for $ADAYS days."; f_checkdays $ADAYS
+  MDAYS=${MDAYS:-$DDAYS}; echo "Keeping user logs for $MDAYS days."; f_checkdays $MDAYS
+  NDAYS=${NDAYS:-$DDAYS}; echo "Keeping clusterware logs for $NDAYS days."; f_checkdays $NDAYS
 fi
+# Clean logs only if the current user has associated listener processes
 if [ $TNSLUSER -ne 0 ]; then
-EDAYS=${EDAYS:-$DDAYS}; echo "Keeping listener logs for $EDAYS days."; f_checkdays $EDAYS
+  EDAYS=${EDAYS:-$DDAYS}; echo "Keeping listener logs for $EDAYS days."; f_checkdays $EDAYS
 fi
 BDAYS=${BDAYS:-$DDAYS}; echo "Keeping alert logs for $BDAYS days."; f_checkdays $BDAYS
 CDAYS=${CDAYS:-$DDAYS}; echo "Keeping trace logs for $CDAYS days."; f_checkdays $CDAYS
@@ -291,28 +295,26 @@ if [ -z "$OH" ]; then
   exit $SUCCESS
 fi
 
-
 # Get the list of running databases.
-#Listar todas las instancias del servidor
-#SIDS=`ps -e -o args | grep pmon | grep -v grep | awk -F_ '{print $3}' | sort`
-#Listar las instancias del servidor iniciadas con el usuario actual
+# List the server instances started with the current user
 SIDS=`ps -fe| grep pmon|grep $USER | grep -v grep | awk -F_ '{print $3}' | sort`
 
 # Gather information for each running database.
 for ORACLE_SID in `echo $SIDS`
 do
-
   # Set the Oracle environment.
   ORAENV_ASK=NO
   export ORAENV_ASK
+  # Temporarily stores the Oracle_home variable to allow renaming if it is in RAC
   SID=$ORACLE_SID
-  #Descomentariar las siguientes 7 lineas si el servidor es RAC
+  
+  # Uncomment the following 7 lines if the server is in RAC
   if [ -z  $(echo $ORACLE_SID|grep ASM) ] && [ -z $(echo $ORACLE_SID|grep MGMTD) ];then 
-		if [ ! -z $(echo $ORACLE_SID | grep '1') ]; then
-			ORACLE_SID=`echo $ORACLE_SID | sed -e 's/1//g'`
-		elif [ ! -z $(echo $ORACLE_SID | grep '2') ]; then
-			ORACLE_SID=`echo $ORACLE_SID | sed -e 's/2//g'`
-		fi
+    if [ ! -z $(echo $ORACLE_SID | grep '1') ]; then
+      ORACLE_SID=`echo $ORACLE_SID | sed -e 's/1//g'`
+    elif [ ! -z $(echo $ORACLE_SID | grep '2') ]; then
+      ORACLE_SID=`echo $ORACLE_SID | sed -e 's/2//g'`
+    fi
   fi
   export ORACLE_SID
   . $ORAENV
@@ -322,9 +324,7 @@ do
     echo "Could not set Oracle environment for $ORACLE_SID."
   else
     export LD_LIBRARY_PATH=$ORACLE_HOME/lib:$ORIGLD
-
     ORAENV_ASK=YES
-
     echo "ORACLE_SID: $ORACLE_SID"
 
     # Get the audit_dump_dest.
@@ -334,24 +334,24 @@ do
       ADUMPDIRS="$ADUMPDIRS $ADUMPDEST"
     fi
 
-	# Get the standard audit directory if present.
+    # Get the standard audit directory if present.
     if [ -d $ORACLE_HOME/rdbms/audit ]; then
       ADUMPDIRS="$ADUMPDIRS $ORACLE_HOME/rdbms/audit"
     fi
 	
-	# Get the user_dump_dest.
+    # Get the user_dump_dest.
     MDUMPDEST=`f_getparameter user_dump_dest`
     echo "  User Dump Dest: $MDUMPDEST"
     if [ ! -z "$MDUMPDEST" ] && [ -d "$MDUMPDEST" ]; then
       MDUMPDIRS="$MDUMPDIRS $MDUMPDEST"
     fi
 	
-	#Get the Clusterware log directory.
-	if [ -d $ORACLE_HOME/log/$HOSTNAME ]; then
-		echo "  Clusterware Dir: $ORACLE_HOME/log/$HOSTNAME"
-	fi
+    # Get the Clusterware log directory.
+    if [ -d $ORACLE_HOME/log/$HOSTNAME ]; then
+      echo "  Clusterware Dir: $ORACLE_HOME/log/$HOSTNAME"
+    fi
 	
-	# Get the Cluster Ready Services Daemon (crsd) log directory if present.
+    # Get the Cluster Ready Services Daemon (crsd) log directory if present.
     if [ -d $ORACLE_HOME/log/$HOSTNAME/crsd ]; then
       CRSLOGDIRS="$CRSLOGDIRS $ORACLE_HOME/log/$HOSTNAME/crsd"
     fi
@@ -381,10 +381,10 @@ done
 echo ""
 
 # Do cleanup for each Oracle Home.
-
+# If current User SO have instances of Oracle database
 if [ $INSTUSER -gt 0 ]; then
 
-	# Clean the audit_file_dest directories.
+  # Clean the audit_file_dest directories.
   if [ ! -z "$ADUMPDIRS" ]; then
     for DIR in `f_getuniq "$ADUMPDIRS"`; do
       if [ -d $DIR ]; then
@@ -414,48 +414,46 @@ if [ $INSTUSER -gt 0 ]; then
   echo ""
 fi
 
-if [ $TEST -eq 0 ]
-then
+# Test for adrci is not permit temporaly...
+if [ $TEST -eq 0 ]; then
 
-	# Clean Alert Log files
-	echo "Cleaning Alert Log Destination..."
-	f_purgeadr $BDAYS "ALERT"
+  # Clean Alert Log files
+  echo "Cleaning Alert Log Destination..."
+  f_purgeadr $BDAYS "ALERT"
 
-	# Clean Trace Log files
-	echo "Cleaning Trace Log Destination..."
-	f_purgeadr $CDAYS "TRACE"
+  # Clean Trace Log files
+  echo "Cleaning Trace Log Destination..."
+  f_purgeadr $CDAYS "TRACE"
 
-	# Clean Core Dump files
-	echo "Cleaning Core Dump files Destination..."
-	f_purgeadr $FDAYS "CDUMP"
+  # Clean Core Dump files
+  echo "Cleaning Core Dump files Destination..."
+  f_purgeadr $FDAYS "CDUMP"
 
-	# Clean Incident files
-	echo "Cleaning Incident files Destination..."
-	f_purgeadr $GDAYS "INCIDENT"
+  # Clean Incident files
+  echo "Cleaning Incident files Destination..."
+  f_purgeadr $GDAYS "INCIDENT"
 
-	# Clean Health Monitor files
-	echo "Cleaning Health Monitor files Destination..."
-	f_purgeadr $IDAYS "HM"
+  # Clean Health Monitor files
+  echo "Cleaning Health Monitor files Destination..."
+  f_purgeadr $IDAYS "HM"
 
-	# Clean UTSCDMP files
-	echo "Cleaning UTSCDMP files Destination..."
-	f_purgeadr $JDAYS "UTSCDMP"
+  # Clean UTSCDMP files
+  echo "Cleaning UTSCDMP files Destination..."
+  f_purgeadr $JDAYS "UTSCDMP"
 
-	# Clean STAGE files
-	echo "Cleaning STAGE files Destination..."
-	f_purgeadr $KDAYS "STAGE"
+  # Clean STAGE files
+  echo "Cleaning STAGE files Destination..."
+  f_purgeadr $KDAYS "STAGE"
 	
-	# Clean SWEEP files
-	echo "Cleaning SWEEP files Destination..."
-	f_purgeadr $LDAYS "SWEEP"
-    echo "***************************************************************************"
-	echo ""
+  # Clean SWEEP files
+  echo "Cleaning SWEEP files Destination..."
+  f_purgeadr $LDAYS "SWEEP"
+  echo "***************************************************************************"
+  echo ""
 fi
-
 
 # Clean Listener Log Files.
 # Get the list of running listeners. It is assumed that if the listener is not running, the log file does not need to be cut.
-#ps -e -o args | grep tnslsnr | grep -v grep | while read LSNR; do
 ps -fe | grep tnslsnr | grep $USER | grep -v grep |awk '{print $8,$9,$10,$11}' | while read LSNR; do
      
   # Derive the lsnrctl path from the tnslsnr process path.
@@ -479,8 +477,10 @@ ps -fe | grep tnslsnr | grep $USER | grep -v grep |awk '{print $8,$9,$10,$11}' |
   echo "Initial TNS_ADMIN: $TNS_ADMIN"
   unset TNS_ADMIN
   TNS_ADMIN=`$LSNRCTL status $LSNRNAME | grep "Listener Parameter File" | awk '{print $4}'`
+  # If tns_admin not empty
   if [ ! -z $TNS_ADMIN ]; then
     export TNS_ADMIN=`dirname $TNS_ADMIN`
+  # If empty tns_admin
   else
     export TNS_ADMIN=$ORACLE_HOME/network/admin
   fi
@@ -488,7 +488,6 @@ ps -fe | grep tnslsnr | grep $USER | grep -v grep |awk '{print $8,$9,$10,$11}' |
 
   # If the listener is 11g or 12c, get the diagnostic dest, etc...
   if [ $LSNRVER -ge 11 ] || [ $LSNRVER -ge 12 ]; then
-
     # Get the listener trace file name.
     LSNRLOG=`lsnrctl<<EOF | grep trc_directory | awk '{print $6"/"$1".log"}'
 set current_listener $LSNRNAME
@@ -512,9 +511,7 @@ EOF`
   elif [ -f $LSNRLOG.$TODAY.gz ]; then
     echo "Listener Log Already Cut Today: $LSNRLOG.$TODAY.gz"
   # Cut the listener log if the previous two conditions were not met.
-  else
-
-    
+  else  
     # Disable logging.
     $LSNRCTL <<EOF
 set current_listener $LSNRNAME
